@@ -14,4 +14,6 @@
 			var map = new Map('map_canvas', [43.60,3.88], { zoom: 12 });
 		});
 	</script>
+
+	<img src="{$image}" />
 {/block}
