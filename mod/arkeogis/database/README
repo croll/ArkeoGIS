@@ -1,0 +1,7 @@
+SQL files need to be aggregated to build the arkeogis database.
+
+For conveniance *install and *uninstall sql files are already generated from csv files. If you need to recreate them, use Captainhook tool named csvToLtree.
+
+Usage:
+
+./path/to/captainhook/tools/csvToLtree.php

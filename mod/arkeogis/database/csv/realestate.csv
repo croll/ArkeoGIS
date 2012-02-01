@@ -1,0 +1,229 @@
+Habitat;Indéterminé;Non renseigné;
+;;Fosse;
+;;Fossé;
+;Non renseigné;Non déterminé;
+;;Camp militaire;
+;;Ferme;
+;;Villa;
+;;Village hameau;
+;;Château;
+;Fortifié;Non déterminé;
+;;Camp militaire;
+;;Ferme;
+;;Villa;
+;;Village hameau;
+;;Château;
+;Enclos;Non déterminé;
+;;Camp militaire;
+;;Ferme;
+;;Villa;
+;;Village hameau;
+;;Château;
+;Ouvert;Non déterminé;
+;;Camp militaire;
+;;Ferme;
+;;Villa;
+;;Village hameau;
+;;Château;
+;Groupé;Non déterminé;
+;;Camp militaire;
+;;Ferme;
+;;Villa;
+;;Village hameau;
+;;Château;
+;Isolé;Non déterminé;
+;;Camp militaire;
+;;Ferme;
+;;Villa;
+;;Village hameau;
+;;Château;
+Funéraire;Indéterminé;Non renseigné;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Inhumation;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Incinération;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Les deux;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;Enclos Funéraire;Non renseigné;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Inhumation ;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Incinération;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Les deux;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;Tombe plate isolée;Non renseigné;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Inhumation ;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Incinération;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Les deux;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;Tumulus isolé;Non renseigné;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Inhumation ;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Incinération;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Les deux;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;Nécropole tumulaire;Non renseigné;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Inhumation ;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Incinération;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Les deux;Tombe de grand module
+;;;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;Nécropole tombes plates;Non renseigné;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Inhumation ;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Incinération;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+;;Les deux;Architecture de bois
+;;;Architecture de pierre
+;;;Enclos sépulcral
+Isolé ;Dépot;Inscription;
+;;Non-inscrit;
+;;Figuré;
+;Bloc architectural;Inscription;
+;;Non-inscrit;
+;;Figuré;
+;Statuaire;Inscription;
+;;Non-inscrit;
+;;Figuré;
+;Stèle;Inscription;
+;;Non-inscrit;
+;;Figuré;
+Rituel;Indéterminé;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+;Temple;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+;Source;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+;Fanum;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+;Puits;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+;Grotte;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+;Dans l’habitat ;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+;Isolé;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+;Eglise;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+;Abbaye;Association de mobiliers;
+;;Vases miniatures;
+;;Rouelles;
+;;Jetons;
+;;Ossements humains;
+;;Ossements animaux;
+;;Armes mutilée;
+;;Statuette;
+Voie;Gué;Quai;
+;;Aménagement de berge;
+;;Pente aménagée;
+;Pont;Quai;
+;;Aménagement de berge;
+;;Pente aménagée;
+;Borne;Quai;
+;;Aménagement de berge;
+;;Pente aménagée;
+Structure agraire ;Enclos;;
+;Champ bombé;;
+;Terrasse agricole;;
+;Murger;;
+;Crêtes de labours;;
