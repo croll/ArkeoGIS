@@ -1,0 +1,90 @@
+#!/usr/bin/php -q
+<?php  //  -*- mode:php; tab-width:2; c-basic-offset:2; -*-
+
+$CAPTAINHOOK_PATH = "/home/web/dev/captainhook_arkeo";
+
+function _readline($prompt = '') {
+  echo $prompt;
+  return rtrim(fgets(STDIN), "\n");
+}
+
+if (!is_dir($CAPTAINHOOK_PATH)) {
+	echo "Captainhook core not found, please edit me and set \$CAPTAINHOOK_PATH variable.\n";
+	exit;
+}
+
+if (!is_file($CAPTAINHOOK_PATH.'/conf/general.conf') || !is_readable($CAPTAINHOOK_PATH.'/conf/general.conf')) {
+	echo "Captainhook config file not found.\n";
+	exit;
+}
+
+require($CAPTAINHOOK_PATH.'/core/Core.php');
+\core\Core::init();
+
+if (\core\Core::$db->fetchOne("SELECT COUNT(*) FROM pg_language WHERE lanname = 'plpgsql'") == 0) {
+	echo "/!\ Error\n";
+	echo "plpgsql language is not installed.\n";
+	echo "Example: createlang plpgsql captainhook_database_name\n";
+	echo "See: http://www.postgresql.org/docs/8.3/static/xplang-install.html\n";
+	echo "Exiting.\n";
+	exit;
+}
+
+if (\core\Core::$db->fetchOne("SELECT COUNT(*) from pg_proc WHERE proname = 'box3d'") == 0) {
+	echo "/!\ Error\n";
+	echo "Postgis is not installed.\n";
+	echo "For example with Debian: \n";
+	echo "apt-get install postgresql-8.4-postgis (and restart Postgresql server)\n";
+	echo "As psql user do:\n";
+	echo "psql captainhook-database < /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql";
+	echo "psql captainhook-database < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql";
+	echo "Change spatial_ref_sys and geometry_columns sequences's owner::\n";
+	echo "alter table spatial_ref_sys owner to captainhook-user-name\n";
+	echo "alter table geometry_columns  owner to captainhook-user-name\n";
+	exit;
+}
+
+if (\core\Core::$db->fetchOne("SELECT COUNT(proname) from pg_proc WHERE proname = 'ltree2text'") == 0) {
+	echo "/!\ Error\n";
+	echo "Ltree is not installed.\n";
+	echo "For example with Debian: \n";
+	echo "apt-get install postgresql-contrib-8.4 (and restart Postgresql server)\n";
+	echo "As psql user do:\n";
+	echo "psql captainhook-database < /usr/share/postgresql/8.4/contrib/ltree.sql\n";
+	exit;
+}
+
+if (!is_writable(dirname(__FILE__).'/../')) {
+	echo "You can't write into ArkeoGis module directory.\n";
+	echo "exiting...";
+	exit;
+}
+
+if (!is_file(dirname(__FILE__).'/../db-install.pgsql') || !is_file(dirname(__FILE__).'/../db-uninstall.pgsql')) {
+	$msg = "SQL files needed for module installation not found.\n";
+	$msg .= "Do you want to build them ? [Y/n]\n";
+	$default = 'y';
+}
+
+if (is_file(dirname(__FILE__).'/../db-install.pgsql') && is_file(dirname(__FILE__).'/../db-uninstall.pgsql')) {
+	$msg = "SQL files needed for module installation found.\n";
+	$msg .= "Do you want to generate them ? [N/y] \n";
+	$default = 'n';
+}
+
+$response = strtolower(_readline($msg));
+$build = ($response == '') ? $default : $response;
+
+if ($build != 'y') {
+	echo "Bye !\n";
+	exit;
+}
+
+$aPrefix = array('period', 'realestate', 'furniture', 'production');
+
+foreach($aPrefix as $prefix) {
+	$file = dirname(__FILE__)."/database/sql/${prefix}_install.sql";
+	echo "$file\n";
+	if (!is_file($file)) {
+	}
+}

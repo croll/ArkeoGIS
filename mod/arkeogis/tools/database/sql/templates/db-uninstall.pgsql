@@ -25,3 +25,12 @@ DROP TABLE IF EXISTS "ark_city";
 -- ark_database
 DROP INDEX IF EXISTS "ark_database_name_idx";
 DROP TABLE IF EXISTS "ark_database";
+
+--
+-- DO NOT DELETE
+--
+-- ARK_PERIOD
+-- ARK_REALESTATE
+-- ARK_FURNITURE
+--
+--

@@ -1,3 +1,12 @@
+--
+-- DO NOT DELETE
+--
+-- ARK_PERIOD
+-- ARK_REALESTATE
+-- ARK_FURNITURE
+--
+--
+
 -- ---
 -- Table 'ark_database'
 -- ---

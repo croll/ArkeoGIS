@@ -1,0 +1,5 @@
+For conveniance *install and *uninstall sql files are already generated from csv files and stored in the sql directory. If you need to recreate them, use Captainhook tool named csvToLtree.
+
+Usage:
+
+./path/to/captainhook/tools/csvToLtree.php (interactive mode)
