@@ -123,3 +123,7 @@ foreach($aPrefix as $prefix) {
 
 file_put_contents($scriptDir.'/../db-install.pgsql', $templateInstall);
 file_put_contents($scriptDir.'/../db-uninstall.pgsql', $templateUninstall);
+
+echo "Everything is ok\n";
+echo "You can install the ArkeoGIS module with CaptainHook module installer\n";
+exit;
