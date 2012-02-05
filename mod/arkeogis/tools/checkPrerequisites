@@ -8,6 +8,8 @@ function _readline($prompt = '') {
   return rtrim(fgets(STDIN), "\n");
 }
 
+$scriptDir = dirname(__FILE__);
+
 if (!is_dir($CAPTAINHOOK_PATH)) {
 	echo "Captainhook core not found, please edit me and set \$CAPTAINHOOK_PATH variable.\n";
 	exit;
@@ -54,19 +56,19 @@ if (\core\Core::$db->fetchOne("SELECT COUNT(proname) from pg_proc WHERE proname 
 	exit;
 }
 
-if (!is_writable(dirname(__FILE__).'/../')) {
+if (!is_writable($scriptDir.'/../')) {
 	echo "You can't write into ArkeoGis module directory.\n";
 	echo "exiting...";
 	exit;
 }
 
-if (!is_file(dirname(__FILE__).'/../db-install.pgsql') || !is_file(dirname(__FILE__).'/../db-uninstall.pgsql')) {
+if (!is_file($scriptDir.'/../db-install.pgsql') || !is_file($scriptDir.'/../db-uninstall.pgsql')) {
 	$msg = "SQL files needed for module installation not found.\n";
 	$msg .= "Do you want to build them ? [Y/n]\n";
 	$default = 'y';
 }
 
-if (is_file(dirname(__FILE__).'/../db-install.pgsql') && is_file(dirname(__FILE__).'/../db-uninstall.pgsql')) {
+if (is_file($scriptDir.'/../db-install.pgsql') && is_file($scriptDir.'/../db-uninstall.pgsql')) {
 	$msg = "SQL files needed for module installation found.\n";
 	$msg .= "Do you want to generate them ? [N/y] \n";
 	$default = 'n';
@@ -80,11 +82,44 @@ if ($build != 'y') {
 	exit;
 }
 
+if (!is_file($scriptDir.'/database/sql/templates/db-install.pgsql') || !is_file($scriptDir.'/database/sql/templates/db-uninstall.pgsql')) {
+	echo "SQL templates files not found in database/sql/templates directory.\n";
+	echo "Please checkout them from ArkeoGis git repository\n";
+	echo "Exiting.";
+	exit;
+}
+
 $aPrefix = array('period', 'realestate', 'furniture', 'production');
 
+$missing = $sqlFiles = array();
+
 foreach($aPrefix as $prefix) {
-	$file = dirname(__FILE__)."/database/sql/${prefix}_install.sql";
-	echo "$file\n";
+	$file = $scriptDir."/database/sql/${prefix}_install.sql";
 	if (!is_file($file)) {
+		$missing[] = $file;
+	} else {
+		$sqlFiles[] = $file;
 	}
 }
+
+if (sizeof($missing) > 0) {
+	echo "Some files are missing: \n";
+	foreach($missing as $f) {
+		echo "$f\n";
+	}
+	echo "You can rebuild missing files with CaptainHook csvToLtree tool\n";
+	echo "Exiting.\n";
+	exit;
+}
+
+$templateInstall = file_get_contents($scriptDir.'/database/sql/templates/db-install.pgsql');
+$templateUninstall = file_get_contents($scriptDir.'/database/sql/templates/db-uninstall.pgsql');
+
+foreach($aPrefix as $prefix) {
+	$content = file_get_contents($scriptDir."/database/sql/${prefix}_install.sql");
+	$templateInstall = str_replace('ARK_'.strtoupper($prefix), $content, $templateInstall);
+	$templateUninstall = str_replace('ARK_'.strtoupper($prefix), $content, $templateUninstall);
+}
+
+file_put_contents($scriptDir.'/../db-install.pgsql', $templateInstall);
+file_put_contents($scriptDir.'/../db-uninstall.pgsql', $templateUninstall);
