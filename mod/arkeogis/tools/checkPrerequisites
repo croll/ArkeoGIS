@@ -116,9 +116,8 @@ $templateInstall = file_get_contents($scriptDir.'/database/sql/templates/db-inst
 $templateUninstall = file_get_contents($scriptDir.'/database/sql/templates/db-uninstall.pgsql');
 
 foreach($aPrefix as $prefix) {
-	$content = file_get_contents($scriptDir."/database/sql/${prefix}_install.sql");
-	$templateInstall = str_replace('ARK_'.strtoupper($prefix), $content, $templateInstall);
-	$templateUninstall = str_replace('ARK_'.strtoupper($prefix), $content, $templateUninstall);
+	$templateInstall = str_replace('-- ARK_'.strtoupper($prefix), file_get_contents($scriptDir."/database/sql/${prefix}_install.sql"), $templateInstall);
+	$templateUninstall = str_replace('-- ARK_'.strtoupper($prefix), file_get_contents($scriptDir."/database/sql/${prefix}_uninstall.sql"), $templateUninstall);
 }
 
 file_put_contents($scriptDir.'/../db-install.pgsql', $templateInstall);
