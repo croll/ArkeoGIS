@@ -46,7 +46,7 @@ if (\core\Core::$db->fetchOne("SELECT COUNT(*) from pg_proc WHERE proname = 'box
 	exit;
 }
 
-if (\core\Core::$db->fetchOne("SELECT COUNT(proname) from pg_proc WHERE proname = 'ltree2text'") == 0) {
+if (\core\Core::$db->fetchOne("SELECT COUNT(*) from pg_proc WHERE proname = 'ltree2text'") == 0) {
 	echo "/!\ Error\n";
 	echo "Ltree is not installed.\n";
 	echo "For example with Debian: \n";
