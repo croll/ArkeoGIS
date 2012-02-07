@@ -8,7 +8,7 @@ class ModuleDefinition extends \core\ModuleDefinition {
 		$this->description = 'ArkeoGIS Application';
 		$this->name = 'arkeogis';
 		$this->version = '1.0';
-		$this->dependencies = array('ajax', 'cssjs', 'regroute', 'smarty', 'webpage', 'field', 'user', 'map');
+		$this->dependencies = array('ajax', 'cssjs', 'regroute', 'smarty', 'webpage', 'user', 'map');
 		parent::__construct();
 	}
 
