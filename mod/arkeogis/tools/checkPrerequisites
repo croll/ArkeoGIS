@@ -38,8 +38,8 @@ if (\core\Core::$db->fetchOne("SELECT COUNT(*) from pg_proc WHERE proname = 'box
 	echo "For example with Debian: \n";
 	echo "apt-get install postgresql-8.4-postgis (and restart Postgresql server)\n";
 	echo "As psql user do:\n";
-	echo "psql captainhook-database < /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql";
-	echo "psql captainhook-database < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql";
+	echo "psql captainhook-database < /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql\n";
+	echo "psql captainhook-database < /usr/share/postgresql/8.4/contrib/postgis-1.5/spatial_ref_sys.sql\n";
 	echo "Change spatial_ref_sys and geometry_columns sequences's owner::\n";
 	echo "alter table spatial_ref_sys owner to captainhook-user-name\n";
 	echo "alter table geometry_columns  owner to captainhook-user-name\n";
