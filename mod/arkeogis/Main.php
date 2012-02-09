@@ -37,4 +37,11 @@ class Main {
 
   }
 
+	public static function hook_mod_arkeogis_import($hookname, $userdata, $urlmatches) {
+				if (!is_array($urlmatches) || empty($urlmatches[1]) || !preg_match("/[a-zA-Z0-9-_]+\.csv/", $urlmatches[1])) {
+					throw new \Exception('CSV filename malformed');
+				}
+				\mod\arkeogis\DatabaseImport::parseCsv($urlmatches[1],';', 'latin1', "\n", 2);
+	}
+
 }
