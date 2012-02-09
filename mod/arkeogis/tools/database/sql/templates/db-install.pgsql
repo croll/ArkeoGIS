@@ -43,7 +43,7 @@ CREATE TYPE "ark_site_occupation_type" AS ENUM ('unknown', 'uniq', 'continuous',
 		
 CREATE TABLE "ark_site" (
   "si_code" VARCHAR(50) PRIMARY KEY,
-  "si_database_id" INTEGER NOT NULL REFERENCES "ark_database",
+  "si_database_id" INTEGER NOT NULL REFERENCES "ark_database" ON DELETE CASCADE,
   "si_author_id" INTEGER NOT NULL,
   "si_name" VARCHAR(255) NOT NULL,
   "si_city_code" VARCHAR(50) DEFAULT NULL REFERENCES ark_city,
@@ -65,7 +65,7 @@ CREATE TYPE "ark_siteperiod_knowlege_type" AS ENUM ('unknown', 'literature', 'su
 
 CREATE TABLE "ark_site_period" (
   "sp_id" SERIAL PRIMARY KEY,
-  "sp_site_code" VARCHAR(50) NOT NULL REFERENCES "ark_site",
+  "sp_site_code" VARCHAR(50) NOT NULL REFERENCES "ark_site" ON DELETE CASCADE,
   "sp_period_start" INTEGER NOT NULL REFERENCES "ark_period",
   "sp_period_end" INTEGER NOT NULL REFERENCES "ark_period",
   "sp_period_isrange" SMALLINT NOT NULL DEFAULT 0,
@@ -88,8 +88,8 @@ CREATE TABLE "ark_site_period" (
 		
 CREATE TABLE "ark_siteperiod_realestate" (
   "sr_id" SERIAL PRIMARY KEY,
-  "sr_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period",
-  "sr_realestate_id" INTEGER NOT NULL REFERENCES "ark_realestate",
+  "sr_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period" ON DELETE CASCADE,
+  "sr_realestate_id" INTEGER NOT NULL REFERENCES "ark_realestate" ON DELETE CASCADE,
   "sr_exceptional" SMALLINT DEFAULT 0
 );
 
@@ -102,8 +102,8 @@ CREATE INDEX "ark_siteperiod_realestate_realestate_idx" ON "ark_siteperiod_reale
 		
 CREATE TABLE "ark_siteperiod_furniture" (
   "fu_id" SERIAL PRIMARY KEY,
-  "fu_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period",
-  "fu_furniture_id" INTEGER NOT NULL REFERENCES "ark_furniture",
+  "fu_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period" ON DELETE CASCADE,
+  "fu_furniture_id" INTEGER NOT NULL REFERENCES "ark_furniture" ON DELETE CASCADE,
   "fu_exceptional" SMALLINT DEFAULT 0
 );
 
@@ -116,8 +116,8 @@ CREATE INDEX "ark_siteperiod_furniture_furniture_idx" ON "ark_siteperiod_furnitu
 		
 CREATE TABLE "ark_siteperiod_production" (
   "pr_id" SERIAL PRIMARY KEY,
-  "pr_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period",
-  "pr_production_id" INTEGER NOT NULL REFERENCES "ark_production",
+  "pr_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period" ON DELETE CASCADE,
+  "pr_production_id" INTEGER NOT NULL REFERENCES "ark_production" ON DELETE CASCADE,
   "pr_exceptional" SMALLINT DEFAULT 0
 );
 
