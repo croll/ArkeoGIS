@@ -7,8 +7,11 @@ class DatabaseImport {
 	private static $_current = array();
 	private static $_stored = array();
 	private static $_databaseName = '';
-	private static $_errors;
+	private static $_siteErrors;
 	private static $_charset;
+	private static $_cache;
+	private static $_lineNumber = 0;
+	private static $_csvDatas = array(); 
 
 	public static function parseCsv($filepath, $separator=';', $charset='utf8', $lf="\n", $skipline=NULL, $lang='fr') {
 
@@ -16,8 +19,13 @@ class DatabaseImport {
 		self::$_charset = $charset;
 		$stringYes['fr'] = 'oui';
 		$stringNo['fr'] = 'non';
-		$knowledge['fr'] = array('Non renseigné', 'Littérature, prospecté', 'Littérature prospecté', 'Sondé', 'Fouillé');
-		$occupation['fr'] = array('Non renseigné', 'Unique', 'Continue', 'Multiple');
+		$knowledge['fr'] = array('non renseigné', 'littérature, prospecté', 'littérature prospecté', 'sondé', 'fouillé');
+		$occupation['fr'] = array('non renseigné', 'unique', 'continue', 'multiple');
+
+		$_cache['period'] = array();
+		$_cache['realestate'] = array();
+		$_cache['furniture'] = array();
+		$_cache['production'] = array();
 
 		if (!is_file($filepath) || !is_readable($filepath)) {
 			// Check if filename is in current directory (for tests)
@@ -29,16 +37,15 @@ class DatabaseImport {
 			}
 		}
 
-		$lineNumber = 0;
-
 		$lines = array_chunk(str_getcsv(str_replace("\n", ';',file_get_contents($filepath)), $separator), 33);
 
 		foreach($lines as $datas) {
 
-			$lineNumber++;
+			self::$_lineNumber++;
 			self::$_current = array();
+			self::$_csvDatas = implode(';', $datas);
 
-			if ($lineNumber != NULL && $lineNumber <= $skipline) {
+			if (self::$_lineNumber != NULL && self::$_lineNumber <= $skipline) {
 				continue;
 			}
 			$datas = array_map(array('self', '_cleanString'), $datas);
@@ -48,20 +55,20 @@ class DatabaseImport {
 
 			# 0 : Site ID
 			if (!self::_processSiteId($datas[0])) {
-				self::_addError(0, $lineNumber, 'No site unique ID provided');
+				self::_addError('No site unique ID provided');
 				continue;
 			}
 
 			# 1 : Database
 			if (!self::_processDatabaseName($datas[1])) {
-				self::_addError(self::$_current[0], $lineNumber, "Database name ($datas[1]) is different from the database name previously defined (".self::$_databaseName.")");
+				self::_addError("Database name ($datas[1]) is different from the database name previously defined (".self::$_databaseName.")");
 			}
 
 			// Site not already processed
 			if (!isset(self::$_stored[self::$_current[0]])) {
 				// If this site code already registered as error we do not process it
-				if (isset(self::$_errors[self::$_current[0]])) {
-						self::_addError(self::$_current[0], $lineNumber, "Site with same id already registered as error, skipping.");
+				if (isset(self::$_siteErrors[self::$_current[0]])) {
+						self::_addError("Site with same id already registered as error, skipping.");
 						continue;
 				}
 				# 2 : Site name
@@ -80,7 +87,7 @@ class DatabaseImport {
 							$dataType = "City code";
 							break;
 						}
-						self::_addError(self::$_current[0], $lineNumber, "$dataType ($datas[$k]) is different from the one previously defined with same site id. (".self::$_databaseName.")");
+						self::_addError("$dataType ($datas[$k]) is different from the one previously defined with same site id. (".self::$_databaseName.")");
 					}
 				}
 				# 5 : Projection SRID
@@ -98,13 +105,13 @@ class DatabaseImport {
 					if ($datas[11] == $stringYes[$lang]) {
 						// City info not set: error
 						if (empty($datas[3])) {
-							self::_addError(self::$_current[0], $lineNumber, "Site not flagged as centroid but no city name provided.");
+							self::_addError("Site not flagged as centroid but no city name provided.");
 							$stop = true;
 						} else {
 							self::$_current[3] = $datas[3];
 						}
 						if (empty($datas[4])) {
-							self::_addError(self::$_current[0], $lineNumber, "Site not flagged as centroid but no city code provided.");
+							self::_addError("Site not flagged as centroid but no city code provided.");
 							$stop = true;
 						} else {
 							self::$_current[4] = $datas[4];
@@ -115,7 +122,7 @@ class DatabaseImport {
 						}
 					} else {
 						if ($datas[11] == $stringNo[$lang]) {
-							self::_addError(self::$_current[0], $lineNumber, "Geo coordinates not defined but site not flagged as centroid.");
+							self::_addError("Geo coordinates not defined but site not flagged as centroid.");
 						}
 					}
 				} else {
@@ -124,13 +131,13 @@ class DatabaseImport {
 						$coords = array('x' => $datas[6], 'y' => $datas[7]);
 					} else {
 						if (empty($datas[8])) {
-							self::_addError(self::$_current[0], $lineNumber, "Wrong coordinates for site.");
+							self::_addError("Wrong coordinates for site.");
 							$stop = true;
 						} else {
 							self::$_current[8] = $datas[8];
 						}
 						if (empty($datas[9])) {
-							self::_addError(self::$_current[0], $lineNumber, "Wrong coordinates for site.");
+							self::_addError("Wrong coordinates for site.");
 							$stop = true;
 						} else {
 							self::$_current[9] = $datas[9];
@@ -143,24 +150,31 @@ class DatabaseImport {
 				}
 
 				# 12 : Knowledge
-				if (in_array($datas[12], $knowledge[$lang])) {
+				if (in_array(strtolower($datas[12]), $knowledge[$lang])) {
 					self::$_current[12] = $datas[12];
 				} else if (!empty($datas[12])) {
-					self::_addError(self::$_current[0], $lineNumber, "Knowledge type ($datas[12]) is not referenced.");
+					self::_addError("Knowledge type ($datas[12]) is not referenced.");
 				}
 
-				#13 : Occupation
-				if (in_array($datas[13], $occupation[$lang])) {
+				# 13 : Occupation
+				if (in_array(strtolower($datas[13]), $occupation[$lang])) {
 					self::$_current[13] = $datas[13];
 				} else if (!empty($datas[13])) {
-					self::_addError(self::$_current[0], $lineNumber, "Occupation type ($datas[13]) is not referenced.");
+					self::_addError("Occupation type ($datas[13]) is not referenced.");
 				}
+
+				# 14 : Period start
+				# 15 : Period end
+				if (!self::_processPeriod($datas[14], $datas[15])) {
+					self::_addError("Period defined invalid: $datas[14] - $datas[15]");
+				}
+
 			} else {
 				// Site code already registered with no error
 			}
 
 		}
-		print_r(self::$_errors);
+		print_r(self::$_siteErrors);
 	}
 
 	private static function _processSiteId($siteCode) {
@@ -168,7 +182,7 @@ class DatabaseImport {
 			return false;
 		} else {
 			if (!isset(self::$_stored[$siteCode])) {
-				\mod\arkeogis\Site::delete($siteCode);
+				\mod\arkeogis\ArkeoGIS::deleteSite($siteCode);
 			}
 			self::$_current[0] = $siteCode;
 		}
@@ -208,8 +222,21 @@ class DatabaseImport {
 		return true;
 	}
 
-	private static function _addError($code, $lineNumber, $msg) {
-		self::$_errors[$code][$lineNumber][] = $msg;
+	private static function _processPeriod($start, $end) {
+		if (empty($start)) {
+			self::_addError("Starting period not defined");
+			return false;
+		}
+		if (empty($end)) {
+			self::_addError("Ending period not defined");
+			return false;
+		}
+	}
+
+	private static function _addError($msg) {
+		$num = (!isset(self::$_siteErrors[self::$_current[0]]) || (!isset(self::$_siteErrors[self::$_current[0]][self::$_lineNumber]))) ? 0 : $num = sizeof(self::$_siteErrors[self::$_current[0]][self::$_lineNumber])+1;
+		self::$_siteErrors[self::$_current[0]][self::$_lineNumber]['csvDatas'] = self::$_csvDatas;
+		self::$_siteErrors[self::$_current[0]][self::$_lineNumber]['msg'][] = $msg;
 	}
 
 	private static function _cleanString($str) {
