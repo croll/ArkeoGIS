@@ -165,8 +165,23 @@ class DatabaseImport {
 
 				# 14 : Period start
 				# 15 : Period end
-				if (!self::_processPeriod($datas[14], $datas[15])) {
-					self::_addError("Period defined invalid: $datas[14] - $datas[15]");
+				if (empty($datas[14])) {
+					self::_addError("Starting period not defined");
+				} else if (empty($datas[15])) {
+					self::_addError("Ending period not defined");
+				} else {
+					self::$_current['period'] = self::_processPeriod($datas[14], $datas[15]);
+				}
+
+				# 16 : Realestate level 1
+				# 17 : Realestate level 2
+				# 18 : Realestate level 3
+				# 19 : Realestate level 3
+				if (empty($datas[16]) && (!empty($datas[17]) || !empty($datas[18]) || !empty($datas[19]))) {
+					self::_addError("Period level 1 not set but next periods are defined");	
+				} else {
+					if (!empty($datas[16]))
+						self::_processRealestate($datas[16], $datas[17], $datas[18], $datas[19]);
 				}
 
 			} else {
@@ -174,7 +189,7 @@ class DatabaseImport {
 			}
 
 		}
-		print_r(self::$_siteErrors);
+		//print_r(self::$_siteErrors);
 	}
 
 	private static function _processSiteId($siteCode) {
@@ -223,13 +238,50 @@ class DatabaseImport {
 	}
 
 	private static function _processPeriod($start, $end) {
-		if (empty($start)) {
-			self::_addError("Starting period not defined");
-			return false;
+		if (!isset(self::$_cache['period'][$start])) {
+			try {
+				$_cache['period'][$start] = \mod\arkeogis\ArkeoGIS::getUniquePeriodPathFromLabel($start);
+			} catch (Exception $e) {
+				self::_addError($e->getMessage());
+				return;
+			}
 		}
-		if (empty($end)) {
-			self::_addError("Ending period not defined");
-			return false;
+		if (!isset(self::$_cache['period'][$end])) {
+			try {
+				$_cache['period'][$end] = \mod\arkeogis\ArkeoGIS::getUniquePeriodPathFromLabel($end);
+			} catch (Exception $e) {
+				self::_addError($e->getMessage());
+				return;
+			}
+		}
+		return array('start' => $_cache['period'][$start], 'end' => $_cache['period'][$end]);
+	}
+
+	private static function _processRealestate($lvl1, $lvl2, $lvl3, $lvl4) {
+		// Get level 1 from ID
+		$lvl1hash = md5($lvl1);
+		if (!isset(self::$_cache['realestate'][$lvl1hash])) {
+			try {
+				$_cache['realestate'][$lvl1hash] = \mod\arkeogis\ArkeoGIS::getUniqueRealestatePathFromLabel($lvl1);
+			} catch (Exception $e) {
+				self::_addError($e->getMessage());
+				return;
+			}
+		}
+		// If level 2 is set, we try to find it with level 1 id and level 2 name
+		if (!empty($lvl2)) {
+			$lvl2hash = md5($lvl2);
+			print_r($_cache);
+			die();
+			echo $_cache['realestate'][$lvl1hash];
+			if (!isset(self::$_cache['realestate'][$lvl2hash])) {
+				try {
+					$_cache['realestate'][$lvl2hash] = \mod\arkeogis\ArkeoGIS::getUniqueRealestatePathFromLabel($lvl2, self::$_cache['realestate'][$lvl1hash]);
+				} catch (Exception $e) {
+					self::_addError($e->getMessage());
+					return;
+				}
+			}
 		}
 	}
 
@@ -241,7 +293,7 @@ class DatabaseImport {
 
 	private static function _cleanString($str) {
 		if (self::$_charset != 'utf8') $str = iconv(self::$_charset, 'utf8', $str);
-		return trim(str_replace(array('"',';'), array('',"\n"),$str));
+		return trim(str_replace(array('"',';','NULL','null'), array('',"\n",NULL,NULL),$str));
 	}
 
 }
