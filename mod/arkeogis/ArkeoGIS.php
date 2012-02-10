@@ -8,28 +8,18 @@ class ArkeoGIS {
 		\core\Core::$db->exec('DELETE FROM "ark_site" WHERE si_code=?', array($code));
 	}
 
-	public static function getUniquePeriodPathFromLabel($label) {
-		$res = \core\Core::$db->fetchAll('SELECT "node_path" FROM "ark_period" WHERE pe_name ilike ?', array($label));
-		if (sizeof($res) > 1) {
-			throw new \Exception("Multiple periods found with this name");
-		} 
-		return (is_null($res)) ? null : $res[0]['node_path'];
-	}
-
-	public static function getUniqueRealestatePathFromLabel($label, $parentPath=NULL) {
-		$q = 'SELECT "node_path" FROM "ark_realestate" WHERE re_name ilike ?';
+	public static function getUniquePathFromLabel($label, $type, $rowName, $parentPath=NULL) {
+		if (!preg_match("/^[a-z]+/", $type)) {
+			throw new \Exception("Table name invalid");
+		}
+		$q = 'SELECT "node_path" FROM "ark_'.$type.'" WHERE "'.substr($type, 0, 2).'_name" ilike ?';
 		$args = array($label);
 
 		if (!is_null($parentPath)) { 
 			$q.= 'AND node_path <@ ?';
 			$args[] = $parentPath;
 		}
-		$res = \core\Core::$db->fetchAll($q, $args);
-
-		if (sizeof($res) > 1) {
-			throw new \Exception("Multiple periods found with this name");
-		} 
-		return (is_null($res)) ? null : $res[0]['node_path'];
+		return \core\Core::$db->fetchAll($q, $args);
 	}
 
 }
