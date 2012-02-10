@@ -18,10 +18,10 @@ class ArkeoGIS {
 
 	public static function getUniqueRealestatePathFromLabel($label, $parentPath=NULL) {
 		$q = 'SELECT "node_path" FROM "ark_realestate" WHERE re_name ilike ?';
-		$args = array('Habi');
+		$args = array($label);
 
 		if (!is_null($parentPath)) { 
-			$q.= 'AND nodepath @> ?';
+			$q.= 'AND node_path <@ ?';
 			$args[] = $parentPath;
 		}
 		$res = \core\Core::$db->fetchAll($q, $args);

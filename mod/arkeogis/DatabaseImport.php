@@ -22,10 +22,10 @@ class DatabaseImport {
 		$knowledge['fr'] = array('non renseigné', 'littérature, prospecté', 'littérature prospecté', 'sondé', 'fouillé');
 		$occupation['fr'] = array('non renseigné', 'unique', 'continue', 'multiple');
 
-		$_cache['period'] = array();
-		$_cache['realestate'] = array();
-		$_cache['furniture'] = array();
-		$_cache['production'] = array();
+		self::$_cache['period'] = array();
+		self::$_cache['realestate'] = array();
+		self::$_cache['furniture'] = array();
+		self::$_cache['production'] = array();
 
 		if (!is_file($filepath) || !is_readable($filepath)) {
 			// Check if filename is in current directory (for tests)
@@ -240,7 +240,7 @@ class DatabaseImport {
 	private static function _processPeriod($start, $end) {
 		if (!isset(self::$_cache['period'][$start])) {
 			try {
-				$_cache['period'][$start] = \mod\arkeogis\ArkeoGIS::getUniquePeriodPathFromLabel($start);
+				self::$_cache['period'][$start] = \mod\arkeogis\ArkeoGIS::getUniquePeriodPathFromLabel($start);
 			} catch (Exception $e) {
 				self::_addError($e->getMessage());
 				return;
@@ -248,41 +248,43 @@ class DatabaseImport {
 		}
 		if (!isset(self::$_cache['period'][$end])) {
 			try {
-				$_cache['period'][$end] = \mod\arkeogis\ArkeoGIS::getUniquePeriodPathFromLabel($end);
+				self::$_cache['period'][$end] = \mod\arkeogis\ArkeoGIS::getUniquePeriodPathFromLabel($end);
 			} catch (Exception $e) {
 				self::_addError($e->getMessage());
 				return;
 			}
 		}
-		return array('start' => $_cache['period'][$start], 'end' => $_cache['period'][$end]);
+		return array('start' => self::$_cache['period'][$start], 'end' => self::$_cache['period'][$end]);
 	}
 
 	private static function _processRealestate($lvl1, $lvl2, $lvl3, $lvl4) {
-		// Get level 1 from ID
-		$lvl1hash = md5($lvl1);
-		if (!isset(self::$_cache['realestate'][$lvl1hash])) {
-			try {
-				$_cache['realestate'][$lvl1hash] = \mod\arkeogis\ArkeoGIS::getUniqueRealestatePathFromLabel($lvl1);
-			} catch (Exception $e) {
-				self::_addError($e->getMessage());
-				return;
-			}
+
+		$hash = md5($lvl1.$lvl2.$lvl3.$lvl4);
+
+		// If hash already done for this realestate, return it
+		if (isset(self::$_cache['realestate'][$hash])) {
+			return self::$_cache['realestate'][$hash];
 		}
-		// If level 2 is set, we try to find it with level 1 id and level 2 name
-		if (!empty($lvl2)) {
-			$lvl2hash = md5($lvl2);
-			print_r($_cache);
-			die();
-			echo $_cache['realestate'][$lvl1hash];
-			if (!isset(self::$_cache['realestate'][$lvl2hash])) {
-				try {
-					$_cache['realestate'][$lvl2hash] = \mod\arkeogis\ArkeoGIS::getUniqueRealestatePathFromLabel($lvl2, self::$_cache['realestate'][$lvl1hash]);
-				} catch (Exception $e) {
-					self::_addError($e->getMessage());
-					return;
+
+		$str = '';
+		for($i=1;$i<=4;$i++) {
+			$l = ${'lvl'.$i};
+			if (!empty($l)) {
+				$str .= $l;
+				$h = md5($str);
+				if (!isset(self::$_cache['realestate'][$h])) {
+					$parentId = $i-1;
+					try {
+						$ids[$i] = self::$_cache['realestate'][$h] = \mod\arkeogis\ArkeoGIS::getUniqueRealestatePathFromLabel($l, (($parentId > 0) ? $ids[$parentId] : NULL));
+						echo "$i == ".$ids[$i].' == '.$parentId.' == '.$ids[$parentId]."\n";
+					} catch (\Exception $e) {
+						self::_addError($e->getMessage());
+						return;
+					}
 				}
 			}
 		}
+		return self::$_cache['realestate'][$h];
 	}
 
 	private static function _addError($msg) {
