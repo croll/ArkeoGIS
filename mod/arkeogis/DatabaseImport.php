@@ -108,8 +108,8 @@ class DatabaseImport {
 				# 11 : centroid 
 				$stop = false;
 
+				$coords = array();
 				if (empty($datas[6]) || empty($datas[7])) {
-					$coords = array();
 					// We do not have geo coordinates but it's flagged as centroid
 					if (strtolower($datas[11]) == self::$_strings['Yes'][self::$_lang]) {
 						// City info not set: error
@@ -123,7 +123,11 @@ class DatabaseImport {
 						}
 						if (!$stop) {
 							// Get city coords
-							$coords =	\mod\arkeogis\Tools::getCityCoordinates($datas[3], $datas[4]);
+							try {
+								$coords =	\mod\arkeogis\Tools::getCityCoordinates($datas[3], $datas[4]);
+							} catch (\Exception $e) {
+								self::_addError("Unable to find coordinates from city.");
+							}
 						}
 					} else {
 						if ($datas[11] == self::$_strings['No'][self::$_lang]) {
@@ -145,9 +149,20 @@ class DatabaseImport {
 						}
 						if (!$stop) {
 							// Get city coords
-							$coords =	\mod\arkeogis\Tools::getSquareCentroid($datas[6], $datas[7], $datas[8], $datas[9]);
+							try {
+								$coords =	\mod\arkeogis\Tools::getSquareCentroid($datas[6], $datas[7], $datas[8], $datas[9]);
+							} catch (\Exception $e) {
+								self::_addError("Unable to find centroid coordinates.");
+							}
 						}
 					}
+				}
+
+				// Compute coords
+				if (!isset($coords['x']) || !isset($coords['y'])) {
+					self::_addError("Unable to get site coordinates..");
+				} else {
+					self::$_current['coords'] = $coords;
 				}
 
 			} else {
@@ -227,6 +242,12 @@ class DatabaseImport {
 
 			# 30 : Production exceptional
 			self::_processExceptional('production', $datas[30]);
+
+			# 31 : Biblio
+			self::$_current['biblio'] = $datas[31];
+
+			#32 : Comments
+			self::$_current['comments'] = $datas[32];
 
 			print_r(self::$_current);
 		}
