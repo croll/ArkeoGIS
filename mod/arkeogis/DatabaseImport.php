@@ -33,6 +33,44 @@ class DatabaseImport {
 		self::$_cache['furniture'] = array();
 		self::$_cache['production'] = array();
 
+		$strings['fr']['bronze indéterminé'] = 'Bronze Indéterminé (1800 – 800 av.JC)';
+		$strings['fr']['bronze ancien'] = 'Bronze ancien (BRA 1800 – 1500 av.JC)';
+		$strings['fr']['bronze moyen'] = 'Bronze moyen (BRM 1501 – 1200 av.JC)';
+		$strings['fr']['bronze final'] = 'Bronze final (BRF 1201 – 800 av.JC)';
+		$strings['fr']['brf1'] = 'BRF1 (1201 – 1050 av.JC)';
+		$strings['fr']['brf2'] = 'BRF2 (1051 – 900 av.JC)';
+		$strings['fr']['fer indéterminé'] = 'Fer indéterminé (801 – 25 av.JC)';
+		$strings['fr']['hallstatt indéterminé'] = 'Hallstatt indéterminé (801 – 460 av.JC)';
+		$strings['fr']['hallstatt C'] = 'Hallstatt C (HAC 801 –620 av.JC)';
+		$strings['fr']['hallstatt D'] = 'Hallstatt D (HAD 621 – 460 av.JC)';
+		$strings['fr']['had1'] = 'HAD1 (621 – 530 av.JC)';
+		$strings['fr']['had2'] = 'HAD2 (531 – 500 av.JC)';
+		$strings['fr']['had3'] = 'HAD3 (501 – 460 av.JC)';
+		$strings['fr']['la tène indéterminée'] = 'La Tène indéterminée (461 – 25 av.JC)';
+		$strings['fr']['la tène a'] = 'La Tène A (LTA 461 – 400 av.JC)';
+		$strings['fr']['la tène b'] = 'La Tène B (LTB 401 – 260 av.JC)';
+		$strings['fr']['ltb1'] = 'LTB1 (401 – 321 av.JC)';
+		$strings['fr']['ltb2'] = 'LTB2 (321 – 260 av.JC)';
+		$strings['fr']['la tène c'] = 'La Tène C (LTC 261 – 140 av.JC)';
+		$strings['fr']['ltc1'] = 'LTC1 (261 – 200 av.JC)';
+		$strings['fr']['ltc2'] = 'LTC2 (201 – 140 av.JC)';
+		$strings['fr']['la tène d'] = 'La Tène D (LTD 141 – 25 av.JC)';
+		$strings['fr']['ltd1'] = 'TD1 (141 – 70 av.JC)';
+		$strings['fr']['ltd2'] = 'LTD2 (71 – 25 av.JC)';
+		$strings['fr']['-40  +20'] = '-40  +20 (ap.JC)';
+		$strings['fr']['+21 +100'] = '+21 +100 (ap.JC)';
+		$strings['fr']['+101 +250'] = '+101 +250 (ap.JC)';
+		$strings['fr']['+251 +310'] = '+251 +310 (ap.JC)';
+		$strings['fr']['mérovingien indéterminé'] = 'Mérovingien Indéterminé (+451+720 ap.JC)';
+		$strings['fr']['mérovingien ancien'] = 'Mérovingien ancien (+451 +600 ap.JC)';
+		$strings['fr']['mérovingien ancien I'] = 'Mérovingien ancien I (+451 +520 ap.JC)';
+		$strings['fr']['mérovingien ancien II'] = 'Mérovingien ancien II (+521 +550 ap.JC)';
+		$strings['fr']['mérovingien ancien III'] = 'Mérovingien ancient III (+551+600 ap.JC)';
+		$strings['fr']['mérovingien récent'] = 'Mérovingien récent (+601 +720 ap.JC)';
+		$strings['fr']['mérovingien récent I'] = 'Mérovingien récent I (601-630 ap.JC)';
+		$strings['fr']['mérovingien récent II'] = 'Mérovingien récent II  (631-680 ap.JC)';
+		$strings['fr']['mérovingien récent III'] = 'Mérovingien récent III  (681-720 ap.JC)';
+
 		if (!is_file($filepath) || !is_readable($filepath)) {
 			// Check if filename is in current directory (for tests)
 			$moduleDir = dirname(__FILE__);
@@ -94,9 +132,6 @@ class DatabaseImport {
 							break;
 						}
 						self::_addError("$dataType ($datas[$k]) is different from the one previously defined with same site id. (".self::$_databaseName.")");
-						// Store site name
-					} else if ($k == 2) {
-						self::$_current['name'] = $datas[$k];
 					}
 				}
 				# 5 : Projection SRID
@@ -185,12 +220,28 @@ class DatabaseImport {
 
 			# 14 : Period start
 			# 15 : Period end
-			if (empty($datas[14])) {
-				self::_addError("Starting period not defined");
-			} else if (empty($datas[15])) {
-				self::_addError("Ending period not defined");
+			// We have starting and ending period
+			if (!empty($datas[14]) && !empty($datas[15])) {
+					$os = strtolower($datas[14]);
+					$datas[14] = (isset($strings['fr'][$os])) ? $strings['fr'][$os] : $datas[14];
+					$os = strtolower($datas[15]);
+					$datas[15] = (isset($strings['fr'][$os])) ? $strings['fr'][$os] : $datas[15];
+					self::$_current['period'] = self::_processPeriod($datas[14], $datas[15]);
+			// We do not have starting and ending period
 			} else {
-				self::$_current['period'] = self::_processPeriod($datas[14], $datas[15]);
+				// It's the first time we process this site: error
+				if (!isset(self::$_stored[$siteCode])) {
+					// No starting period
+					if (empty($datas[14])) {
+						self::_addError("Starting period not defined");
+					}
+					// No ending period
+					if (empty($datas[15])) {
+						self::_addError("Ending period not defined");
+					}
+				} else {
+
+				}
 			}
 
 			# 16 : Realestate level 1
@@ -244,14 +295,22 @@ class DatabaseImport {
 			self::_processExceptional('production', $datas[30]);
 
 			# 31 : Biblio
-			self::$_current['biblio'] = $datas[31];
+			if (!empty($datas[31])) 
+				self::$_current['biblio'] = $datas[31];
 
 			#32 : Comments
-			self::$_current['comments'] = $datas[32];
+			if (!empty($datas[32])) 
+				self::$_current['comments'] = $datas[32];
+			
+			//print_r(self::$_current);
 
-			print_r(self::$_current);
+			// If no error, store site if needed to get information to children with same id
+			if (!isset(self::$_siteErrors[self::$_current['code']])) {
+				self::$_stored[self::$_current['code']] = self::$_current;
+			}
+
 		}
-		//print_r(self::$_siteErrors);
+		print_r(self::$_siteErrors);
 	}
 
 	private static function _processSiteId($siteCode) {
@@ -291,8 +350,26 @@ class DatabaseImport {
 		if (isset(self::$_stored[self::$_current['code']]))
 			if (empty($value)) return true;
 		// For new entry
-		if (isset(self::$_stored[self::$_current['code']][$num])) {
-			if (self::$_stored[self::$_current['code']][$num] != $value)
+		switch($num) {
+			case 2:
+				$dataType = "name";
+				break;
+			case 3:
+				$dataType = "city_name";
+				break;
+			case 4:
+				$dataType = "city_code";
+				break;
+			case 5:
+				$dataType = "epsg";
+				break;
+		}
+		// Store current value
+			if (!isset(self::$_current[$dataType]))
+				self::$_current[$dataType] = $value;
+		// Compare
+		if (isset(self::$_stored[self::$_current['code']][$dataType])) {
+			if (self::$_stored[self::$_current['code']][$dataType] != $value)
 				return false;
 		}
 		return true;
@@ -302,17 +379,23 @@ class DatabaseImport {
 		if (!isset(self::$_cache['period'][$start])) {
 			$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($start, 'period');
 			if (sizeof($resPath) > 1) {
-				self::_addError("Multiple results founds for period ($start)");
+				self::_addError("Multiple results found for period ($start)");
 				return;
-			} 
+			} else if (empty($resPath)) {
+				self::_addError("No matching starting period found ($start)");
+				return;
+			}
 			self::$_cache['period'][$start] = $resPath[0]['node_path'];
 		}
 		if (!isset(self::$_cache['period'][$end])) {
 			$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($end, 'period');
 			if (sizeof($resPath) > 1) {
-				self::_addError("Multiple results founds for period ($end)");
+				self::_addError("Multiple results found for period ($end)");
 				return;
-			} 
+			} else if (empty($resPath)) {
+				self::_addError("No matching ending period found ($end)");
+				return;
+			}
 			self::$_cache['period'][$end] = $resPath[0]['node_path'];
 		}
 		return array('start' => self::$_cache['period'][$start], 'end' => self::$_cache['period'][$end]);
@@ -326,26 +409,22 @@ class DatabaseImport {
 		}
 
 		$str = '';
+		$ids = array();
 		for($i=1;$i<=4;$i++) {
 			$l = ${'lvl'.$i};
 			if (!empty($l)) {
 				$str .= $l;
 				$h = md5($str);
-				if (!isset(self::$_cache[$type][$h])) {
+				if (!isset(self::$_cache[$type][$h]) && !empty($l)) {
 					$parentId = $i-1;
-					try {
-						$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($l, $type, (($parentId > 0) ? $ids[$parentId] : NULL));
-
-						if (sizeof($resPath) > 1) {
-							self::_addError("Multiple results founds for $type");
-							return;
-						} 
-
+					$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($l, $type, $i, (($parentId > 0) ? $ids[$parentId] : NULL));
+					if (sizeof($resPath) > 1) {
+						self::_addError("Multiple results found for $type ($str)");
+					} else {
 						$ids[$i] = self::$_cache[$type][$h] = $resPath[0]['node_path'];
-						//echo "$str == ".$ids[$i].' == '.$ids[$parentId]."\n";
-					} catch (\Exception $e) {
-						\core\Core::log($e->getMessage());
-					}
+					}	
+				} else {
+					$ids[$i] = self::$_cache[$type][$h];
 				}
 			}
 		}
@@ -356,7 +435,7 @@ class DatabaseImport {
 
 	private static function _processExceptional($type, $value) {
 		if (!empty($value)) {
-			if ($value != self::$_strings['Yes'][self::$_lang] && $value != self::$_strings['No'][self::$_lang]) {
+			if (strtolower($value) != strtolower(self::$_strings['Yes'][self::$_lang]) && strtolower($value) != strtolower(self::$_strings['No'][self::$_lang])) {
 				self::_addError(ucfirst($type)." exceptional flag invalid ($value)");	
 			}
 			if (strtolower($value) == $strings['Yes'][self::$_lang]) {

@@ -27,6 +27,6 @@ class Tools {
 	}
 
 	public static function getSquareCentroid($x0, $y0, $x1, $y1) {
-		return array('x' => (($x1-$x0)/2), 'y' => (($y1-$y0)/2));
+		return array('x' => ($x0+($x1-$x0)/2), 'y' => ($y0+($y1-$y0)/2));
 	}
 }
