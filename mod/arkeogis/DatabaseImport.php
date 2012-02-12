@@ -2,6 +2,9 @@
 
 namespace mod\arkeogis;
 
+define(DAD, 1);
+define(CHILD, 2);
+
 class DatabaseImport {
 
 	private static $_current = array();
@@ -106,21 +109,17 @@ class DatabaseImport {
 				$stop = false;
 
 				if (empty($datas[6]) || empty($datas[7])) {
-					$coords = NULL;
+					$coords = array();
 					// We do not have geo coordinates but it's flagged as centroid
 					if (strtolower($datas[11]) == self::$_strings['Yes'][self::$_lang]) {
 						// City info not set: error
 						if (empty($datas[3])) {
 							self::_addError("Site not flagged as centroid but no city name provided.");
 							$stop = true;
-						} else {
-							self::$_current['city_name'] = $datas[3];
 						}
 						if (empty($datas[4])) {
 							self::_addError("Site not flagged as centroid but no city code provided.");
 							$stop = true;
-						} else {
-							self::$_current['city_code'] = $datas[4];
 						}
 						if (!$stop) {
 							// Get city coords
@@ -151,52 +150,52 @@ class DatabaseImport {
 					}
 				}
 
-				# 12 : Knowledge
-				if (in_array(strtolower($datas[12]), $knowledge[self::$_lang])) {
-					self::$_current['knowledge'] = $datas[12];
-				} else if (!empty($datas[12])) {
-					self::_addError("Knowledge type ($datas[12]) is not referenced.");
-				}
-
-				# 13 : Occupation
-				if (in_array(strtolower($datas[13]), $occupation[self::$_lang])) {
-					self::$_current['occupation'] = $datas[13];
-				} else if (!empty($datas[13])) {
-					self::_addError("Occupation type ($datas[13]) is not referenced.");
-				}
-
-				# 14 : Period start
-				# 15 : Period end
-				if (empty($datas[14])) {
-					self::_addError("Starting period not defined");
-				} else if (empty($datas[15])) {
-					self::_addError("Ending period not defined");
-				} else {
-					self::$_current['period'] = self::_processPeriod($datas[14], $datas[15]);
-				}
-
-				# 16 : Realestate level 1
-				# 17 : Realestate level 2
-				# 18 : Realestate level 3
-				# 19 : Realestate level 4
-				if (empty($datas[16]) && (!empty($datas[17]) || !empty($datas[18]) || !empty($datas[19]))) {
-					self::_addError("Realestate level 1 not set but some other realestate fields are defined");	
-				} else {
-					if (!empty($datas[16]))
-						self::_processLtree($datas[16], $datas[17], $datas[18], $datas[19], 'realestate');
-				}
-
-				# 20 : Depth
-				if (!empty($datas[20])) {
-					if (!preg_match("/^[0-9]*\.?[0-9]+$/", $datas[20]) || $datas[20] < 25) {
-						self::_addError("Depth invalid ($datas[20])");	
-					} else {
-						self::$_current['depth'] == $datas[20];
-					}
-				}
-
 			} else {
 				// Site code already registered with no error
+			}
+
+			# 12 : Knowledge
+			if (in_array(strtolower($datas[12]), $knowledge[self::$_lang])) {
+				self::$_current['knowledge'] = $datas[12];
+			} else if (!empty($datas[12])) {
+				self::_addError("Knowledge type ($datas[12]) is not referenced.");
+			}
+
+			# 13 : Occupation
+			if (in_array(strtolower($datas[13]), $occupation[self::$_lang])) {
+				self::$_current['occupation'] = $datas[13];
+			} else if (!empty($datas[13])) {
+				self::_addError("Occupation type ($datas[13]) is not referenced.");
+			}
+
+			# 14 : Period start
+			# 15 : Period end
+			if (empty($datas[14])) {
+				self::_addError("Starting period not defined");
+			} else if (empty($datas[15])) {
+				self::_addError("Ending period not defined");
+			} else {
+				self::$_current['period'] = self::_processPeriod($datas[14], $datas[15]);
+			}
+
+			# 16 : Realestate level 1
+			# 17 : Realestate level 2
+			# 18 : Realestate level 3
+			# 19 : Realestate level 4
+			if (empty($datas[16]) && (!empty($datas[17]) || !empty($datas[18]) || !empty($datas[19]))) {
+				self::_addError("Realestate level 1 not set but some other realestate fields are defined");	
+			} else {
+				if (!empty($datas[16]))
+					self::_processLtree($datas[16], $datas[17], $datas[18], $datas[19], 'realestate');
+			}
+
+			# 20 : Depth
+			if (!empty($datas[20])) {
+				if (!preg_match("/^[0-9]*\.?[0-9]+$/", $datas[20]) || $datas[20] < 25) {
+					self::_addError("Depth invalid ($datas[20])");	
+				} else {
+					self::$_current['depth'] == $datas[20];
+				}
 			}
 
 			# 21 : Realestate exceptional
@@ -280,7 +279,7 @@ class DatabaseImport {
 
 	private static function _processPeriod($start, $end) {
 		if (!isset(self::$_cache['period'][$start])) {
-			$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($start, 'period', 'pe_name');
+			$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($start, 'period');
 			if (sizeof($resPath) > 1) {
 				self::_addError("Multiple results founds for period ($start)");
 				return;
@@ -288,7 +287,7 @@ class DatabaseImport {
 			self::$_cache['period'][$start] = $resPath[0]['node_path'];
 		}
 		if (!isset(self::$_cache['period'][$end])) {
-			$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($end, 'period', 'pe_name');
+			$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($end, 'period');
 			if (sizeof($resPath) > 1) {
 				self::_addError("Multiple results founds for period ($end)");
 				return;
@@ -299,7 +298,6 @@ class DatabaseImport {
 	}
 
 	private static function _processLtree($lvl1, $lvl2, $lvl3, $lvl4, $type) {
-
 		$hash = md5($lvl1.$lvl2.$lvl3.$lvl4);
 
 		if (isset(self::$_cache[$type][$hash])) {

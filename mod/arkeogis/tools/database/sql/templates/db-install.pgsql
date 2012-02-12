@@ -27,11 +27,14 @@ CREATE INDEX ark_database_name_idx ON "ark_database" ("da_name");
 -- ---
 		
 CREATE TABLE "ark_city" (
-  "ci_code" VARCHAR(50) PRIMARY KEY,
+  "ci_id" SERIAL PRIMARY KEY,
+  "ci_code" VARCHAR(50),
   "ci_name" VARCHAR(255) DEFAULT NULL,
+  "ci_nameupper" VARCHAR(255) DEFAULT NULL,
   "ci_country" CHAR(2) DEFAULT NULL
 );
-SELECT AddGeometryColumn('ark_city', 'ci_geom', 4326, 'POINT', 3);
+SELECT AddGeometryColumn('ark_city', 'ci_geom', 4326, 'POINT', 2);
+CREATE UNIQUE INDEX ark_city_code_idx ON "ark_city" ("ci_code", "ci_country");
 CREATE INDEX "ark_city_geom_idx" ON "ark_city" USING GIST ("ci_geom"); 
 CREATE INDEX ark_city_name_idx ON "ark_city" ("ci_name");
 
@@ -46,7 +49,7 @@ CREATE TABLE "ark_site" (
   "si_database_id" INTEGER NOT NULL REFERENCES "ark_database" ON DELETE CASCADE,
   "si_author_id" INTEGER NOT NULL,
   "si_name" VARCHAR(255) NOT NULL,
-  "si_city_code" VARCHAR(50) DEFAULT NULL REFERENCES ark_city,
+  "si_city_id" INTEGER DEFAULT NULL REFERENCES ark_city,
   "si_centroid" SMALLINT NOT NULL DEFAULT 0,
   "si_occupation" ark_site_occupation_type DEFAULT NULL,
   "si_creation" TIMESTAMP NOT NULL,
@@ -123,3 +126,5 @@ CREATE TABLE "ark_siteperiod_production" (
 
 CREATE INDEX "ark_siteperiod_production_siteperiod_idx" ON "ark_siteperiod_production" ("pr_site_period_id"); 
 CREATE INDEX "ark_siteperiod_production_production_idx" ON "ark_siteperiod_production" ("pr_production_id"); 
+
+-- ARK_CITIESFR

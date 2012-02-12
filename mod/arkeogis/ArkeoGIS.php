@@ -8,7 +8,7 @@ class ArkeoGIS {
 		\core\Core::$db->exec('DELETE FROM "ark_site" WHERE si_code=?', array($code));
 	}
 
-	public static function getUniquePathFromLabel($label, $type, $rowName, $parentPath=NULL) {
+	public static function getUniquePathFromLabel($label, $type, $parentPath=NULL) {
 		if (!preg_match("/^[a-z]+/", $type)) {
 			throw new \Exception("Table name invalid");
 		}

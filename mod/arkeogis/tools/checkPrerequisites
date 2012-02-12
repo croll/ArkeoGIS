@@ -89,7 +89,7 @@ if (!is_file($scriptDir.'/database/sql/templates/db-install.pgsql') || !is_file(
 	exit;
 }
 
-$aPrefix = array('period', 'realestate', 'furniture', 'production');
+$aPrefix = array('period', 'realestate', 'furniture', 'production', 'citiesfr');
 
 $missing = $sqlFiles = array();
 
@@ -117,7 +117,8 @@ $templateUninstall = file_get_contents($scriptDir.'/database/sql/templates/db-un
 
 foreach($aPrefix as $prefix) {
 	$templateInstall = str_replace('-- ARK_'.strtoupper($prefix), file_get_contents($scriptDir."/database/sql/${prefix}_install.sql"), $templateInstall);
-	$templateUninstall = str_replace('-- ARK_'.strtoupper($prefix), file_get_contents($scriptDir."/database/sql/${prefix}_uninstall.sql"), $templateUninstall);
+	if (is_file($scriptDir."/database/sql/${prefix}_uninstall.sql"))
+		$templateUninstall = str_replace('-- ARK_'.strtoupper($prefix), file_get_contents($scriptDir."/database/sql/${prefix}_uninstall.sql"), $templateUninstall);
 }
 
 file_put_contents($scriptDir.'/../install.pgsql', $templateInstall);
