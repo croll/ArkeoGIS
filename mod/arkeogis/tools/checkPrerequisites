@@ -1,7 +1,8 @@
 #!/usr/bin/php -q
 <?php  //  -*- mode:php; tab-width:2; c-basic-offset:2; -*-
 
-$CAPTAINHOOK_PATH = "/home/web/dev/captainhook_arkeo";
+$CAPTAINHOOK_PATH = getenv('CAPTAINHOOK_PATH');
+if ($CAPTAINHOOK_PATH === false) $CAPTAINHOOK_PATH = "/home/web/dev/captainhook_arkeo";
 
 function _readline($prompt = '') {
   echo $prompt;
