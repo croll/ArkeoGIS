@@ -47,8 +47,16 @@
  margin: 0px 5px 0px 5px;
  font-size: 9px;
  font-weight: bold;
- background: #44f;
+ background-color: #000;
  color: #fff;
+}
+
+.pmmenu-tools button.select-all {
+ background-color: #44f;
+}
+
+.pmmenu-tools button.select-none {
+ background-color: #333;
 }
 
 .pmmenu-title-sub { 

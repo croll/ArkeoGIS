@@ -50,6 +50,7 @@ var PlusMinusMenu = new Class({
 	});
 	tools.inject(me.html_element);
 	var tools_all=new Element('button', {
+	    class: 'select-all',
 	    text: 'TOUS',
 	});
 	tools_all.addEvent('click', function(e) {
@@ -57,6 +58,7 @@ var PlusMinusMenu = new Class({
 	});
 	tools_all.inject(tools);
 	var tools_none=new Element('button', {
+	    class: 'select-none',
 	    text: 'AUCUN',
 	});
 	tools_none.addEvent('click', function(e) {
