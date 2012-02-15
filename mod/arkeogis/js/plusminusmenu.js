@@ -1,168 +1,163 @@
 var PlusMinusMenu = new Class({
-    Implements: Events,
-    initialize: function(html_element, menumodel) {
-	this.menumodel=menumodel;
-	this.mainhtml_element=html_element;
-	var html=this.mkmenu(this.menumodel, null, 0, 0);
-	html.inject(html_element);
+    html_element: null,
+    parent_item: null,
+    content: [],
+
+    initialize: function(content) {
+	var me=this;
+	this.content = content;
+	content.each(function(elem) {
+	    elem.parent_menu=me;
+	});
     },
 
-    mkmenu: function(menumodel, parent, html_left, html_top) {
+    inject: function(to_html_elem) {
 	var me=this;
-	var popup=new Element('div', {
+	me.html_element=new Element('div', {
 	    class: 'pmmenu-popup',
 	});
+	me.html_element.inject(to_html_elem);
 	
-	if (parent) {
-	    var title=new Element('div', {
-		class: 'pmmenu-title',
-		text: parent.text,
-	    });
-	    title.inject(popup);
-	    var title_sub=new Element('div', {
-		class: 'pmmenu-title-sub',
-	    });
-	    title_sub.inject(title);
+	var title=new Element('div', {
+	    class: 'pmmenu-title',
+	    text: me.parent_item.model.text,
+	});
+	title.inject(me.html_element);
+	var title_sub=new Element('div', {
+	    class: 'pmmenu-title-sub',
+	});
+	title_sub.inject(title);
+	
+	var tools=new Element('div', {
+	    class: 'pmmenu-tools',
+	    text: "Sélection",
+	});
+	tools.inject(me.html_element);
+	var tools_all=new Element('button', {
+	    text: 'TOUS',
+	});
+	tools_all.inject(tools);
+	var tools_none=new Element('button', {
+	    text: 'AUCUN',
+	});
+	tools_none.inject(tools);
 
-	    var tools=new Element('div', {
-		class: 'pmmenu-tools',
-		text: "Sélection",
-	    });
-	    tools.inject(popup);
-	    var tools_all=new Element('button', {
-		text: 'TOUS',
-	    });
-	    tools_all.inject(tools);
-	    var tools_none=new Element('button', {
-		text: 'AUCUN',
-	    });
-	    tools_none.inject(tools);
+	me.content.each(function(item) {
+	    item.inject(me.html_element);
+	});
+    },
+
+    close: function() {
+	this.close_submenus();
+	if (this.html_element) {
+	    this.html_element.destroy();
+	    this.html_element=null;
 	}
+    },
 
-	// convert object to array...
-	var a_menumodel = [];
-	for (var menumodel_i=0; menumodel[menumodel_i]; menumodel_i++)
-	    a_menumodel[menumodel_i]=menumodel[menumodel_i];
+    close_submenus: function() {
+	var me=this;
+	me.content.each(function(item) {
+	    item.close_submenu();
+	});
+    },
+    
+    isOpened: function() {
+	return this.html_element ? true : false;
+    }
 
-	a_menumodel.each(function(model_elem) {
-	    menumodel.html_openedsubmenu=null;
-	    menumodel.model_openedsubmenu=null;
+});
 
-	    var e=new Element('div', {
-		class: 'pmmenu-elem',
-		text: model_elem.text,
-	    });
-	    model_elem.html_elem=e;
-	    var sub=new Element('div', {
-		class: 'pmmenu-sub',
-	    });
-	    sub.inject(e);
-	    var sel=new Element('div', {
-		class: 'pmmenu-sel',
-	    });
-	    sel.inject(e);
-	    if (model_elem.submenu) {
-		sub.addClass('pmmenu-havesubmenu');
-		if (!parent) {
-		    e.addEvent('click', function() {
-			if (!menumodel.html_openedsubmenu) {
-			    menumodel.model_openedsubmenu=model_elem.submenu;
-			    menumodel.html_openedsubmenu=me.mkmenu(model_elem.submenu, model_elem, html_left, html_top);
-			    menumodel.html_openedsubmenu.addClass('pmmenu-float');
-			    menumodel.html_openedsubmenu.inject(me.mainhtml_element, false);
-			} else {
-			    me.closeSubMenu(menumodel);
-			}
-		    });
-		} else {
-		    e.addEvent('mouseenter', function() {
-			me.closeSubMenu(menumodel);
-			menumodel.model_openedsubmenu=model_elem.submenu;
-			menumodel.html_openedsubmenu=me.mkmenu(model_elem.submenu, model_elem, html_left+250, html_top);
-			menumodel.html_openedsubmenu.addClass('pmmenu-float');
-			menumodel.html_openedsubmenu.set('styles', {
-			    left: (html_left+250)+'px',
-			    top: html_top+'px',
-			});
-			menumodel.html_openedsubmenu.inject(me.mainhtml_element);
-		    });
-		}
-	    }
+var PlusMinusItem = new Class({
+    html_element: null,
+    model: {
+	text: '',
+	value: '',
+    },
+    submenu: null,
+    parent_menu: null,
+    selected: '',
 
-	    if (parent && !model_elem.submenu) {
-		e.addEvent('click', function() {
-		    if (model_elem.selected == '+') {
-			model_elem.selected='-';
-		    } else if (model_elem.selected == '-') {
-			model_elem.selected='';
+    initialize: function(text, value, submenu) {
+	this.model.text=text;
+	this.model.value=value;
+	this.submenu=submenu;
+	if (submenu) submenu.parent_item=this;
+    },
+
+    close_submenu: function() {
+	if (!this.submenu) return;
+	this.submenu.close();
+    },
+
+    inject: function(to_html_elem) {
+	var me=this;
+	me.html_element=new Element('div', {
+	    class: 'pmmenu-item',
+	    text: me.model.text,
+	});
+	me.html_element.inject(to_html_elem);
+	var sub=new Element('div', {
+	    class: 'pmmenu-sub',
+	});
+	sub.inject(me.html_element);
+	var sel=new Element('div', {
+	    class: 'pmmenu-sel',
+	});
+	sel.inject(me.html_element);
+	if (me.submenu) {
+	    sub.addClass('pmmenu-havesubmenu');
+	    if (!me.parent_menu) {
+		me.html_element.addEvent('click', function() {
+		    if (me.submenu.isOpened()) {
+			me.submenu.close();
 		    } else {
-			model_elem.selected='+';
+			me.submenu.inject(to_html_elem);
+			me.submenu.html_element.set('styles', {
+			    left: 0
+			});
 		    }
-		    me.drawSelection(me.menumodel, model_elem.selected);
+		});
+	    } else {
+		me.html_element.addEvent('mouseenter', function() {
+		    me.parent_menu.close_submenus();
+		    me.submenu.inject(to_html_elem);
 		});
 	    }
-	    
-	    e.inject(popup);
-	});
-	return popup;
-    },
-
-    closeSubMenu: function(model) {
-	var me=this;
-	if (!model.model_openedsubmenu) return;
-	me.closeSubMenu(model.model_openedsubmenu);
-	for (var menumodel_i=0; model[menumodel_i]; menumodel_i++) {
-	    var model_elem=model[menumodel_i];
-	    if (model_elem.html_elem) {
-		model_elem.html_elem.destroy();
-		model_elem.html_elem=null;
-	    }
 	}
-	model.model_openedsubmenu=null;
-	model.html_openedsubmenu.destroy();
-	model.html_openedsubmenu=null;
+	
+	if (me.parent_menu && !me.submenu) {
+	    me.html_element.addEvent('click', function() {
+		if (me.selected == '+') {
+		    me.selected='-';
+		} else if (me.selected == '-') {
+		    me.selected='';
+		} else {
+		    me.selected='+';
+		}
+		me.drawSelection();
+	    });
+	}
     },
-
-    drawSelections: function(model) {
+    
+    drawSelection: function() {
 	var me=this;
+	if (!me.html_element) return;
+	var sel=me.html_element.getElement('.pmmenu-sel');
 
-	// convert object to array...
-	var a_menumodel = [];
-	for (var menumodel_i=0; menumodel[menumodel_i]; menumodel_i++)
-	    a_menumodel[menumodel_i]=menumodel[menumodel_i];
-
-	var result='';
-	a_menumodel.each(function(model_elem) {
-	    if (model_elem.submenu) {
-		var selected = me.drawSelection(model_elem.submenu);
-		if (result == '') result=selected;
-		else if (result == '+' && selected != '+') result='.';
-		else if (result == '-' && selected != '-') result='.';
-		me.drawSelection(model_elem, selected);
-	    } else {
-		if (model_elem.selected == '+')
-		    result=(result == '+' || result == '') ? '+' : '.';
-		else if (model_elem.selected == '-')
-		    result=(result == '-' || result == '') ? '-' : '.';
-		me.drawSelection(model_elem, model_elem.selected);
-	    }
-	});
-	return result;
-    },
-
-    drawSelection: function(model_elem, selected) {
-	if (!model_elem.html_elem) return;
-	var sel=model_elem.html_elem.getElement('.pmmenu-sel');
-
-	if (selected == '+') {
-	    sel.removeClass('pmmenu-plus');
-	    sel.addClass('pmmenu-minus');
-	} else if (selected == '-') {
-	    sel.removeClass('pmmenu-minus');
-	    sel.removeClass('pmmenu-plus');
-	} else {
+	if (me.selected == '+') {
 	    sel.removeClass('pmmenu-minus');
 	    sel.addClass('pmmenu-plus');
+	} else if (me.selected == '-') {
+	    sel.removeClass('pmmenu-plus');
+	    sel.addClass('pmmenu-minus');
+	} else {
+	    sel.removeClass('pmmenu-minus');
+	    sel.removeClass('pmmenu-plus');
 	}
     },
 });
+
+
+
+

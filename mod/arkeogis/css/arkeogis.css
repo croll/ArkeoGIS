@@ -1,4 +1,4 @@
-.pmmenu-elem {
+.pmmenu-item {
  position: relative;
  width: 200px;
  min-height: 25px;
@@ -10,7 +10,7 @@
  background-color: #f7f7f7;
 }
 
-.pmmenu-elem:hover {
+.pmmenu-item:hover {
  background-color: #44f;
 }
 
@@ -24,7 +24,7 @@
 
 .pmmenu-title { 
  width: 200px;
- height: 25px;
+ min-height: 25px;
  border: solid 1px gray;
  font-weight: bold;
  font-size: 14px;
@@ -85,10 +85,10 @@
  background-repeat: no-repeat;
 }
 
-.pmmenu-float {
+.pmmenu-popup {
  position: absolute;
  z-index: 100;
  top: 0;
- left: 0;
+ left: 250px;
 }
 
