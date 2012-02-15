@@ -138,6 +138,22 @@ var PlusMinusItem = new Class({
 		    if (me.submenu.isOpened()) {
 			me.submenu.close();
 		    } else {
+ 			var back=new Element('div', {
+			    styles: {
+				position: 'absolute',
+				left: 0,
+				right: 0,
+				top: 0,
+				bottom: 0,
+				'z-index': 1999,
+			    }
+			});
+			back.inject($$('body')[0]);
+			back.addEvent('click', function(e) {
+			    me.submenu.close();
+			    back.destroy();
+			});
+			
 			me.submenu.inject(to_html_elem);
 			me.submenu.html_element.set('styles', {
 			    left: 0
