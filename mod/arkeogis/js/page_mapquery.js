@@ -63,7 +63,7 @@ window.addEvent('domready', function() {
 			    value: 7,
 			    submenu: {
 				0: {
-				    text: "ballon",
+				    text: "Et le caoutchouc super mou",
 				    value: 23,
 				},
 			    },

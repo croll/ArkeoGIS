@@ -1,27 +1,72 @@
 .pmmenu-elem {
  position: relative;
  width: 200px;
+ min-height: 25px;
  border: solid 1px gray;
- font-weight: bold;
+ border-top: 0;
  font-size: 14px;
  padding-left: 32px;
  cursor: pointer;
+ background-color: #f7f7f7;
+}
+
+.pmmenu-elem:hover {
+ background-color: #44f;
 }
 
 .pmmenu-sub {
  position: absolute;
  right: 0;
  top: 0;
- width: 22px;
- height: 22px;
+ width: 14px;
+ height: 14px;
+}
+
+.pmmenu-title { 
+ width: 200px;
+ height: 25px;
+ border: solid 1px gray;
+ font-weight: bold;
+ font-size: 14px;
+ padding-left: 32px;
+ background-color: #eee;
+}
+
+.pmmenu-tools { 
+ width: 200px;
+ height: 25px;
+ border: solid 1px gray;
+ font-size: 14px;
+ padding-left: 32px;
+ background-color: #fff;
+}
+
+.pmmenu-tools button {
+ border: 0;
+ margin: 0;
+ margin: 0px 5px 0px 5px;
+ font-size: 9px;
+ font-weight: bold;
+ background: #44f;
+ color: #fff;
+}
+
+.pmmenu-title-sub { 
+ position: absolute;
+ right: 0;
+ top: 0;
+ width: 14px;
+ height: 14px;
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -313px -119px;
 }
 
 .pmmenu-sel {
  position: absolute;
  left: 0;
  top: 0;
- width: 22px;
- height: 22px;
+ width: 14px;
+ height: 14px;
 }
 
 .pmmenu-plus {
@@ -43,5 +88,7 @@
 .pmmenu-float {
  position: absolute;
  z-index: 100;
+ top: 0;
+ left: 0;
 }
 

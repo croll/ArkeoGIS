@@ -34,6 +34,5 @@
      </select>
     </div>
 
-    <div id='menutest'></div>
-
+    <div id='menutest' style='position: relative'></div>
 {/block}
