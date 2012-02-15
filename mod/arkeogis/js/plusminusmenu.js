@@ -1,4 +1,6 @@
 var PlusMinusMenu = new Class({
+    Implements: Events,
+
     html_element: null,
     parent_item: null,
     content: [],
@@ -8,6 +10,20 @@ var PlusMinusMenu = new Class({
 	this.content = content;
 	content.each(function(elem) {
 	    elem.parent_menu=me;
+	    elem.addEvent('selection', function(e) {
+		var counts={plus: 0, minus: 0, mixed: 0, empty: 0};
+		me.content.each(function(el) {
+		    if (el.selected == '') counts.empty++;
+		    else if (el.selected == '.') counts.mixed++;
+		    else if (el.selected == '+') counts.plus++;
+		    else if (el.selected == '-') counts.minus++;
+		});
+		counts.total=counts.plus + counts.minus + counts.mixed + counts.empty;
+		if (counts.plus == counts.total) me.parent_item.setSelected('+', false);
+		else if (counts.minus == counts.total) me.parent_item.setSelected('-', false);
+		else if (counts.empty == counts.total) me.parent_item.setSelected('', false);
+		else me.parent_item.setSelected('.', false);
+	    });
 	});
     },
 
@@ -36,9 +52,15 @@ var PlusMinusMenu = new Class({
 	var tools_all=new Element('button', {
 	    text: 'TOUS',
 	});
+	tools_all.addEvent('click', function(e) {
+	    me.parent_item.setSelected('+', true);
+	});
 	tools_all.inject(tools);
 	var tools_none=new Element('button', {
 	    text: 'AUCUN',
+	});
+	tools_none.addEvent('click', function(e) {
+	    me.parent_item.setSelected('', true);
 	});
 	tools_none.inject(tools);
 
@@ -69,6 +91,8 @@ var PlusMinusMenu = new Class({
 });
 
 var PlusMinusItem = new Class({
+    Implements: Events,
+
     html_element: null,
     model: {
 	text: '',
@@ -129,15 +153,15 @@ var PlusMinusItem = new Class({
 	if (me.parent_menu && !me.submenu) {
 	    me.html_element.addEvent('click', function() {
 		if (me.selected == '+') {
-		    me.selected='-';
+		    me.setSelected('-', false);
 		} else if (me.selected == '-') {
-		    me.selected='';
+		    me.setSelected('', false);
 		} else {
-		    me.selected='+';
+		    me.setSelected('+', false);
 		}
-		me.drawSelection();
 	    });
 	}
+	me.drawSelection();
     },
     
     drawSelection: function() {
@@ -146,14 +170,36 @@ var PlusMinusItem = new Class({
 	var sel=me.html_element.getElement('.pmmenu-sel');
 
 	if (me.selected == '+') {
+	    sel.removeClass('pmmenu-mixed');
 	    sel.removeClass('pmmenu-minus');
 	    sel.addClass('pmmenu-plus');
 	} else if (me.selected == '-') {
+	    sel.removeClass('pmmenu-mixed');
 	    sel.removeClass('pmmenu-plus');
 	    sel.addClass('pmmenu-minus');
+	} else if (me.selected == '.') {
+	    sel.removeClass('pmmenu-plus');
+	    sel.removeClass('pmmenu-minus');
+	    sel.addClass('pmmenu-mixed');
 	} else {
+	    sel.removeClass('pmmenu-mixed');
 	    sel.removeClass('pmmenu-minus');
 	    sel.removeClass('pmmenu-plus');
+	}
+    },
+
+    setSelected: function(selected, recurse) {
+	var me=this;
+	if (recurse && me.submenu) {
+	    me.submenu.content.each(function(el) {
+		el.setSelected(selected, true);
+	    });
+	} else if (this.selected != selected) {
+	    this.selected=selected;
+	    this.fireEvent('selection', {
+		'selected': me.selected,
+	    });
+	    me.drawSelection();
 	}
     },
 });

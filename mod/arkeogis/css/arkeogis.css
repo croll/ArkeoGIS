@@ -79,6 +79,11 @@
  background-position: -433px -96px;
 }
 
+.pmmenu-mixed {
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -456px -96px;
+}
+
 .pmmenu-havesubmenu { 
  background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
  background-position: -456px -72px;
