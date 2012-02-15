@@ -5,6 +5,10 @@
 	{js file="/mod/cssjs/js/mootools.more.js"}
 	{css file="/mod/cssjs/twitter-bootstrap/css/bootstrap.css"}
 	{css file="/mod/cssjs/twitter-bootstrap/css/bootstrap-responsive.css"}
+
+	{js file="/mod/arkeogis/js/plusminusmenu.js"}
+	{js file="/mod/arkeogis/js/page_mapquery.js"}
+	{css file="/mod/arkeogis/css/arkeogis.css"}
 {/block}
 
 {block name='webpage_body'}
@@ -22,4 +26,14 @@
         </div>
       </div>
     </div>
+
+    <br/><br/><br/>
+    <div class="map-query">
+     <select name='menu'>
+      <option>{t d='arkeogis' m="Requêtes archivées"}</option>
+     </select>
+    </div>
+
+    <div id='menutest'></div>
+
 {/block}

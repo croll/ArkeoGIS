@@ -1,0 +1,47 @@
+.pmmenu-elem {
+ position: relative;
+ width: 200px;
+ border: solid 1px gray;
+ font-weight: bold;
+ font-size: 14px;
+ padding-left: 32px;
+ cursor: pointer;
+}
+
+.pmmenu-sub {
+ position: absolute;
+ right: 0;
+ top: 0;
+ width: 22px;
+ height: 22px;
+}
+
+.pmmenu-sel {
+ position: absolute;
+ left: 0;
+ top: 0;
+ width: 22px;
+ height: 22px;
+}
+
+.pmmenu-plus {
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -408px -96px;
+}
+
+.pmmenu-minus {
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -433px -96px;
+}
+
+.pmmenu-havesubmenu { 
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -456px -72px;
+ background-repeat: no-repeat;
+}
+
+.pmmenu-float {
+ position: absolute;
+ z-index: 100;
+}
+
