@@ -74,7 +74,7 @@ var PlusMinusMenu = new Class({
 	me.content.each(function(item) {
 	    item.inject(me.html_element);
 	});
-    },
+   },
 
     close: function() {
 	this.close_submenus();
@@ -242,12 +242,12 @@ var PlusMinusItem = new Class({
 
     /** special arkeogis use **/
     addJsonItem: function(jsitem) {
-	var pitem=this.searchValue(jsitem.pe_parentid);
+	var pitem=this.searchValue(jsitem.parentid);
 	if (pitem) {
 	    if (!pitem.submenu) pitem.setSubMenu(new PlusMinusMenu(null));
-	    pitem.submenu.addItem(new PlusMinusItem(jsitem.pe_name, jsitem.pe_id, null));
+	    pitem.submenu.addItem(new PlusMinusItem(jsitem.name, jsitem.id, null));
 	} else {
-	    alert("id not found: "+jsitem.pe_id);
+	    alert("id not found: "+jsitem.id);
 	}
     }
 });

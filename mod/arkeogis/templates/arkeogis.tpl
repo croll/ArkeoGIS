@@ -34,5 +34,12 @@
      </select>
     </div>
 
-    <div id='menutest' style='position: relative'></div>
+    <table>
+     <tr class="menu_period">
+      <td colspan='2'><div id='menu_period' style='position: relative'></div></td>
+     </tr>
+     <tr class="menu_production">
+      <td style='width: 18px'><input type='checkbox' name='ex_production' value='1'/></td>
+      <td><div id='menu_production' style='position: relative'></div></td>
+     </tr>
 {/block}
