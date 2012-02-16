@@ -1,12 +1,60 @@
-
-
 /*
- * plusminusmenu
+ * Requete SQL
  */
+
+table.map-query td { 
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+table.map-query tr.buttons td { 
+ padding-top: 15px;
+}
+
+tr.title_caracterisation td { 
+  padding-top: 15px;
+  padding-left: 5px;
+  font-weight: bold;
+}
+
+tr.title_exceptionnels td { 
+  padding-left: 5px;
+  padding-bottom: 5px;
+}
+
+td.exceptionnel div {
+ width: 28px;
+ height: 25px;
+ text-align: center;
+ background-color: #f5f5f5;
+ border: solid 1px #cccccc;
+ border-right: none;
+ border-radius: 3px 0px 0px 3px;
+ vertical-align: middle;
+}
+
+table.map-query td.validations button {
+ width: 110px;
+ font-weight: bold;
+ font-size: 14px;
+ border-radius: 5px 5px 5px 5px;
+}
+
+table.map-query td.validations .btn-display-map {
+ float: left;
+}
+
+table.map-query td.validations .btn-display-sheet {
+ float: right;
+}
+
+table.map-query .btn-reinit {
+ width: 100%;
+}
 
 .pmmenu-item {
  position: relative;
- width: 200px;
+ width: 210px;
  min-height: 25px;
  border: solid 1px #cccccc;
  border-top: 0;
@@ -47,7 +95,7 @@
 
 .pmmenu-title { 
  position: relative;
- width: 200px;
+ width: 210px;
  min-height: 25px;
  border: solid 1px #cccccc;
  border-bottom: 0;
@@ -59,10 +107,11 @@
 
 .pmmenu-root { 
  border: solid 1px #cccccc;
+ border-radius: 0px 3px 3px 0px;
 }
 
 .pmmenu-tools { 
- width: 200px;
+ width: 210px;
  height: 25px;
  border: solid 1px #cccccc;
  font-size: 14px;
@@ -140,7 +189,7 @@
  font-weight: bold;
 }
 
-.pmmenu-havesubmenu { 
+.pmmenu-havesubmenu {
  background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
  background-position: -456px -72px;
  background-repeat: no-repeat;
@@ -150,9 +199,13 @@
  position: absolute;
  z-index: 2000;
  top: 0;
- left: 250px;
+ left: 225px;
  padding: 5px;
  background-color: white;
+}
+
+#menu_period .pmmenu-popup { 
+ left: 255px;
 }
 
 /***/
