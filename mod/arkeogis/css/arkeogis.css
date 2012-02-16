@@ -1,3 +1,9 @@
+
+
+/*
+ * plusminusmenu
+ */
+
 .pmmenu-item {
  position: relative;
  width: 200px;
@@ -24,12 +30,13 @@
 .pmmenu-sub {
  position: absolute;
  right: 0;
- top: 0;
+ top: 4px;
  width: 14px;
  height: 14px;
 }
 
 .pmmenu-title { 
+ position: relative;
  width: 200px;
  min-height: 25px;
  border: solid 1px #cccccc;
@@ -75,7 +82,7 @@
 .pmmenu-title-sub { 
  position: absolute;
  right: 0;
- top: 0;
+ top: 4px;
  width: 14px;
  height: 14px;
  background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
@@ -85,7 +92,7 @@
 .pmmenu-sel {
  position: absolute;
  left: 0;
- top: 0;
+ top: 4px;
  width: 14px;
  height: 14px;
 }
@@ -116,7 +123,8 @@
  z-index: 2000;
  top: 0;
  left: 250px;
- /*height: 200px;*/
- /*overflow: hidden;*/
+ padding: 5px;
+ background-color: white;
 }
 
+/***/
