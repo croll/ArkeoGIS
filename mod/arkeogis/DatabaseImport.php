@@ -24,6 +24,7 @@ class DatabaseImport {
 		// TO BE LINKED WITH TRANSLATION MODULE
 		self::$_lang = $lang;
 		self::$_charset = $charset;
+
 		self::$_strings['Yes']['fr'] = 'oui';
 		self::$_strings['No']['fr'] = 'non';
 
@@ -38,6 +39,7 @@ class DatabaseImport {
 		self::$_cache['furniture'] = array();
 		self::$_cache['production'] = array();
 		self::$_cache['siteperiod'] = array();
+		self::$_cache['specialperiod'] = array();
 
 		$strings['fr']['bronze indéterminé'] = 'Bronze Indéterminé (1800 – 800 av.JC)';
 		$strings['fr']['bronze ancien'] = 'Bronze ancien (BRA 1800 – 1500 av.JC)';
@@ -89,6 +91,14 @@ class DatabaseImport {
 
 		$lines = array_chunk(str_getcsv(str_replace("\n", ';',file_get_contents($filepath)), $separator), 33);
 
+		\core\Core::$db->exec('BEGIN');
+
+		// Retrieve special periods
+
+		foreach(\core\Core::$db->fetchAll('SELECT "pe_id", "pe_name" FROM "ark_period" WHERE "pe_name" IN (?, ?, ?, ?, ?)', array('BRF3/HAC1', 'HAC2/HAD1', 'HAD3/LTA1', 'LTC2/LTD1', 'Grandes invasions')) as $row) {
+			self::$_cache['specialperiod'][$row['pe_name']][] = $row['pe_id']; 
+		}
+
 		foreach($lines as $datas) {
 
 			self::$_lineNumber++;
@@ -112,9 +122,7 @@ class DatabaseImport {
 			# 1 : Database
 			self::_processDatabaseName($datas[1]);
 
-			/* 
-			 * Site not already processed
-			 */
+			 // Site not already processed
 			if (!isset(self::$_stored[self::$_current['code']])) {
 
 				// If this site code already registered as error we do not process it
@@ -218,6 +226,7 @@ class DatabaseImport {
 				}
 				
 			} // End of first time site processing
+
 
 			# 12 : Knowledge
 			if (in_array(strtolower($datas[12]), $knowledge[self::$_lang])) {
@@ -347,6 +356,7 @@ class DatabaseImport {
 						continue;
 					}
 				}
+
 				// Store site period informations
 				$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['code'], self::$_current['period']['start'], self::$_current['period']['end']);
 				if (!empty($existing)) {
@@ -371,8 +381,19 @@ class DatabaseImport {
 			} // End of site treatment, next one.
 
 		}
-		//print_r(self::$_siteErrors);
-		//print_r(self::$_processingErrors);
+		echo " ==== PARSING SITE ERRORS ===== <br />";
+		foreach(self::$_siteErrors as $k=>$entry) {
+			foreach($entry AS $error) {
+				echo "$k :: ".implode("<br />", $error['msg'])."<br />";
+			}
+		}
+		echo "<br /> ==== INSERTING SITE ERRORS ===== ";
+		foreach(self::$_processingErrors as $k=>$entry) {
+			foreach($entry AS $error) {
+				echo "$k :: ".implode("<br />", $error['msg'])."<br />";
+			}
+		}
+		\core\Core::$db->exec('COMMIT');
 	}
 
 	private static function _processSiteId($siteCode) {
@@ -537,3 +558,4 @@ class DatabaseImport {
 	}
 
 }
+
