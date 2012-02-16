@@ -7,23 +7,28 @@ var PlusMinusMenu = new Class({
 
     initialize: function(content) {
 	var me=this;
-	this.content = content;
-	content.each(function(elem) {
-	    elem.parent_menu=me;
-	    elem.addEvent('selection', function(e) {
-		var counts={plus: 0, minus: 0, mixed: 0, empty: 0};
-		me.content.each(function(el) {
-		    if (el.selected == '') counts.empty++;
-		    else if (el.selected == '.') counts.mixed++;
-		    else if (el.selected == '+') counts.plus++;
-		    else if (el.selected == '-') counts.minus++;
-		});
-		counts.total=counts.plus + counts.minus + counts.mixed + counts.empty;
-		if (counts.plus == counts.total) me.parent_item.setSelected('+', false);
-		else if (counts.minus == counts.total) me.parent_item.setSelected('-', false);
-		else if (counts.empty == counts.total) me.parent_item.setSelected('', false);
-		else me.parent_item.setSelected('.', false);
+	if (content) content.each(function(item) {
+	    me.addItem(item);
+	});
+    },
+
+    addItem: function(item) {
+	var me=this;
+	this.content.push(item);
+	item.parent_menu=this;
+	item.addEvent('selection', function(e) {
+	    var counts={plus: 0, minus: 0, mixed: 0, empty: 0};
+	    me.content.each(function(el) {
+		if (el.selected == '') counts.empty++;
+		else if (el.selected == '.') counts.mixed++;
+		else if (el.selected == '+') counts.plus++;
+		else if (el.selected == '-') counts.minus++;
 	    });
+	    counts.total=counts.plus + counts.minus + counts.mixed + counts.empty;
+	    if (counts.plus == counts.total) me.parent_item.setSelected('+', false);
+	    else if (counts.minus == counts.total) me.parent_item.setSelected('-', false);
+	    else if (counts.empty == counts.total) me.parent_item.setSelected('', false);
+	    else me.parent_item.setSelected('.', false);
 	});
     },
 
@@ -107,6 +112,10 @@ var PlusMinusItem = new Class({
     initialize: function(text, value, submenu) {
 	this.model.text=text;
 	this.model.value=value;
+	this.setSubMenu(submenu);
+    },
+
+    setSubMenu: function(submenu) {
 	this.submenu=submenu;
 	if (submenu) submenu.parent_item=this;
     },
@@ -220,6 +229,27 @@ var PlusMinusItem = new Class({
 	    me.drawSelection();
 	}
     },
+
+    searchValue: function(value) {
+	if (this.model.value == value) return this;
+	if (!this.submenu) return null;
+	for (var i=0; i<this.submenu.content.length; i++) {
+	    var found=this.submenu.content[i].searchValue(value);
+	    if (found) return found;
+	}
+	return null;
+    },
+
+    /** special arkeogis use **/
+    addJsonItem: function(jsitem) {
+	var pitem=this.searchValue(jsitem.pe_parentid);
+	if (pitem) {
+	    if (!pitem.submenu) pitem.setSubMenu(new PlusMinusMenu(null));
+	    pitem.submenu.addItem(new PlusMinusItem(jsitem.pe_name, jsitem.pe_id, null));
+	} else {
+	    alert("id not found: "+jsitem.pe_id);
+	}
+    }
 });
 
 
