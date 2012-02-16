@@ -11,6 +11,7 @@ class DatabaseImport {
 	private static $_stored = array();
 	private static $_database = array();
 	private static $_siteErrors;
+	private static $_processingErrors = array();
 	private static $_charset;
 	private static $_cache;
 	private static $_lineNumber = 0;
@@ -18,7 +19,7 @@ class DatabaseImport {
 	private static $_lang; 
 	private static $_strings;
 
-	public static function importCsv($filepath, $separator=';', $charset='utf8', $lf="\n", $skipline=NULL, $lang='fr') {
+	public static function importCsv($filepath, $separator=';', $charset='utf8', $lf="\n", $skipline=NULL, $lang='fr', $ownerId=0) {
 
 		// TO BE LINKED WITH TRANSLATION MODULE
 		self::$_lang = $lang;
@@ -26,12 +27,15 @@ class DatabaseImport {
 		self::$_strings['Yes']['fr'] = 'oui';
 		self::$_strings['No']['fr'] = 'non';
 		$knowledge['fr'] = array('non renseigné', 'littérature, prospecté', 'littérature prospecté', 'sondé', 'fouillé');
+		$knowledge['en'] = array('unknown', 'literature', 'literature', 'surveyed', 'excavated');
 		$occupation['fr'] = array('non renseigné', 'unique', 'continue', 'multiple');
+		$occupation['en'] = array('unknowwn', 'uniq', 'continuous', 'multiple');
 
 		self::$_cache['period'] = array();
 		self::$_cache['realestate'] = array();
 		self::$_cache['furniture'] = array();
 		self::$_cache['production'] = array();
+		self::$_cache['siteperiod'] = array();
 
 		$strings['fr']['bronze indéterminé'] = 'Bronze Indéterminé (1800 – 800 av.JC)';
 		$strings['fr']['bronze ancien'] = 'Bronze ancien (BRA 1800 – 1500 av.JC)';
@@ -86,7 +90,7 @@ class DatabaseImport {
 		foreach($lines as $datas) {
 
 			self::$_lineNumber++;
-			self::$_current = array();
+			self::$_current = array('owner' => $ownerId);
 			self::$_csvDatas = implode(';', $datas);
 
 			if (self::$_lineNumber != NULL && self::$_lineNumber <= $skipline) {
@@ -160,8 +164,8 @@ class DatabaseImport {
 								// Get city coords
 								try {
 									$cityInfos =	\mod\arkeogis\Tools::getCityInfos($datas[3], $datas[4]);
-									$coords = array('x' => $cityInfos['x'], 'y' => $cityInfos['y']);
-									self::$_current['cityid'] = $cityInfos['id'];	
+									$coords = array('x' => $cityInfos['x'], 'y' => $cityInfos['y'], 0);
+									self::$_current['city_id'] = $cityInfos['id'];	
 								} catch (\Exception $e) {
 									self::_addError("Unable to find coordinates from city.");
 								}
@@ -207,24 +211,35 @@ class DatabaseImport {
 							}
 						}
 					}
-					if (is_array($coords))
-						self::$_current['geom'] = "ST_GeomFromText('POINT($coords[x] $coords[y])', $datas[5])";
+					// Geom
+					if (is_array($coords) && !empty($coords['x']) && !empty($coords['y']))
+						self::$_current['geom'] = "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : NULL).")', $datas[5])";
 				}
 				
 			} // End of first time site processing
 
 			# 12 : Knowledge
 			if (in_array(strtolower($datas[12]), $knowledge[self::$_lang])) {
-				self::$_current['knowledge'] = $datas[12];
+				$os = array_keys($knowledge[self::$_lang], strtolower($datas[12]));
+				self::$_current['knowledge'] = $knowledge['en'][$os[0]];
 			} else if (!empty($datas[12])) {
 				self::_addError("Knowledge type ($datas[12]) is not referenced.");
+			} else {
+				self::$_current['knowledge'] = NULL;
 			}
 
 			# 13 : Occupation
 			if (in_array(strtolower($datas[13]), $occupation[self::$_lang])) {
-				self::$_current['occupation'] = $datas[13];
+				$os = array_keys($occupation[self::$_lang], strtolower($datas[13]));
+				self::$_current['occupation'] = $occupation['en'][$os[0]];
+				// Check if period is "range"
+				self::$_current['period_isrange'] = (self::$_current['occupation'] == 'continuous' && !isset(self::$_stored[self::$_current['code']])) ? true : false;
 			} else if (!empty($datas[13])) {
 				self::_addError("Occupation type ($datas[13]) is not referenced.");
+			} else {
+				if (!isset(self::$_stored[self::$_current['code']])) {
+					self::_addError("Occupation type not defined");
+				}
 			}
 
 			# 14 : Period start
@@ -250,12 +265,7 @@ class DatabaseImport {
 					}
 					// We have already processed this site
 				} else {
-					// It'as a continious occupation
-					if ($datas[13] == 'continuous') {
-						self::$_current['period'] = self::$_stored[self::$_current['code']]['period'];
-					} else {
-						self::_addError('Starting and/or ending period not found and occupation for this site not defined as continious');
-					}
+					self::$_current['period'] = self::$_stored[self::$_current['code']]['period'];
 					
 				}	// Done with new site, next it's common to new/already processed site
 			}
@@ -264,11 +274,13 @@ class DatabaseImport {
 			# 17 : Realestate level 2
 			# 18 : Realestate level 3
 			# 19 : Realestate level 4
+			#
 			if (empty($datas[16]) && (!empty($datas[17]) || !empty($datas[18]) || !empty($datas[19]))) {
 				self::_addError("Realestate level 1 not set but some other realestate fields are defined");	
 			} else {
-				if (!empty($datas[16]))
+				if (!empty($datas[16])) {
 					self::_processLtree($datas[16], $datas[17], $datas[18], $datas[19], 'realestate');
+				}
 			}
 
 			# 20 : Depth
@@ -311,28 +323,60 @@ class DatabaseImport {
 			self::_processExceptional('production', $datas[30]);
 
 			# 31 : Biblio
-			if (!empty($datas[31])) 
-				self::$_current['biblio'] = $datas[31];
+			self::$_current['biblio'] = (!empty($datas[31])) ? $datas[31] : NULL;
 
 			#32 : Comments
-			if (!empty($datas[32])) 
-				self::$_current['comments'] = $datas[32];
+			self::$_current['comments'] = (!empty($datas[32])) ? $datas[32] : NULL;
 			
-			//print_r(self::$_current);
+			// OK we check if we have at leat one carac
+			if (!isset(self::$_current['realestate']) && !isset(self::$_current['furniture']) && !isset(self::$_current['production'])) {
+				self::_addError('No characteristic defined for this site');
+			}
 
 			// If no error
 			if (!isset(self::$_siteErrors[self::$_current['code']])) {
 				// If it's first time we process this site 
 				if (!self::$_stored[self::$_current['code']]) {
-					// Store site informations if needed to get information to children with same id
-					print_r($_current);
-					//\mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_current['database']['id'], self::$_current['city']['id'], self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], self::$_current['owner']);
-					self::$_stored[self::$_current['code']] = self::$_current;
+					// Store site informations
+					try {
+						\mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_current['database']['id'], self::$_current['city_id'], self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], self::$_current['owner']);
+						self::$_stored[self::$_current['code']] = self::$_current;
+					} catch (\Exception $e) {
+						self::_addProcessingError($e->getMessage());
+						continue;
+					}
 				}
-			}
+				// Store site period informations
+				$md5Period = self::$_current['code'].self::$_current['period']['start'].self::$_current['period']['end'];
+				if (!isset(self::$_cache[$md5Period])) {
+					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['code'], self::$_current['period']['start'], self::$_current['period']['end']);
+					if ($existing) {
+						self::$_cache[$md5Period] = $existing;
+					} else {
+						try {
+							$s = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_current['period']['start']);
+							$e = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_current['period']['end']);
+							self::$_cache[$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod(self::$_current['code'], $s, $e, self::$_current['period_isrange'], self::$_current['depth'],self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+						} catch (\Exception $e) {
+							self::_addProcessingError($e->getMessage());
+							continue;
+						}
+					}
+				}
+				foreach(array('realestate', 'furniture', 'production') as $carac) {
+					if (isset(self::$_current[$carac]) && !is_null(self::$_current[$carac])) {
+						try {
+							\mod\arkeogis\ArkeoGIS::addSitePeriodCharacteristic(self::$_cache[$md5Period], $carac, self::$_current[$carac]);
+						} catch (\Exception $e) {
+							self::_addProcessingError($e->getMessage());
+						}
+					}
+				}
+			} // End of site treatment, next one.
 
 		}
-		print_r(self::$_siteErrors);
+		//print_r(self::$_siteErrors);
+		print_r(self::$_processingErrors);
 	}
 
 	private static function _processSiteId($siteCode) {
@@ -365,7 +409,7 @@ class DatabaseImport {
 					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName);
 					self::$_database['name'] = $dbName;
 				} catch (\Exception $e) {
-					self::_addError("Unable to register database name $dbName");
+					self::_addError("Unable to register database name $dbName: ".$e->getMessage());
 				}
 			}
 		// No db name provided
@@ -438,7 +482,7 @@ class DatabaseImport {
 		$hash = md5($lvl1.$lvl2.$lvl3.$lvl4);
 
 		if (isset(self::$_cache[$type][$hash])) {
-			return self::$_cache[$type][$hash];
+			self::$_current[$type] = self::$_cache[$type][$hash];
 		}
 
 		$str = '';
@@ -481,6 +525,12 @@ class DatabaseImport {
 		$num = (!isset(self::$_siteErrors[self::$_current['code']]) || (!isset(self::$_siteErrors[self::$_current['code']][self::$_lineNumber]))) ? 0 : $num = sizeof(self::$_siteErrors[self::$_current['code']][self::$_lineNumber])+1;
 		self::$_siteErrors[self::$_current['code']][self::$_lineNumber]['csvDatas'] = self::$_csvDatas;
 		self::$_siteErrors[self::$_current['code']][self::$_lineNumber]['msg'][] = $msg;
+	}
+
+	private static function _addProcessingError($msg) {
+		$num = (!isset(self::$_processingErrors[self::$_current['code']]) || (!isset(self::$_processingErrors[self::$_current['code']][self::$_lineNumber]))) ? 0 : $num = sizeof(self::$_processingErrors[self::$_current['code']][self::$_lineNumber])+1;
+		self::$_processingErrors[self::$_current['code']][self::$_lineNumber]['csvDatas'] = self::$_csvDatas;
+		self::$_processingErrors[self::$_current['code']][self::$_lineNumber]['msg'][] = $msg;
 	}
 
 	private static function _cleanString($str) {
