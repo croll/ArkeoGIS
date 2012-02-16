@@ -65,7 +65,7 @@ CREATE INDEX ark_site_name_idx ON "ark_site" ("si_name");
 -- Table 'ark_site_period'
 -- ---
 		
-CREATE TYPE "ark_siteperiod_knowlege_type" AS ENUM ('unknown', 'literature', 'surveyed', 'excavated');
+CREATE TYPE "ark_siteperiod_knowledge_type" AS ENUM ('unknown', 'literature', 'surveyed', 'excavated');
 
 CREATE TABLE "ark_site_period" (
   "sp_id" SERIAL PRIMARY KEY,
@@ -73,7 +73,7 @@ CREATE TABLE "ark_site_period" (
   "sp_period_start" INTEGER NOT NULL REFERENCES "ark_period",
   "sp_period_end" INTEGER NOT NULL REFERENCES "ark_period",
   "sp_period_isrange" SMALLINT NOT NULL DEFAULT 0,
-  "sp_knowlege_type" ark_siteperiod_knowlege_type DEFAULT 'unknown',
+  "sp_knowledge_type" ark_siteperiod_knowledge_type DEFAULT 'unknown',
   "sp_soil_type" VARCHAR(255) DEFAULT NULL,
   "sp_superfical_type" VARCHAR(255) DEFAULT NULL,
   "sp_analysis" VARCHAR(255) DEFAULT NULL,
@@ -104,27 +104,27 @@ CREATE INDEX "ark_siteperiod_realestate_realestate_idx" ON "ark_siteperiod_reale
 -- ---
 		
 CREATE TABLE "ark_siteperiod_furniture" (
-  "fu_id" SERIAL PRIMARY KEY,
-  "fu_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period" ON DELETE CASCADE,
-  "fu_furniture_id" INTEGER NOT NULL REFERENCES "ark_furniture" ON DELETE CASCADE,
-  "fu_exceptional" SMALLINT DEFAULT 0
+  "sf_id" SERIAL PRIMARY KEY,
+  "sf_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period" ON DELETE CASCADE,
+  "sf_furniture_id" INTEGER NOT NULL REFERENCES "ark_furniture" ON DELETE CASCADE,
+  "sf_exceptional" SMALLINT DEFAULT 0
 );
 
-CREATE INDEX "ark_siteperiod_furniture_siteperiod_idx" ON "ark_siteperiod_furniture" ("fu_site_period_id"); 
-CREATE INDEX "ark_siteperiod_furniture_furniture_idx" ON "ark_siteperiod_furniture" ("fu_furniture_id"); 
+CREATE INDEX "ark_siteperiod_furniture_siteperiod_idx" ON "ark_siteperiod_furniture" ("sf_site_period_id"); 
+CREATE INDEX "ark_siteperiod_furniture_furniture_idx" ON "ark_siteperiod_furniture" ("sf_furniture_id"); 
 
 -- ---
 -- Table 'ark_siteperiod_production'
 -- ---
 		
 CREATE TABLE "ark_siteperiod_production" (
-  "pr_id" SERIAL PRIMARY KEY,
-  "pr_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period" ON DELETE CASCADE,
-  "pr_production_id" INTEGER NOT NULL REFERENCES "ark_production" ON DELETE CASCADE,
-  "pr_exceptional" SMALLINT DEFAULT 0
+  "sp_id" SERIAL PRIMARY KEY,
+  "sp_site_period_id" INTEGER NOT NULL REFERENCES "ark_site_period" ON DELETE CASCADE,
+  "sp_production_id" INTEGER NOT NULL REFERENCES "ark_production" ON DELETE CASCADE,
+  "sp_exceptional" SMALLINT DEFAULT 0
 );
 
-CREATE INDEX "ark_siteperiod_production_siteperiod_idx" ON "ark_siteperiod_production" ("pr_site_period_id"); 
-CREATE INDEX "ark_siteperiod_production_production_idx" ON "ark_siteperiod_production" ("pr_production_id"); 
+CREATE INDEX "ark_siteperiod_production_siteperiod_idx" ON "ark_siteperiod_production" ("sp_site_period_id"); 
+CREATE INDEX "ark_siteperiod_production_production_idx" ON "ark_siteperiod_production" ("sp_production_id"); 
 
 -- ARK_CITIESFR
