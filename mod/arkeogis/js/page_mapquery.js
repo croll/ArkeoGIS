@@ -29,5 +29,15 @@ window.addEvent('domready', function() {
 	}
     }).get();
 
+    new Request.JSON({
+	'url': '/ajax/call/arkeogis/furniturelist',
+	'onSuccess': function(furniturelist) {
+	    var menu = new PlusMinusItem("Choix mobilier", null, null);
+	    for (var i=0; i<furniturelist.length; i++)
+		menu.addJsonItem(furniturelist[i]);
+	    menu.inject($('menu_furniture'));
+	}
+    }).get();
+
 });
 

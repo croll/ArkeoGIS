@@ -198,21 +198,33 @@ var PlusMinusItem = new Class({
 	var sel=me.html_element.getElement('.pmmenu-sel');
 
 	if (me.selected == '+') {
-	    sel.removeClass('pmmenu-mixed');
-	    sel.removeClass('pmmenu-minus');
-	    sel.addClass('pmmenu-plus');
+	    sel.addClass('pmmenu-sel-plus');
+	    sel.removeClass('pmmenu-sel-minus');
+	    sel.removeClass('pmmenu-sel-mixed');
+	    me.html_element.addClass('pmmenu-item-plus');
+	    me.html_element.removeClass('pmmenu-item-minus');
+	    me.html_element.removeClass('pmmenu-item-mixed');
 	} else if (me.selected == '-') {
-	    sel.removeClass('pmmenu-mixed');
-	    sel.removeClass('pmmenu-plus');
-	    sel.addClass('pmmenu-minus');
+	    sel.removeClass('pmmenu-sel-plus');
+	    sel.addClass('pmmenu-sel-minus');
+	    sel.removeClass('pmmenu-sel-mixed');
+	    me.html_element.removeClass('pmmenu-item-plus');
+	    me.html_element.addClass('pmmenu-item-minus');
+	    me.html_element.removeClass('pmmenu-item-mixed');
 	} else if (me.selected == '.') {
-	    sel.removeClass('pmmenu-plus');
-	    sel.removeClass('pmmenu-minus');
-	    sel.addClass('pmmenu-mixed');
+	    sel.removeClass('pmmenu-sel-plus');
+	    sel.removeClass('pmmenu-sel-minus');
+	    sel.addClass('pmmenu-sel-mixed');
+	    me.html_element.removeClass('pmmenu-item-plus');
+	    me.html_element.removeClass('pmmenu-item-minus');
+	    me.html_element.addClass('pmmenu-item-mixed');
 	} else {
-	    sel.removeClass('pmmenu-mixed');
-	    sel.removeClass('pmmenu-minus');
-	    sel.removeClass('pmmenu-plus');
+	    sel.removeClass('pmmenu-sel-plus');
+	    sel.removeClass('pmmenu-sel-minus');
+	    sel.removeClass('pmmenu-sel-mixed');
+	    me.html_element.removeClass('pmmenu-item-plus');
+	    me.html_element.removeClass('pmmenu-item-minus');
+	    me.html_element.removeClass('pmmenu-item-mixed');
 	}
     },
 
