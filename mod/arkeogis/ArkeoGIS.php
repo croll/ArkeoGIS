@@ -23,15 +23,10 @@ class ArkeoGIS {
 	public static function addSitePeriod($siteCode, $startid, $endid, $isrange=0, $depth=NULL, $knowledge='unknown', $comment=NULL, $biblio=NULL) {
 		$args = array($siteCode, $startid, $endid, $isrange, $depth, $knowledge, $comment, $biblio);
 		try {
-			\core\Core::$db->exec('INSERT INTO "ark_site_period" ("sp_site_code", "sp_period_start", "sp_period_end", "sp_period_isrange", "sp_depth", "sp_knowledge_type", "sp_comment", "sp_bibliography") VALUES (?,?,?,?,?,?,?,?)', $args);
-			return (isset(\core\Core::$db->Insert_ID)) ? \core\Core::$db->Insert_ID : NULL;
+			return \core\Core::$db->exec_returning('INSERT INTO "ark_site_period" ("sp_site_code", "sp_period_start", "sp_period_end", "sp_period_isrange", "sp_depth", "sp_knowledge_type", "sp_comment", "sp_bibliography") VALUES (?,?,?,?,?,?,?,?) ', $args, 'sp_id');
 		} catch (\Exception $e) {
 			throw new \Exception('Unable to add site period: '.$e->getmessage());
 		}
-	}
-
-	public static function getPeriodIdFromPath($node_path) {
-		return \core\Core::$db->fetchOne('SELECT "pe_id" FROM "ark_period" WHERE "node_path" = ?' , array($node_path));
 	}
 
 	public static function addSitePeriodAditionalInfos($sitePeriodCode, $soil=NULL, $superfical=NULL, $analysis=NULL, $paleosol=NULL, $date_dendro=NULL, $date_14c=NULL) {
@@ -102,6 +97,10 @@ class ArkeoGIS {
 			$args[] = $parentPath;
 		}
 		return \core\Core::$db->fetchAll($q, $args);
+	}
+
+	public static function getPeriodIdFromPath($node_path) {
+		return \core\Core::$db->fetchOne('SELECT "pe_id" FROM "ark_period" WHERE "node_path" = ?' , array($node_path));
 	}
 
 }

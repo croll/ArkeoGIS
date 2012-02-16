@@ -348,15 +348,15 @@ class DatabaseImport {
 				}
 				// Store site period informations
 				$md5Period = self::$_current['code'].self::$_current['period']['start'].self::$_current['period']['end'];
-				if (!isset(self::$_cache[$md5Period])) {
-					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['code'], self::$_current['period']['start'], self::$_current['period']['end']);
-					if ($existing) {
-						self::$_cache[$md5Period] = $existing;
+				$pStart = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_current['period']['start']);
+				$pEnd = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_current['period']['end']);
+				if (!isset(self::$_cache['siteperiod'][$md5Period])) {
+					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['code'], $pStart, $pEnd);
+					if (!empty($existing)) {
+						self::$_cache['siteperiod'][$md5Period] = $existing;
 					} else {
 						try {
-							$s = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_current['period']['start']);
-							$e = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_current['period']['end']);
-							self::$_cache[$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod(self::$_current['code'], $s, $e, self::$_current['period_isrange'], self::$_current['depth'],self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod(self::$_current['code'], $pStart, $pEnd, self::$_current['period_isrange'], self::$_current['depth'],self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
 						} catch (\Exception $e) {
 							self::_addProcessingError($e->getMessage());
 							continue;
@@ -366,7 +366,7 @@ class DatabaseImport {
 				foreach(array('realestate', 'furniture', 'production') as $carac) {
 					if (isset(self::$_current[$carac]) && !is_null(self::$_current[$carac])) {
 						try {
-							\mod\arkeogis\ArkeoGIS::addSitePeriodCharacteristic(self::$_cache[$md5Period], $carac, self::$_current[$carac]);
+							\mod\arkeogis\ArkeoGIS::addSitePeriodCharacteristic(self::$_cache['siteperiod'][$md5Period], $carac, self::$_current[$carac]);
 						} catch (\Exception $e) {
 							self::_addProcessingError($e->getMessage());
 						}
