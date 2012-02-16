@@ -43,7 +43,8 @@ class ArkeoGIS {
 	}
 
 	public static function addSitePeriodCharacteristic($sitePeriodId, $carac, $caracId, $exceptional=0) {
-		$args = array((int)$sitePeriodId, $caracId, $exceptional);
+		if (!preg_match("/^[a-z]+$/", $carac))
+			throw new \Exception("Carateristic type invalid");
 		switch($carac) {
 			case 'realestate':
 				$prefix = 'sr';
@@ -56,6 +57,7 @@ class ArkeoGIS {
 			break;
 		}
 		try {
+			$args = array((int)$sitePeriodId, $caracId, $exceptional);
 			\core\Core::$db->exec('INSERT INTO "ark_siteperiod_'.$carac.'" ("'.$prefix.'_site_period_id", "'.$prefix.'_'.$carac.'_id", "'.$prefix.'_exceptional") VALUES (?,?,?)', $args);
 		} catch (\Exception $e) {
 			throw new \Exception('Unable to add site caracteristic: '.$e->getmessage());
@@ -101,6 +103,13 @@ class ArkeoGIS {
 
 	public static function getPeriodIdFromPath($node_path) {
 		return \core\Core::$db->fetchOne('SELECT "pe_id" FROM "ark_period" WHERE "node_path" = ?' , array($node_path));
+	}
+
+	public static function getCharacteristicIdFromPath($carac, $node_path) {
+		if (!preg_match("/^[a-z]+$/", $carac))
+			throw new \Exception("Carateristic type invalid");
+		$prefix = substr($carac, 0, 2);
+		return \core\Core::$db->fetchOne('SELECT "'.$prefix.'_id" FROM "ark_'.$carac.'" WHERE "node_path" = ?' , array($node_path));
 	}
 
 }

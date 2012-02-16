@@ -26,10 +26,12 @@ class DatabaseImport {
 		self::$_charset = $charset;
 		self::$_strings['Yes']['fr'] = 'oui';
 		self::$_strings['No']['fr'] = 'non';
+
 		$knowledge['fr'] = array('non renseigné', 'littérature, prospecté', 'littérature prospecté', 'sondé', 'fouillé');
 		$knowledge['en'] = array('unknown', 'literature', 'literature', 'surveyed', 'excavated');
 		$occupation['fr'] = array('non renseigné', 'unique', 'continue', 'multiple');
 		$occupation['en'] = array('unknowwn', 'uniq', 'continuous', 'multiple');
+		$epsgCodes['wgs84'] = 4326;
 
 		self::$_cache['period'] = array();
 		self::$_cache['realestate'] = array();
@@ -151,53 +153,52 @@ class DatabaseImport {
 
 				$coords = array();
 				self::$_current['centroid'] = false;
+
 				// Site defined as centroid
 				if (strtolower($datas[11]) == self::$_strings['Yes'][self::$_lang]) {
 					self::$_current['centroid'] = true;
-					if (empty($datas[6]) || empty($datas[7])) {
-							// City info not set: error
-							if (empty($datas[3])) {
-								self::_addError("Site flagged as centroid but no city name provided.");
-							} else if (empty($datas[4])) {
-								self::_addError("Site flagged as centroid but no city code provided.");
-							} else {
-								// Get city coords
-								try {
-									$cityInfos =	\mod\arkeogis\Tools::getCityInfos($datas[3], $datas[4]);
-									$coords = array('x' => $cityInfos['x'], 'y' => $cityInfos['y'], 0);
-									self::$_current['city_id'] = $cityInfos['id'];	
-								} catch (\Exception $e) {
-									self::_addError("Unable to find coordinates from city.");
-								}
-							}
-						} else {
-							if ($datas[11] != self::$_strings['Yes'][self::$_lang]) {
-								self::_addError("Geo coordinates not defined but site not flagged as centroid.");
-							}
+				}
+
+				if (empty($datas[6]) || empty($datas[7])) {
+					// City info not set: error
+					if (empty($datas[3])) {
+						self::_addError("Site has no coordinates and no city name provided.");
+					} else if (empty($datas[4])) {
+						self::_addError("Site has no coordinates and no city code provided.");
+					} else {
+						// Get city coords
+						try {
+							$cityInfos =	\mod\arkeogis\Tools::getCityInfos($datas[3], $datas[4]);
+							$coords = array('x' => $cityInfos['x'], 'y' => $cityInfos['y'], 0);
+							self::$_current['city_id'] = $cityInfos['id'];	
+						} catch (\Exception $e) {
+							self::_addError("Unable to find coordinates from city.");
 						}
-					// Si is not a centroid
+					}
 				} else {
-					// Only x0 y0
 					if (empty($datas[8]) && empty($datas[9])) {
 						$coords = array('x' => $datas[6], 'y' => $datas[7]);
 					} else {
-						if (empty($datas[8])) {
-							self::_addError("Wrong coordinates for site.");
-						} else if (empty($datas[9])) {
-							self::_addError("Wrong coordinates for site.");
-						} else {
-							// Get city coords
-							try {
-								$coords =	\mod\arkeogis\Tools::getSquareCentroid($datas[6], $datas[7], $datas[8], $datas[9]);
-							} catch (\Exception $e) {
-								self::_addError("Unable to find centroid coordinates.");
-							}
+						// Get centroid coords
+						try {
+							$coords =	\mod\arkeogis\Tools::getSquareCentroid($datas[6], $datas[7], $datas[8], $datas[9]);
+						} catch (\Exception $e) {
+							self::_addError("Unable to find centroid coordinates.");
 						}
 					}
 				}
 
 				// Compute coords
 				if (isset($coords['x']) && isset($coords['y'])) {
+					if (empty($datas[5]))
+						self::_addError("EPSG not provided");
+					$epsg = (int)$datas[5];
+					if ($epsg < 2) {
+						$os = strtolower($datas[5]);
+						if (!isset($epsgCodes[$os])) {
+							self::_addError("Unable to get EPSG from code $datas[5]");
+						}
+					}
 					if (!empty($datas[5]) && $datas[5] != 4326 && strtolower($datas[5]) != 'wgs84') {
 						// Check if geom exists
 						if (!\core\Core::$db->fetchOne('SELECT count(srtext) FROM "spatial_ref_sys" WHERE "srid" = 4326')) {
@@ -212,8 +213,8 @@ class DatabaseImport {
 						}
 					}
 					// Geom
-					if (is_array($coords) && !empty($coords['x']) && !empty($coords['y']))
-						self::$_current['geom'] = "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : NULL).")', $datas[5])";
+					# 5 EPSG
+						self::$_current['geom'] = (is_array($coords) && !empty($coords['x']) && !empty($coords['y'])) ? "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : NULL).")', $datas[5])" : NULL;
 				}
 				
 			} // End of first time site processing
@@ -347,26 +348,21 @@ class DatabaseImport {
 					}
 				}
 				// Store site period informations
-				$md5Period = self::$_current['code'].self::$_current['period']['start'].self::$_current['period']['end'];
-				$pStart = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_current['period']['start']);
-				$pEnd = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_current['period']['end']);
-				if (!isset(self::$_cache['siteperiod'][$md5Period])) {
-					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['code'], $pStart, $pEnd);
-					if (!empty($existing)) {
-						self::$_cache['siteperiod'][$md5Period] = $existing;
-					} else {
-						try {
-							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod(self::$_current['code'], $pStart, $pEnd, self::$_current['period_isrange'], self::$_current['depth'],self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
-						} catch (\Exception $e) {
-							self::_addProcessingError($e->getMessage());
-							continue;
-						}
+				$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['code'], self::$_current['period']['start'], self::$_current['period']['end']);
+				if (!empty($existing)) {
+					self::$_cache['siteperiod'][$md5Period] = $existing;
+				} else {
+					try {
+						self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod(self::$_current['code'], self::$_current['period']['start'], self::$_current['period']['end'], self::$_current['period_isrange'], self::$_current['depth'],self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+					} catch (\Exception $e) {
+						self::_addProcessingError($e->getMessage());
+						continue;
 					}
 				}
 				foreach(array('realestate', 'furniture', 'production') as $carac) {
 					if (isset(self::$_current[$carac]) && !is_null(self::$_current[$carac])) {
 						try {
-							\mod\arkeogis\ArkeoGIS::addSitePeriodCharacteristic(self::$_cache['siteperiod'][$md5Period], $carac, self::$_current[$carac]);
+							\mod\arkeogis\ArkeoGIS::addSitePeriodCharacteristic(self::$_cache['siteperiod'][$md5Period], $carac, self::$_current[$carac], ((isset(self::$_current[$carac.'_ex']) && self::$_current[$carac.'_ex']) ? 1 : 0));
 						} catch (\Exception $e) {
 							self::_addProcessingError($e->getMessage());
 						}
@@ -376,7 +372,7 @@ class DatabaseImport {
 
 		}
 		//print_r(self::$_siteErrors);
-		print_r(self::$_processingErrors);
+		//print_r(self::$_processingErrors);
 	}
 
 	private static function _processSiteId($siteCode) {
@@ -462,7 +458,7 @@ class DatabaseImport {
 				self::_addError("No matching starting period found ($start)");
 				return;
 			}
-			self::$_cache['period'][$start] = $resPath[0]['node_path'];
+			self::$_cache['period'][$start] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
 		}
 		if (!isset(self::$_cache['period'][$end])) {
 			$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($end, 'period');
@@ -473,7 +469,7 @@ class DatabaseImport {
 				self::_addError("No matching ending period found ($end)");
 				return;
 			}
-			self::$_cache['period'][$end] = $resPath[0]['node_path'];
+			self::$_cache['period'][$end] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
 		}
 		return array('start' => self::$_cache['period'][$start], 'end' => self::$_cache['period'][$end]);
 	}
@@ -497,6 +493,8 @@ class DatabaseImport {
 					$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($l, $type, $i, (($parentId > 0) ? $ids[$parentId] : NULL));
 					if (sizeof($resPath) > 1) {
 						self::_addError("Multiple results found for $type ($str)");
+					} else if (sizeof($resPath) == 0) {
+						self::_addError("No result found for $type ($str)");
 					} else {
 						$ids[$i] = self::$_cache[$type][$h] = $resPath[0]['node_path'];
 					}	
@@ -506,7 +504,7 @@ class DatabaseImport {
 			}
 		}
 		if (isset(self::$_cache[$type][$h])) {
-			self::$_current[$type] = self::$_cache[$type][$h];
+			self::$_current[$type] = \mod\arkeogis\ArkeoGIS::getCharacteristicIdFromPath($type, self::$_cache[$type][$h]);
 		}	
 	}
 
@@ -516,7 +514,7 @@ class DatabaseImport {
 				self::_addError(ucfirst($type)." exceptional flag invalid ($value)");	
 			}
 			if (strtolower($value) == $strings['Yes'][self::$_lang]) {
-				self::$_current['furniture_ex'] = $value;
+				self::$_current[$type.'_ex'] = $value;
 			}
 		}
 	}
