@@ -4,6 +4,12 @@ namespace mod\arkeogis;
 
 class Main {
 
+  public static function hook_mod_arkeogis_index($hookname, $userdata) {
+		$page = new \mod\webpage\Main();
+		$page->setLayout('arkeogis/arkeogis');
+		$page->display();
+	}
+
   public static function hook_mod_arkeogis_init($hookname, $userdata) {
 		\mod\user\Main::redirectIfNotLoggedIn();
 		$page = new \mod\webpage\Main();

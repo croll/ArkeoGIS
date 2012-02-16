@@ -1,0 +1,134 @@
+
+
+/*
+ * plusminusmenu
+ */
+
+.pmmenu-item {
+ position: relative;
+ width: 200px;
+ min-height: 25px;
+ border: solid 1px #cccccc;
+ border-top: 0;
+ font-size: 14px;
+ padding-left: 32px;
+ cursor: pointer;
+ background-color: #f5f5f5;
+}
+
+.menu_period .pmmenu-item {
+}
+
+.menu_production .pmmenu-item, .menu_production .pmmenu-title, .menu_production .pmmenu-tools {
+ width: 180px;
+}
+
+.menu_realestate .pmmenu-item, .menu_realestate .pmmenu-title, .menu_realestate .pmmenu-tools {
+ width: 180px;
+}
+
+.pmmenu-item:hover {
+ background-color: #0069d6;
+}
+
+.pmmenu-sub {
+ position: absolute;
+ right: 0;
+ top: 4px;
+ width: 14px;
+ height: 14px;
+}
+
+.pmmenu-title { 
+ position: relative;
+ width: 200px;
+ min-height: 25px;
+ border: solid 1px #cccccc;
+ border-bottom: 0;
+ font-weight: bold;
+ font-size: 14px;
+ padding-left: 32px;
+ background-color: #eee;
+}
+
+.pmmenu-root { 
+ border: solid 1px #cccccc;
+}
+
+.pmmenu-tools { 
+ width: 200px;
+ height: 25px;
+ border: solid 1px #cccccc;
+ font-size: 14px;
+ padding-left: 32px;
+ background-color: #fff;
+}
+
+.pmmenu-tools button {
+ border: 0;
+ margin: 0;
+ margin: 0px 5px 0px 5px;
+ font-size: 9px;
+ font-weight: bold;
+ background-color: #000;
+ color: #fff;
+ border-radius: 2px 2px 2px 2px;
+}
+
+.pmmenu-tools button.select-all {
+ background-color: #0069d6;
+}
+
+.pmmenu-tools button.select-none {
+ background-color: #666666;
+}
+
+.pmmenu-title-sub { 
+ position: absolute;
+ right: 0;
+ top: 4px;
+ width: 14px;
+ height: 14px;
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -313px -119px;
+}
+
+.pmmenu-sel {
+ position: absolute;
+ left: 3px;
+ top: 5px;
+ width: 14px;
+ height: 14px;
+}
+
+.pmmenu-plus {
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -408px -96px;
+}
+
+.pmmenu-minus {
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -433px -96px;
+}
+
+.pmmenu-mixed {
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -456px -96px;
+}
+
+.pmmenu-havesubmenu { 
+ background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -456px -72px;
+ background-repeat: no-repeat;
+}
+
+.pmmenu-popup {
+ position: absolute;
+ z-index: 2000;
+ top: 0;
+ left: 250px;
+ padding: 5px;
+ background-color: white;
+}
+
+/***/

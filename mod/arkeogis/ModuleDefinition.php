@@ -14,7 +14,8 @@ class ModuleDefinition extends \core\ModuleDefinition {
 
 	function install() {
 		parent::install();
-		\mod\regroute\Main::registerRoute($this->id, '#^/$#', 'mod_arkeogis_init');
+		\mod\regroute\Main::registerRoute($this->id, '#^/$#', 'mod_arkeogis_index');
+		//\mod\regroute\Main::registerRoute($this->id, '#^/$#', 'mod_arkeogis_init');
 		\mod\regroute\Main::registerRoute($this->id, '#^/import/(.*)$#', 'mod_arkeogis_import');
 	}
 
