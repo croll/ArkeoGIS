@@ -4,8 +4,8 @@ namespace mod\arkeogis;
 
 class Tools {
 
-	public static function getCityCoordinates($name=NULL, $code=NULL) {
-		$q = "SELECT ST_X(ci_geom) AS x, ST_Y(ci_geom) AS y FROM ark_city ";
+	public static function getCityInfos($name=NULL, $code=NULL) {
+		$q = "SELECT ci_id AS id, ST_X(ci_geom) AS x, ST_Y(ci_geom) AS y FROM ark_city ";
 		$args = array();
 		if (!empty($name)) {
 			$q .= "WHERE ci_nameupper ILIKE ?";
@@ -28,5 +28,10 @@ class Tools {
 
 	public static function getSquareCentroid($x0, $y0, $x1, $y1) {
 		return array('x' => ($x0+($x1-$x0)/2), 'y' => ($y0+($y1-$y0)/2));
+	}
+
+	public static function transformPoint($point, $from, $to) {
+		$args = array($point['x'], $point['y'], $from, $to);
+		return \core\Core::$db->fetchOne("SELECT ST_AsText(ST_Transform(ST_GeomFromText('POINT(? ?)', ?), ?)) AS geom", $args);
 	}
 }

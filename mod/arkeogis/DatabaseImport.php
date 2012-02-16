@@ -9,7 +9,7 @@ class DatabaseImport {
 
 	private static $_current = array();
 	private static $_stored = array();
-	private static $_databaseName = '';
+	private static $_database = array();
 	private static $_siteErrors;
 	private static $_charset;
 	private static $_cache;
@@ -18,7 +18,7 @@ class DatabaseImport {
 	private static $_lang; 
 	private static $_strings;
 
-	public static function parseCsv($filepath, $separator=';', $charset='utf8', $lf="\n", $skipline=NULL, $lang='fr') {
+	public static function importCsv($filepath, $separator=';', $charset='utf8', $lf="\n", $skipline=NULL, $lang='fr') {
 
 		// TO BE LINKED WITH TRANSLATION MODULE
 		self::$_lang = $lang;
@@ -104,17 +104,19 @@ class DatabaseImport {
 			}
 
 			# 1 : Database
-			if (!self::_processDatabaseName($datas[1])) {
-				self::_addError("Database name ($datas[1]) is different from the database name previously defined (".self::$_databaseName.")");
-			}
+			self::_processDatabaseName($datas[1]);
 
-			// Site not already processed
+			/* 
+			 * Site not already processed
+			 */
 			if (!isset(self::$_stored[self::$_current['code']])) {
+
 				// If this site code already registered as error we do not process it
 				if (isset(self::$_siteErrors[self::$_current['code']])) {
 						self::_addError("Site with same id already registered as error, skipping.");
 						continue;
 				}
+
 				# 2 : Site name
 				# 3 : City name
 				# 4 : City code
@@ -131,7 +133,7 @@ class DatabaseImport {
 							$dataType = "City code";
 							break;
 						}
-						self::_addError("$dataType ($datas[$k]) is different from the one previously defined with same site id. (".self::$_databaseName.")");
+						self::_addError("$dataType ($datas[$k]) is different from the one previously defined with same site id. ($dataType)");
 					}
 				}
 				# 5 : Projection SRID
@@ -144,45 +146,42 @@ class DatabaseImport {
 				$stop = false;
 
 				$coords = array();
-				if (empty($datas[6]) || empty($datas[7])) {
-					// We do not have geo coordinates but it's flagged as centroid
-					if (strtolower($datas[11]) == self::$_strings['Yes'][self::$_lang]) {
-						// City info not set: error
-						if (empty($datas[3])) {
-							self::_addError("Site not flagged as centroid but no city name provided.");
-							$stop = true;
-						}
-						if (empty($datas[4])) {
-							self::_addError("Site not flagged as centroid but no city code provided.");
-							$stop = true;
-						}
-						if (!$stop) {
-							// Get city coords
-							try {
-								$coords =	\mod\arkeogis\Tools::getCityCoordinates($datas[3], $datas[4]);
-							} catch (\Exception $e) {
-								self::_addError("Unable to find coordinates from city.");
+				self::$_current['centroid'] = false;
+				// Site defined as centroid
+				if (strtolower($datas[11]) == self::$_strings['Yes'][self::$_lang]) {
+					self::$_current['centroid'] = true;
+					if (empty($datas[6]) || empty($datas[7])) {
+							// City info not set: error
+							if (empty($datas[3])) {
+								self::_addError("Site flagged as centroid but no city name provided.");
+							} else if (empty($datas[4])) {
+								self::_addError("Site flagged as centroid but no city code provided.");
+							} else {
+								// Get city coords
+								try {
+									$cityInfos =	\mod\arkeogis\Tools::getCityInfos($datas[3], $datas[4]);
+									$coords = array('x' => $cityInfos['x'], 'y' => $cityInfos['y']);
+									self::$_current['cityid'] = $cityInfos['id'];	
+								} catch (\Exception $e) {
+									self::_addError("Unable to find coordinates from city.");
+								}
+							}
+						} else {
+							if ($datas[11] != self::$_strings['Yes'][self::$_lang]) {
+								self::_addError("Geo coordinates not defined but site not flagged as centroid.");
 							}
 						}
-					} else {
-						if ($datas[11] == self::$_strings['No'][self::$_lang]) {
-							self::_addError("Geo coordinates not defined but site not flagged as centroid.");
-						}
-					}
+					// Si is not a centroid
 				} else {
-					// Only x0 y0, it's a centroid
+					// Only x0 y0
 					if (empty($datas[8]) && empty($datas[9])) {
 						$coords = array('x' => $datas[6], 'y' => $datas[7]);
 					} else {
 						if (empty($datas[8])) {
 							self::_addError("Wrong coordinates for site.");
-							$stop = true;
-						}
-						if (empty($datas[9])) {
+						} else if (empty($datas[9])) {
 							self::_addError("Wrong coordinates for site.");
-							$stop = true;
-						}
-						if (!$stop) {
+						} else {
 							// Get city coords
 							try {
 								$coords =	\mod\arkeogis\Tools::getSquareCentroid($datas[6], $datas[7], $datas[8], $datas[9]);
@@ -194,15 +193,25 @@ class DatabaseImport {
 				}
 
 				// Compute coords
-				if (!isset($coords['x']) || !isset($coords['y'])) {
-					self::_addError("Unable to get site coordinates..");
-				} else {
-					self::$_current['coords'] = $coords;
+				if (isset($coords['x']) && isset($coords['y'])) {
+					if (!empty($datas[5]) && $datas[5] != 4326 && strtolower($datas[5]) != 'wgs84') {
+						// Check if geom exists
+						if (!\core\Core::$db->fetchOne('SELECT count(srtext) FROM "spatial_ref_sys" WHERE "srid" = 4326')) {
+							self::_addError("EPSG code provided not found ($datas[5]) it must be numeric, see http://www.epsg-registry.org/");
+						} else {
+							try {
+								$coords = \mod\arkeogis\Tools::transformPoint($coords, $datas[5], 4326);
+							} catch (\Exception $e) {
+								self::$_addError("Unable to transform coordinates in WGS84. Error: ".$e->getMessage());
+								$coords = null;
+							}
+						}
+					}
+					if (is_array($coords))
+						self::$_current['geom'] = "ST_GeomFromText('POINT($coords[x] $coords[y])', $datas[5])";
 				}
-
-			} else {
-				// Site code already registered with no error
-			}
+				
+			} // End of first time site processing
 
 			# 12 : Knowledge
 			if (in_array(strtolower($datas[12]), $knowledge[self::$_lang])) {
@@ -230,7 +239,7 @@ class DatabaseImport {
 			// We do not have starting and ending period
 			} else {
 				// It's the first time we process this site: error
-				if (!isset(self::$_stored[$siteCode])) {
+				if (!isset(self::$_stored[self::$_current['code']])) {
 					// No starting period
 					if (empty($datas[14])) {
 						self::_addError("Starting period not defined");
@@ -239,9 +248,16 @@ class DatabaseImport {
 					if (empty($datas[15])) {
 						self::_addError("Ending period not defined");
 					}
+					// We have already processed this site
 				} else {
-
-				}
+					// It'as a continious occupation
+					if ($datas[13] == 'continuous') {
+						self::$_current['period'] = self::$_stored[self::$_current['code']]['period'];
+					} else {
+						self::_addError('Starting and/or ending period not found and occupation for this site not defined as continious');
+					}
+					
+				}	// Done with new site, next it's common to new/already processed site
 			}
 
 			# 16 : Realestate level 1
@@ -257,7 +273,7 @@ class DatabaseImport {
 
 			# 20 : Depth
 			if (!empty($datas[20])) {
-				if (!preg_match("/^[0-9]*\.?[0-9]+$/", $datas[20]) || $datas[20] < 25) {
+				if (!preg_match("/^[0-9]*\.?[0-9]+$/", $datas[20]) || $datas[20] < 10) {
 					self::_addError("Depth invalid ($datas[20])");	
 				} else {
 					self::$_current['depth'] == $datas[20];
@@ -304,9 +320,15 @@ class DatabaseImport {
 			
 			//print_r(self::$_current);
 
-			// If no error, store site if needed to get information to children with same id
+			// If no error
 			if (!isset(self::$_siteErrors[self::$_current['code']])) {
-				self::$_stored[self::$_current['code']] = self::$_current;
+				// If it's first time we process this site 
+				if (!self::$_stored[self::$_current['code']]) {
+					// Store site informations if needed to get information to children with same id
+					print_r($_current);
+					//\mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_current['database']['id'], self::$_current['city']['id'], self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], self::$_current['owner']);
+					self::$_stored[self::$_current['code']] = self::$_current;
+				}
 			}
 
 		}
@@ -326,22 +348,33 @@ class DatabaseImport {
 	}
 
 	private static function _processDatabaseName($dbName) {
-		// If we have a db dbName set, we check if it matches previously stored db dbName
-		if (self::$_databaseName != '' && $dbName != '' && $dbName != self::$_databaseName) {
-			return false;	
-		} else if (!empty($dbName)) {
-			if (self::$_databaseName == NULL && $dbName != '') {
-				self::$_databaseName = $dbName;
-			}
-			self::$_current['database'] = $dbName;
-		} else {
-			if (empty(self::$_databaseName)) {
+		// Db name provided
+		if (!empty($dbName)) {
+			// we check if it matches previously stored db dbName
+			if (!empty(self::$_database['name']) && $dbName != self::$_database['name']) {
+				self::_addError("Database name ($dbName) is different from the database name previously defined (".self::$_database['name'].")");
 				return false;
 			}
-			if (empty(self::$_current['database'])) {
-				self::$_current['database'] = self::$_databaseName;
+			self::$_database['name'] = $dbName;
+			$dbId = \mod\arkeogis\ArkeoGIS::getDatabaseId($dbName);
+			if (!empty($dbId)) {
+				self::$_database['id'] = $dbId;
+				self::$_database['name'] = $dbName;
+			} else {
+				try {
+					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName);
+					self::$_database['name'] = $dbName;
+				} catch (\Exception $e) {
+					self::_addError("Unable to register database name $dbName");
+				}
+			}
+		// No db name provided
+		} else {
+			if (empty(self::$_database['name'])) {
+				self::$_current('No database name provided and no database already registered');
 			}
 		}
+		self::$_current['database'] = self::$_database;
 		return true;
 	}
 

@@ -14,7 +14,7 @@
 		
 CREATE TABLE "ark_database" (
   "da_id" SERIAL PRIMARY KEY,
-  "da_name" VARCHAR(100) NOT NULL,
+  "da_name" VARCHAR(100) UNIQUE NOT NULL,
   "da_description" TEXT,
   "da_owner_id" INTEGER,
   "da_creation" TIMESTAMP NOT NULL,
@@ -49,6 +49,7 @@ CREATE TABLE "ark_site" (
   "si_database_id" INTEGER NOT NULL REFERENCES "ark_database" ON DELETE CASCADE,
   "si_author_id" INTEGER NOT NULL,
   "si_name" VARCHAR(255) NOT NULL,
+  "sp_description" TEXT DEFAULT NULL,
   "si_city_id" INTEGER DEFAULT NULL REFERENCES ark_city,
   "si_centroid" SMALLINT NOT NULL DEFAULT 0,
   "si_occupation" ark_site_occupation_type DEFAULT NULL,
@@ -72,14 +73,13 @@ CREATE TABLE "ark_site_period" (
   "sp_period_start" INTEGER NOT NULL REFERENCES "ark_period",
   "sp_period_end" INTEGER NOT NULL REFERENCES "ark_period",
   "sp_period_isrange" SMALLINT NOT NULL DEFAULT 0,
-  "sp_knowlege_type" ark_siteperiod_knowlege_type DEFAULT NULL,
+  "sp_knowlege_type" ark_siteperiod_knowlege_type DEFAULT 'unknown',
   "sp_soil_type" VARCHAR(255) DEFAULT NULL,
   "sp_superfical_type" VARCHAR(255) DEFAULT NULL,
   "sp_analysis" VARCHAR(255) DEFAULT NULL,
   "sp_paleosol" VARCHAR(255) DEFAULT NULL,
   "sp_date_dendro" DATE DEFAULT NULL,
   "sp_date_14C" DATE DEFAULT NULL,
-  "sp_description" TEXT DEFAULT NULL,
   "sp_comment" TEXT DEFAULT NULL,
   "sp_bibliography" TEXT DEFAULT NULL,
   "sp_depth" INTEGER DEFAULT NULL
