@@ -2,12 +2,12 @@
  position: relative;
  width: 200px;
  min-height: 25px;
- border: solid 1px gray;
+ border: solid 1px #cccccc;
  border-top: 0;
  font-size: 14px;
  padding-left: 32px;
  cursor: pointer;
- background-color: #f7f7f7;
+ background-color: #f5f5f5;
 }
 
 .menu_period .pmmenu-item {
@@ -18,7 +18,7 @@
 }
 
 .pmmenu-item:hover {
- background-color: #44f;
+ background-color: #0069d6;
 }
 
 .pmmenu-sub {
@@ -32,17 +32,22 @@
 .pmmenu-title { 
  width: 200px;
  min-height: 25px;
- border: solid 1px gray;
+ border: solid 1px #cccccc;
+ border-bottom: 0;
  font-weight: bold;
  font-size: 14px;
  padding-left: 32px;
  background-color: #eee;
 }
 
+.pmmenu-root { 
+ border: solid 1px #cccccc;
+}
+
 .pmmenu-tools { 
  width: 200px;
  height: 25px;
- border: solid 1px gray;
+ border: solid 1px #cccccc;
  font-size: 14px;
  padding-left: 32px;
  background-color: #fff;
@@ -56,14 +61,15 @@
  font-weight: bold;
  background-color: #000;
  color: #fff;
+ border-radius: 2px 2px 2px 2px;
 }
 
 .pmmenu-tools button.select-all {
- background-color: #44f;
+ background-color: #0069d6;
 }
 
 .pmmenu-tools button.select-none {
- background-color: #333;
+ background-color: #666666;
 }
 
 .pmmenu-title-sub { 

@@ -143,6 +143,7 @@ var PlusMinusItem = new Class({
 	if (me.submenu) {
 	    sub.addClass('pmmenu-havesubmenu');
 	    if (!me.parent_menu) {
+		me.html_element.addClass('pmmenu-root');
 		me.html_element.addEvent('click', function() {
 		    if (me.submenu.isOpened()) {
 			me.submenu.close();
