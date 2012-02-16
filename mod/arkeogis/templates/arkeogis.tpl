@@ -38,6 +38,10 @@
      <tr class="menu_period">
       <td colspan='2'><div id='menu_period' style='position: relative'></div></td>
      </tr>
+     <tr class="menu_realestate">
+      <td style='width: 18px'><input type='checkbox' name='ex_realestate' value='1'/></td>
+      <td><div id='menu_realestate' style='position: relative'></div></td>
+     </tr>
      <tr class="menu_production">
       <td style='width: 18px'><input type='checkbox' name='ex_production' value='1'/></td>
       <td><div id='menu_production' style='position: relative'></div></td>

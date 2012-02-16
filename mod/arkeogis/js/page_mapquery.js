@@ -19,5 +19,15 @@ window.addEvent('domready', function() {
 	}
     }).get();
 
+    new Request.JSON({
+	'url': '/ajax/call/arkeogis/realestatelist',
+	'onSuccess': function(realestatelist) {
+	    var menu = new PlusMinusItem("Choix immobilier", null, null);
+	    for (var i=0; i<realestatelist.length; i++)
+		menu.addJsonItem(realestatelist[i]);
+	    menu.inject($('menu_realestate'));
+	}
+    }).get();
+
 });
 

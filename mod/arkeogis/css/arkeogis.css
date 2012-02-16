@@ -23,6 +23,10 @@
  width: 180px;
 }
 
+.menu_realestate .pmmenu-item, .menu_realestate .pmmenu-title, .menu_realestate .pmmenu-tools {
+ width: 180px;
+}
+
 .pmmenu-item:hover {
  background-color: #0069d6;
 }
@@ -91,8 +95,8 @@
 
 .pmmenu-sel {
  position: absolute;
- left: 0;
- top: 4px;
+ left: 3px;
+ top: 5px;
  width: 14px;
  height: 14px;
 }

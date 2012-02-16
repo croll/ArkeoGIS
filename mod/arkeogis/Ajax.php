@@ -10,4 +10,7 @@ class Ajax {
 	public static function productionlist() {
 		return \core\Core::$db->fetchAll("select pr_id as id, pr_parentid as parentid, pr_name as name, node_path from ark_production order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 	}
+	public static function realestatelist() {
+		return \core\Core::$db->fetchAll("select re_id as id, re_parentid as parentid, re_name as name, node_path from ark_realestate order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+	}
 }
