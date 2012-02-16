@@ -27,8 +27,14 @@
  width: 180px;
 }
 
+.menu_furniture .pmmenu-item, .menu_furniture .pmmenu-title, .menu_furniture .pmmenu-tools {
+ width: 180px;
+}
+
 .pmmenu-item:hover {
  background-color: #0069d6;
+ color: #fff;
+ font-weight: bold;
 }
 
 .pmmenu-sub {
@@ -101,19 +107,37 @@
  height: 14px;
 }
 
-.pmmenu-plus {
+.pmmenu-sel-plus {
  background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
  background-position: -408px -96px;
 }
 
-.pmmenu-minus {
+.pmmenu-sel-minus {
  background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
  background-position: -433px -96px;
 }
 
-.pmmenu-mixed {
+.pmmenu-sel-mixed {
  background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
  background-position: -456px -96px;
+}
+
+.pmmenu-item-plus {
+ background-color: #0069d6;
+ color: #fff;
+ font-weight: bold;
+}
+
+.pmmenu-item-minus {
+ background-color: #0069d6;
+ color: #fff;
+ font-weight: bold;
+}
+
+.pmmenu-item-mixed {
+ background-color: #0069d6;
+ color: #fff;
+ font-weight: bold;
 }
 
 .pmmenu-havesubmenu { 
