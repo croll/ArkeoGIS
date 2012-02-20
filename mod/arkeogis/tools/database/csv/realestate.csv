@@ -1,229 +1,229 @@
-Habitat;Indéterminé;Non renseigné;
-;;Fosse;
-;;Fossé;
-;Non renseigné;Non déterminé;
-;;Camp militaire;
-;;Ferme;
-;;Villa;
-;;Village hameau;
-;;Château;
-;Fortifié;Non renseigné;
-;;Camp militaire;
-;;Ferme;
-;;Villa;
-;;Village hameau;
-;;Château;
-;Enclos;Non renseigné;
-;;Camp militaire;
-;;Ferme;
-;;Villa;
-;;Village hameau;
-;;Château;
-;Ouvert;Non renseigné;
-;;Camp militaire;
-;;Ferme;
-;;Villa;
-;;Village hameau;
-;;Château;
-;Groupé;Non renseigné;
-;;Camp militaire;
-;;Ferme;
-;;Villa;
-;;Village hameau;
-;;Château;
-;Isolé;Non renseigné;
-;;Camp militaire;
-;;Ferme;
-;;Villa;
-;;Village hameau;
-;;Château;
-Funéraire;Indéterminé;Non renseigné;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Inhumation;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Incinération;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Les deux;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;Enclos Funéraire;Non renseigné;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Inhumation ;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Incinération;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Les deux;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;Tombe plate isolée;Non renseigné;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Inhumation ;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Incinération;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Les deux;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;Tumulus isolé;Non renseigné;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Inhumation ;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Incinération;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Les deux;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;Nécropole tumulaire;Non renseigné;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Inhumation ;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Incinération;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Les deux;Tombe de grand module
-;;;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;Nécropole tombes plates;Non renseigné;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Inhumation ;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Incinération;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-;;Les deux;Architecture de bois
-;;;Architecture de pierre
-;;;Enclos sépulcral
-Isolé ;Dépot;Inscription;
-;;Non-inscrit;
-;;Figuré;
-;Bloc architectural;Inscription;
-;;Non-inscrit;
-;;Figuré;
-;Statuaire;Inscription;
-;;Non-inscrit;
-;;Figuré;
-;Stèle;Inscription;
-;;Non-inscrit;
-;;Figuré;
-Rituel;Indéterminé;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-;Temple;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-;Source;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-;Fanum;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-;Puits;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-;Grotte;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-;Dans l’habitat ;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-;Isolé;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-;Eglise;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-;Abbaye;Association de mobiliers;
-;;Vases miniatures;
-;;Rouelles;
-;;Jetons;
-;;Ossements humains;
-;;Ossements animaux;
-;;Armes mutilée;
-;;Statuette;
-Voie;Gué;Quai;
-;;Aménagement de berge;
-;;Pente aménagée;
-;Pont;Quai;
-;;Aménagement de berge;
-;;Pente aménagée;
-;Borne;Quai;
-;;Aménagement de berge;
-;;Pente aménagée;
-Structure agraire ;Enclos;;
-;Champ bombé;;
-;Terrasse agricole;;
-;Murger;;
-;Crêtes de labours;;
+"Habitat # Siedlung";"Indéterminé # Unbestimmt";"Non renseigné # nicht vorhanden ";
+;;"Fosse # Grube";
+;;"Fossé # Graben";
+;"Non renseigné # nicht vorhanden ";"Non renseigné # nicht vorhanden ";
+;;"Camp militaire # Lager";
+;;"Ferme  # Bauernhof";
+;;"Villa  # Villa";
+;;"Village hameau  # Dorf Weiler";
+;;"Château  # Schloss";
+;"Fortifié # Befestigt";"Non renseigné # nicht vorhanden ";
+;;"Camp militaire # Lager";
+;;"Ferme  # Bauernhof";
+;;"Villa  # Villa";
+;;"Village hameau  # Dorf Weiler";
+;;"Château  # Schloss";
+;"Enclos # Schanze";"Non renseigné # nicht vorhanden ";
+;;"Camp militaire # Lager";
+;;"Ferme  # Bauernhof";
+;;"Villa  # Villa";
+;;"Village hameau  # Dorf Weiler";
+;;"Château  # Schloss";
+;"Ouvert # Unbefestigt";"Non renseigné # nicht vorhanden ";
+;;"Camp militaire # Lager";
+;;"Ferme  # Bauernhof";
+;;"Villa  # Villa";
+;;"Village hameau  # Dorf Weiler";
+;;"Château  # Schloss";
+;"Groupé # Dicht";"Non renseigné # nicht vorhanden ";
+;;"Camp militaire # Lager";
+;;"Ferme  # Bauernhof";
+;;"Villa  # Villa";
+;;"Village hameau  # Dorf Weiler";
+;;"Château  # Schloss";
+;"Isolé # Alleinstehend";"Non renseigné # nicht vorhanden ";
+;;"Camp militaire # Lager";
+;;"Ferme  # Bauernhof";
+;;"Villa  # Villa";
+;;"Village hameau  # Dorf Weiler";
+;;"Château  # Schloss";
+"Funéraire # Gräber";"Indéterminé # Unbestimmt";"Non renseigné # nicht vorhanden ";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Inhumation  # Leichengrab";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Incinération  # Brandgrab";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Les deux  # Beides";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;"Enclos Funéraire  # Grabschanze";"Non renseigné # nicht vorhanden ";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Inhumation  # Leichengrab";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Incinération  # Brandgrab";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Les deux  # Beides";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;"Tombe plate isolée  # Einzelner Grab";"Non renseigné # nicht vorhanden ";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Inhumation  # Leichengrab";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Incinération  # Brandgrab";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Les deux  # Beides";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;"Tumulus isolé  # Einzelner Tumulus";"Non renseigné # nicht vorhanden ";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Inhumation  # Leichengrab";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Incinération  # Brandgrab";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Les deux  # Beides";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;"Nécropole tumulaire  # Tumuli Nekropole";"Non renseigné # nicht vorhanden ";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Inhumation  # Leichengrab";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Incinération  # Brandgrab";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Les deux  # Beides";"Tombe de grand module  # Grossgrab"
+;;;"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;"Nécropole tombes plates  # Gräberfeld";"Non renseigné # nicht vorhanden ";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Inhumation  # Leichengrab";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Incinération  # Brandgrab";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+;;"Les deux  # Beides";"Architecture de bois  # Holzarchitektur"
+;;;"Architecture de pierre  # Steinarchitektur"
+;;;"Enclos sépulcral  # Grabbezirk"
+"Isolé # Einzelfund";"Dépot  # Hortfund";"Inscription # Inschrift";
+;;"Non-inscrit # Ohne inschrift";
+;;"Figuré # Figürlich";
+;"Bloc architectural  # Baustein gewaesserfund";"Inscription # Inschrift";
+;;"Non-inscrit # Ohne inschrift";
+;;"Figuré # Figürlich";
+;"Statuaire  # Statue";"Inscription # Inschrift";
+;;"Non-inscrit # Ohne inschrift";
+;;"Figuré # Figürlich";
+;"Stèle # Stele";"Inscription # Inschrift";
+;;"Non-inscrit # Ohne inschrift";
+;;"Figuré # Figürlich";
+"Rituel # Kult";"Indéterminé # Unbestimmt";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+;"Temple # Tempel";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+;"Source # Quelle";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+;"Fanum # Fanum";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+;"Puits # Brunnen";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+;"Grotte # Höhle";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+;"Dans l’habitat  # Im sieldungskontext";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+;"Isolé # Alleinstehend";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+;"Eglise  # Kirche";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+;"Abbaye  # Kloster";"Association de mobiliers # Fundzusammenhang";
+;;"Vases miniatures # Miniaturvasen";
+;;"Rouelles # Radamulett";
+;;"Jetons # Jeton";
+;;"Ossements humains # Menschknochen";
+;;"Ossements animaux # Tierknochen";
+;;"Arme mutilée # Waffen verbogen";
+;;"Statuette # Statuette";
+"Voie # Wege";"Gué  # Furth";"Quai";
+;;"Aménagement de berge  # Uferbefestigung";
+;;"Pente aménagée  # Steige";
+;"Pont  # Brücke";"Quai  # Kai";
+;;"Aménagement de berge  # Uferbefestigung";
+;;"Pente aménagée  # Steige";
+;"Borne  # Meilenstein";"Quai  # Kai";
+;;"Aménagement de berge  # Uferbefestigung";
+;;"Pente aménagée  # Steige";
+"Structure agraire # Agrar";"Enclos # Schanze";;
+;"Champ bombé  # Wölbacker";;
+;"Terrasse agricole  # Ackerterrasse";;
+;"Murger  # Steinrudel ";;
+;"Crêtes de labours  # Crêtes de labours";;

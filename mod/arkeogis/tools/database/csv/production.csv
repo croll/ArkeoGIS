@@ -1,45 +1,45 @@
-"Agricole";"Grenier";;
-;"Silo";;
-"Aménagement hydraulique ";"Bains";;
-;"Puits";;
-"Céramique";"Extraction";"Local";
-;;"Régional";
-;;"Suprarégional";
-;"Atelier";"Local";
-;;"Régional";
-;;"Suprarégional";
-;;"Tuiles";
-"Métal";"Extraction";"Fer";
-;;"Argent";
-;;"Bronze";
-;;"Autre";
-;;"Local";
-;;"Régional";
-;"Forge";"Fer";
-;;"Argent";
-;;"Bronze";
-;;"Autre";
-;;"Local";
-;;"Régional";
-;"Lingot";"Fer";
-;;"Argent";
-;;"Bronze";
-;;"Autre";
-;;"Local";
-;;"Régional";
-;"Atelier monétaire";"Fer";"Précision intitulé"
-;;"Argent";
-;;"Bronze";
-;;"Autre";
-;;"Local";
-;;"Régional";
-"Pierre";"Atelier";"Meule";"Correction intitulé"
-;;"Architecture";
-;;"Silex";
-;"Extraction";"Meule";
-;;"Architecture";
-;;"Silex";
-;"Chaux";;
-"Charbon";;;
-"Sel";;;
-"Verre";;;
+"Agricole # Landwirtschaft";"Grenier # Speicher";
+;"Silo # Silo";
+"Aménagement hydraulique  # Wasser";"Bains # Bad";
+;"Puits # Brunnen";
+"Céramique  # Ton";"Extraction  # Abbau";"Local  # Lokal"
+;;"Régional  # Regional"
+;;"Suprarégional  # Überregional"
+;"Atelier  # Töpferei";"Local  # Lokal"
+;;"Régional  # Regional"
+;;"Suprarégional  # Überregional"
+;;"Tuiles  # Ziegelei"
+"Métal  # Metall";"Extraction  # Abbau";"Fer  # Eisen"
+;;"Argent  # Silber"
+;;"Bronze  # Bronze"
+;;"Autres  # Anderes"
+;;"Local  # Lokal"
+;;"Régional  # Regional"
+;"Forge  # Schmiede";"Fer  # Eisen"
+;;"Argent  # Silber"
+;;"Bronze  # Bronze"
+;;"Autres  # Anderes"
+;;"Local  # Lokal"
+;;"Régional  # Regional"
+;"Lingot  # Barren";"Fer  # Eisen"
+;;"Argent  # Silber"
+;;"Bronze  # Bronze"
+;;"Autres  # Anderes"
+;;"Local  # Lokal"
+;;"Régional  # Regional"
+;"Atelier monétaire  # Prägestätte ";"Fer  # Eisen"
+;;"Argent  # Silber"
+;;"Bronze  # Bronze"
+;;"Autres  # Anderes"
+;;"Local  # Lokal"
+;;"Régional  # Regional"
+"Pierre  # Stein";"Atelier  # Töpferei";"Meule  # Mahlstein"
+;;"Architecture  # Baustein"
+;;"Silex  # Feuerstein"
+;"Extraction  # Abbau";"Meule  # Mahlstein"
+;;"Architecture  # Baustein"
+;;"Silex  # Feuerstein"
+;"Chaux  # Kalk";
+"Charbon  # Kohle";;
+"Sel  # Salz";;
+"Verre  # Glas";;

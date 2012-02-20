@@ -19,11 +19,12 @@ class DatabaseImport {
 	private static $_lang; 
 	private static $_strings;
 
-	public static function importCsv($filepath, $separator=';', $charset='utf8', $lf="\n", $skipline=NULL, $lang='fr', $ownerId=0) {
+	public static function importCsv($filepath, $separator=';', $charset='utf8', $lf="\n", $skipline=0, $lang='fr', $ownerId=0) {
 
 		// TO BE LINKED WITH TRANSLATION MODULE
 		self::$_lang = $lang;
 		self::$_charset = $charset;
+		$numProcessed = 0;
 
 		self::$_strings['Yes']['fr'] = 'oui';
 		self::$_strings['No']['fr'] = 'non';
@@ -31,7 +32,7 @@ class DatabaseImport {
 		$knowledge['fr'] = array('non renseigné', 'littérature, prospecté', 'littérature prospecté', 'sondé', 'fouillé');
 		$knowledge['en'] = array('unknown', 'literature', 'literature', 'surveyed', 'excavated');
 		$occupation['fr'] = array('non renseigné', 'unique', 'continue', 'multiple');
-		$occupation['en'] = array('unknowwn', 'uniq', 'continuous', 'multiple');
+		$occupation['en'] = array('unknown', 'uniq', 'continuous', 'multiple');
 		$epsgCodes['wgs84'] = 4326;
 
 		self::$_cache['period'] = array();
@@ -105,7 +106,7 @@ class DatabaseImport {
 			self::$_current = array('owner' => $ownerId);
 			self::$_csvDatas = implode(';', $datas);
 
-			if (self::$_lineNumber != NULL && self::$_lineNumber <= $skipline) {
+			if (self::$_lineNumber != 0 && self::$_lineNumber <= $skipline) {
 				continue;
 			}
 			$datas = array_map(array('self', '_cleanString'), $datas);
@@ -205,24 +206,26 @@ class DatabaseImport {
 						$os = strtolower($datas[5]);
 						if (!isset($epsgCodes[$os])) {
 							self::_addError("Unable to get EPSG from code $datas[5]");
+						} else {
+							$epsg = $epsgCodes[$os];
 						}
 					}
-					if (!empty($datas[5]) && $datas[5] != 4326 && strtolower($datas[5]) != 'wgs84') {
+					if (!empty($epsg) && $epsg != 4326) {
 						// Check if geom exists
 						if (!\core\Core::$db->fetchOne('SELECT count(srtext) FROM "spatial_ref_sys" WHERE "srid" = 4326')) {
 							self::_addError("EPSG code provided not found ($datas[5]) it must be numeric, see http://www.epsg-registry.org/");
 						} else {
 							try {
-								$coords = \mod\arkeogis\Tools::transformPoint($coords, $datas[5], 4326);
+								$coords = \mod\arkeogis\Tools::transformPoint($coords, $epsg, 4326);
 							} catch (\Exception $e) {
-								self::$_addError("Unable to transform coordinates in WGS84. Error: ".$e->getMessage());
+								self::_addError("Unable to transform coordinates in WGS84. Error: ".$e->getMessage());
 								$coords = null;
 							}
 						}
 					}
 					// Geom
 					# 5 EPSG
-						self::$_current['geom'] = (is_array($coords) && !empty($coords['x']) && !empty($coords['y'])) ? "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : NULL).")', $datas[5])" : NULL;
+						self::$_current['geom'] = (is_array($coords) && !empty($coords['x']) && !empty($coords['y'])) ? "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : -999).")', $epsg)" : NULL;
 				}
 				
 			} // End of first time site processing
@@ -351,6 +354,7 @@ class DatabaseImport {
 					try {
 						\mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_current['database']['id'], self::$_current['city_id'], self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], self::$_current['owner']);
 						self::$_stored[self::$_current['code']] = self::$_current;
+						$numProcessed += 1;
 					} catch (\Exception $e) {
 						self::_addProcessingError($e->getMessage());
 						continue;
@@ -381,19 +385,16 @@ class DatabaseImport {
 			} // End of site treatment, next one.
 
 		}
-		echo " ==== PARSING SITE ERRORS ===== <br />";
-		foreach(self::$_siteErrors as $k=>$entry) {
-			foreach($entry AS $error) {
-				echo "$k :: ".implode("<br />", $error['msg'])."<br />";
-			}
-		}
+		/*
 		echo "<br /> ==== INSERTING SITE ERRORS ===== ";
 		foreach(self::$_processingErrors as $k=>$entry) {
 			foreach($entry AS $error) {
 				echo "$k :: ".implode("<br />", $error['msg'])."<br />";
 			}
 		}
+		*/
 		\core\Core::$db->exec('COMMIT');
+		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => $numProcessed, "errors" => self::$_siteErrors);
 	}
 
 	private static function _processSiteId($siteCode) {

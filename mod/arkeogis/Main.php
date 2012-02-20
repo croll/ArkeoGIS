@@ -44,10 +44,20 @@ class Main {
   }
 
 	public static function hook_mod_arkeogis_import($hookname, $userdata, $urlmatches) {
-				if (!is_array($urlmatches) || empty($urlmatches[1]) || !preg_match("/[a-zA-Z0-9-_]+\.csv/", $urlmatches[1])) {
-					throw new \Exception('CSV filename malformed');
-				}
-				\mod\arkeogis\DatabaseImport::importCsv($urlmatches[1],';', 'latin1', "\n", 2);
+			$page = new \mod\webpage\Main();
+			$page->setLayout('arkeogis/import');
+			$page->display();
+	}
+
+	public static function hook_mod_arkeogis_process_import($hookname, $userdata, $urlmatches) {
+			if (!is_array($urlmatches) || empty($urlmatches[1]) || !preg_match("/[a-zA-Z0-9-_]+\.csv/", $urlmatches[1])) {
+				throw new \Exception('CSV filename malformed');
+			}
+			$result =	\mod\arkeogis\DatabaseImport::importCsv($urlmatches[1],';', 'utf8', "\n", 1);
+			$page = new \mod\webpage\Main();
+			$page->smarty->assign("result", $result);
+			$page->setLayout('arkeogis/import');
+			$page->display();
 	}
 
 }

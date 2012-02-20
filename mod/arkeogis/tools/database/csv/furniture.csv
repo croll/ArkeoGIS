@@ -1,89 +1,86 @@
-Céramique;Indéterminé;;
-;Conteneur;Amphore;Dressel 1a
-;;;Dressel 1b
-;;Dolium;
-;;Autres;
-;Fine;Import;Cannelée
-;;;Graphitée
-;;;Excisée
-;;;Céramique polychrome Br- Ha
-;;;Alb-Hegau
-;;;Tène balustre
-;;;Molette tardive
-;;;Arétine
-;;;Sigillée
-;;;Peignée
-;;;Campanienne
-;;;Pot Besançon
-;;Locale;Cannelée
-;;;Graphitée
-;;;Excisée
-;;;Céramique polychrome Br- Ha
-;;;Alb-Hegau
-;;;Tène balustre
-;;;Molette tardive
-;;;Arétine
-;;;Sigillée
-;;;Peignée
-;;;Campanienne
-;;;Pot Besançon
-;;Les deux;Cannelée
-;;;Graphitée
-;;;Excisée
-;;;Céramique polychrome Br- Ha
-;;;Alb-Hegau
-;;;Tène balustre
-;;;Molette tardive
-;;;Arétine
-;;;Sigillée
-;;;Peignée
-;;;Campanienne
-;;;Pot Besançon
-;Tuile;Inscription;
-;Brique;Inscription;
-Métal;Armement;Epée;
-;;Lance;
-;;Casque;
-;Harnachement;Char;
-;Parure;Fibule;Fibule S4
-;;;Fibule S5
-;;;Fibule P1
-;;Plaques de ceinture Hallstattienne;
-;;Parure annulaire;
-;;Epingle vasiforme;
-;;Plaque boucle;
-;Outils;Faucille;
-;;Marteau;
-;;Hache;
-;;Couteau;
-;Autres;Verre;
-Monnaies;Or;Sanglier;
-;;Grosse tête;
-;;Kaletu;
-;;Boyenne;
-;;Denier;
-;;Sesterce;
-;;Bas empire;
-;Argent;Sanglier;
-;;Grosse tête;
-;;Kaletu;
-;;Boyenne;
-;;Denier;
-;;Sesterce;
-;;Bas empire;
-;Bronze;Sanglier;
-;;Grosse tête;
-;;Kaletu;
-;;Boyenne;
-;;Denier;
-;;Sesterce;
-;;Bas empire;
-;Potin;Sanglier;
-;;Grosse tête;
-;;Kaletu;
-;;Boyenne;
-;;Denier;
-;;Sesterce;
-;;Bas empire;
-Lithique;Silex;;
-;Meule;;
+"Céramique # Keramik";"Indéterminé # Unbestimmt";;
+;"Conteneur # Behälter";"Amphore # Amphore";"Dressel 1a # Dressel 1a"
+;;;"Dressel 1b # Dressel 1b"
+;;"Dolium # Dolium";
+;;"Autres # Anderes";
+;"Fine # Feinkeramik";"Import # Importware";"Cannelée # kanneliert"
+;;;"Graphitée # Graphitton "
+;;;"Excisée # Geritzt"
+;;;"Céramique polychrome Br- Ha # Polychrome Alb-Hegau-Salem"
+;;;"Tène balustre # Stark profilierter Latènestil"
+;;;"Molette tardive # Spätantike Rädchenverzierung"
+;;;"Arétine # Arretina"
+;;;"Sigillée # Terra sigilata"
+;;;"Peignée # Kammstrich"
+;;;"Campanienne # Campanienne"
+;;;"Pot Besançon # Pot Besançon"
+;;"Locale # Lokale Ware";"Cannelée # kanneliert"
+;;;"Graphitée # Graphitton "
+;;;"Excisée # Geritzt"
+;;;"Céramique polychrome Br- Ha # PolychromeAlb-Hegau-Salem"
+;;;"Tène balustre # Stark profilierter Latènestil"
+;;;"Molette tardive # Spätantike Rädchenverzierung"
+;;;"Arétine # Arretina"
+;;;"Sigillée # Terra sigilata"
+;;;"Peignée # Kammstrich"
+;;;"Campanienne # Campanienne"
+;;;"Pot Besançon # Pot Besançon"
+;;"Les deux # Beide";"Cannelée # kanneliert"
+;;;"Graphitée # Graphitton "
+;;;"Excisée # Geritzt"
+;;;"Céramique polychrome Br- Ha # PolychromeAlb-Hegau-Salem"
+;;;"Tène balustre # Stark profilierter Latènestil"
+;;;"Molette tardive # Spätantike Rädchenverzierung"
+;;;"Arétine # Arretina"
+;;;"Sigillée # Terra sigilata"
+;;;"Peignée # Kammstrich"
+;;;"Campanienne # Campanienne"
+;;;"Pot Besançon # Pot Besançon"
+;"Tuile # Ziegel";"Inscription # Inschrift";
+;"Brique # Baustein";"Inscription # Inschrift";
+"Métal # Metall";"Armement # Waffen Rüstungen";"Epée # Schwert";
+;;"Lance # Lance";
+;;"Casque # Helm";
+;"Harnachement # Pferdegeschirr";"Char # Wagen";
+;"Parure # Tracht";"Fibule # Fibel";"Fibule S4 # Schlangenfibel S4"
+;;;"Fibule S5 # Schlangenfibel S5"
+;;;"Fibule P1 # Paukenfibel PW"
+;;"Plaques de ceinture Hallstattienne # Gürtelblech";
+;;"Parure annulaire # Ring";
+;;"Epingle vasiforme # Vasenkopfnadel";
+;;"Plaque boucle # Gürtelschnalle";
+;"Outils # Werkzeuge";"Faucille # Sichel";
+;;"Marteau # Hammer";
+;;"Hache # Axt";
+;;"Couteau # Messer";
+;"Autres # Anderes";"Verre # Glas";
+"Monnaies # Münzen";"Or # Gold ";"Sanglier # Potin au Sanglier";
+;;"Grosse tête # Potin à la grosse tête";
+;;"Kaletedu  # Kaletedu-Quinar";
+;;"Boïenne  # Boïenne";
+;;"Denier  # Denare";
+;;"Sesterce  # Sesterz";
+;;"Bas empire  # Spätantike";
+;"Argent  # Silber";"Sanglier # Potin au Sanglier";
+;;"Grosse tête # Potin à la grosse tête";
+;;"Kaletedu  # Kaletedu-Quinar";
+;;"Boïenne  # Boïenne";
+;;"Denier  # Denare";
+;;"Sesterce  # Sesterz";
+;;"Bas empire  # Spätantike";
+;"Bronze  # Bronze";"Sanglier # Potin au Sanglier";
+;;"Grosse tête # Potin à la grosse tête";
+;;"Kaletedu  # Kaletedu-Quinar";
+;;"Boïenne  # Boïenne";
+;;"Denier  # Denare";
+;;"Sesterce  # Sesterz";
+;;"Bas empire  # Spätantike";
+;"Potin  # Potinmûnze";"Sanglier # Potin au Sanglier";
+;;"Grosse tête # Potin à la grosse tête";
+;;"Kaletedu  # Kaletedu-Quinar";
+;;"Boïenne  # Boïenne";
+;;"Denier  # Denare";
+;;"Sesterce  # Sesterz";
+;;"Bas empire  # Spätantike";
+"Lithique  # Stein";"Silex  # Feuerstein";;
+;"Meule  # Mahlstein";;

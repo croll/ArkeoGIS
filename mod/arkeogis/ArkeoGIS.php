@@ -8,7 +8,7 @@ class ArkeoGIS {
 	/*    Site   */
 	/* ********** */
 	public static function deleteSite($code) {
-		\core\Core::$db->exec('DELETE FROM "ark_site" WHERE si_code=?', array($code));
+		\core\Core::$db->exec('DELETE FROM "ark_site" WHERE si_code=?', array((string)$code));
 	}
 
 	public static function addSite($code, $name, $databaseid, $cityid=NULL, $geom=NULL, $centroid, $occupation, $authorid=0) {
