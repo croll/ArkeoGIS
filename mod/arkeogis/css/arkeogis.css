@@ -7,8 +7,13 @@ table.map-query td {
   padding-bottom: 2px;
 }
 
+
 table.map-query tr.buttons td { 
  padding-top: 15px;
+}
+
+table.map-query tr.menu_archives select { 
+ width: 100%;
 }
 
 tr.title_caracterisation td { 
@@ -34,7 +39,7 @@ td.exceptionnel div {
 }
 
 table.map-query td.validations button {
- width: 110px;
+ width: 119px;
  font-weight: bold;
  font-size: 14px;
  border-radius: 5px 5px 5px 5px;
