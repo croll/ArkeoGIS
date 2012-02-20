@@ -93,7 +93,7 @@ var PlusMinusMenu = new Class({
     
     isOpened: function() {
 	return this.html_element ? true : false;
-    }
+    },
 
 });
 
@@ -241,6 +241,19 @@ var PlusMinusItem = new Class({
 	    });
 	    me.drawSelection();
 	}
+    },
+
+    getSelection: function(c) {
+	var result=[];
+	if (this.submenu) {
+	    this.submenu.content.each(function(item) {
+		result=result.concat(item.getSelection(c));
+	    });
+	} else {
+	    if (this.selected == c)
+		result.push(this.model.value);
+	}
+	return result;
     },
 
     searchValue: function(value) {

@@ -42,84 +42,43 @@
 
      <tr class="troistrucs">
       <td colspan='2'>
-       <div id='button-centroide' style='position: relative'></div>
-       <div id='button-connaissance' style='position: relative'>
+       <div id='button-centroid' style='position: relative'></div>
+       <div id='button-knowledge' style='position: relative'>
 
        <table style='width: 100%'>
         <tr>
 
 	 <td style='text-align: center'>
-	  <div id='menu-centroide-button' class='menu-centroconnoccup-button'>CENTROÏDE</div>
-          <div id='menu-centroide-content' class='menu-centroconnoccup-content' style='display: none'>
-           <div class='chooseme'>{t d='arkeogis' m='Oui'}</div>
-           <div class='chooseme'>{t d='arkeogis' m='Non'}</div>
+	  <div id='menu-centroid-button' class='menu-centroconnoccup-button'>CENTROÏDE</div>
+          <div id='menu-centroid-content' class='menu-centroconnoccup-content' style='display: none'>
+           <div class='chooseme' multivalue='1'>{t d='arkeogis' m='Oui'}</div>
+           <div class='chooseme' multivalue='0'>{t d='arkeogis' m='Non'}</div>
           </div>
          </td>
  
 
 	 <td style='text-align: center'>
-          <div id='menu-connaissance-button' class='menu-centroconnoccup-button'>CONNAISSANCE</div>
-          <div id='menu-connaissance-content' class='menu-centroconnoccup-content' style='display: none'>
-           <div class='chooseme'>{t d='arkeogis' m='Non renseigné'}</div>
-           <div class='chooseme'>{t d='arkeogis' m='Littérature, prospecté'}</div>
-           <div class='chooseme'>{t d='arkeogis' m='Sondé'}</div>
-           <div class='chooseme'>{t d='arkeogis' m='Fouillé'}</div>
+          <div id='menu-knowledge-button' class='menu-centroconnoccup-button'>CONNAISSANCE</div>
+          <div id='menu-knowledge-content' class='menu-centroconnoccup-content' style='display: none'>
+           <div class='chooseme' multivalue='unknown'>{t d='arkeogis' m='Non renseigné'}</div>
+           <div class='chooseme' multivalue='literature'>{t d='arkeogis' m='Littérature, prospecté'}</div>
+           <div class='chooseme' multivalue='surveyed'>{t d='arkeogis' m='Sondé'}</div>
+           <div class='chooseme' multivalue='excavated'>{t d='arkeogis' m='Fouillé'}</div>
           </div>
          </td>
 
 	 <td style='text-align: center'>
           <div id='menu-occupation-button' class='menu-centroconnoccup-button'>OCCUPATION</div>
           <div id='menu-occupation-content' class='menu-centroconnoccup-content' style='display: none'>
-           <div class='chooseme'>{t d='arkeogis' m='Non-renseigné'}</div>
-           <div class='chooseme'>{t d='arkeogis' m='Unique'}</div>
-           <div class='chooseme'>{t d='arkeogis' m='Continue'}</div>
-           <div class='chooseme'>{t d='arkeogis' m='Multiple'}</div>
+           <div class='chooseme' multivalue='unknown'>{t d='arkeogis' m='Non-renseigné'}</div>
+           <div class='chooseme' multivalue='uniq'>{t d='arkeogis' m='Unique'}</div>
+           <div class='chooseme' multivalue='continuous'>{t d='arkeogis' m='Continue'}</div>
+           <div class='chooseme' multivalue='multiple'>{t d='arkeogis' m='Multiple'}</div>
           </div>
          </td>
 
         </tr>
        </table>
-
-{*
-<ul id="menu-connaissance">
-     <li>
-      <div>
-       <span>Info</span>
-
-      </div>
-      <ul>
-       <li>
-        <div>
-         <span>Test</span>
-        </div>
-        <ul>
-         <li>
-
-          <div>
-           <span>Problem 1</span>
-          </div>
-         </li>
-         <li>
-          <div>
-           <span>Problem 2</span>
-          </div>
-
-         </li>
-         <li>
-          <div>
-           <span>Problem 3</span>
-          </div>
-         </li>
-        </ul>
-       </li>
-
-      </ul>
-     </li>
-    	</ul>
-*}
-
-
-
 
        </div>
        <div id='button-occupation' style='position: relative'></div>
@@ -155,8 +114,8 @@
 
      <tr class="buttons">
       <td colspan='2' class="validations">
-       <button class='btn-success btn-display-map'>{t d='arkeogis' m="Afficher<br/>la carte"}</button>
-       <button class='btn-success btn-display-sheet'>{t d='arkeogis' m="Afficher<br/>le tableur"}</button>
+       <button id='btn-show-the-map' class='btn-success btn-display-map'>{t d='arkeogis' m="Afficher<br/>la carte"}</button>
+       <button id='btn-show-the-table' class='btn-success btn-display-sheet'>{t d='arkeogis' m="Afficher<br/>le tableur"}</button>
       </td>
      </tr>
      <tr class="buttons">
