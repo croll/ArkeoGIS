@@ -51,8 +51,8 @@
 	 <td style='text-align: center'>
 	  <div id='menu-centroide-button' class='menu-centroconnoccup-button'>CENTROÏDE</div>
           <div id='menu-centroide-content' class='menu-centroconnoccup-content' style='display: none'>
-           <div class='chooseme'>Oui</div>
-           <div class='chooseme'>Non</div>
+           <div class='chooseme'>{t d='arkeogis' m='Oui'}</div>
+           <div class='chooseme'>{t d='arkeogis' m='Non'}</div>
           </div>
          </td>
  
@@ -60,20 +60,20 @@
 	 <td style='text-align: center'>
           <div id='menu-connaissance-button' class='menu-centroconnoccup-button'>CONNAISSANCE</div>
           <div id='menu-connaissance-content' class='menu-centroconnoccup-content' style='display: none'>
-           <div class='chooseme'>Non renseigné</div>
-           <div class='chooseme'>Littérature, prospecté</div>
-           <div class='chooseme'>Sondé</div>
-           <div class='chooseme'>Fouillé</div>
+           <div class='chooseme'>{t d='arkeogis' m='Non renseigné'}</div>
+           <div class='chooseme'>{t d='arkeogis' m='Littérature, prospecté'}</div>
+           <div class='chooseme'>{t d='arkeogis' m='Sondé'}</div>
+           <div class='chooseme'>{t d='arkeogis' m='Fouillé'}</div>
           </div>
          </td>
 
 	 <td style='text-align: center'>
           <div id='menu-occupation-button' class='menu-centroconnoccup-button'>OCCUPATION</div>
           <div id='menu-occupation-content' class='menu-centroconnoccup-content' style='display: none'>
-           <div class='chooseme'>Non-renseigné</div>
-           <div class='chooseme'>Unique</div>
-           <div class='chooseme'>Continue</div>
-           <div class='chooseme'>Multiple</div>
+           <div class='chooseme'>{t d='arkeogis' m='Non-renseigné'}</div>
+           <div class='chooseme'>{t d='arkeogis' m='Unique'}</div>
+           <div class='chooseme'>{t d='arkeogis' m='Continue'}</div>
+           <div class='chooseme'>{t d='arkeogis' m='Multiple'}</div>
           </div>
          </td>
 
