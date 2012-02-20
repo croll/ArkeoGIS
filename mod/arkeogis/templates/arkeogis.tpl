@@ -3,8 +3,8 @@
 {block name='webpage_head' append}
 	{js file="/mod/cssjs/js/mootools.js"}
 	{js file="/mod/cssjs/js/mootools.more.js"}
-	{css file="/mod/cssjs/twitter-bootstrap/css/bootstrap.css"}
-	{css file="/mod/cssjs/twitter-bootstrap/css/bootstrap-responsive.css"}
+	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap.css"}
+	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap-responsive.css"}
 
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/page_mapquery.js"}
@@ -28,13 +28,70 @@
     </div>
 
     <br/><br/><br/>
-    <div class="map-query">
-     <select name='menu'>
-      <option>{t d='arkeogis' m="Requêtes archivées"}</option>
-     </select>
-    </div>
+
 
     <table class='map-query' border='0' cellspacing='0' cellpadding='0'>
+     <tr class="menu_archives">
+      <td colspan='2'>
+       <select>
+        <option>{t d='arkeogis' m="Requêtes archivées"}</option>
+       </select>
+      </td>
+     </tr>
+
+     <tr class="troistrucs">
+      <td colspan='2'>
+       <div id='button-centroide' style='position: relative'></div>
+       <div id='button-connaissance' style='position: relative'>
+
+
+
+{*
+<ul id="menu-connaissance">
+     <li>
+      <div>
+       <span>Info</span>
+
+      </div>
+      <ul>
+       <li>
+        <div>
+         <span>Test</span>
+        </div>
+        <ul>
+         <li>
+
+          <div>
+           <span>Problem 1</span>
+          </div>
+         </li>
+         <li>
+          <div>
+           <span>Problem 2</span>
+          </div>
+
+         </li>
+         <li>
+          <div>
+           <span>Problem 3</span>
+          </div>
+         </li>
+        </ul>
+       </li>
+
+      </ul>
+     </li>
+    	</ul>
+*}
+
+
+
+
+       </div>
+       <div id='button-occupation' style='position: relative'></div>
+      </td>
+     </tr>
+
      <tr class="menu_period">
       <td colspan='2'><div id='menu_period' style='position: relative'></div></td>
      </tr>

@@ -1,4 +1,7 @@
 window.addEvent('domready', function() {
+
+    /* initialization of plusminus menus */
+
     new Request.JSON({
 	'url': '/ajax/call/arkeogis/periodlist',
 	'onSuccess': function(periodlist) {
@@ -39,5 +42,10 @@ window.addEvent('domready', function() {
 	}
     }).get();
 
+
+    /* initialization of menus connaissance, ... */
+    
+    //new MooDropMenu($('menu-connaissance'));
+    
 });
 
