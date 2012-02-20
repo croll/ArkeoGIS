@@ -149,7 +149,7 @@ table.map-query .btn-reinit {
  top: 4px;
  width: 14px;
  height: 14px;
- background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-image: url("/mod/cssjs/ext/twitter-bootstrap/img/glyphicons-halflings.png");
  background-position: -313px -119px;
 }
 
@@ -162,26 +162,14 @@ table.map-query .btn-reinit {
 }
 
 .pmmenu-sel-plus {
-/*
- background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
- background-position: -408px -96px;
-*/
  background-image: url("/mod/arkeogis/img/plusminus_checkbox-plus.png");
 }
 
 .pmmenu-sel-minus {
-/*
- background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
- background-position: -433px -96px;
-*/
  background-image: url("/mod/arkeogis/img/plusminus_checkbox-minus.png");
 }
 
 .pmmenu-sel-mixed {
-/*
- background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
- background-position: -456px -96px;
-*/
  background-image: url("/mod/arkeogis/img/plusminus_checkbox-mixed.png");
 }
 
@@ -204,7 +192,7 @@ table.map-query .btn-reinit {
 }
 
 .pmmenu-havesubmenu {
- background-image: url("/mod/cssjs/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-image: url("/mod/cssjs/ext/twitter-bootstrap/img/glyphicons-halflings.png");
  background-position: -456px -72px;
  background-repeat: no-repeat;
 }
