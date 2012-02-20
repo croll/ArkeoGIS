@@ -178,14 +178,14 @@ var PlusMinusItem = new Class({
 	    }
 	}
 	
-	if (me.parent_menu && !me.submenu) {
+	if (me.parent_menu) {
 	    me.html_element.addEvent('click', function() {
 		if (me.selected == '+') {
-		    me.setSelected('-', false);
+		    me.setSelected('-', me.submenu ? true : false);
 		} else if (me.selected == '-') {
-		    me.setSelected('', false);
+		    me.setSelected('', me.submenu ? true : false);
 		} else {
-		    me.setSelected('+', false);
+		    me.setSelected('+', me.submenu ? true : false);
 		}
 	    });
 	}
