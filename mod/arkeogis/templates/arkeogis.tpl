@@ -3,6 +3,7 @@
 {block name='webpage_head' append}
 	{js file="/mod/cssjs/js/mootools.js"}
 	{js file="/mod/cssjs/js/mootools.more.js"}
+	{js file="/mod/cssjs/js/multiselect.js"}
 	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap.css"}
 	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap-responsive.css"}
 
@@ -44,7 +45,40 @@
        <div id='button-centroide' style='position: relative'></div>
        <div id='button-connaissance' style='position: relative'>
 
+       <table style='width: 100%'>
+        <tr>
 
+	 <td style='text-align: center'>
+	  <div id='menu-centroide-button' class='menu-centroconnoccup-button'>CENTROÏDE</div>
+          <div id='menu-centroide-content' class='menu-centroconnoccup-content' style='display: none'>
+           <div class='chooseme'>Oui</div>
+           <div class='chooseme'>Non</div>
+          </div>
+         </td>
+ 
+
+	 <td style='text-align: center'>
+          <div id='menu-connaissance-button' class='menu-centroconnoccup-button'>CONNAISSANCE</div>
+          <div id='menu-connaissance-content' class='menu-centroconnoccup-content' style='display: none'>
+           <div class='chooseme'>Non renseigné</div>
+           <div class='chooseme'>Littérature, prospecté</div>
+           <div class='chooseme'>Sondé</div>
+           <div class='chooseme'>Fouillé</div>
+          </div>
+         </td>
+
+	 <td style='text-align: center'>
+          <div id='menu-occupation-button' class='menu-centroconnoccup-button'>OCCUPATION</div>
+          <div id='menu-occupation-content' class='menu-centroconnoccup-content' style='display: none'>
+           <div class='chooseme'>Non-renseigné</div>
+           <div class='chooseme'>Unique</div>
+           <div class='chooseme'>Continue</div>
+           <div class='chooseme'>Multiple</div>
+          </div>
+         </td>
+
+        </tr>
+       </table>
 
 {*
 <ul id="menu-connaissance">

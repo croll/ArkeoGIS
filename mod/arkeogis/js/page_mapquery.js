@@ -43,9 +43,24 @@ window.addEvent('domready', function() {
     }).get();
 
 
-    /* initialization of menus connaissance, ... */
+    /* initialization of menus centroide, connaissance, occupation */
     
-    //new MooDropMenu($('menu-connaissance'));
-    
+    new MultiselectPopup({
+	buttonelem: $('menu-centroide-button')
+    },{
+	list: $('menu-centroide-content')
+    });
+
+    new MultiselectPopup({
+	buttonelem: $('menu-connaissance-button')
+    },{
+	list: $('menu-connaissance-content')
+    });
+
+    new MultiselectPopup({
+	buttonelem: $('menu-occupation-button')
+    },{
+	list: $('menu-occupation-content')
+    });
 });
 

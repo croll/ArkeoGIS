@@ -85,7 +85,7 @@ table.map-query .btn-reinit {
 }
 
 .pmmenu-item:hover {
- background-color: #0069d6;
+ background-color: #44adff;
  color: #fff;
  font-weight: bold;
 }
@@ -209,5 +209,33 @@ table.map-query .btn-reinit {
 #menu_period .pmmenu-popup { 
  left: 255px;
 }
+
+/* multiselect of connaissance */
+.menu-centroconnoccup-button { 
+ background: #62cffc;
+ cursor: pointer;
+ font-size: 10px;
+ border-radius: 2px 2px 2px 2px;
+}
+.menu-centroconnoccup-content {
+ bacground: #fff;
+ border-bottom: solid 1px #cccccc;
+}
+.menu-centroconnoccup-content .chooseme {
+ background: #f5f5f5;
+ border: solid 1px #cccccc;
+ border-bottom: 0;
+ min-height: 25px;
+ padding-left: 5px;
+ padding-right: 5px;
+}
+.menu-centroconnoccup-content .chooseme:hover {
+ background: #44adff;
+ cursor: pointer;
+}
+.menu-centroconnoccup-content .selected { 
+ background: #0069d6;
+}
+
 
 /***/
