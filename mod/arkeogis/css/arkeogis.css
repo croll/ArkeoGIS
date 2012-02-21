@@ -24,7 +24,7 @@ html[xmlns] .clearfix {
   height: 1%;
 }
 
-#content {
+#arkeogis_container {
 	width: 1200px;
 	margin: 20px 40px 20px 40px;
 }
@@ -33,14 +33,22 @@ html[xmlns] .clearfix {
  * Map 
  */
 
-#logo {
-	height: 100px;
-	background-image: url("/mod/arkeogis/img/logo.png") no-repeat;
+#top_of_page {
+	height: 80px;
+	width: 100%;
+}
+
+#arkeologo {
+	width: 264px;
+	height: 56px;
+	margin: 21px 0 0 30px;
+	background-image: url("/mod/arkeogis/img/logo.png");
 }
 
 #content #map_area {
 	position: relative;
-	margin-left: 40px;
+	height: 550px; 
+	width: 1198px; 
 }
 
 #content #map_menu {
@@ -59,9 +67,20 @@ html[xmlns] .clearfix {
 
 #content #map_canvas { 
 	position: absolute;
-	width: 1200px; 
-	height: 500px; 
-	border:1px solid #999
+	height: 100%; 
+	width: 100%; 
+	border:1px solid #ccc;
+}
+
+#footer {
+	margin-top: 35px;
+	padding: 10px 0 30px 0;
+	text-align: right;
+	padding-right: 10px;
+	color: #444;
+	font-weight: bold;
+	font-size: 11px;
+	border-top: 1px solid black;
 }
 
 table.map-query td { 
@@ -112,11 +131,9 @@ table.map-query td.validations button {
 }
 
 table.map-query td.validations .btn-display-map {
- float: left;
 }
 
 table.map-query td.validations .btn-display-sheet {
- float: right;
 }
 
 table.map-query .btn-reinit {
