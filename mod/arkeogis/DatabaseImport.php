@@ -59,7 +59,7 @@ class DatabaseImport {
 		// Retrieve special periods
 
 		foreach(\core\Core::$db->fetchAll('SELECT "pe_id", "pe_name_fr" FROM "ark_period" WHERE "pe_name_fr" IN (?, ?, ?, ?, ?)', array('BRF3/HAC1', 'HAC2/HAD1', 'HAD3/LTA1', 'LTC2/LTD1', 'Grandes invasions')) as $row) {
-			self::$_cache['specialperiod'][$lang][$row['pe_name']][] = $row['pe_id']; 
+			self::$_cache['specialperiod'][$lang][$row['pe_name_fr']][] = $row['pe_id']; 
 		}
 
 		foreach($lines as $datas) {
