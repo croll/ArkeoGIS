@@ -75,6 +75,10 @@
 						</td>
 					 </tr>
 
+					 <tr class="menu_db">
+						<td colspan='2'><div id='menu_db' style='position: relative'></div></td>
+					 </tr>
+
 					 <tr class="menu_period">
 						<td colspan='2'><div id='menu_period' style='position: relative'></div></td>
 					 </tr>

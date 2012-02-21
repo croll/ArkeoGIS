@@ -3,6 +3,16 @@ window.addEvent('domready', function() {
     /* initialization of plusminus menus */
 
     new Request.JSON({
+	'url': '/ajax/call/arkeogis/dblist',
+	'onSuccess': function(dblist) {
+	    arkeo_menu_db = new PlusMinusItem("Choix de la base", null, null);
+	    for (var i=0; i<dblist.length; i++)
+		arkeo_menu_db.addJsonItem(dblist[i]);
+	    arkeo_menu_db.inject($('menu_db'));
+	}
+    }).get();
+
+    new Request.JSON({
 	'url': '/ajax/call/arkeogis/periodlist',
 	'onSuccess': function(periodlist) {
 	    arkeo_menu_period = new PlusMinusItem("Choix de la période", null, null);

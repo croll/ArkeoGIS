@@ -188,7 +188,7 @@ table.map-query .btn-reinit {
  text-indent: 24px;
 }
 
-#menu_period .pmmenu-root {
+#menu_db .pmmenu-root, #menu_period .pmmenu-root {
 	width: 216px;
 }
 

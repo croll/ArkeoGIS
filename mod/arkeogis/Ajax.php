@@ -4,6 +4,10 @@ namespace mod\arkeogis;
 
 class Ajax {
 
+	public static function dblist() {
+		return \core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path from ark_database order by id");
+	}
+
 	public static function periodlist() {
 		return \core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, pe_name_fr as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 	}
