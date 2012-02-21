@@ -37,6 +37,16 @@ class Ajax {
 		$query=' WHERE (1=1) ';
 		$args=array();
 
+		if (isset($search['db_include']) && count($search['db_include'])) {
+			$query.=' AND si_database_id IN (?)';
+			$args[]=$search['db_include'];
+		}
+
+		if (isset($search['db_exclude']) && count($search['db_exclude'])) {
+			$query.=' AND si_database_id NOT IN (?)';
+			$args[]=$search['db_exclude'];
+		}
+
 		if (isset($search['period_include']) && count($search['period_include'])) {
 			$addtable['ark_site_period']=true;
 			foreach($search['period_include'] as $period) {
