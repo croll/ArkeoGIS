@@ -470,7 +470,7 @@ class DatabaseImport {
 				$h = md5($str);
 				if (!isset(self::$_cache[$type][$h]) && !empty($l)) {
 					$parentId = $i-1;
-					$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($l, $type, $i, (($parentId > 0) ? $ids[$parentId] : NULL));
+					$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($l, $type, $i, (($parentId > 0) ? ((isset($ids[$parentId])) ? $ids[$parentId] : NULL) : NULL));
 					if (sizeof($resPath) > 1) {
 						self::_addError("Multiple results found for $type ($str)");
 					} else if (sizeof($resPath) == 0) {
@@ -493,7 +493,7 @@ class DatabaseImport {
 			if (strtolower($value) != strtolower(self::$_strings['Yes'][self::$_lang]) && strtolower($value) != strtolower(self::$_strings['No'][self::$_lang])) {
 				self::_addError(ucfirst($type)." exceptional flag invalid ($value)");	
 			}
-			if (strtolower($value) == $strings['Yes'][self::$_lang]) {
+			if (strtolower($value) == self::$_strings['Yes'][self::$_lang]) {
 				self::$_current[$type.'_ex'] = $value;
 			}
 		}
