@@ -1,5 +1,18 @@
 {extends tplextends('arkeogis/layout')}
 
+{block name='webpage_head' append}
+	{js file="/mod/cssjs/js/ckeditor/ckeditor.js"}
+	{js file="/mod/cssjs/js/captainhook.js"}
+	{js file="/mod/cssjs/js/chwysiwyg.js"}
+	{js file="/mod/cssjs/js/chmypaginate.js"}
+	{js file="/mod/cssjs/js/chfilter.js"}
+	{js file="/mod/page/js/page.js"}
+	{css file="/mod/page/css/bootstrap-responsive.css"}
+	{css file="/mod/page/css/extra.css"}
+	{css file="/mod/page/css/icon.css"}
+	{css file="/mod/page/css/page.css"}
+{/block}
+
 {block name='arkeogis_content'}
 <div class="page-list">
 	{block name='paginator'}

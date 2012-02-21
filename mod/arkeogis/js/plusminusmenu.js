@@ -155,7 +155,7 @@ var PlusMinusItem = new Class({
 				right: 0,
 				top: 0,
 				bottom: 0,
-				'z-index': 1999,
+				zIndex: 1999,
 			    }
 			});
 			back.inject($('map_area'));

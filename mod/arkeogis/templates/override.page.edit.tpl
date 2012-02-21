@@ -3,6 +3,11 @@
 {block name='webpage_head' append}
 	{js file="/mod/cssjs/js/ckeditor/ckeditor.js"}
 	{js file="/mod/cssjs/js/chwysiwyg.js"}
+	{js file="/mod/page/js/page.js"}
+	{css file="/mod/page/css/bootstrap-responsive.css"}
+	{css file="/mod/page/css/extra.css"}
+	{css file="/mod/page/css/icon.css"}
+	{css file="/mod/page/css/page.css"}
 {/block}
 
 {block name='page_menu' append}
@@ -44,6 +49,7 @@
 	<div>
 
 <script>
+	document.addEvent('domready', function() {
 	var myeditor = new CHWysiwyg({
 				'contentElement':'editor1',
 			});
@@ -56,6 +62,6 @@
 		var params = $('page_edit'); 
 		mypage.postForm('/ajax/call/page/savePage', 'page_edit', params);
 	});
+	});
 </script>
 {/block}
-

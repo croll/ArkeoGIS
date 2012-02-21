@@ -47,8 +47,10 @@ html[xmlns] .clearfix {
 
 #content #map_area {
 	position: relative;
-	height: 550px; 
-	width: 1198px; 
+}
+
+#map_container {
+	height: 500px;
 }
 
 #content #map_menu {
@@ -67,7 +69,7 @@ html[xmlns] .clearfix {
 
 #content #map_canvas { 
 	position: absolute;
-	height: 100%; 
+	height: 500px; 
 	width: 100%; 
 	border:1px solid #ccc;
 }

@@ -1,0 +1,67 @@
+{
+	"method" : "post",
+	"enctype" : "multipart/form-data",
+	"elements" : 
+	[
+		{	"type" : "text",
+			"name" : "separator",
+			"id" : "separator",
+			"value" : ";",
+			"caption" : "Separator",
+			"validators" : 
+			[ 
+				{	
+					"validate-required" : "minLength: 1"
+				},
+				{ "regexp" : "/^.+$/",
+					"error" : "Field is mandatory"
+				}
+			]
+		},
+		{	"type" : "select",
+			"name" : "select_carriagereturn",
+			"children" :
+			[
+				{ "type" : "option",
+					"name" : "carriagereturn",
+					"value" : 0,
+					"html" : "\n"
+				},
+				{ "type" : "option",
+					"name" : "carriagereturn",
+					"value" : 1,
+					"html" : "\r\n"
+				},
+				{ "type" : "option",
+					"name" : "carriagereturn",
+					"value" : 2,
+					"html" : "(Mac)"
+				}
+			]	
+		},
+		{	"type" : "select",
+			"name" : "select_encoding",
+			"children" :
+			[
+				{ "type" : "option",
+					"name" : "encoding",
+					"value" : "latin1",
+					"html" : "ISO-8859-15 (latin1)"
+				},
+				{ "type" : "option",
+					"name" : "encoding",
+					"value" : "utf8",
+					"html" : "UTF-8"
+				}
+			]	
+		},
+		{	"type" : "file",
+			"name" : "dbfile",
+			"caption" : "Filename"
+		},
+		{	"type" : "submit",
+			"name" : "submit",
+			"value" : "Submit"
+		}
+	]
+}

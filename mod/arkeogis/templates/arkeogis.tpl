@@ -12,9 +12,13 @@
 {/block}
 
 {block name='arkeogis_content'}
-	<div class="clearfix">
+	<div id="map_container">
 
 		<div id="map_area">
+
+			<!-- end of map menu -->
+			<div id="map_canvas">
+			</div>
 
 				<div id="map_menu">
 					<table class='map-query' border='0' cellspacing='0' cellpadding='0'>
@@ -111,10 +115,6 @@
 					 </tr>
 				 </table>
 				</div>
-
-			<!-- end of map menu -->
-			<div id="map_canvas">
-			</div>
 
 			<script type="text/javascript">
 				document.addEvent('domready', function() {
