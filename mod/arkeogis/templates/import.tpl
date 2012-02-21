@@ -2,7 +2,7 @@
 
 {block name='arkeogis_content'}
 
-	<!--
+	{*
 	{form mod="arkeogis" id="dbUpload" file="templates/dbUpload.json"}
 		<div>Sep: {$dbUpload.separator}</div>
 		{$dbUpload.select_carriagereturn}
@@ -10,7 +10,7 @@
 		{$dbUpload.dbfile}
 		{$dbUpload.submit}
 	{/form}
-	-->
+	*}
 
 	{if isset($result)}
 
