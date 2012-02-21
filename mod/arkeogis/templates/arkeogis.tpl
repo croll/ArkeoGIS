@@ -1,36 +1,18 @@
-{extends tplextends('webpage/webpage_main')}
+{extends tplextends('arkeogis/layout')}
 
 {block name='webpage_head' append}
-	{js file="/mod/cssjs/js/mootools.js"}
-	{js file="/mod/cssjs/js/mootools.more.js"}
 	{js file="/mod/cssjs/js/multiselect.js"}
-	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap.css"}
-	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap-responsive.css"}
-
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/page_mapquery.js"}
-	{css file="/mod/arkeogis/css/arkeogis.css"}
+	{js file="/mod/map/js/MooGooMaps/Source/Class.SubObjectMapping.js"}
+	{js file="/mod/map/js/MooGooMaps/Source/Map.js"}
+	{js file="/mod/map/js/MooGooMaps/Source/Map.Extras.js"}
+	{js file="/mod/map/js/MooGooMaps/Source/Map.Marker.js"}
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false" ></script>
 {/block}
 
-{block name='webpage_body'}
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Cartothèque</a></li>
-              <li><a href="#about">Requête SQL</a></li>
-              <li><a href="#contact">Manuel utilisateur</a></li>
-              <li><a href="#contact">Fiche création site</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-    <br/><br/><br/>
-
-
+{block name='arkeogis_content'}
+	<div id="map_menu">
     <table class='map-query' border='0' cellspacing='0' cellpadding='0'>
      <tr class="menu_archives">
       <td colspan='2'>
@@ -123,5 +105,15 @@
        <button class='btn btn-reinit'>{t d='arkeogis' m="Réinitialiser la requête"}</button>
       </td>
      </tr>
-
+	 </table>
+	</div>
+	<div id="map_area">
+		<div id="map_canvas"></div>
+		<script type="text/javascript">
+			document.addEvent('domready', function() {
+				var map = new Map('map_canvas', [43.60,3.88], { zoom: 12 });
+			});
+		</script>
+		<img src="{$image}" />
+	</div>
 {/block}

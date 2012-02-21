@@ -82,11 +82,11 @@ class ArkeoGIS {
 	/*    Common   */
 	/* ************* */
 
-	public static function getUniquePathFromLabel($label, $type, $level=NULL, $parentPath=NULL) {
+	public static function getUniquePathFromLabel($label, $type, $level=NULL, $parentPath=NULL, $lang='fr') {
 		if (!preg_match("/^[a-z]+/", $type)) {
 			throw new \Exception("Table name invalid");
 		}
-		$q = 'SELECT "node_path" FROM "ark_'.$type.'" WHERE "'.substr($type, 0, 2).'_name" ilike ? ';
+		$q = 'SELECT "node_path" FROM "ark_'.$type.'" WHERE "'.substr($type, 0, 2).'_name_'.$lang.'" ilike ? ';
 		$args = array($label);
 
 		if (!is_null($level)) {

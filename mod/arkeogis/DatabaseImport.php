@@ -42,44 +42,6 @@ class DatabaseImport {
 		self::$_cache['siteperiod'] = array();
 		self::$_cache['specialperiod'] = array();
 
-		$strings['fr']['bronze indéterminé'] = 'Bronze Indéterminé (1800 – 800 av.JC)';
-		$strings['fr']['bronze ancien'] = 'Bronze ancien (BRA 1800 – 1500 av.JC)';
-		$strings['fr']['bronze moyen'] = 'Bronze moyen (BRM 1501 – 1200 av.JC)';
-		$strings['fr']['bronze final'] = 'Bronze final (BRF 1201 – 800 av.JC)';
-		$strings['fr']['brf1'] = 'BRF1 (1201 – 1050 av.JC)';
-		$strings['fr']['brf2'] = 'BRF2 (1051 – 900 av.JC)';
-		$strings['fr']['fer indéterminé'] = 'Fer indéterminé (801 – 25 av.JC)';
-		$strings['fr']['hallstatt indéterminé'] = 'Hallstatt indéterminé (801 – 460 av.JC)';
-		$strings['fr']['hallstatt C'] = 'Hallstatt C (HAC 801 –620 av.JC)';
-		$strings['fr']['hallstatt D'] = 'Hallstatt D (HAD 621 – 460 av.JC)';
-		$strings['fr']['had1'] = 'HAD1 (621 – 530 av.JC)';
-		$strings['fr']['had2'] = 'HAD2 (531 – 500 av.JC)';
-		$strings['fr']['had3'] = 'HAD3 (501 – 460 av.JC)';
-		$strings['fr']['la tène indéterminée'] = 'La Tène indéterminée (461 – 25 av.JC)';
-		$strings['fr']['la tène a'] = 'La Tène A (LTA 461 – 400 av.JC)';
-		$strings['fr']['la tène b'] = 'La Tène B (LTB 401 – 260 av.JC)';
-		$strings['fr']['ltb1'] = 'LTB1 (401 – 321 av.JC)';
-		$strings['fr']['ltb2'] = 'LTB2 (321 – 260 av.JC)';
-		$strings['fr']['la tène c'] = 'La Tène C (LTC 261 – 140 av.JC)';
-		$strings['fr']['ltc1'] = 'LTC1 (261 – 200 av.JC)';
-		$strings['fr']['ltc2'] = 'LTC2 (201 – 140 av.JC)';
-		$strings['fr']['la tène d'] = 'La Tène D (LTD 141 – 25 av.JC)';
-		$strings['fr']['ltd1'] = 'TD1 (141 – 70 av.JC)';
-		$strings['fr']['ltd2'] = 'LTD2 (71 – 25 av.JC)';
-		$strings['fr']['-40  +20'] = '-40  +20 (ap.JC)';
-		$strings['fr']['+21 +100'] = '+21 +100 (ap.JC)';
-		$strings['fr']['+101 +250'] = '+101 +250 (ap.JC)';
-		$strings['fr']['+251 +310'] = '+251 +310 (ap.JC)';
-		$strings['fr']['mérovingien indéterminé'] = 'Mérovingien Indéterminé (+451+720 ap.JC)';
-		$strings['fr']['mérovingien ancien'] = 'Mérovingien ancien (+451 +600 ap.JC)';
-		$strings['fr']['mérovingien ancien I'] = 'Mérovingien ancien I (+451 +520 ap.JC)';
-		$strings['fr']['mérovingien ancien II'] = 'Mérovingien ancien II (+521 +550 ap.JC)';
-		$strings['fr']['mérovingien ancien III'] = 'Mérovingien ancient III (+551+600 ap.JC)';
-		$strings['fr']['mérovingien récent'] = 'Mérovingien récent (+601 +720 ap.JC)';
-		$strings['fr']['mérovingien récent I'] = 'Mérovingien récent I (601-630 ap.JC)';
-		$strings['fr']['mérovingien récent II'] = 'Mérovingien récent II  (631-680 ap.JC)';
-		$strings['fr']['mérovingien récent III'] = 'Mérovingien récent III  (681-720 ap.JC)';
-
 		if (!is_file($filepath) || !is_readable($filepath)) {
 			// Check if filename is in current directory (for tests)
 			$moduleDir = dirname(__FILE__);
@@ -96,8 +58,8 @@ class DatabaseImport {
 
 		// Retrieve special periods
 
-		foreach(\core\Core::$db->fetchAll('SELECT "pe_id", "pe_name" FROM "ark_period" WHERE "pe_name" IN (?, ?, ?, ?, ?)', array('BRF3/HAC1', 'HAC2/HAD1', 'HAD3/LTA1', 'LTC2/LTD1', 'Grandes invasions')) as $row) {
-			self::$_cache['specialperiod'][$row['pe_name']][] = $row['pe_id']; 
+		foreach(\core\Core::$db->fetchAll('SELECT "pe_id", "pe_name_fr" FROM "ark_period" WHERE "pe_name_fr" IN (?, ?, ?, ?, ?)', array('BRF3/HAC1', 'HAC2/HAD1', 'HAD3/LTA1', 'LTC2/LTD1', 'Grandes invasions')) as $row) {
+			self::$_cache['specialperiod'][$lang][$row['pe_name']][] = $row['pe_id']; 
 		}
 
 		foreach($lines as $datas) {
@@ -259,10 +221,6 @@ class DatabaseImport {
 			# 15 : Period end
 			// We have starting and ending period
 			if (!empty($datas[14]) && !empty($datas[15])) {
-					$os = strtolower($datas[14]);
-					$datas[14] = (isset($strings['fr'][$os])) ? $strings['fr'][$os] : $datas[14];
-					$os = strtolower($datas[15]);
-					$datas[15] = (isset($strings['fr'][$os])) ? $strings['fr'][$os] : $datas[15];
 					self::$_current['period'] = self::_processPeriod($datas[14], $datas[15]);
 			// We do not have starting and ending period
 			} else {

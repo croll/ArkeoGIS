@@ -1,6 +1,19 @@
+#content {
+	margin: 60px 40px 20px 40px;
+}
+
 /*
- * Requete SQL
+ * Map 
  */
+
+#content #map_menu {
+	float: left;
+}
+
+#content #map_area {
+	margin-left: 40px;
+	float: left;
+}
 
 table.map-query td { 
   padding-top: 2px;
@@ -238,4 +251,8 @@ table.map-query .btn-reinit {
 }
 
 
-/***/
+#content #map_canvas { 
+	width: 1000px; 
+	height: 600px; 
+	border:1px solid #000
+}
