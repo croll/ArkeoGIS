@@ -35,28 +35,37 @@ var PlusMinusMenu = new Class({
     inject: function(to_html_elem) {
 	var me=this;
 	me.html_element=new Element('div', {
-	    class: 'pmmenu-popup',
+	    class: 'pmmenu-popup'
 	});
-	me.html_element.inject(to_html_elem);
+	
+	me.html_element.setStyles({
+	    left: (me.parent_item.parent_menu ? me.html_element.getStyle('left').toInt() : 0)
+		+ to_html_elem.getPosition().x
+		+ 'px',
+	    top: to_html_elem.getPosition().y+'px'
+	});
+
+	//me.html_element.inject(to_html_elem);
+	me.html_element.inject($$('body')[0]);
 	
 	var title=new Element('div', {
 	    class: 'pmmenu-title',
-	    text: me.parent_item.model.text,
+	    text: me.parent_item.model.text
 	});
 	title.inject(me.html_element);
 	var title_sub=new Element('div', {
-	    class: 'pmmenu-title-sub',
+	    class: 'pmmenu-title-sub'
 	});
 	title_sub.inject(title);
 	
 	var tools=new Element('div', {
 	    class: 'pmmenu-tools',
-	    text: "Sélection",
+	    text: "Sélection"
 	});
 	tools.inject(me.html_element);
 	var tools_all=new Element('button', {
 	    class: 'select-all',
-	    text: 'TOUS',
+	    text: 'TOUS'
 	});
 	tools_all.addEvent('click', function(e) {
 	    me.parent_item.setSelected('+', true);
@@ -64,7 +73,7 @@ var PlusMinusMenu = new Class({
 	tools_all.inject(tools);
 	var tools_none=new Element('button', {
 	    class: 'select-none',
-	    text: 'AUCUN',
+	    text: 'AUCUN'
 	});
 	tools_none.addEvent('click', function(e) {
 	    me.parent_item.setSelected('', true);
@@ -93,7 +102,7 @@ var PlusMinusMenu = new Class({
     
     isOpened: function() {
 	return this.html_element ? true : false;
-    },
+    }
 
 });
 
@@ -103,7 +112,7 @@ var PlusMinusItem = new Class({
     html_element: null,
     model: {
 	text: '',
-	value: '',
+	value: ''
     },
     submenu: null,
     parent_menu: null,
@@ -129,15 +138,15 @@ var PlusMinusItem = new Class({
 	var me=this;
 	me.html_element=new Element('div', {
 	    class: 'pmmenu-item',
-	    text: me.model.text,
+	    text: me.model.text
 	});
 	me.html_element.inject(to_html_elem);
 	var sub=new Element('div', {
-	    class: 'pmmenu-sub',
+	    class: 'pmmenu-sub'
 	});
 	sub.inject(me.html_element);
 	var sel=new Element('div', {
-	    class: 'pmmenu-sel',
+	    class: 'pmmenu-sel'
 	});
 	sel.inject(me.html_element);
 	if (me.submenu) {
@@ -155,19 +164,16 @@ var PlusMinusItem = new Class({
 				right: 0,
 				top: 0,
 				bottom: 0,
-				zIndex: 1999,
+				'z-index': 1999
 			    }
 			});
-			back.inject($('map_area'));
-			$('map_canvas').addEvent('click', function(e) {
+			back.inject($$('body')[0], 'top');
+			back.addEvent('click', function(e) {
 			    me.submenu.close();
 			    back.destroy();
 			});
 			
 			me.submenu.inject(to_html_elem);
-			me.submenu.html_element.set('styles', {
-			    left: 0
-			});
 		    }
 		});
 	    } else {
@@ -237,7 +243,7 @@ var PlusMinusItem = new Class({
 	} else if (this.selected != selected) {
 	    this.selected=selected;
 	    this.fireEvent('selection', {
-		'selected': me.selected,
+		'selected': me.selected
 	    });
 	    me.drawSelection();
 	}
@@ -277,7 +283,3 @@ var PlusMinusItem = new Class({
 	}
     }
 });
-
-
-
-
