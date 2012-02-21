@@ -9,7 +9,9 @@
 {/block}
 
 {block name='webpage_body'}
-	<div class="navbar navbar-fixed-top">
+	<div id="logo">
+	</div>
+	<div class="navbar">
 		<div class="navbar-inner">
 			<div class="container">
 				<div class="nav-collapse">

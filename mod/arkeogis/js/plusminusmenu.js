@@ -158,8 +158,8 @@ var PlusMinusItem = new Class({
 				'z-index': 1999,
 			    }
 			});
-			back.inject($$('body')[0]);
-			back.addEvent('click', function(e) {
+			back.inject($('map_area'));
+			$('map_canvas').addEvent('click', function(e) {
 			    me.submenu.close();
 			    back.destroy();
 			});
