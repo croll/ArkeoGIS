@@ -2,9 +2,6 @@
 
 namespace mod\arkeogis;
 
-define(DAD, 1);
-define(CHILD, 2);
-
 class DatabaseImport {
 
 	private static $_current = array();
