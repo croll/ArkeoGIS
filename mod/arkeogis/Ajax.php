@@ -35,10 +35,20 @@ class Ajax {
 
 		if (isset($search['period_include']) && count($search['period_include'])) {
 			$addtable['ark_site_period']=true;
+			foreach($search['period_include'] as $period) {
+				$query.=' AND sp_period_start >= ? AND sp_period_start <= ?';
+				$args[]=$period;
+				$args[]=$period;
+			}
 		}
 
 		if (isset($search['period_exclude']) && count($search['period_exclude'])) {
 			$addtable['ark_site_period']=true;
+			foreach($search['period_include'] as $period) {
+				$query.=' AND NOT (sp_period_start >= ? AND sp_period_start <= ?)';
+				$args[]=$period;
+				$args[]=$period;
+			}
 		}
 
 		if (isset($search['centroid'])) {
@@ -98,7 +108,7 @@ class Ajax {
 		}
 
 
-		$select="SELECT si_code, si_name, sp_knowledge_type";
+		$select="SELECT si_code, si_name";
 		$select.=" FROM ark_site";
 		if ($addtable['ark_site_period']) {
 			$select.=" LEFT JOIN ark_site_period ON sp_site_code = si_code";
