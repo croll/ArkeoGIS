@@ -102,6 +102,32 @@ var PlusMinusMenu = new Class({
     
     isOpened: function() {
 	return this.html_element ? true : false;
+    },
+
+    buildPath: function(selection_plus, selection_minus, result) {
+	var found=false;
+	this.content.each(function(item) {
+	    if (item.submenu) {
+		var subresult=[];
+		if (item.submenu.buildPath(selection_plus, selection_minus, subresult)) {
+		    var model=Object.clone(item.model);
+		    model.submenu=subresult;
+		    result.push(model);
+		    found=true;
+		}
+	    } else if (selection_plus.contains(item.model.value)) {
+		var model=Object.clone(item.model);
+		model.selection='+';
+		result.push(model);
+		found=true;
+	    } else if (selection_minus.contains(item.model.value)) {
+		var model=Object.clone(item.model);
+		model.selection='-';
+		result.push(model);
+		found=true;
+	    }
+	});
+	return found;
     }
 
 });

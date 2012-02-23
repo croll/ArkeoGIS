@@ -2,6 +2,7 @@
 
 {block name='webpage_head' append}
 	{js file="/mod/cssjs/js/multiselect.js"}
+	{js file="/pmmenus"}
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/page_mapquery.js"}
 	{js file="/mod/map/js/MooGooMaps/Source/Class.SubObjectMapping.js"}
@@ -149,5 +150,23 @@
 			</script>
 			<img src="{$image}" />
 		</div>
+	</div>
+
+	<div id='querys'></div>
+
+	<div id='query-display' class='query-display' style='display: none'>
+		<div>Récapitulatif de la requête : <span class='query_num'>1</span></div>
+		<div>
+			<input type='text' value='{t tag='' d='arkeogis' m='Nom de la requête'}'/>
+			<button>{t d='arkeogis' m='Archiver la requête'}</button>
+			<button>{t d='arkeogis' m='Imrpimer'}</button>
+			<button>{t d='arkeogis' m='Exporter'}</button>
+		</div>
+		<div class='query-filters'>
+		</div>
+	</div>
+
+	<div id='query-filter' class='query-filter' style='display: none'>
+		<div class='filtername'>filtername</div>
 	</div>
 {/block}

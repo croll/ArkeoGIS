@@ -1,56 +1,32 @@
 window.addEvent('domready', function() {
 
     /* initialization of plusminus menus */
+    arkeo_menu={};
 
-    new Request.JSON({
-	'url': '/ajax/call/arkeogis/dblist',
-	'onSuccess': function(dblist) {
-	    arkeo_menu_db = new PlusMinusItem("Choix de la base", null, null);
-	    for (var i=0; i<dblist.length; i++)
-		arkeo_menu_db.addJsonItem(dblist[i]);
-	    arkeo_menu_db.inject($('menu_db'));
-	}
-    }).get();
+    arkeo_menu.db = new PlusMinusItem("Choix de la base", null, null);
+    for (var i=0; i<menus.db.length; i++)
+	arkeo_menu.db.addJsonItem(menus.db[i]);
+    arkeo_menu.db.inject($('menu_db'));
 
-    new Request.JSON({
-	'url': '/ajax/call/arkeogis/periodlist',
-	'onSuccess': function(periodlist) {
-	    arkeo_menu_period = new PlusMinusItem("Choix de la période", null, null);
-	    for (var i=0; i<periodlist.length; i++)
-		arkeo_menu_period.addJsonItem(periodlist[i]);
-	    arkeo_menu_period.inject($('menu_period'));
-	}
-    }).get();
+    arkeo_menu.period = new PlusMinusItem("Choix de la période", null, null);
+    for (var i=0; i<menus.period.length; i++)
+	arkeo_menu.period.addJsonItem(menus.period[i]);
+    arkeo_menu.period.inject($('menu_period'));
 
-    new Request.JSON({
-	'url': '/ajax/call/arkeogis/productionlist',
-	'onSuccess': function(productionlist) {
-	    arkeo_menu_production = new PlusMinusItem("Choix production", null, null);
-	    for (var i=0; i<productionlist.length; i++)
-		arkeo_menu_production.addJsonItem(productionlist[i]);
-	    arkeo_menu_production.inject($('menu_production'));
-	}
-    }).get();
+    arkeo_menu.production = new PlusMinusItem("Choix production", null, null);
+    for (var i=0; i<menus.production.length; i++)
+	arkeo_menu.production.addJsonItem(menus.production[i]);
+    arkeo_menu.production.inject($('menu_production'));
 
-    new Request.JSON({
-	'url': '/ajax/call/arkeogis/realestatelist',
-	'onSuccess': function(realestatelist) {
-	    arkeo_menu_realestate = new PlusMinusItem("Choix immobilier", null, null);
-	    for (var i=0; i<realestatelist.length; i++)
-		arkeo_menu_realestate.addJsonItem(realestatelist[i]);
-	    arkeo_menu_realestate.inject($('menu_realestate'));
-	}
-    }).get();
+    arkeo_menu.realestate = new PlusMinusItem("Choix immobilier", null, null);
+    for (var i=0; i<menus.realestate.length; i++)
+	arkeo_menu.realestate.addJsonItem(menus.realestate[i]);
+    arkeo_menu.realestate.inject($('menu_realestate'));
 
-    new Request.JSON({
-	'url': '/ajax/call/arkeogis/furniturelist',
-	'onSuccess': function(furniturelist) {
-	    arkeo_menu_furniture = new PlusMinusItem("Choix mobilier", null, null);
-	    for (var i=0; i<furniturelist.length; i++)
-		arkeo_menu_furniture.addJsonItem(furniturelist[i]);
-	    arkeo_menu_furniture.inject($('menu_furniture'));
-	}
-    }).get();
+    arkeo_menu.furniture = new PlusMinusItem("Choix mobilier", null, null);
+    for (var i=0; i<menus.furniture.length; i++)
+	arkeo_menu.furniture.addJsonItem(menus.furniture[i]);
+    arkeo_menu.furniture.inject($('menu_furniture'));
 
 
     /* initialization of menus centroid, knowledge, occupation */
@@ -80,14 +56,16 @@ window.addEvent('domready', function() {
 
 	// get selections of plusminus menus
 
-	result.period_include = arkeo_menu_period.getSelection('+');
-	result.production_include = arkeo_menu_production.getSelection('+');
-	result.realestate_include = arkeo_menu_realestate.getSelection('+');
-	result.furniture_include = arkeo_menu_furniture.getSelection('+');
-	result.period_exclude = arkeo_menu_period.getSelection('-');
-	result.production_exclude = arkeo_menu_production.getSelection('-');
-	result.realestate_exclude = arkeo_menu_realestate.getSelection('-');
-	result.furniture_exclude = arkeo_menu_furniture.getSelection('-');
+	result.db_include = arkeo_menu.db.getSelection('+');
+	result.period_include = arkeo_menu.period.getSelection('+');
+	result.production_include = arkeo_menu.production.getSelection('+');
+	result.realestate_include = arkeo_menu.realestate.getSelection('+');
+	result.furniture_include = arkeo_menu.furniture.getSelection('+');
+	result.db_exclude = arkeo_menu.db.getSelection('-');
+	result.period_exclude = arkeo_menu.period.getSelection('-');
+	result.production_exclude = arkeo_menu.production.getSelection('-');
+	result.realestate_exclude = arkeo_menu.realestate.getSelection('-');
+	result.furniture_exclude = arkeo_menu.furniture.getSelection('-');
 
 
 	// get selections of multiselect menus
@@ -120,8 +98,64 @@ window.addEvent('domready', function() {
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
 		alert(res);
+		display_query(form);
 	    }
 	}).post(form);
     });
 });
 
+/* functions */
+
+function buildFilterLines(menu, colnum, div) {
+    menu.each(function(model) {	
+	var table = new Element('table');
+	table.inject(div);
+
+	var tr = new Element('tr');
+	tr.inject(table);
+
+	var td1 = new Element('td', {
+	    'class': 'td1',
+	    'text': model.text
+	});
+	td1.inject(tr);
+	
+	if (model.selection) {
+	    td1.addClass(model.selection == '+' ? 'filter-plus' : 'filter-minus');
+	} else if (model.submenu) {
+	    var td2 = new Element('td', {
+		'class': 'td2'
+	    });
+	    td2.inject(tr);
+	    buildFilterLines(model.submenu, colnum+1, td2);
+	}
+    });
+}
+
+function display_query(query) {
+    var html = $('query-display').clone();
+    html.setStyles({
+	display: ''
+    });
+
+    html.getElement('.query_num').set('text', 1);
+    ['db', 'period', 'production', 'realestate', 'furniture'].each(function(m) {
+	var result=[];
+	if (arkeo_menu[m].submenu.buildPath(query[m+'_include'], query[m+'_exclude'], result)) {
+	    var queryfilter_html=$('query-filter').clone();
+	    queryfilter_html.setStyles({
+		display: ''
+	    });
+	    queryfilter_html.getElement('div.filtername').set('text', m);
+
+	    div=new Element('div', {
+		class: 'filtercontent'
+	    });
+	    buildFilterLines(result, 0, div);
+	    div.inject(queryfilter_html);
+	    queryfilter_html.inject(html.getElement('.query-filters'));
+	}
+    });
+
+    html.inject($('querys'));
+}

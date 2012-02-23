@@ -4,26 +4,6 @@ namespace mod\arkeogis;
 
 class Ajax {
 
-	public static function dblist() {
-		return \core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path from ark_database order by id");
-	}
-
-	public static function periodlist() {
-		return \core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, pe_name_fr as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
-	}
-
-	public static function productionlist() {
-		return \core\Core::$db->fetchAll("select pr_id as id, pr_parentid as parentid, pr_name_fr as name, node_path from ark_production order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
-	}
-
-	public static function realestatelist() {
-		return \core\Core::$db->fetchAll("select re_id as id, re_parentid as parentid, re_name_fr as name, node_path from ark_realestate order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
-	}
-
-	public static function furniturelist() {
-		return \core\Core::$db->fetchAll("select fu_id as id, fu_parentid as parentid, fu_name_fr as name, node_path from ark_furniture order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
-	}
-
 	public static function showthemap($search) {
 		$search=$_REQUEST; // override the $search wich is fucked, I don't really know why
 
@@ -86,36 +66,42 @@ class Ajax {
 		}
 
 		if (isset($search['production_include']) && count($search['production_include'])) {
+			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_production']=true;
 			$query.=' AND sp_site_period_id IN (?)';
 			$args[]=$search['production_include'];
 		}
 
 		if (isset($search['production_exclude']) && count($search['production_exclude'])) {
+			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_production']=true;
 			$query.=' AND sp_site_period_id NOT IN (?)';
 			$args[]=$search['production_include'];
 		}
 
 		if (isset($search['furniture_include']) && count($search['furniture_include'])) {
+			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_furniture']=true;
 			$query.=' AND sf_id IN (?)';
 			$args[]=$search['furniture_include'];
 		}
 
 		if (isset($search['furniture_exclude']) && count($search['furniture_exclude'])) {
+			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_furniture']=true;
 			$query.=' AND sf_id NOT IN (?)';
 			$args[]=$search['furniture_include'];
 		}
 
 		if (isset($search['realestate_include']) && count($search['realestate_include'])) {
+			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_realestate']=true;
 			$query.=' AND sr_id IN (?)';
 			$args[]=$search['realestate_include'];
 		}
 
 		if (isset($search['realestate_exclude']) && count($search['realestate_exclude'])) {
+			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_realestate']=true;
 			$query.=' AND sr_id NOT IN (?)';
 			$args[]=$search['realestate_include'];

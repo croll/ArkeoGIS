@@ -11,6 +11,25 @@ class Main {
 		$page->display();
 	}
 
+  public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
+		\mod\user\Main::redirectIfNotLoggedIn();
+	
+		$menus=array();
+		
+		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path from ark_database order by id");
+		
+		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, pe_name_fr as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+		
+		$menus['production']=\core\Core::$db->fetchAll("select pr_id as id, pr_parentid as parentid, pr_name_fr as name, node_path from ark_production order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+		
+		$menus['realestate']=\core\Core::$db->fetchAll("select re_id as id, re_parentid as parentid, re_name_fr as name, node_path from ark_realestate order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+		
+		$menus['furniture']=\core\Core::$db->fetchAll("select fu_id as id, fu_parentid as parentid, fu_name_fr as name, node_path from ark_furniture order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+
+		echo "menus=";
+		echo json_encode($menus);
+	}
+
   public static function hook_mod_arkeogis_init($hookname, $userdata) {
 		\mod\user\Main::redirectIfNotLoggedIn();
 		$page = new \mod\webpage\Main();
@@ -54,7 +73,7 @@ class Main {
 			if (!is_array($urlmatches) || empty($urlmatches[1]) || !preg_match("/[a-zA-Z0-9-_]+\.csv/", $urlmatches[1])) {
 				throw new \Exception('CSV filename malformed');
 			}
-			$result =	\mod\arkeogis\DatabaseImport::importCsv($urlmatches[1],';', 'utf8', "\n", 1);
+			$result =	\mod\arkeogis\DatabaseImport::importCsv($urlmatches[1],';', 'utf8', "\n", 2);
 			$page = new \mod\webpage\Main();
 			$page->smarty->assign("result", $result);
 			$page->setLayout('arkeogis/import');

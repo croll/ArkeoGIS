@@ -324,3 +324,30 @@ table.map-query .btn-reinit {
 .menu-centroconnoccup-content .selected { 
  background: #0069d6;
 }
+
+/*
+ * query-display
+ */
+
+div.query-filter { 
+ width: 100%;
+}
+
+div.filtercontent {
+  position: relative;
+  border: solid black 1px;
+  margin: 4px;
+}
+div.filtercontent .td1 {
+  padding-left: 20px;
+  width: 250px;
+}
+div.filtercontent .td2 {
+  padding: 5px;
+}
+div.filtercontent .filter-plus {
+  background: no-repeat url("/mod/arkeogis/img/plusminus_checkbox-plus.png");
+}
+div.filtercontent .filter-minus {
+  background: no-repeat url("/mod/arkeogis/img/plusminus_checkbox-minus.png");
+}
