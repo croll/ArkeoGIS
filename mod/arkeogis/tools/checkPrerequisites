@@ -1,8 +1,12 @@
 #!/usr/bin/php -q
 <?php  //  -*- mode:php; tab-width:2; c-basic-offset:2; -*-
 
+
 $CAPTAINHOOK_PATH = getenv('CAPTAINHOOK_PATH');
-if ($CAPTAINHOOK_PATH === false) $CAPTAINHOOK_PATH = "/home/web/dev/captainhook_arkeo";
+if ($CAPTAINHOOK_PATH === false) {
+  if (is_file(getcwd().'/conf/general.conf')) $CAPTAINHOOK_PATH=getcwd();
+  else $CAPTAINHOOK_PATH = "/home/web/dev/captainhook_arkeo";
+}
 
 function _readline($prompt = '') {
   echo $prompt;
