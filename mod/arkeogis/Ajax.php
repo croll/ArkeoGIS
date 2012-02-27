@@ -114,13 +114,13 @@ class Ajax {
 			$select.=" LEFT JOIN ark_site_period ON sp_site_code = si_code";
 		}
 		if ($addtable['ark_siteperiod_production']) {
-			$select.=" LEFT JOIN ark_siteperiod_production ON sp_site_period_id = sp_id";
+			$select.=" LEFT JOIN ark_siteperiod_production ON sp_site_period_id = ark_site_period.sp_id";
 		}
 		if ($addtable['ark_siteperiod_furniture']) {
-			$select.=" LEFT JOIN ark_siteperiod_furniture ON sf_site_period_id = sp_id";
+			$select.=" LEFT JOIN ark_siteperiod_furniture ON sf_site_period_id = ark_site_period.sp_id";
 		}
 		if ($addtable['ark_siteperiod_realestate']) {
-			$select.=" LEFT JOIN ark_siteperiod_realestate ON sr_site_period_id = sp_id";
+			$select.=" LEFT JOIN ark_siteperiod_realestate ON sr_site_period_id = ark_site_period.sp_id";
 		}
 
 		$query=$select.' '.$query;
