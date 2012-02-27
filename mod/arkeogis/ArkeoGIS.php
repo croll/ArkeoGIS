@@ -7,8 +7,8 @@ class ArkeoGIS {
 	/* ********** */
 	/*    Site   */
 	/* ********** */
-	public static function deleteSite($code) {
-		\core\Core::$db->exec('DELETE FROM "ark_site" WHERE si_code=?', array((string)$code));
+	public static function deleteSite($code, $databaseId) {
+		\core\Core::$db->exec('DELETE FROM "ark_site" WHERE si_code=? AND si_database_id=?', array((string)$code,(int)$databaseId));
 	}
 
 	public static function addSite($code, $name, $databaseid, $cityid=NULL, $geom=NULL, $centroid, $occupation, $authorid=0) {
@@ -109,7 +109,12 @@ class ArkeoGIS {
 		if (!preg_match("/^[a-z]+$/", $carac))
 			throw new \Exception("Carateristic type invalid");
 		$prefix = substr($carac, 0, 2);
-		return \core\Core::$db->fetchOne('SELECT "'.$prefix.'_id" FROM "ark_'.$carac.'" WHERE "node_path" = ?' , array($node_path));
+		try {
+		 	$id = \core\Core::$db->fetchOne('SELECT "'.$prefix.'_id" FROM "ark_'.$carac.'" WHERE "node_path" = ?' , array((string)$node_path));
+		} catch (\Exception $e) {
+			throw new \Exception($e->getMessage());
+		}
+		return $id;
 	}
 
 }
