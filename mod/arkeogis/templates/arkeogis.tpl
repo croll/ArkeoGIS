@@ -90,7 +90,7 @@
 					 </tr>
 
 					 <tr class="title_exceptionnels">
-						<td></td>
+						<td class="fleche_exceptionnels"></td>
 						<td>{t d='arkeogis' m="Sites exceptionnels"}</td>
 					 </tr>
 
@@ -155,18 +155,24 @@
 	<div id='querys'></div>
 
 	<div id='query-display' class='query-display' style='display: none'>
-		<div>Récapitulatif de la requête : <span class='query_num'>1</span></div>
-		<div>
+                <div class='query-header'>
+		  <div class='query-header-title'>Récapitulatif de la requête : <span class='query_num'>1</span></div>
+                  <div class='query-header-save'>
 			<input type='text' value='{t tag='' d='arkeogis' m='Nom de la requête'}'/>
-			<button>{t d='arkeogis' m='Archiver la requête'}</button>
-			<button>{t d='arkeogis' m='Imrpimer'}</button>
+			<button>{t tag='' d='arkeogis' m='Archiver la requête'}</button>
+                  </div>
+		  <div class='query-header-buttons'>
+			<button>{t d='arkeogis' m='Imprimer'}</button>
 			<button>{t d='arkeogis' m='Exporter'}</button>
-		</div>
-		<div class='query-filters'>
+		  </div>
+                </div>
+		<div class='query-filters-border'>
+		     <div class='query-filters'>
+		     </div>
 		</div>
 	</div>
 
 	<div id='query-filter' class='query-filter' style='display: none'>
-		<div class='filtername'>filtername</div>
+		<div class='filtername'><span></span> <span class='icon-fleche-bas'></span></div>
 	</div>
 {/block}

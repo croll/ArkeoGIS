@@ -133,4 +133,15 @@ class Ajax {
 		\core\Core::log('result count: '.count($result));
 		return $result;
 	}
+
+
+  
+  public static function saveQuery($query, $queryname) {
+  }
+
+  public static function loadQuery($query, $queryid) {
+  }
+
+  public static function listQueries() {
+  }
 }

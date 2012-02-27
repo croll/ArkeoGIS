@@ -146,7 +146,7 @@ function display_query(query) {
 	    queryfilter_html.setStyles({
 		display: ''
 	    });
-	    queryfilter_html.getElement('div.filtername').set('text', m);
+	    queryfilter_html.getElement('div.filtername span').set('text', m);
 
 	    div=new Element('div', {
 		class: 'filtercontent'

@@ -110,6 +110,12 @@ tr.title_exceptionnels td {
 	color: #555;
 }
 
+tr.title_exceptionnels td.fleche_exceptionnels { 
+  background: url("/mod/arkeogis/img/fleche-site-exceptionnels.png");
+  background-repeat: no-repeat;
+  background-position: 11px 8px;
+}
+
 td.exceptionnel div {
  width: 28px;
  height: 23px;
@@ -335,8 +341,9 @@ div.query-filter {
 
 div.filtercontent {
   position: relative;
-  border: solid black 1px;
   margin: 4px;
+  border: solid 1px #ccc;
+  background: #f7f7f7;
 }
 div.filtercontent .td1 {
   padding-left: 20px;
@@ -350,4 +357,80 @@ div.filtercontent .filter-plus {
 }
 div.filtercontent .filter-minus {
   background: no-repeat url("/mod/arkeogis/img/plusminus_checkbox-minus.png");
+}
+
+.query-display { 
+  padding-top: 20px;
+}
+
+.query-display .query-header { 
+  padding-left: 5px;
+  padding-right: 5px;
+  position: relative;
+  height: 30px;
+}
+
+.query-display .query-header-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  font-size: bold;
+  border-top: solid 1px #ccc;
+  border-left: solid 1px #ccc;
+  border-right: solid 1px #ccc;
+  height: 30px;
+  background: #fff;
+  vertical-align: middle;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.query-display .query-header-save {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+.query-display .query-header-buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.query-display .query-filters-border { 
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 30px;
+  border-top: solid 1px #ccc;
+  border-left: solid 1px #ccc;
+  border-right: solid 1px #ccc;
+  border-bottom: solid 1px #ccc;
+  background: url("/mod/arkeogis/img/fleche-query-recap.png");
+  background-repeat: no-repeat;
+  background-position: 10px 8px;
+}
+
+.query-display .query-filters { 
+  border: solid 1px #ccc;
+  background: #eee;
+}
+
+.query-display .query-filter .filtername { 
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+.icon-fleche-bas { 
+  width: 8px;
+  height: 4px;
+  background: url("/mod/arkeogis/img/fleche-bas.png");
+  background-repeat: no-repeat;
+  vertical-align: middle;
 }
