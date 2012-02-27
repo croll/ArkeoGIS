@@ -159,11 +159,11 @@
 		  <div class='query-header-title'>Récapitulatif de la requête : <span class='query_num'>1</span></div>
                   <div class='query-header-save'>
 			<input type='text' value='{t tag='' d='arkeogis' m='Nom de la requête'}'/>
-			<button>{t tag='' d='arkeogis' m='Archiver la requête'}</button>
+			<button class='btn'>{t tag='' d='arkeogis' m='Archiver la requête'}</button>
                   </div>
 		  <div class='query-header-buttons'>
-			<button>{t d='arkeogis' m='Imprimer'}</button>
-			<button>{t d='arkeogis' m='Exporter'}</button>
+			<button class='btn-success'>{t d='arkeogis' m='Imprimer'}</button>
+			<button class='btn-success'>{t d='arkeogis' m='Exporter'}</button>
 		  </div>
                 </div>
 		<div class='query-filters-border'>

@@ -403,6 +403,22 @@ div.filtercontent .filter-minus {
   bottom: 0;
 }
 
+.query-display .query-header button {
+ border-width: 1px;
+ border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+ padding: 2px 5px 2px 5px;
+ font-size: 12px;
+ font-weight: bold;
+ border-radius: 5px;
+ -webkit-border-radius: 2px;
+ -moz-border-radius: 2px;
+ border-radius: 2px;
+}
+
+.query-display .query-header input {
+  margin-bottom: 0;
+}
+
 .query-display .query-filters-border { 
   padding-top: 5px;
   padding-bottom: 5px;
