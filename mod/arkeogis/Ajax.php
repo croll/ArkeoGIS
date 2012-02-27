@@ -140,12 +140,21 @@ class Ajax {
 
 
   
-  public static function saveQuery($query, $queryname) {
+  public static function saveQuery($params) {
+    $uid = \mod\user\Main::getUserId($_SESSION['login']);
+    \core\Core::$db->exec("INSERT INTO ark_savedquery (id_user, name, query) VALUES (?,?,?)",
+                          array($uid, $params['name'], $params['query']));
   }
 
   public static function loadQuery($query, $queryid) {
+    $uid = \mod\user\Main::getUserId($_SESSION['login']);
+    return \core\Core::$db->fetchOne("SELECT query FROM ark_savedquery WHERE id_user=? AND id=?",
+                                     array($uid, $params['queryid']));
   }
 
   public static function listQueries() {
+    $uid = \mod\user\Main::getUserId($_SESSION['login']);
+    return \core\Core::$db->fetchAll("SELECT * FROM ark_savedquery WHERE id_user=?",
+                                     array($uid));
   }
 }
