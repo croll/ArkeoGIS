@@ -31,7 +31,7 @@
 									{/block}
 								</ul>
 							</li>
-							<li><a href="/import/file/example4.csv">Test import</a></li>
+							<li><a href="/import/">Import</a></li>
 						</ul>
 					</div>
 				</div>
