@@ -79,6 +79,9 @@ window.addEvent('domready', function() {
 	result.centroid_include = arkeo_menu.centroid.getSelection('+');
 	result.knowledge_include = arkeo_menu.knowledge.getSelection('+');
 	result.occupation_include = arkeo_menu.occupation.getSelection('+');
+	result.centroid_exclude = arkeo_menu.centroid.getSelection('-');
+	result.knowledge_exclude = arkeo_menu.knowledge.getSelection('-');
+	result.occupation_exclude = arkeo_menu.occupation.getSelection('-');
 
 	// get selections of exceptionals checkbox
 
@@ -167,7 +170,7 @@ function display_query(query) {
     });
 
     html.getElement('.query_num').set('text', 1);
-    ['db', 'period', 'production', 'realestate', 'furniture'].each(function(m) {
+    ['centroid', 'knowledge', 'occupation', 'db', 'period', 'production', 'realestate', 'furniture'].each(function(m) {
 	var result=[];
 	if (arkeo_menu[m].submenu.buildPath(query[m+'_include'], query[m+'_exclude'], result)) {
 	    var queryfilter_html=$('query-filter').clone();
