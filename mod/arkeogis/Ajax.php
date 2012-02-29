@@ -79,6 +79,12 @@ class Ajax {
 			$args[]=$search['production_include'];
 		}
 
+		if (isset($search['production_exceptional']) && $search['production_exceptional'] == 1) {
+			$addtable['ark_site_period']=true;
+			$addtable['ark_siteperiod_production']=true;
+			$query.=' AND sp_exceptional = 1';
+		}
+
 		if (isset($search['furniture_include']) && count($search['furniture_include'])) {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_furniture']=true;
@@ -93,6 +99,12 @@ class Ajax {
 			$args[]=$search['furniture_include'];
 		}
 
+		if (isset($search['furniture_exceptional']) && $search['furniture_exceptional'] == 1) {
+			$addtable['ark_site_period']=true;
+			$addtable['ark_siteperiod_furniture']=true;
+			$query.=' AND sf_exceptional = 1';
+		}
+
 		if (isset($search['realestate_include']) && count($search['realestate_include'])) {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_realestate']=true;
@@ -105,6 +117,12 @@ class Ajax {
 			$addtable['ark_siteperiod_realestate']=true;
 			$query.=' AND sr_id NOT IN (?)';
 			$args[]=$search['realestate_include'];
+		}
+
+		if (isset($search['realestate_exceptional']) && $search['realestate_exceptional'] == 1) {
+			$addtable['ark_site_period']=true;
+			$addtable['ark_siteperiod_realestate']=true;
+			$query.=' AND sr_exceptional = 1';
 		}
 
 
