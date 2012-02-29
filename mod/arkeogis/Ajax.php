@@ -144,6 +144,7 @@ class Ajax {
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
     \core\Core::$db->exec("INSERT INTO ark_savedquery (id_user, name, query) VALUES (?,?,?)",
                           array($uid, $params['name'], $params['query']));
+    return 'ok';
   }
 
   public static function loadQuery($query, $queryid) {

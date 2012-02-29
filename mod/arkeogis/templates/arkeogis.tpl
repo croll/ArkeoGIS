@@ -26,7 +26,7 @@
 
 					 <tr class="menu_archives">
 						<td colspan='2'>
-						 <select>
+						 <select id='select-savedqueries'>
 							<option>{t d='arkeogis' m="Requêtes archivées"}</option>
 						 </select>
 						</td>
@@ -158,8 +158,8 @@
                 <div class='query-header'>
 		  <div class='query-header-title'>Récapitulatif de la requête : <span class='query_num'>1</span></div>
                   <div class='query-header-save'>
-			<input type='text' value='{t tag='' d='arkeogis' m='Nom de la requête'}'/>
-			<button class='btn'>{t tag='' d='arkeogis' m='Archiver la requête'}</button>
+			<input id='input-save-query' class='input-save-query' type='text' value='{t tag='' d='arkeogis' m='Nom de la requête'}'/>
+			<button id='btn-save-query' class='btn btn-save-query'>{t tag='' d='arkeogis' m='Archiver la requête'}</button>
                   </div>
 		  <div class='query-header-buttons'>
 			<button class='btn-success'>{t d='arkeogis' m='Imprimer'}</button>

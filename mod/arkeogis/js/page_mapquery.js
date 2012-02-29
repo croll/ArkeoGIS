@@ -49,6 +49,8 @@ window.addEvent('domready', function() {
 	list: $('menu-occupation-content')
     });
 
+
+
     /* initialization of buttons "afficher la carte" and "afficher le tableur" */
 
     function buildSelectionObject() {
@@ -102,6 +104,23 @@ window.addEvent('domready', function() {
 	    }
 	}).post(form);
     });
+
+
+    
+    /* initialization of buttons about query saving */
+    populateSavedQueriesMenu();
+
+    $('select-savedqueries').addEvent('change', function(e) {
+	new Request.JSON({
+	    'url': '/ajax/call/arkeogis/listQueries',
+	    'onSuccess': function(res) {
+		$('select-savedqueries').selectedIndex=0;
+	    }
+	}).post({
+	    'queryid': $('select-savedqueries').get('value')
+	});
+    });
+
 });
 
 /* functions */
@@ -157,5 +176,35 @@ function display_query(query) {
 	}
     });
 
+    html.getElement('.btn-save-query').addEvent('click', function() {
+	new Request.JSON({
+	    'url': '/ajax/call/arkeogis/saveQuery',
+	    'onSuccess': function(res) {
+		populateSavedQueriesMenu();
+		alert("Query saved !");
+	    }
+	}).post({
+	    'name': html.getElement('.input-save-query').get('value'),
+	    'query': JSON.encode(query)
+	});
+    });
+
+
     html.inject($('querys'));
+}
+
+function populateSavedQueriesMenu() {
+    new Request.JSON({
+	'url': '/ajax/call/arkeogis/listQueries',
+	'onSuccess': function(res) {
+	    var sel=$('select-savedqueries');
+	    sel.options = Array.slice(sel.options, 0,1);
+	    res.each(function(line) {
+		Array.push(sel.options, (new Element('option', {
+		    'value': line.id,
+		    'text': line.name
+		})));
+	    });
+	}
+    }).get();
 }
