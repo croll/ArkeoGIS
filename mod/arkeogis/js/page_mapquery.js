@@ -80,6 +80,12 @@ window.addEvent('domready', function() {
 	result.knowledge_include = arkeo_menu.knowledge.getSelection('+');
 	result.occupation_include = arkeo_menu.occupation.getSelection('+');
 
+	// get selections of exceptionals checkbox
+
+	result.realestate_exceptional = $('ex_realestate').checked ? 1 : 0;
+	result.furniture_exceptional = $('ex_furniture').checked ? 1 : 0;
+	result.production_exceptional = $('ex_production').checked ? 1: 0;
+
 	return result;
     }
 
@@ -114,6 +120,10 @@ window.addEvent('domready', function() {
 		arkeo_menu.centroid.setSelection(res.centroid_include, []);
 		arkeo_menu.knowledge.setSelection(res.knowledge_include, []);
 		arkeo_menu.occupation.setSelection(res.occupation_include, []);
+
+		$('ex_realestate').checked = res.realestate_exceptional == 1;
+		$('ex_furniture').checked = res.furniture_exceptional == 1;
+		$('ex_production').checked = res.production_exceptional == 1;
 	    }
 	}).post({
 	    'queryid': $('select-savedqueries').get('value')
