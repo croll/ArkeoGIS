@@ -2,18 +2,58 @@
 
 {block name='arkeogis_content'}
 
-	{*
-	{form mod="arkeogis" id="dbUpload" file="templates/dbUpload.json"}
-		<div>Sep: {$dbUpload.separator}</div>
-		{$dbUpload.select_carriagereturn}
-		{$dbUpload.select_encoding}
-		{$dbUpload.dbfile}
-		{$dbUpload.submit}
-	{/form}
-	*}
+	{if !isset($result)}
 
-	{if isset($result)}
+		{form mod="arkeogis" file="templates/dbUpload.json"}
+			<fieldset>
+				<legend>{t d='arkeogis' m="Import d'une base"}</legend>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="séparateur"}</label>
+					<div class="controls">
+					{$dbUpload.separator}
+					<p class="help-block">{t d='arkeogis' m="Utilisez \\t pour une tabulation"}</p>	
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Retour chariot"}</label>
+					<div class="controls">
+						{$dbUpload.select_carriagereturn}
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Type d'encodage"}</label>
+					<div class="controls">
+						{$dbUpload.select_encoding}
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Lignes à ignorer"}</label>
+					<div class="controls">
+						{$dbUpload.skipline}
+					<p class="help-block">{t d='arkeogis' m="Nombre de ligne en début de fichier à ne pas traiter"}</p>	
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Langue</label>
+					<div class="controls">
+						{$dbUpload.select_lang}
+					<p class="help-block">{t d='arkeogis' m="Langue utilisée pour caractériser les périodes/mobilier/immobilier"}</p>	
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">Fichier à analyser</label>
+					<div class="controls">
+						{$dbUpload.dbfile}
+					</div>
+				</div>
+				<div class="form-actions">
+						{$dbUpload.submit}
+				</div>
+			</fieldset>
+		{/form}
 
+	{else}
+		<a href="/import/">{t d="arkeogis" m="Effectuer un autre import"}</a>
 		<div style="width: 100%; margin: 0px auto 10px auto">
 			<div style="padding:3px"><i class="icon-align-justify" style="margin-right: 3px"></i><b>{$result.total}</b> sites processed.</div>
 			<div style="padding:3px"><i class="icon-ok" style="margin-right: 3px"></i><b>{$result.processed}</b> sites imported.</div>

@@ -53,7 +53,9 @@ class DatabaseImport {
 			}
 		}
 
-		$lines = array_chunk(str_getcsv(str_replace("\n", ';',file_get_contents($filepath)), $separator), 33);
+		$lf=str_replace(array('CR', 'LF'), array("\r", "\n"), $lf);
+		if ($separator == '\t') $separator="\t";
+		$lines = array_chunk(str_getcsv(str_replace($lf, $separator,file_get_contents($filepath)), $separator), 33);
 
 		\core\Core::$db->exec('BEGIN');
 

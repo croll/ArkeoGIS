@@ -8,7 +8,7 @@ class ModuleDefinition extends \core\ModuleDefinition {
 		$this->description = 'ArkeoGIS Application';
 		$this->name = 'arkeogis';
 		$this->version = '1.0';
-		$this->dependencies = array('ajax', 'cssjs', 'regroute', 'smarty', 'webpage', 'user', 'map');
+		$this->dependencies = array('ajax', 'cssjs', 'regroute', 'smarty', 'webpage', 'user', 'map', 'form');
 		parent::__construct();
 	}
 
@@ -16,8 +16,8 @@ class ModuleDefinition extends \core\ModuleDefinition {
 		parent::install();
 		\mod\regroute\Main::registerRoute($this->id, '#^/$#', 'mod_arkeogis_index');
 		\mod\regroute\Main::registerRoute($this->id, '#^/pmmenus$#', 'mod_arkeogis_pmmenus');
-		\mod\regroute\Main::registerRoute($this->id, '#^/import/$#', 'mod_arkeogis_import');
-		\mod\regroute\Main::registerRoute($this->id, '#^/import/file/(.*)$#', 'mod_arkeogis_process_import');
+		\mod\regroute\Main::registerRoute($this->id, '#^/import/?$#', 'mod_arkeogis_import');
+		\mod\regroute\Main::registerRoute($this->id, '#^/import/submit/?$#', 'mod_arkeogis_import_submit');
 	}
 
 	function uninstall() {
