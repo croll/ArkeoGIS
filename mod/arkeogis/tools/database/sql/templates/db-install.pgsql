@@ -127,4 +127,18 @@ CREATE TABLE "ark_siteperiod_production" (
 CREATE INDEX "ark_siteperiod_production_siteperiod_idx" ON "ark_siteperiod_production" ("sp_site_period_id"); 
 CREATE INDEX "ark_siteperiod_production_production_idx" ON "ark_siteperiod_production" ("sp_production_id"); 
 
+-- ---
+-- Table 'ark_savedquery'
+-- ---
+CREATE TABLE ark_savedquery (
+       "id" serial PRIMARY KEY,
+       "id_user" integer,
+       "name" varchar(255),
+       "query" text
+);
+CREATE UNIQUE INDEX "ark_savedquery_idx" ON "ark_savedquery" ("id");
+
+
+
+
 -- ARK_CITIESFR
