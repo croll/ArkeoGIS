@@ -300,7 +300,7 @@ var PlusMinusItem = new Class({
 
     setSelection: function(selection_plus, selection_minus) {
 	if (this.submenu) {
-	    this.submenu.each(function(item) {
+	    this.submenu.content.each(function(item) {
 		item.setSelection(selection_plus, selection_minus);
 	    });
 	} else if (selection_plus.contains(this.model.value)) {

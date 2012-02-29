@@ -147,13 +147,13 @@ class Ajax {
     return 'ok';
   }
 
-  public static function loadQuery($query, $queryid) {
+  public static function loadQuery($params) {
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
     return \core\Core::$db->fetchOne("SELECT query FROM ark_savedquery WHERE id_user=? AND id=?",
                                      array($uid, $params['queryid']));
   }
 
-  public static function listQueries() {
+  public static function listQueries($params) {
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
     return \core\Core::$db->fetchAll("SELECT * FROM ark_savedquery WHERE id_user=?",
                                      array($uid));

@@ -112,9 +112,15 @@ window.addEvent('domready', function() {
 
     $('select-savedqueries').addEvent('change', function(e) {
 	new Request.JSON({
-	    'url': '/ajax/call/arkeogis/listQueries',
+	    'url': '/ajax/call/arkeogis/loadQuery',
 	    'onSuccess': function(res) {
+		res=JSON.decode(res);
 		$('select-savedqueries').selectedIndex=0;
+		arkeo_menu.db.setSelection(res.db_include, res.db_exclude);
+		arkeo_menu.period.setSelection(res.period_include, res.period_exclude);
+		arkeo_menu.production.setSelection(res.production_include, res.production_exclude);
+		arkeo_menu.realestate.setSelection(res.realestate_include, res.realestate_exclude);
+		arkeo_menu.furniture.setSelection(res.furniture_include, res.furniture_exclude);
 	    }
 	}).post({
 	    'queryid': $('select-savedqueries').get('value')
