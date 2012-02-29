@@ -37,6 +37,7 @@ var PlusMinusMenu = new Class({
 	me.html_element=new Element('div', {
 	    class: 'pmmenu-popup'
 	});
+	me.html_element.inject($$('body')[0]);
 	
 	me.html_element.setStyles({
 	    left: (me.parent_item.parent_menu ? me.html_element.getStyle('left').toInt() : 0)
@@ -45,9 +46,6 @@ var PlusMinusMenu = new Class({
 	    top: to_html_elem.getPosition().y+'px'
 	});
 
-	//me.html_element.inject(to_html_elem);
-	me.html_element.inject($$('body')[0]);
-	
 	var title=new Element('div', {
 	    class: 'pmmenu-title',
 	    text: me.parent_item.model.text
