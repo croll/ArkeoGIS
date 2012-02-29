@@ -177,7 +177,10 @@ function display_query(query) {
 	    queryfilter_html.setStyles({
 		display: ''
 	    });
-	    queryfilter_html.getElement('div.filtername span').set('text', m);
+	    var title='arkeogis';
+	    if (m == 'production' || m == 'realestate' || m == 'furniture')
+		if (query[m+'_exceptional'] == 1) title+=' (exceptionals only)';
+	    queryfilter_html.getElement('div.filtername span').set('text', title);
 
 	    div=new Element('div', {
 		class: 'filtercontent'
