@@ -133,7 +133,7 @@ var PlusMinusMenu = new Class({
 });
 
 var PlusMinusItem = new Class({
-    Implements: Events,
+    Implements: [Events, Options],
 
     html_element: null,
     model: {
@@ -143,8 +143,12 @@ var PlusMinusItem = new Class({
     submenu: null,
     parent_menu: null,
     selected: '',
+    options: {
+	nominus: false
+    },
 
-    initialize: function(text, value, submenu) {
+    initialize: function(text, value, submenu, options) {
+	this.setOptions(options);
 	this.model.text=text;
 	this.model.value=value;
 	this.setSubMenu(submenu);
@@ -213,7 +217,7 @@ var PlusMinusItem = new Class({
 	if (me.parent_menu) {
 	    me.html_element.addEvent('click', function() {
 		if (me.selected == '+') {
-		    me.setSelected('-', me.submenu ? true : false);
+		    me.setSelected(me.options.nominus ? '' : '-', me.submenu ? true : false);
 		} else if (me.selected == '-') {
 		    me.setSelected('', me.submenu ? true : false);
 		} else {

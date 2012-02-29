@@ -49,24 +49,20 @@ class Ajax {
       $query.=')';
 		}
 
-		if (isset($search['centroid'])) {
-			foreach($search['centroid'] as $v) {
-				$query.=' AND si_centroid=?';
-				$args[]=(int)$v;
-			}
+		if (isset($search['centroid_include']) && count($search['centroid_include'])) {
+      $query.=' AND si_centroid IN (?)';
+      $args[]=$search['centroid_include'];
 		}
 
-		if (isset($search['knowledge'])) {
+		if (isset($search['knowledge_include']) && count($search['knowledge_include'])) {
 			$addtable['ark_site_period']=true;
 			$query.=' AND sp_knowledge_type IN(?)';
-			$args[]=$search['knowledge'];
+			$args[]=$search['knowledge_include'];
 		}
 
-		if (isset($search['occupation']) && count($search['occupation'])) {
-			foreach($search['occupation'] as $v) {
-				$query.=' AND si_occupation=?';
-				$args[]=$v;
-			}
+		if (isset($search['occupation_include']) && count($search['occupation_include'])) {
+      $query.=' AND si_occupation IN (?)';
+      $args[]=$search['occupation_include'];
 		}
 
 		if (isset($search['production_include']) && count($search['production_include'])) {

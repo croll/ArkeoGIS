@@ -30,26 +30,30 @@ window.addEvent('domready', function() {
 
 
     /* initialization of menus centroid, knowledge, occupation */
+
+    arkeo_menu.centroid = new PlusMinusItem("CENTROID", null, new PlusMinusMenu([
+	new PlusMinusItem("OUI", 1, null, { nominus: true }),
+	new PlusMinusItem("NON", 0, null, { nominus: true })
+    ]));
+    arkeo_menu.centroid.inject($('menu-centroid'));
+
+    arkeo_menu.knowledge = new PlusMinusItem("KNOWLEDGE", null, new PlusMinusMenu([
+	new PlusMinusItem("knowledge unknown", 'unknown', null, { nominus: true }),
+	new PlusMinusItem("knowledge literature", 'literature', null, { nominus: true }),
+	new PlusMinusItem("knowledge surveyed", 'surveyed', null, { nominus: true }),
+	new PlusMinusItem("knowledge excavated", 'excavated', null, { nominus: true })
+    ]));
+    arkeo_menu.knowledge.inject($('menu-knowledge'));
+
+    arkeo_menu.occupation = new PlusMinusItem("OCCUPATION", null, new PlusMinusMenu([
+	new PlusMinusItem("occupatioin unknown", 'unknown', null, { nominus: true }),
+	new PlusMinusItem("occupatioin uniq", 'uniq', null, { nominus: true }),
+	new PlusMinusItem("occupatioin continous", 'continuous', null, { nominus: true }),
+	new PlusMinusItem("occupatioin multiple", 'multiple', null, { nominus: true })
+    ]));
+    arkeo_menu.occupation.inject($('menu-occupation'));
+
     
-    new MultiselectPopup({
-	buttonelem: $('menu-centroid-button')
-    },{
-	list: $('menu-centroid-content')
-    });
-
-    new MultiselectPopup({
-	buttonelem: $('menu-knowledge-button')
-    },{
-	list: $('menu-knowledge-content')
-    });
-
-    new MultiselectPopup({
-	buttonelem: $('menu-occupation-button')
-    },{
-	list: $('menu-occupation-content')
-    });
-
-
 
     /* initialization of buttons "afficher la carte" and "afficher le tableur" */
 
@@ -59,37 +63,22 @@ window.addEvent('domready', function() {
 	// get selections of plusminus menus
 
 	result.db_include = arkeo_menu.db.getSelection('+');
-	result.period_include = arkeo_menu.period.getSelection('+');
-	result.production_include = arkeo_menu.production.getSelection('+');
-	result.realestate_include = arkeo_menu.realestate.getSelection('+');
-	result.furniture_include = arkeo_menu.furniture.getSelection('+');
 	result.db_exclude = arkeo_menu.db.getSelection('-');
+	result.period_include = arkeo_menu.period.getSelection('+');
 	result.period_exclude = arkeo_menu.period.getSelection('-');
+	result.production_include = arkeo_menu.production.getSelection('+');
 	result.production_exclude = arkeo_menu.production.getSelection('-');
+	result.realestate_include = arkeo_menu.realestate.getSelection('+');
 	result.realestate_exclude = arkeo_menu.realestate.getSelection('-');
+	result.furniture_include = arkeo_menu.furniture.getSelection('+');
 	result.furniture_exclude = arkeo_menu.furniture.getSelection('-');
 
 
 	// get selections of multiselect menus
 
-	result.centroid=[];
-	var elems=$('menu-centroid-content').getElements('.selected');
-	elems.each(function(el) {
-	    result.centroid.push(el.getProperty('multivalue'));
-	});
-
-	result.knowledge=[];
-	var elems=$('menu-knowledge-content').getElements('.selected');
-	elems.each(function(el) {
-	    result.knowledge.push(el.getProperty('multivalue'));
-	});
-
-	result.occupation=[];
-	var elems=$('menu-occupation-content').getElements('.selected');
-	elems.each(function(el) {
-	    result.occupation.push(el.getProperty('multivalue'));
-	});
-
+	result.centroid_include = arkeo_menu.centroid.getSelection('+');
+	result.knowledge_include = arkeo_menu.knowledge.getSelection('+');
+	result.occupation_include = arkeo_menu.occupation.getSelection('+');
 
 	return result;
     }
@@ -121,6 +110,10 @@ window.addEvent('domready', function() {
 		arkeo_menu.production.setSelection(res.production_include, res.production_exclude);
 		arkeo_menu.realestate.setSelection(res.realestate_include, res.realestate_exclude);
 		arkeo_menu.furniture.setSelection(res.furniture_include, res.furniture_exclude);
+
+		arkeo_menu.centroid.setSelection(res.centroid_include, []);
+		arkeo_menu.knowledge.setSelection(res.knowledge_include, []);
+		arkeo_menu.occupation.setSelection(res.occupation_include, []);
 	    }
 	}).post({
 	    'queryid': $('select-savedqueries').get('value')

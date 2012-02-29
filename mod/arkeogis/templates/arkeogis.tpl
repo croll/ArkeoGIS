@@ -33,47 +33,19 @@
 					 </tr>
 
 					 <tr class="troistrucs">
-						<td colspan='2'>
-						 <div id='button-centroid' style='position: relative'></div>
-						 <div id='button-knowledge' style='position: relative'>
-
-							 <table style='width: 100%'>
-								<tr>
-									<td style='text-align: center'>
-										<div id='menu-centroid-button' class='menu-centroconnoccup-button'>CENTROÏDE</div>
-										<div id='menu-centroid-content' class='menu-centroconnoccup-content' style='display: none'>
-										 <div class='chooseme' multivalue='1'>{t d='arkeogis' m='Oui'}</div>
-										 <div class='chooseme' multivalue='0'>{t d='arkeogis' m='Non'}</div>
-										</div>
-								 </td>
-				 
-
-								<td style='text-align: center'>
-									<div id='menu-knowledge-button' class='menu-centroconnoccup-button'>CONNAISSANCE</div>
-									<div id='menu-knowledge-content' class='menu-centroconnoccup-content' style='display: none'>
-									 <div class='chooseme' multivalue='unknown'>{t d='arkeogis' m='Non renseigné'}</div>
-									 <div class='chooseme' multivalue='literature'>{t d='arkeogis' m='Littérature, prospecté'}</div>
-									 <div class='chooseme' multivalue='surveyed'>{t d='arkeogis' m='Sondé'}</div>
-									 <div class='chooseme' multivalue='excavated'>{t d='arkeogis' m='Fouillé'}</div>
-									</div>
-								</td>
-
-								 <td style='text-align: center'>
-									<div id='menu-occupation-button' class='menu-centroconnoccup-button'>OCCUPATION</div>
-									<div id='menu-occupation-content' class='menu-centroconnoccup-content' style='display: none'>
-									 <div class='chooseme' multivalue='unknown'>{t d='arkeogis' m='Non-renseigné'}</div>
-									 <div class='chooseme' multivalue='uniq'>{t d='arkeogis' m='Unique'}</div>
-									 <div class='chooseme' multivalue='continuous'>{t d='arkeogis' m='Continue'}</div>
-									 <div class='chooseme' multivalue='multiple'>{t d='arkeogis' m='Multiple'}</div>
-									</div>
-								 </td>
-
-								</tr>
-							</table>
-
-						 </div>
-						 <div id='button-occupation' style='position: relative'></div>
-						</td>
+					   <td colspan='2'>
+					     <table style='width: 100%'>
+					       <tr>
+						 <td style='text-align: center'>
+						   <div id='menu-centroid' style='position: relative'></div>
+						 </td><td>
+						   <div id='menu-knowledge' style='position: relative'></div>
+						 </td><td>
+						   <div id='menu-occupation' style='position: relative'></div>
+						 </td>
+					       </tr>
+					     </table>
+					   </td>
 					 </tr>
 
 					 <tr class="menu_db">
