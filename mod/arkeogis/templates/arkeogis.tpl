@@ -100,14 +100,16 @@
 		</div>
 	</div>
 
+	{* where the querys will be displayed *}
 	<div id='querys'></div>
 
+	{* model used to fill the displayed querys *}
 	<div id='query-display' class='query-display' style='display: none'>
                 <div class='query-header'>
 		  <div class='query-header-title'>Récapitulatif de la requête : <span class='query_num'>1</span></div>
                   <div class='query-header-save'>
-			<input id='input-save-query' class='input-save-query' type='text' value='{t tag='' d='arkeogis' m='Nom de la requête'}'/>
-			<button id='btn-save-query' class='btn btn-save-query'>{t tag='' d='arkeogis' m='Archiver la requête'}</button>
+			<input id='input-save-query' class='input-save-query' type='text' value='' placeholder='{t d='arkeogis' m='Nom de la requête'}'/>
+			<button id='btn-save-query' class='btn btn-save-query'>{t d='arkeogis' m='Archiver la requête'}</button>
                   </div>
 		  <div class='query-header-buttons'>
 			<button class='btn-success'>{t d='arkeogis' m='Imprimer'}</button>
@@ -120,6 +122,7 @@
 		</div>
 	</div>
 
+	{* model part used to fill the displayed querys *}
 	<div id='query-filter' class='query-filter' style='display: none'>
 		<div class='filtername'><span></span> <span class='icon-fleche-bas'></span></div>
 	</div>
