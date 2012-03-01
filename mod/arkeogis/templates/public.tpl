@@ -39,7 +39,7 @@
 								<ul class="dropdown-menu">
 									{block name='arkeo_menu' }
 										<li><a class="top-btn" href="/"><i class="icon-th-list glyph-white"></i>  Recherche cartographique</a></li>
-										<li><a class="top-btn" href="/import/file/example4.csv"><i class="icon-pencil glyph-white"></i>  Test Import</a></li>
+										<li><a class="top-btn" href="/import/"><i class="icon-pencil glyph-white"></i>  Import</a></li>
 									{/block}
 								</ul>
 							</li>
