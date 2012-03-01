@@ -9,18 +9,16 @@ class DatabaseImport {
 	private static $_database = array();
 	private static $_siteErrors;
 	private static $_processingErrors = array();
-	private static $_charset;
 	private static $_cache;
 	private static $_lineNumber = 0;
 	private static $_csvDatas = array(); 
 	private static $_lang; 
 	private static $_strings;
 
-	public static function importCsv($filepath, $separator=';', $charset='utf8', $lf="\n", $skipline=0, $lang='fr', $ownerId=0) {
+	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $ownerId=0) {
 
 		// TO BE LINKED WITH TRANSLATION MODULE
 		self::$_lang = $lang;
-		self::$_charset = $charset;
 		$numProcessed = 0;
 
 		self::$_strings['Yes']['fr'] = 'oui';
@@ -53,11 +51,16 @@ class DatabaseImport {
 			}
 		}
 
-		$lf=str_replace(array('CR', 'LF'), array("\r", "\n"), $lf);
 		if ($separator == '\t') $separator="\t";
-		$lines = array_chunk(str_getcsv(str_replace($lf, $separator,file_get_contents($filepath)), $separator), 33);
+		$os = '';
+		if (($handle = fopen($filepath, "r")) !== FALSE) {
+			while (($content = fgetcsv($handle, 1000, $separator, $enclosure)) !== FALSE) {
+				$lines[] = $content;
+				$os .= implode($content, '');
+			}
+		}
 
-		\core\Core::$db->exec('BEGIN');
+		//\core\Core::$db->exec('BEGIN');
 
 		// Retrieve special periods
 
@@ -396,7 +399,7 @@ class DatabaseImport {
 			}
 		}
 		*/
-		\core\Core::$db->exec('COMMIT');
+		//\core\Core::$db->exec('COMMIT');
 		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => $numProcessed, "errors" => self::$_siteErrors);
 	}
 
@@ -561,8 +564,19 @@ class DatabaseImport {
 	}
 
 	private static function _cleanString($str) {
-		if (self::$_charset != 'utf8') $str = iconv(self::$_charset, 'utf8', $str);
+		$detected = mb_detect_encoding($str, array('utf-8', 'latin1', 'windows-1251'), true);
+		if ($detected != 'UTF-8') {
+			$str = iconv($detected, 'UTF-8', $str);
+		}
 		return trim(str_replace(array('"',';','NULL','null'), array('',"\n",NULL,NULL),$str));
+	}
+
+	private static function _detectEncodingBastard($str) {
+		foreach(array('utf8', 'Windows-1252', 'lantin1', 'mac') as $c) {
+			if (md5($str) == md5(iconv($c, 'utf8', $str))) 
+				return $c;
+			return false;
+		}
 	}
 
 }

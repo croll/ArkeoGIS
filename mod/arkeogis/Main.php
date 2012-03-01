@@ -83,12 +83,11 @@ class Main {
 		$form = new \mod\form\Form($params);
 		if ($form->validate()) {
 			$separator = $form->getValue('separator');
-			$cr = $form->getValue('select_carriagereturn');
-			$encoding = $form->getValue('select_encoding');
+			$enclosure = $form->getValue('enclosure');
 			$file = $form->getValue('dbfile');
 			$skipline = $form->getValue('skipline');
 			$lang = $form->getValue('select_lang');
-			$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $encoding, $cr, $skipline, $lang);
+			$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang);
 			unlink($file['tmp_name']);
 			$page = new \mod\webpage\Main();
 			$page->smarty->assign("result", $result);

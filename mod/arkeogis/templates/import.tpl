@@ -8,22 +8,10 @@
 			<fieldset>
 				<legend>{t d='arkeogis' m="Import d'une base"}</legend>
 				<div class="control-group">
-					<label class="control-label">{t d='arkeogis' m="séparateur"}</label>
+					<label class="control-label">{t d='arkeogis' m="Séparateur"}</label>
 					<div class="controls">
 					{$dbUpload.separator}
 					<p class="help-block">{t d='arkeogis' m="Utilisez \\t pour une tabulation"}</p>	
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label">{t d='arkeogis' m="Retour chariot"}</label>
-					<div class="controls">
-						{$dbUpload.select_carriagereturn}
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label">{t d='arkeogis' m="Type d'encodage"}</label>
-					<div class="controls">
-						{$dbUpload.select_encoding}
 					</div>
 				</div>
 				<div class="control-group">
@@ -31,6 +19,12 @@
 					<div class="controls">
 						{$dbUpload.skipline}
 					<p class="help-block">{t d='arkeogis' m="Nombre de ligne en début de fichier à ne pas traiter"}</p>	
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Caractère d'échapement"}</label>
+					<div class="controls">
+						{$dbUpload.enclosure}
 					</div>
 				</div>
 				<div class="control-group">

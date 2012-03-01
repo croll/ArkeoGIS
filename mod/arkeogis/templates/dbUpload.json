@@ -14,43 +14,13 @@
 				"required"
 			]
 		},
-		{	"type" : "select",
-			"name" : "select_carriagereturn",
-			"children" :
-			[
-				{ "type" : "option",
-					"value" : "LF",
-					"label" : "LF (Unix)"
-				},
-				{ "type" : "option",
-					"value" : "CR",
-					"label" : "CR (Mac/Windows)",
-					"selected" : "selected"
-				},
-				{ "type" : "option",
-					"value" : "CRLF",
-					"label" : "CRLF (w3c)"
-				}
-			]	
-		},
-		{	"type" : "select",
-			"name" : "select_encoding",
-			"children" :
-			[
-				{ "type" : "option",
-					"value" : "latin1",
-					"label" : "ISO-8859-15 (latin1)"
-				},
-				{ "type" : "option",
-					"value" : "utf8",
-					"label" : "UTF-8",
-					"selected" : "selected"
-				},
-				{ "type" : "option",
-					"value" : "mac",
-					"label" : "Mac"
-				}
-			]	
+		{	"type" : "text",
+			"name" : "enclosure",
+			"value" : "\"",
+			"validators" : 
+			[ 
+				"required"
+			]
 		},
 		{	"type" : "select",
 			"name" : "select_lang",
