@@ -39,7 +39,7 @@ window.addEvent('domready', function() {
 
     arkeo_menu.knowledge = new PlusMinusItem(ch_t('arkeogis', "CONNAISSANCE"), null, new PlusMinusMenu([
 	new PlusMinusItem(ch_t('arkeogis', "Non renseigné"), 'unknown', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', "Littérature, prospecté", 'literature'), null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Littérature, prospecté"), 'literature', null, { nominus: true }),
 	new PlusMinusItem(ch_t('arkeogis', "Sondé"), 'surveyed', null, { nominus: true }),
 	new PlusMinusItem(ch_t('arkeogis', "Fouillé"), 'excavated', null, { nominus: true })
     ]));
