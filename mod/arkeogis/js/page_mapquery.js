@@ -133,6 +133,32 @@ window.addEvent('domready', function() {
 	});
     });
 
+
+    /* initialization of google map */
+    var map = new Map('map_canvas', [43.60,3.88], { 
+	zoom: 12, 
+	disableDefaultUI: true,
+	mapTypeControl: true,
+	mapTypeControlOptions: {
+	    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+	    position: google.maps.ControlPosition.TOP_RIGHT
+	},
+	zoomControl: true,
+	zoomControlOptions: {
+	    style: google.maps.ZoomControlStyle.SMALL,
+	    position: google.maps.ControlPosition.RIGHT_TOP
+	},
+	panControl: true,
+	panControlOptions: {
+	    style: google.maps.ZoomControlStyle.SMALL,
+	    position: google.maps.ControlPosition.RIGHT_TOP
+	},
+	scaleControl: true,
+	scaleControlOptions: {
+	    position: google.maps.ControlPosition.BOTTOM_LEFT
+	}
+    });
+
 });
 
 /* functions */
