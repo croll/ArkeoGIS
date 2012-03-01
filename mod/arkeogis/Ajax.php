@@ -29,40 +29,40 @@ class Ajax {
 
 		if (isset($search['period_include']) && count($search['period_include'])) {
 			$addtable['ark_site_period']=true;
+      $query.=' AND (0=1 ';
 			foreach($search['period_include'] as $period) {
-				$query.=' AND sp_period_start >= ? AND sp_period_start <= ?';
+				$query.=' OR sp_period_start >= ? AND sp_period_start <= ?';
 				$args[]=$period;
 				$args[]=$period;
 			}
+      $query.=')';
 		}
 
 		if (isset($search['period_exclude']) && count($search['period_exclude'])) {
 			$addtable['ark_site_period']=true;
-			foreach($search['period_include'] as $period) {
-				$query.=' AND NOT (sp_period_start >= ? AND sp_period_start <= ?)';
+      $query.=' AND (0=1 ';
+			foreach($search['period_exclude'] as $period) {
+				$query.=' OR NOT (sp_period_start >= ? AND sp_period_start <= ?)';
 				$args[]=$period;
 				$args[]=$period;
 			}
+      $query.=')';
 		}
 
-		if (isset($search['centroid'])) {
-			foreach($search['centroid'] as $v) {
-				$query.=' AND si_centroid=?';
-				$args[]=(int)$v;
-			}
+		if (isset($search['centroid_include']) && count($search['centroid_include'])) {
+      $query.=' AND si_centroid IN (?)';
+      $args[]=$search['centroid_include'];
 		}
 
-		if (isset($search['knowledge'])) {
+		if (isset($search['knowledge_include']) && count($search['knowledge_include'])) {
 			$addtable['ark_site_period']=true;
 			$query.=' AND sp_knowledge_type IN(?)';
-			$args[]=$search['knowledge'];
+			$args[]=$search['knowledge_include'];
 		}
 
-		if (isset($search['occupation']) && count($search['occupation'])) {
-			foreach($search['occupation'] as $v) {
-				$query.=' AND si_occupation=?';
-				$args[]=$v;
-			}
+		if (isset($search['occupation_include']) && count($search['occupation_include'])) {
+      $query.=' AND si_occupation IN (?)';
+      $args[]=$search['occupation_include'];
 		}
 
 		if (isset($search['production_include']) && count($search['production_include'])) {
@@ -79,6 +79,12 @@ class Ajax {
 			$args[]=$search['production_include'];
 		}
 
+		if (isset($search['production_exceptional']) && $search['production_exceptional'] == 1) {
+			$addtable['ark_site_period']=true;
+			$addtable['ark_siteperiod_production']=true;
+			$query.=' AND sp_exceptional = 1';
+		}
+
 		if (isset($search['furniture_include']) && count($search['furniture_include'])) {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_furniture']=true;
@@ -91,6 +97,12 @@ class Ajax {
 			$addtable['ark_siteperiod_furniture']=true;
 			$query.=' AND sf_id NOT IN (?)';
 			$args[]=$search['furniture_include'];
+		}
+
+		if (isset($search['furniture_exceptional']) && $search['furniture_exceptional'] == 1) {
+			$addtable['ark_site_period']=true;
+			$addtable['ark_siteperiod_furniture']=true;
+			$query.=' AND sf_exceptional = 1';
 		}
 
 		if (isset($search['realestate_include']) && count($search['realestate_include'])) {
@@ -107,6 +119,12 @@ class Ajax {
 			$args[]=$search['realestate_include'];
 		}
 
+		if (isset($search['realestate_exceptional']) && $search['realestate_exceptional'] == 1) {
+			$addtable['ark_site_period']=true;
+			$addtable['ark_siteperiod_realestate']=true;
+			$query.=' AND sr_exceptional = 1';
+		}
+
 
 		$select="SELECT si_code, si_name";
 		$select.=" FROM ark_site";
@@ -114,13 +132,13 @@ class Ajax {
 			$select.=" LEFT JOIN ark_site_period ON sp_site_code = si_code";
 		}
 		if ($addtable['ark_siteperiod_production']) {
-			$select.=" LEFT JOIN ark_siteperiod_production ON sp_site_period_id = sp_id";
+			$select.=" LEFT JOIN ark_siteperiod_production ON sp_site_period_id = ark_site_period.sp_id";
 		}
 		if ($addtable['ark_siteperiod_furniture']) {
-			$select.=" LEFT JOIN ark_siteperiod_furniture ON sf_site_period_id = sp_id";
+			$select.=" LEFT JOIN ark_siteperiod_furniture ON sf_site_period_id = ark_site_period.sp_id";
 		}
 		if ($addtable['ark_siteperiod_realestate']) {
-			$select.=" LEFT JOIN ark_siteperiod_realestate ON sr_site_period_id = sp_id";
+			$select.=" LEFT JOIN ark_siteperiod_realestate ON sr_site_period_id = ark_site_period.sp_id";
 		}
 
 		$query=$select.' '.$query;
@@ -133,4 +151,25 @@ class Ajax {
 		\core\Core::log('result count: '.count($result));
 		return $result;
 	}
+
+
+  
+  public static function saveQuery($params) {
+    $uid = \mod\user\Main::getUserId($_SESSION['login']);
+    \core\Core::$db->exec("INSERT INTO ark_savedquery (id_user, name, query) VALUES (?,?,?)",
+                          array($uid, $params['name'], $params['query']));
+    return 'ok';
+  }
+
+  public static function loadQuery($params) {
+    $uid = \mod\user\Main::getUserId($_SESSION['login']);
+    return \core\Core::$db->fetchOne("SELECT query FROM ark_savedquery WHERE id_user=? AND id=?",
+                                     array($uid, $params['queryid']));
+  }
+
+  public static function listQueries($params) {
+    $uid = \mod\user\Main::getUserId($_SESSION['login']);
+    return \core\Core::$db->fetchAll("SELECT * FROM ark_savedquery WHERE id_user=?",
+                                     array($uid));
+  }
 }

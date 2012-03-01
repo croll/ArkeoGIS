@@ -30,24 +30,30 @@ window.addEvent('domready', function() {
 
 
     /* initialization of menus centroid, knowledge, occupation */
+
+    arkeo_menu.centroid = new PlusMinusItem("CENTROID", null, new PlusMinusMenu([
+	new PlusMinusItem("OUI", 1, null, { nominus: true }),
+	new PlusMinusItem("NON", 0, null, { nominus: true })
+    ]));
+    arkeo_menu.centroid.inject($('menu-centroid'));
+
+    arkeo_menu.knowledge = new PlusMinusItem("KNOWLEDGE", null, new PlusMinusMenu([
+	new PlusMinusItem("knowledge unknown", 'unknown', null, { nominus: true }),
+	new PlusMinusItem("knowledge literature", 'literature', null, { nominus: true }),
+	new PlusMinusItem("knowledge surveyed", 'surveyed', null, { nominus: true }),
+	new PlusMinusItem("knowledge excavated", 'excavated', null, { nominus: true })
+    ]));
+    arkeo_menu.knowledge.inject($('menu-knowledge'));
+
+    arkeo_menu.occupation = new PlusMinusItem("OCCUPATION", null, new PlusMinusMenu([
+	new PlusMinusItem("occupatioin unknown", 'unknown', null, { nominus: true }),
+	new PlusMinusItem("occupatioin uniq", 'uniq', null, { nominus: true }),
+	new PlusMinusItem("occupatioin continous", 'continuous', null, { nominus: true }),
+	new PlusMinusItem("occupatioin multiple", 'multiple', null, { nominus: true })
+    ]));
+    arkeo_menu.occupation.inject($('menu-occupation'));
+
     
-    new MultiselectPopup({
-	buttonelem: $('menu-centroid-button')
-    },{
-	list: $('menu-centroid-content')
-    });
-
-    new MultiselectPopup({
-	buttonelem: $('menu-knowledge-button')
-    },{
-	list: $('menu-knowledge-content')
-    });
-
-    new MultiselectPopup({
-	buttonelem: $('menu-occupation-button')
-    },{
-	list: $('menu-occupation-content')
-    });
 
     /* initialization of buttons "afficher la carte" and "afficher le tableur" */
 
@@ -57,37 +63,31 @@ window.addEvent('domready', function() {
 	// get selections of plusminus menus
 
 	result.db_include = arkeo_menu.db.getSelection('+');
-	result.period_include = arkeo_menu.period.getSelection('+');
-	result.production_include = arkeo_menu.production.getSelection('+');
-	result.realestate_include = arkeo_menu.realestate.getSelection('+');
-	result.furniture_include = arkeo_menu.furniture.getSelection('+');
 	result.db_exclude = arkeo_menu.db.getSelection('-');
+	result.period_include = arkeo_menu.period.getSelection('+');
 	result.period_exclude = arkeo_menu.period.getSelection('-');
+	result.production_include = arkeo_menu.production.getSelection('+');
 	result.production_exclude = arkeo_menu.production.getSelection('-');
+	result.realestate_include = arkeo_menu.realestate.getSelection('+');
 	result.realestate_exclude = arkeo_menu.realestate.getSelection('-');
+	result.furniture_include = arkeo_menu.furniture.getSelection('+');
 	result.furniture_exclude = arkeo_menu.furniture.getSelection('-');
 
 
 	// get selections of multiselect menus
 
-	result.centroid=[];
-	var elems=$('menu-centroid-content').getElements('.selected');
-	elems.each(function(el) {
-	    result.centroid.push(el.getProperty('multivalue'));
-	});
+	result.centroid_include = arkeo_menu.centroid.getSelection('+');
+	result.knowledge_include = arkeo_menu.knowledge.getSelection('+');
+	result.occupation_include = arkeo_menu.occupation.getSelection('+');
+	result.centroid_exclude = arkeo_menu.centroid.getSelection('-');
+	result.knowledge_exclude = arkeo_menu.knowledge.getSelection('-');
+	result.occupation_exclude = arkeo_menu.occupation.getSelection('-');
 
-	result.knowledge=[];
-	var elems=$('menu-knowledge-content').getElements('.selected');
-	elems.each(function(el) {
-	    result.knowledge.push(el.getProperty('multivalue'));
-	});
+	// get selections of exceptionals checkbox
 
-	result.occupation=[];
-	var elems=$('menu-occupation-content').getElements('.selected');
-	elems.each(function(el) {
-	    result.occupation.push(el.getProperty('multivalue'));
-	});
-
+	result.realestate_exceptional = $('ex_realestate').checked ? 1 : 0;
+	result.furniture_exceptional = $('ex_furniture').checked ? 1 : 0;
+	result.production_exceptional = $('ex_production').checked ? 1: 0;
 
 	return result;
     }
@@ -102,6 +102,37 @@ window.addEvent('domready', function() {
 	    }
 	}).post(form);
     });
+
+
+    
+    /* initialization of buttons about query saving */
+    populateSavedQueriesMenu();
+
+    $('select-savedqueries').addEvent('change', function(e) {
+	new Request.JSON({
+	    'url': '/ajax/call/arkeogis/loadQuery',
+	    'onSuccess': function(res) {
+		res=JSON.decode(res);
+		$('select-savedqueries').selectedIndex=0;
+		arkeo_menu.db.setSelection(res.db_include, res.db_exclude);
+		arkeo_menu.period.setSelection(res.period_include, res.period_exclude);
+		arkeo_menu.production.setSelection(res.production_include, res.production_exclude);
+		arkeo_menu.realestate.setSelection(res.realestate_include, res.realestate_exclude);
+		arkeo_menu.furniture.setSelection(res.furniture_include, res.furniture_exclude);
+
+		arkeo_menu.centroid.setSelection(res.centroid_include, []);
+		arkeo_menu.knowledge.setSelection(res.knowledge_include, []);
+		arkeo_menu.occupation.setSelection(res.occupation_include, []);
+
+		$('ex_realestate').checked = res.realestate_exceptional == 1;
+		$('ex_furniture').checked = res.furniture_exceptional == 1;
+		$('ex_production').checked = res.production_exceptional == 1;
+	    }
+	}).post({
+	    'queryid': $('select-savedqueries').get('value')
+	});
+    });
+
 });
 
 /* functions */
@@ -139,14 +170,17 @@ function display_query(query) {
     });
 
     html.getElement('.query_num').set('text', 1);
-    ['db', 'period', 'production', 'realestate', 'furniture'].each(function(m) {
+    ['centroid', 'knowledge', 'occupation', 'db', 'period', 'production', 'realestate', 'furniture'].each(function(m) {
 	var result=[];
 	if (arkeo_menu[m].submenu.buildPath(query[m+'_include'], query[m+'_exclude'], result)) {
 	    var queryfilter_html=$('query-filter').clone();
 	    queryfilter_html.setStyles({
 		display: ''
 	    });
-	    queryfilter_html.getElement('div.filtername').set('text', m);
+	    var title='arkeogis';
+	    if (m == 'production' || m == 'realestate' || m == 'furniture')
+		if (query[m+'_exceptional'] == 1) title+=' (exceptionals only)';
+	    queryfilter_html.getElement('div.filtername span').set('text', title);
 
 	    div=new Element('div', {
 		class: 'filtercontent'
@@ -157,5 +191,35 @@ function display_query(query) {
 	}
     });
 
+    html.getElement('.btn-save-query').addEvent('click', function() {
+	new Request.JSON({
+	    'url': '/ajax/call/arkeogis/saveQuery',
+	    'onSuccess': function(res) {
+		populateSavedQueriesMenu();
+		alert("Query saved !");
+	    }
+	}).post({
+	    'name': html.getElement('.input-save-query').get('value'),
+	    'query': JSON.encode(query)
+	});
+    });
+
+
     html.inject($('querys'));
+}
+
+function populateSavedQueriesMenu() {
+    new Request.JSON({
+	'url': '/ajax/call/arkeogis/listQueries',
+	'onSuccess': function(res) {
+	    var sel=$('select-savedqueries');
+	    sel.options = Array.slice(sel.options, 0,1);
+	    res.each(function(line) {
+		Array.push(sel.options, (new Element('option', {
+		    'value': line.id,
+		    'text': line.name
+		})));
+	    });
+	}
+    }).get();
 }

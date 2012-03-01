@@ -1,21 +1,17 @@
 {
 	"method" : "post",
+	"id" : "dbUpload",
+	"action" : "/import/submit",
+	"class" : "form-horizontal",
 	"enctype" : "multipart/form-data",
 	"elements" : 
 	[
 		{	"type" : "text",
 			"name" : "separator",
-			"id" : "separator",
 			"value" : ";",
-			"caption" : "Separator",
 			"validators" : 
 			[ 
-				{	
-					"validate-required" : "minLength: 1"
-				},
-				{ "regexp" : "/^.+$/",
-					"error" : "Field is mandatory"
-				}
+				"required"
 			]
 		},
 		{	"type" : "select",
@@ -23,19 +19,17 @@
 			"children" :
 			[
 				{ "type" : "option",
-					"name" : "carriagereturn",
-					"value" : 0,
-					"html" : "\n"
+					"value" : "LF",
+					"label" : "LF (Unix)"
 				},
 				{ "type" : "option",
-					"name" : "carriagereturn",
-					"value" : 1,
-					"html" : "\r\n"
+					"value" : "CR",
+					"label" : "CR (Mac/Windows)",
+					"selected" : "selected"
 				},
 				{ "type" : "option",
-					"name" : "carriagereturn",
-					"value" : 2,
-					"html" : "(Mac)"
+					"value" : "CRLF",
+					"label" : "CRLF (w3c)"
 				}
 			]	
 		},
@@ -44,23 +38,52 @@
 			"children" :
 			[
 				{ "type" : "option",
-					"name" : "encoding",
 					"value" : "latin1",
-					"html" : "ISO-8859-15 (latin1)"
+					"label" : "ISO-8859-15 (latin1)"
 				},
 				{ "type" : "option",
-					"name" : "encoding",
 					"value" : "utf8",
-					"html" : "UTF-8"
+					"label" : "UTF-8",
+					"selected" : "selected"
+				},
+				{ "type" : "option",
+					"value" : "mac",
+					"label" : "Mac"
 				}
 			]	
 		},
+		{	"type" : "select",
+			"name" : "select_lang",
+			"children" :
+			[
+				{ "type" : "option",
+					"value" : "fr",
+					"label" : "Français"
+				},
+				{ "type" : "option",
+					"value" : "de",
+					"label" : "Allemand"
+				}
+			]	
+		},
+		{	"type" : "text",
+			"name" : "skipline",
+			"value" : 1,
+			"validators" : 
+			[ 
+				"validate-integer"
+			]
+		},
 		{	"type" : "file",
 			"name" : "dbfile",
-			"caption" : "Filename"
+			"validators" : 
+			[ 
+				"required"
+			]
 		},
 		{	"type" : "submit",
 			"name" : "submit",
+			"class" : "btn btn-primary",
 			"value" : "Submit"
 		}
 	]

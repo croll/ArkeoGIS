@@ -37,6 +37,7 @@ var PlusMinusMenu = new Class({
 	me.html_element=new Element('div', {
 	    class: 'pmmenu-popup'
 	});
+	me.html_element.inject($$('body')[0]);
 	
 	me.html_element.setStyles({
 	    left: (me.parent_item.parent_menu ? me.html_element.getStyle('left').toInt() : 0)
@@ -45,9 +46,6 @@ var PlusMinusMenu = new Class({
 	    top: to_html_elem.getPosition().y+'px'
 	});
 
-	//me.html_element.inject(to_html_elem);
-	me.html_element.inject($$('body')[0]);
-	
 	var title=new Element('div', {
 	    class: 'pmmenu-title',
 	    text: me.parent_item.model.text
@@ -133,7 +131,7 @@ var PlusMinusMenu = new Class({
 });
 
 var PlusMinusItem = new Class({
-    Implements: Events,
+    Implements: [Events, Options],
 
     html_element: null,
     model: {
@@ -143,8 +141,12 @@ var PlusMinusItem = new Class({
     submenu: null,
     parent_menu: null,
     selected: '',
+    options: {
+	nominus: false
+    },
 
-    initialize: function(text, value, submenu) {
+    initialize: function(text, value, submenu, options) {
+	this.setOptions(options);
 	this.model.text=text;
 	this.model.value=value;
 	this.setSubMenu(submenu);
@@ -213,7 +215,7 @@ var PlusMinusItem = new Class({
 	if (me.parent_menu) {
 	    me.html_element.addEvent('click', function() {
 		if (me.selected == '+') {
-		    me.setSelected('-', me.submenu ? true : false);
+		    me.setSelected(me.options.nominus ? '' : '-', me.submenu ? true : false);
 		} else if (me.selected == '-') {
 		    me.setSelected('', me.submenu ? true : false);
 		} else {
@@ -296,6 +298,20 @@ var PlusMinusItem = new Class({
 	    if (found) return found;
 	}
 	return null;
+    },
+
+    setSelection: function(selection_plus, selection_minus) {
+	if (this.submenu) {
+	    this.submenu.content.each(function(item) {
+		item.setSelection(selection_plus, selection_minus);
+	    });
+	} else if (selection_plus.contains(this.model.value)) {
+	    this.setSelected('+', false);
+	} else if (selection_minus.contains(this.model.value)) {
+	    this.setSelected('-', false);
+	} else {
+	    this.setSelected('', false);
+	}
     },
 
     /** special arkeogis use **/

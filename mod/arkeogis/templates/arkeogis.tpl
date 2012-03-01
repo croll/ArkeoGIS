@@ -26,54 +26,26 @@
 
 					 <tr class="menu_archives">
 						<td colspan='2'>
-						 <select>
+						 <select id='select-savedqueries'>
 							<option>{t d='arkeogis' m="Requêtes archivées"}</option>
 						 </select>
 						</td>
 					 </tr>
 
 					 <tr class="troistrucs">
-						<td colspan='2'>
-						 <div id='button-centroid' style='position: relative'></div>
-						 <div id='button-knowledge' style='position: relative'>
-
-							 <table style='width: 100%'>
-								<tr>
-									<td style='text-align: center'>
-										<div id='menu-centroid-button' class='menu-centroconnoccup-button'>CENTROÏDE</div>
-										<div id='menu-centroid-content' class='menu-centroconnoccup-content' style='display: none'>
-										 <div class='chooseme' multivalue='1'>{t d='arkeogis' m='Oui'}</div>
-										 <div class='chooseme' multivalue='0'>{t d='arkeogis' m='Non'}</div>
-										</div>
-								 </td>
-				 
-
-								<td style='text-align: center'>
-									<div id='menu-knowledge-button' class='menu-centroconnoccup-button'>CONNAISSANCE</div>
-									<div id='menu-knowledge-content' class='menu-centroconnoccup-content' style='display: none'>
-									 <div class='chooseme' multivalue='unknown'>{t d='arkeogis' m='Non renseigné'}</div>
-									 <div class='chooseme' multivalue='literature'>{t d='arkeogis' m='Littérature, prospecté'}</div>
-									 <div class='chooseme' multivalue='surveyed'>{t d='arkeogis' m='Sondé'}</div>
-									 <div class='chooseme' multivalue='excavated'>{t d='arkeogis' m='Fouillé'}</div>
-									</div>
-								</td>
-
-								 <td style='text-align: center'>
-									<div id='menu-occupation-button' class='menu-centroconnoccup-button'>OCCUPATION</div>
-									<div id='menu-occupation-content' class='menu-centroconnoccup-content' style='display: none'>
-									 <div class='chooseme' multivalue='unknown'>{t d='arkeogis' m='Non-renseigné'}</div>
-									 <div class='chooseme' multivalue='uniq'>{t d='arkeogis' m='Unique'}</div>
-									 <div class='chooseme' multivalue='continuous'>{t d='arkeogis' m='Continue'}</div>
-									 <div class='chooseme' multivalue='multiple'>{t d='arkeogis' m='Multiple'}</div>
-									</div>
-								 </td>
-
-								</tr>
-							</table>
-
-						 </div>
-						 <div id='button-occupation' style='position: relative'></div>
-						</td>
+					   <td colspan='2'>
+					     <table style='width: 100%'>
+					       <tr>
+						 <td style='text-align: center'>
+						   <div id='menu-centroid' style='position: relative'></div>
+						 </td><td>
+						   <div id='menu-knowledge' style='position: relative'></div>
+						 </td><td>
+						   <div id='menu-occupation' style='position: relative'></div>
+						 </td>
+					       </tr>
+					     </table>
+					   </td>
 					 </tr>
 
 					 <tr class="menu_db">
@@ -90,20 +62,20 @@
 					 </tr>
 
 					 <tr class="title_exceptionnels">
-						<td></td>
+						<td class="fleche_exceptionnels"></td>
 						<td>{t d='arkeogis' m="Sites exceptionnels"}</td>
 					 </tr>
 
 					 <tr class="menu_realestate">
-						<td class='exceptionnel'><div><input type='checkbox' name='ex_realestate' value='1'/></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_realestate' value='1'/></div></td>
 						<td><div id='menu_realestate' style='position: relative'></div></td>
 					 </tr>
 					 <tr class="menu_furniture">
-						<td class='exceptionnel'><div><input type='checkbox' name='ex_furniture' value='1'/></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_furniture' value='1'/></div></td>
 						<td><div id='menu_furniture' style='position: relative'></div></td>
 					 </tr>
 					 <tr class="menu_production">
-						<td class='exceptionnel'><div><input type='checkbox' name='ex_production' value='1'/></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_production' value='1'/></div></td>
 						<td><div id='menu_production' style='position: relative'></div></td>
 					 </tr>
 
@@ -155,18 +127,24 @@
 	<div id='querys'></div>
 
 	<div id='query-display' class='query-display' style='display: none'>
-		<div>Récapitulatif de la requête : <span class='query_num'>1</span></div>
-		<div>
-			<input type='text' value='{t tag='' d='arkeogis' m='Nom de la requête'}'/>
-			<button>{t d='arkeogis' m='Archiver la requête'}</button>
-			<button>{t d='arkeogis' m='Imrpimer'}</button>
-			<button>{t d='arkeogis' m='Exporter'}</button>
-		</div>
-		<div class='query-filters'>
+                <div class='query-header'>
+		  <div class='query-header-title'>Récapitulatif de la requête : <span class='query_num'>1</span></div>
+                  <div class='query-header-save'>
+			<input id='input-save-query' class='input-save-query' type='text' value='{t tag='' d='arkeogis' m='Nom de la requête'}'/>
+			<button id='btn-save-query' class='btn btn-save-query'>{t tag='' d='arkeogis' m='Archiver la requête'}</button>
+                  </div>
+		  <div class='query-header-buttons'>
+			<button class='btn-success'>{t d='arkeogis' m='Imprimer'}</button>
+			<button class='btn-success'>{t d='arkeogis' m='Exporter'}</button>
+		  </div>
+                </div>
+		<div class='query-filters-border'>
+		     <div class='query-filters'>
+		     </div>
 		</div>
 	</div>
 
 	<div id='query-filter' class='query-filter' style='display: none'>
-		<div class='filtername'>filtername</div>
+		<div class='filtername'><span></span> <span class='icon-fleche-bas'></span></div>
 	</div>
 {/block}
