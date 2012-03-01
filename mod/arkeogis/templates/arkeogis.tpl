@@ -90,10 +90,13 @@
 						 <button class='btn btn-reinit'>{t d='arkeogis' m="Réinitialiser la requête"}</button>
 						</td>
 					 </tr>
+					 <tr class="buttons">
+						<td colspan='2' class="querydelete">
+						 <button class='btn btn-querydelete'>{t d='arkeogis' m="Supprimer de l'archivage cette requête"}</button>
+						</td>
+					 </tr>
 				 </table>
 				</div>
-
-			<img src="{$image}" />
 		</div>
 	</div>
 
