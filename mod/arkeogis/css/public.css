@@ -5,6 +5,14 @@
 .right {
 	float: right;
 }
+#presentation .well {
+	display: block;
+        overflow:hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
+        overflow : -moz-scrollbars-vertical;
+	height: 150px;
+}
 #public div ul.nav {
 	background: transparent none;
 	border-top: none;	

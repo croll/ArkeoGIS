@@ -32,12 +32,10 @@ if ($('manual-menu')) {
 		var tar = item.getChildren('a').get('href')[0];
 		item.addEvent('click', function(event) {
 			event.stop();
-			console.log(tar);
 			$('content').fade('hide');
 			mypage.render(tar,'content', 'fr_FR');
 		});
 		
 	});
-
 }
 });

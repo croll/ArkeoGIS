@@ -1,18 +1,4 @@
 {extends tplextends('arkeogis/layout')}
-
-{block name='webpage_head' append}
-	{js file="/mod/cssjs/js/ckeditor/ckeditor.js"}
-	{js file="/mod/cssjs/js/captainhook.js"}
-	{js file="/mod/cssjs/js/chwysiwyg.js"}
-	{js file="/mod/cssjs/js/chmypaginate.js"}
-	{js file="/mod/cssjs/js/chfilter.js"}
-	{js file="/mod/page/js/page.js"}
-	{css file="/mod/page/css/bootstrap-responsive.css"}
-	{css file="/mod/page/css/extra.css"}
-	{css file="/mod/page/css/icon.css"}
-	{css file="/mod/page/css/page.css"}
-{/block}
-
 {block name='arkeogis_content'}
 <div class="page-list">
 	{block name='paginator'}
@@ -25,7 +11,7 @@
   		</ul>
 	</div>
 	{/block}
-	{block name='page_list'}
+		{block name='page_list'}
 	<table id="page_list" class="table zebra-striped condensed-table bordered-table table-list" summary="Page List" border="0" cellspacing="0" cellpadding="0">
 		<caption class="list">Pages list</caption>
 		<thead>
@@ -33,6 +19,8 @@
 			<th><div >Name </div></th>
 			<th><div>Created by</div></th>
 			<th><div>Published</div></th>
+			<th><div>Lang</div></th>
+			<th><div>IDLR</div></th>
 			<th><div>Created</div></th>
 			<th><div>Updated</div></th>
 			<th>Action</th>
@@ -44,6 +32,8 @@
 				<td><a href="/page/{$list[p].sysname}">{$list[p].name}</a></td>
 				<td>{$list[p].login}</td>
 				<td >{if $list[p].published eq 1}yes{else}no{/if}</td>
+				<td><i class="flag {$list[p].lang}"></i></td>
+				<td>{$list[p].id_lang_reference}</td>
 				<td >{$list[p].created|date_format: '%d %b %Y'}</td>
 				<td >{$list[p].updated|date_format: '%d %b %Y'}</td>
 				<td class="action">
