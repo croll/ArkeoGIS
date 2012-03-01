@@ -58,12 +58,12 @@ var PlusMinusMenu = new Class({
 	
 	var tools=new Element('div', {
 	    class: 'pmmenu-tools',
-	    text: "Sélection"
+	    text: ch_t('arkeogis', "Selection")
 	});
 	tools.inject(me.html_element);
 	var tools_all=new Element('button', {
 	    class: 'select-all',
-	    text: 'TOUS'
+	    text: ch_t('arkeogis', 'ALL')
 	});
 	tools_all.addEvent('click', function(e) {
 	    me.parent_item.setSelected('+', true);
@@ -71,7 +71,7 @@ var PlusMinusMenu = new Class({
 	tools_all.inject(tools);
 	var tools_none=new Element('button', {
 	    class: 'select-none',
-	    text: 'AUCUN'
+	    text: ch_t('arkeogis', 'NONE')
 	});
 	tools_none.addEvent('click', function(e) {
 	    me.parent_item.setSelected('', true);
