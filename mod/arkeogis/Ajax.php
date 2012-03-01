@@ -5,14 +5,34 @@ namespace mod\arkeogis;
 class Ajax {
 
 	public static function showthemap($search) {
+    return self::search_sites($search, "si_code, si_name");
+  }
+
+	public static function showthesheet($search) {
+    $columns="si_name, ";
+    $columns.="array_agg((SELECT pe_name_fr FROM ark_period WHERE pe_id=sp_period_start)) AS period_start, ";
+    $columns.="array_agg((SELECT pe_name_fr FROM ark_period WHERE pe_id=sp_period_end)) AS period_end, ";
+    $columns.="array_agg((SELECT re_name_fr FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
+    $columns.="array_agg((SELECT fu_name_fr FROM ark_furniture WHERE fu_id=sf_furniture_id)) as furniture, ";
+    $columns.="array_agg((SELECT pr_name_fr FROM ark_production WHERE pr_id=sp_production_id)) as production";
+
+    return self::search_sites($search, $columns, array(
+                                'ark_site_period' => true,
+                                'ark_siteperiod_production' => true,
+                                'ark_siteperiod_furniture' => true,
+                                'ark_siteperiod_realestate' => true
+                              ));
+  }
+
+	private static function search_sites($search, $columns, $addtable=array()) {
 		$search=$_REQUEST; // override the $search wich is fucked, I don't really know why
 
 		\core\Core::log($search);
 
-		$addtable=array('ark_site_period' => false,
-										'ark_siteperiod_production' => false,
-										'ark_siteperiod_furniture' => false,
-										'ark_siteperiod_realestate' => false);
+		$addtable=array('ark_site_period' => isset($addtable['ark_site_period']) ? $addtable['ark_site_period'] : false,
+										'ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
+										'ark_siteperiod_furniture' => isset($addtable['ark_siteperiod_furniture']) ? $addtable['ark_siteperiod_furniture'] : false,
+										'ark_siteperiod_realestate' => isset($addtable['ark_siteperiod_realestate']) ? $addtable['ark_siteperiod_realestate'] : false);
 
 		$query=' WHERE (1=1) ';
 		$args=array();
@@ -126,7 +146,7 @@ class Ajax {
 		}
 
 
-		$select="SELECT si_code, si_name";
+		$select="SELECT $columns";
 		$select.=" FROM ark_site";
 		if ($addtable['ark_site_period']) {
 			$select.=" LEFT JOIN ark_site_period ON sp_site_code = si_code";
@@ -141,7 +161,7 @@ class Ajax {
 			$select.=" LEFT JOIN ark_siteperiod_realestate ON sr_site_period_id = ark_site_period.sp_id";
 		}
 
-		$query=$select.' '.$query;
+		$query=$select.' '.$query.' GROUP BY si_code';
 
 		//$query.=' GROUP BY si_code';
 
@@ -158,6 +178,13 @@ class Ajax {
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
     \core\Core::$db->exec("INSERT INTO ark_savedquery (id_user, name, query) VALUES (?,?,?)",
                           array($uid, $params['name'], $params['query']));
+    return 'ok';
+  }
+
+  public static function deleteQuery($params) {
+    $uid = \mod\user\Main::getUserId($_SESSION['login']);
+    \core\Core::$db->exec("DELETE FROM ark_savedquery WHERE id_user=? AND id=?",
+                          array($uid, $params['queryid']));
     return 'ok';
   }
 

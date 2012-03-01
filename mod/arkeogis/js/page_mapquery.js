@@ -106,7 +106,7 @@ window.addEvent('domready', function() {
     $('btn-show-the-table').addEvent('click', function() {
 	var form=buildSelectionObject();
 	new Request.JSON({
-	    'url': '/ajax/call/arkeogis/showthemap',
+	    'url': '/ajax/call/arkeogis/showthesheet',
 	    'onSuccess': function(res) {
 		display_sheet(res);
 		display_query(form);
@@ -267,13 +267,41 @@ function display_sheet(data) {
     var data2=[];
     for (var i=0; i<data.length; i++) {
 	var row=data[i];
-	var row2=[
-	    row.si_code, row.si_name
-	];
-	for (var j=0; i<row.length; j++) {
-	    row2.push(row[j]);
+
+	var realestate = row.realestate.substring(1,row.realestate.length-1);
+	if (realestate.substring(0,1) == '"')
+	    realestate=realestate.substring(1, realestate.length-1);
+	if (realestate=='NULL') realestate='';
+
+	var furniture = row.furniture.substring(1,row.furniture.length-1);
+	if (furniture.substring(0,1) == '"')
+	    furniture=furniture.substring(1, furniture.length-1);
+	if (furniture=='NULL') furniture='';
+
+	var production = row.production.substring(1,row.production.length-1);
+	if (production.substring(0,1) == '"')
+	    production=production.substring(1, production.length-1);
+	if (production=='NULL') production='';
+
+	var period_start=row.period_start.substring(1,row.period_start.length-1).split(',');
+	var period_end=row.period_end.substring(1,row.period_end.length-1).split(',');
+
+	var period='';
+
+	for (var j=0; j<period_start.length; j++) {
+	    if (period_start[j].substring(0,1) == '"')
+		period_start[j]=period_start[j].substring(1, period_start[j].length-1);
+	    if (period_end[j].substring(0,1) == '"')
+		period_end[j]=period_end[j].substring(1, period_end[j].length-1);
+	    period+='<div>'+period_start[j]+" => "+period_end[j]+"</div>";
 	}
-	data2.push(row2);
+	data2.push([
+	    row.si_name,
+	    period,
+	    realestate,
+	    furniture,
+	    production
+	]);
     }
 
     var grid = new HtmlTable({
@@ -282,7 +310,13 @@ function display_sheet(data) {
 	    cellspacing: 3
 	},
 	gridContainer : $('map_sheet'),
-	headers: ['Code', 'Name'],
+	headers: [
+	    ch_t('arkeogis', 'Nom du site'),
+	    ch_t('arkeogis', 'Période'),
+	    ch_t('arkeogis', 'Immobilier'),
+	    ch_t('arkeogis', 'Mobilier'),
+	    ch_t('arkeogis', 'Production'),
+	],
 	rows: data2
     });
     grid.enableSort();
