@@ -3,27 +3,27 @@ window.addEvent('domready', function() {
     /* initialization of plusminus menus */
     arkeo_menu={};
 
-    arkeo_menu.db = new PlusMinusItem("Choix de la base", null, null);
+    arkeo_menu.db = new PlusMinusItem(ch_t('arkeogis', "Choix de la base"), null, null);
     for (var i=0; i<menus.db.length; i++)
 	arkeo_menu.db.addJsonItem(menus.db[i]);
     arkeo_menu.db.inject($('menu_db'));
 
-    arkeo_menu.period = new PlusMinusItem("Choix de la période", null, null);
+    arkeo_menu.period = new PlusMinusItem(ch_t('arkeogis', "Choix de la période"), null, null);
     for (var i=0; i<menus.period.length; i++)
 	arkeo_menu.period.addJsonItem(menus.period[i]);
     arkeo_menu.period.inject($('menu_period'));
 
-    arkeo_menu.production = new PlusMinusItem("Choix production", null, null);
+    arkeo_menu.production = new PlusMinusItem(ch_t('arkeogis', "Choix production"), null, null);
     for (var i=0; i<menus.production.length; i++)
 	arkeo_menu.production.addJsonItem(menus.production[i]);
     arkeo_menu.production.inject($('menu_production'));
 
-    arkeo_menu.realestate = new PlusMinusItem("Choix immobilier", null, null);
+    arkeo_menu.realestate = new PlusMinusItem(ch_t('arkeogis', "Choix immobilier"), null, null);
     for (var i=0; i<menus.realestate.length; i++)
 	arkeo_menu.realestate.addJsonItem(menus.realestate[i]);
     arkeo_menu.realestate.inject($('menu_realestate'));
 
-    arkeo_menu.furniture = new PlusMinusItem("Choix mobilier", null, null);
+    arkeo_menu.furniture = new PlusMinusItem(ch_t('arkeogis', "Choix mobilier"), null, null);
     for (var i=0; i<menus.furniture.length; i++)
 	arkeo_menu.furniture.addJsonItem(menus.furniture[i]);
     arkeo_menu.furniture.inject($('menu_furniture'));
@@ -31,25 +31,25 @@ window.addEvent('domready', function() {
 
     /* initialization of menus centroid, knowledge, occupation */
 
-    arkeo_menu.centroid = new PlusMinusItem("CENTROID", null, new PlusMinusMenu([
-	new PlusMinusItem("OUI", 1, null, { nominus: true }),
-	new PlusMinusItem("NON", 0, null, { nominus: true })
+    arkeo_menu.centroid = new PlusMinusItem(ch_t('arkeogis', "CENTROID"), null, new PlusMinusMenu([
+	new PlusMinusItem(ch_t('arkeogis', "OUI"), 1, null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "NON"), 0, null, { nominus: true })
     ]));
     arkeo_menu.centroid.inject($('menu-centroid'));
 
-    arkeo_menu.knowledge = new PlusMinusItem("KNOWLEDGE", null, new PlusMinusMenu([
-	new PlusMinusItem("knowledge unknown", 'unknown', null, { nominus: true }),
-	new PlusMinusItem("knowledge literature", 'literature', null, { nominus: true }),
-	new PlusMinusItem("knowledge surveyed", 'surveyed', null, { nominus: true }),
-	new PlusMinusItem("knowledge excavated", 'excavated', null, { nominus: true })
+    arkeo_menu.knowledge = new PlusMinusItem(ch_t('arkeogis', "CONNAISSANCE"), null, new PlusMinusMenu([
+	new PlusMinusItem(ch_t('arkeogis', "Non renseigné"), 'unknown', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Littérature, prospecté", 'literature'), null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Sondé"), 'surveyed', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Fouillé"), 'excavated', null, { nominus: true })
     ]));
     arkeo_menu.knowledge.inject($('menu-knowledge'));
 
-    arkeo_menu.occupation = new PlusMinusItem("OCCUPATION", null, new PlusMinusMenu([
-	new PlusMinusItem("occupatioin unknown", 'unknown', null, { nominus: true }),
-	new PlusMinusItem("occupatioin uniq", 'uniq', null, { nominus: true }),
-	new PlusMinusItem("occupatioin continous", 'continuous', null, { nominus: true }),
-	new PlusMinusItem("occupatioin multiple", 'multiple', null, { nominus: true })
+    arkeo_menu.occupation = new PlusMinusItem(ch_t('arkeogis', "OCCUPATION"), null, new PlusMinusMenu([
+	new PlusMinusItem(ch_t('arkeogis', "Non renseigné"), 'unknown', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Unique"), 'uniq', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Continue (plusieurs périodes contiguës)"), 'continuous', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Multiple (plusieurs périodes indépendantes)"), 'multiple', null, { nominus: true })
     ]));
     arkeo_menu.occupation.inject($('menu-occupation'));
 
@@ -196,7 +196,7 @@ function display_query(query) {
 	    'url': '/ajax/call/arkeogis/saveQuery',
 	    'onSuccess': function(res) {
 		populateSavedQueriesMenu();
-		alert("Query saved !");
+		alert(ch_t('arkeogis', "Requête enregistrée"));
 	    }
 	}).post({
 	    'name': html.getElement('.input-save-query').get('value'),
