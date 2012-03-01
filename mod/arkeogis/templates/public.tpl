@@ -93,18 +93,16 @@
 				</div>
 				<div id="slider-component">
 					<div id="request" class="well active row">
-						<h2>requetes</h2>
+						<h2>Requêtes</h2>
+						<img src="/mod/arkeogis/img/slide/requete.jpg" />
 					</div>
 					<div id="maps" class="well row">
 						<h2>maps</h2>
-						<ul>
-							<li>1</li>
-							<li>2</li>
-							<li>3</li>
-						</ul>
+						<img src="/mod/arkeogis/img/slide/maps.jpg" />
 					</div>
 					<div id="fiche" class="well row">
 						<h2>fiche</h2>
+						<img src="/mod/arkeogis/img/slide/fiche.jpg" />
 					</div>
 				</div>
 				<div id="content">
