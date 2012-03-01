@@ -103,6 +103,17 @@ window.addEvent('domready', function() {
 	}).post(form);
     });
 
+    $('btn-show-the-table').addEvent('click', function() {
+	var form=buildSelectionObject();
+	new Request.JSON({
+	    'url': '/ajax/call/arkeogis/showthemap',
+	    'onSuccess': function(res) {
+		display_sheet(res);
+		display_query(form);
+	    }
+	}).post(form);
+    });
+
 
     
     /* initialization of buttons about query saving */
@@ -248,4 +259,34 @@ function populateSavedQueriesMenu() {
 	    });
 	}
     }).get();
+}
+
+
+function display_sheet(data) {
+    var data2=[];
+    for (var i=0; i<data.length; i++) {
+	var row=data[i];
+	var row2=[
+	    row.si_code, row.si_name
+	];
+	for (var j=0; i<row.length; j++) {
+	    row2.push(row[j]);
+	}
+	data2.push(row2);
+    }
+
+    var grid = new HtmlTable({
+	properties: {
+	    border: 1,
+	    cellspacing: 3
+	},
+	gridContainer : $('map_sheet'),
+	headers: ['Code', 'Name'],
+	rows: data2
+    });
+    grid.enableSort();
+    grid.inject($('map_sheet'));
+    $('map_sheet').setStyles({
+	display: ''
+    });
 }

@@ -1,10 +1,10 @@
 {extends tplextends('arkeogis/layout')}
 
 {block name='webpage_head' append}
-	{js file="/mod/cssjs/js/multiselect.js"}
 	{js file="/pmmenus"}
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/page_mapquery.js"}
+	{js file="/mod/cssjs/ext/mashalla-grid.js"}
 	{js file="/mod/map/js/MooGooMaps/Source/Class.SubObjectMapping.js"}
 	{js file="/mod/map/js/MooGooMaps/Source/Map.js"}
 	{js file="/mod/map/js/MooGooMaps/Source/Map.Extras.js"}
@@ -96,7 +96,8 @@
 						</td>
 					 </tr>
 				 </table>
-				</div>
+			</div>
+			<div id="map_sheet" style='display: none'></div>
 		</div>
 	</div>
 

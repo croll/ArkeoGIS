@@ -484,3 +484,12 @@ div.filtercontent .filter-minus {
   background-repeat: no-repeat;
   vertical-align: middle;
 }
+
+#map_sheet { 
+  position: absolute;
+  left: 320px;
+  height: 500px;
+  top: 0;
+  background: #fff;
+  overflow-y: scroll;
+}
