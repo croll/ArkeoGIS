@@ -263,6 +263,7 @@ function populateSavedQueriesMenu() {
 
 
 function display_sheet(data) {
+    $('map_sheet').empty();
     var data2=[];
     for (var i=0; i<data.length; i++) {
 	var row=data[i];
