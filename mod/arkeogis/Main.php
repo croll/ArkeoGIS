@@ -17,23 +17,25 @@ class Main {
 			$page = new \mod\webpage\Main();
 			$page->setLayout('arkeogis/public');
 			$page->display();
-	
   }
 
   public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
 		\mod\user\Main::redirectIfNotLoggedIn();
 	
+    $lang=\mod\lang\Main::getCurrentLang();
+    $lang=substr($lang, 0, 2);
+
 		$menus=array();
 		
 		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path from ark_database order by id");
 		
-		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, pe_name_fr as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, pe_name_$lang as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 		
-		$menus['production']=\core\Core::$db->fetchAll("select pr_id as id, pr_parentid as parentid, pr_name_fr as name, node_path from ark_production order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+		$menus['production']=\core\Core::$db->fetchAll("select pr_id as id, pr_parentid as parentid, pr_name_$lang as name, node_path from ark_production order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 		
-		$menus['realestate']=\core\Core::$db->fetchAll("select re_id as id, re_parentid as parentid, re_name_fr as name, node_path from ark_realestate order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+		$menus['realestate']=\core\Core::$db->fetchAll("select re_id as id, re_parentid as parentid, re_name_$lang as name, node_path from ark_realestate order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 		
-		$menus['furniture']=\core\Core::$db->fetchAll("select fu_id as id, fu_parentid as parentid, fu_name_fr as name, node_path from ark_furniture order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+		$menus['furniture']=\core\Core::$db->fetchAll("select fu_id as id, fu_parentid as parentid, fu_name_$lang as name, node_path from ark_furniture order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 
 		echo "menus=";
 		echo json_encode($menus);

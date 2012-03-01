@@ -90,37 +90,13 @@
 						 <button class='btn btn-reinit'>{t d='arkeogis' m="Réinitialiser la requête"}</button>
 						</td>
 					 </tr>
+					 <tr class="buttons">
+						<td colspan='2' class="querydelete">
+						 <button class='btn btn-querydelete'>{t d='arkeogis' m="Supprimer de l'archivage cette requête"}</button>
+						</td>
+					 </tr>
 				 </table>
 				</div>
-
-			<script type="text/javascript">
-				document.addEvent('domready', function() {
-					var map = new Map('map_canvas', [43.60,3.88], { 
-						zoom: 12, 
-						disableDefaultUI: true,
-					  mapTypeControl: true,
-						mapTypeControlOptions: {
-							style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-							position: google.maps.ControlPosition.TOP_RIGHT
-						},
-						zoomControl: true,
-						zoomControlOptions: {
-							style: google.maps.ZoomControlStyle.SMALL,
-							position: google.maps.ControlPosition.RIGHT_TOP
-						},
-					  panControl: true,
-						panControlOptions: {
-							style: google.maps.ZoomControlStyle.SMALL,
-							position: google.maps.ControlPosition.RIGHT_TOP
-						},
-						scaleControl: true,
-						scaleControlOptions: {
-							position: google.maps.ControlPosition.BOTTOM_LEFT
-						}
-					});
-				});
-			</script>
-			<img src="{$image}" />
 		</div>
 	</div>
 
