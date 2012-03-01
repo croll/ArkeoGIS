@@ -5,11 +5,20 @@ namespace mod\arkeogis;
 class Main {
 
   public static function hook_mod_arkeogis_index($hookname, $userdata) {
-		\mod\user\Main::redirectIfNotLoggedIn();
-		$page = new \mod\webpage\Main();
-		$page->setLayout('arkeogis/arkeogis');
-		$page->display();
+		if (\mod\user\Main::userIsLoggedIn()) {;
+			$page = new \mod\webpage\Main();
+			$page->setLayout('arkeogis/arkeogis');
+			$page->display();
+		} else {
+			return self::hook_mod_arkeogis_public($hookname, $userdata);
+		}
 	}
+  public static function hook_mod_arkeogis_public($hookname, $userdata) {
+			$page = new \mod\webpage\Main();
+			$page->setLayout('arkeogis/public');
+			$page->display();
+	
+  }
 
   public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
 		\mod\user\Main::redirectIfNotLoggedIn();
