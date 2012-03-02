@@ -88,14 +88,14 @@ class Ajax {
 		if (isset($search['production_include']) && count($search['production_include'])) {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_production']=true;
-			$query.=' AND sp_site_period_id IN (?)';
+			$query.=' AND sp_production_id IN (?)';
 			$args[]=$search['production_include'];
 		}
 
 		if (isset($search['production_exclude']) && count($search['production_exclude'])) {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_production']=true;
-			$query.=' AND sp_site_period_id NOT IN (?)';
+			$query.=' AND sp_production_id NOT IN (?)';
 			$args[]=$search['production_exclude'];
 		}
 
@@ -108,14 +108,14 @@ class Ajax {
 		if (isset($search['furniture_include']) && count($search['furniture_include'])) {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_furniture']=true;
-			$query.=' AND sf_id IN (?)';
+			$query.=' AND sf_furniture_id IN (?)';
 			$args[]=$search['furniture_include'];
 		}
 
 		if (isset($search['furniture_exclude']) && count($search['furniture_exclude'])) {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_furniture']=true;
-			$query.=' AND sf_id NOT IN (?)';
+			$query.=' AND sf_furniture_id NOT IN (?)';
 			$args[]=$search['furniture_exclude'];
 		}
 
@@ -128,14 +128,14 @@ class Ajax {
 		if (isset($search['realestate_include']) && count($search['realestate_include'])) {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_realestate']=true;
-			$query.=' AND sr_id IN (?)';
+			$query.=' AND sr_realestate_id IN (?)';
 			$args[]=$search['realestate_include'];
 		}
 
 		if (isset($search['realestate_exclude']) && count($search['realestate_exclude'])) {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_realestate']=true;
-			$query.=' AND sr_id NOT IN (?)';
+			$query.=' AND sr_realestate_id NOT IN (?)';
 			$args[]=$search['realestate_exclude'];
 		}
 
