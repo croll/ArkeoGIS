@@ -283,10 +283,9 @@ var PlusMinusItem = new Class({
 	    this.submenu.content.each(function(item) {
 		result=result.concat(item.getSelection(c));
 	    });
-	} else {
-	    if (this.selected == c)
-		result.push(this.model.value);
 	}
+	if (this.selected == c)
+	    result.push(this.model.value);
 	return result;
     },
 
