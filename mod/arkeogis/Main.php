@@ -5,25 +5,28 @@ namespace mod\arkeogis;
 class Main {
 
   public static function hook_mod_arkeogis_index($hookname, $userdata) {
-		if (\mod\user\Main::userIsLoggedIn()) {;
-			$page = new \mod\webpage\Main();
-			// get lang
-			$lang=\mod\lang\Main::getCurrentLang();
-			$page->smarty->assign('lang', $lang);
-			$page->setLayout('arkeogis/arkeogis');
-			$page->display();
-		} else {
-			return self::hook_mod_arkeogis_public($hookname, $userdata);
-		}
+	if (\mod\user\Main::userIsLoggedIn()) {;
+		$page = new \mod\webpage\Main();
+		// get lang
+		$lang=\mod\lang\Main::getCurrentLang();
+		$page->smarty->assign('lang', $lang);
+		$page->setLayout('arkeogis/arkeogis');
+		$page->display();
+	} else {
+		return self::hook_mod_arkeogis_public($hookname, $userdata);
 	}
+  }
   public static function hook_mod_arkeogis_public($hookname, $userdata) {
-			// get lang
-			$page = new \mod\webpage\Main();
-			// get lang
-			$lang=\mod\lang\Main::getCurrentLang();
-			$page->smarty->assign('lang', $lang);
-			$page->setLayout('arkeogis/public');
-			$page->display();
+	// get lang
+	$page = new \mod\webpage\Main();
+	// get lang
+	$lang=\mod\lang\Main::getCurrentLang();
+	// get presentation page 
+	$present = \mod\page\Main::getPageBySysname('presentation');
+	$page->smarty->assign('lang', $lang);
+	$page->smarty->assign('present', $present);
+	$page->setLayout('arkeogis/public');
+	$page->display();
   }
 
   public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
