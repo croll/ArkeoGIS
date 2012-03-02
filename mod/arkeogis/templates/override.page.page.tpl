@@ -6,7 +6,7 @@
 {/block}
 {block name='arkeogis_content'}
 	<div class="page-header" id="page_title">
-		<span class="float"><a class="btn" href="#" onclick="mypage.setPage('{$page.sysname}');"><i class="icon-edit"></i></a></span>
+		{if \mod\user\Main::userHasRight('Manage page')}<a class="float" href="/page/edit/{$page.pid}"><i class="icon-edit"></i></a>{/if}
 		<h1>{$page.name}</h1>
 		<small>
 			Created  {$page.created|date_format: '%d %b %Y'} by {$page.full_name} : last updated - {$page.updated|date_format: '%d %b %Y'}

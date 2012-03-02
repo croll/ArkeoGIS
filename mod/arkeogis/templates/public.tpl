@@ -90,7 +90,9 @@
 			<li class="tab"><a href="#">Manuel utilisateur</a></li>	
 		</ul>
 		<div id="presentation" class="content active">
-				<h2>{$present.name}</h2>
+				{if \mod\user\Main::userHasRight('Manage page') }
+					<a href="/page/edit/{$present.pid}"class="float"><i class="icon-edit"></i></a>
+				{/if}
 				<div>{$present.content}</div>
 		</div>
 		<div id="exemples" class="content">
