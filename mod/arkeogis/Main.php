@@ -7,6 +7,9 @@ class Main {
   public static function hook_mod_arkeogis_index($hookname, $userdata) {
 		if (\mod\user\Main::userIsLoggedIn()) {;
 			$page = new \mod\webpage\Main();
+			// get lang
+			$lang=\mod\lang\Main::getCurrentLang();
+			$page->smarty->assign('lang', $lang);
 			$page->setLayout('arkeogis/arkeogis');
 			$page->display();
 		} else {
@@ -14,7 +17,11 @@ class Main {
 		}
 	}
   public static function hook_mod_arkeogis_public($hookname, $userdata) {
+			// get lang
 			$page = new \mod\webpage\Main();
+			// get lang
+			$lang=\mod\lang\Main::getCurrentLang();
+			$page->smarty->assign('lang', $lang);
 			$page->setLayout('arkeogis/public');
 			$page->display();
   }
