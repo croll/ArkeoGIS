@@ -69,7 +69,7 @@
               							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
               							<ul id="switchlang" class="dropdown-menu">
                 							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>French    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
-                							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>Deutch    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+                							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>Deutsch    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
               							</ul>
             						</li>
             						<li><a href="/logout">Logout</a></li>
