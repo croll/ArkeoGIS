@@ -96,7 +96,7 @@ class Ajax {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_production']=true;
 			$query.=' AND sp_site_period_id NOT IN (?)';
-			$args[]=$search['production_include'];
+			$args[]=$search['production_exclude'];
 		}
 
 		if (isset($search['production_exceptional']) && $search['production_exceptional'] == 1) {
@@ -116,7 +116,7 @@ class Ajax {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_furniture']=true;
 			$query.=' AND sf_id NOT IN (?)';
-			$args[]=$search['furniture_include'];
+			$args[]=$search['furniture_exclude'];
 		}
 
 		if (isset($search['furniture_exceptional']) && $search['furniture_exceptional'] == 1) {
@@ -136,7 +136,7 @@ class Ajax {
 			$addtable['ark_site_period']=true;
 			$addtable['ark_siteperiod_realestate']=true;
 			$query.=' AND sr_id NOT IN (?)';
-			$args[]=$search['realestate_include'];
+			$args[]=$search['realestate_exclude'];
 		}
 
 		if (isset($search['realestate_exceptional']) && $search['realestate_exceptional'] == 1) {
