@@ -4,8 +4,6 @@
 	{js file="/mod/cssjs/js/mootools.js"}
 	{js file="/mod/cssjs/js/mootools.more.js"}
 	{js file="/mod/cssjs/js/captainhook.js"}
-	{js file="/mod/cssjs/js/chwysiwyg.js"}
-	{js file="/mod/cssjs/js/ckeditor/ckeditor.js"}
 	{js file="/mod/arkeogis/js/public.js"}
 	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap.css"}
 	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap-responsive.css"}
@@ -67,10 +65,10 @@
 							</li>
 							{/if}
 							<li class="dropdown" onclick="this.toggleClass('open');">
-              							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Lang<b class="caret"></b></a>
+              							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
               							<ul id="switchlang" class="dropdown-menu">
-                							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>French</a></li>
-                							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>Deutch</a></li>
+                							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>French    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
+                							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>Deutch    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
               							</ul>
             						</li>
 							{if \mod\user\Main::userIsLoggedIn()}
@@ -157,5 +155,16 @@
 	<script>
 		var mypage= new Page();
 		var pmod = new Modal.Base(document.body);
+		{literal}
+		function switchLang(newlang)  {
+			var myswitch = new Request.JSON({
+				'url': '/ajax/call/lang/setCurrentLang',
+				'onSuccess': function(resJSON, resText) {
+						console.log('toto');	
+				}
+			}).get({'lang': {/literal}newlang{literal}});
+			console.log(newlang);
+		}
+		{/literal}
 	</script>
 {/block}
