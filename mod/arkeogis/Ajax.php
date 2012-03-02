@@ -161,7 +161,7 @@ class Ajax {
 			$select.=" LEFT JOIN ark_siteperiod_realestate ON sr_site_period_id = ark_site_period.sp_id";
 		}
 
-		$query=$select.' '.$query.' GROUP BY si_code';
+		$query=$select.' '.$query.' GROUP BY si_code, si_name';
 
 		//$query.=' GROUP BY si_code';
 
