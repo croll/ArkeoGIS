@@ -46,22 +46,22 @@
 						{/if}
 						{if \mod\user\Main::userhasRight('Manage page') }
 						<li class="dropdown" onclick="this.toggleClass('open');">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='arkeogis' m='Page'}<b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='page' m='Page'}<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								{block name='page_menu' }
-									<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='List'}</a></li>
-									<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  {t d='arkeogis' m='Add'}</a></li>
+									<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  {t d='page' m='List'}</a></li>
+									<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  {t d='page' m='Add'}</a></li>
 								{/block}
 							</ul>
 						</li>
 						{/if}
 						{if \mod\user\Main::userhasRight('Manage rights') }
 						<li class="dropdown" onclick="this.toggleClass('open');">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='arkeogis' m="User"}<b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='user' m="User"}<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								{block name='user_menu' }
-									<li><a class="top-btn" href="/user/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='Manage users'}</a></li>
-									<li><a class="top-btn" href="/user/edit/0"><i class="icon-user glyph-white"></i>  {t d='arkeogis' m='Add user'}</a></li>
+									<li><a class="top-btn" href="/user/"><i class="icon-th-list glyph-white"></i>  {t d='user' m='Manage users'}</a></li>
+									<li><a class="top-btn" href="/user/edit/0"><i class="icon-user glyph-white"></i>  {t d='user' m='Add user'}</a></li>
 								{/block}
 							</ul>
 						</li>
@@ -69,8 +69,8 @@
 						<li class="dropdown" onclick="this.toggleClass('open');">
        							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
        							<ul id="switchlang" class="dropdown-menu">
-         							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>{t d='arkeogis' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
-               							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>{t d='arkeogis' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+         							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
+               							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
        							</ul>
        						</li>
 						{if \mod\user\Main::userIsLoggedIn()}
