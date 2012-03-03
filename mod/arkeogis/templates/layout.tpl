@@ -35,44 +35,44 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">ArkeoGIS<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 								
-							<li><a href="/public">Accueil</a></li>
-							<li><a href="/page/partenaires">Partenaires</a></li>
-							<li><a href="/page/historique">Historique</a></li>
-							<li><a href="/page/logiciel">Logiciel</a></li>
-							<li><a href="/page/code_source">Code source</a></li>
+							<li><a href="/public">{t d='arkeogis' m='Accueil'}</a></li>
+							<li><a href="/page/partenaires">{t d='arkeogis' m='Partenaires'}</a></li>
+							<li><a href="/page/historique">{t d='arkeogis' m='Historique'}</a></li>
+							<li><a href="/page/logiciel">{t d='arkeogis' m='Logiciel'}</a></li>
+							<li><a href="/page/code_source">{t d='arkeogis' m='Code source'}</a></li>
 							</ul></li>
 
-							<li><a href="/">Recherche cartographique</a></li>
+							<li><a href="/">{t d='arkeogis' m='Recherches cartographiques'}</a></li>
 							
-							<li><a href="/import/">Import</a></li>
+							<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
 						</ul>
 						<ul class="nav pull-right">
 							<li class="dropdown" onclick="this.toggleClass('open');">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Page<b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='arkeogis' m='Page'}<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									{block name='page_menu' }
-										<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  List</a></li>
-										<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  Add</a></li>
+										<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='List'}</a></li>
+										<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  {t d='arkeogis' m='Add'}</a></li>
 									{/block}
 								</ul>
 							</li>
 							<li class="dropdown" onclick="this.toggleClass('open');">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='arkeogis' m='User'}<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									{block name='user_menu' }
-										<li><a class="top-btn" href="/user/"><i class="icon-th-list glyph-white"></i>  Manage users</a></li>
-										<li><a class="top-btn" href="/user/edit/0"><i class="icon-user glyph-white"></i>  Add User</a></li>
+										<li><a class="top-btn" href="/user/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='Manage users'}</a></li>
+										<li><a class="top-btn" href="/user/edit/0"><i class="icon-user glyph-white"></i>  {t d='arkeogis' m='Add user'}</a></li>
 									{/block}
 								</ul>
 							</li>
 							<li class="dropdown" onclick="this.toggleClass('open');">
               							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
               							<ul id="switchlang" class="dropdown-menu">
-                							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>French    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
-                							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>Deutsch    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+                							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>{t d='arkeogis' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
+                							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>{t d='arkeogis' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
               							</ul>
             						</li>
-            						<li><a href="/logout">Logout</a></li>
+            						<li><a href="/logout">{t d='arkeogis' m='Logout'}</a></li>
           						</ul>
 					</div>
 				</div>

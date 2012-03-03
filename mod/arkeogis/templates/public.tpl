@@ -25,10 +25,10 @@
 			<div class="container">
 				<div class="nav-collapse">
 					<ul class="nav nav-pills nav-stacked">
-						<li><a href="/">Accueil</a></li>
-						<li><a href="/page/partenaires">Partenaires</a></li>
-						<li><a href="/page/historique">Historique</a></li>
-						<li><a href="/page/logiciel">Logiciel</a></li>
+						<li><a href="/">{t d='arkeogis' m='Accueil'}</a></li>
+						<li><a href="/page/partenaires">{t d='arkeogis' m='Partenaires'}</a></li>
+						<li><a href="/page/historique">{t d='arkeogis' m='Historique'}</a></li>
+						<li><a href="/page/logiciel">{t d='arkeogis' m='Logiciel'}</a></li>
 						<li><a href="/page/code_source">Code source</a></li>
 							
 					</ul>
@@ -38,30 +38,30 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">ArkeoGIS<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								{block name='arkeo_menu' }
-									<li><a class="top-btn" href="/"><i class="icon-th-list glyph-white"></i>  Recherche cartographique</a></li>
-									<li><a class="top-btn" href="/import/"><i class="icon-pencil glyph-white"></i>  Import</a></li>
+									<li><a class="top-btn" href="/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='Recherche cartographique'}</a></li>
+									<li><a class="top-btn" href="/import/"><i class="icon-pencil glyph-white"></i>  {t d='arkeogis' m='Import'}</a></li>
 								{/block}
 							</ul>
 						</li>
 						{/if}
 						{if \mod\user\Main::userhasRight('Manage page') }
 						<li class="dropdown" onclick="this.toggleClass('open');">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Page<b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='arkeogis' m='Page'}<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								{block name='page_menu' }
-									<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  List</a></li>
-									<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  Add</a></li>
+									<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='List'}</a></li>
+									<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  {t d='arkeogis' m='Add'}</a></li>
 								{/block}
 							</ul>
 						</li>
 						{/if}
 						{if \mod\user\Main::userhasRight('Manage rights') }
 						<li class="dropdown" onclick="this.toggleClass('open');">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User<b class="caret"></b></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='arkeogis' m="User"}<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								{block name='user_menu' }
-									<li><a class="top-btn" href="/user/"><i class="icon-th-list glyph-white"></i>  Manage users</a></li>
-									<li><a class="top-btn" href="/user/edit/0"><i class="icon-user glyph-white"></i>  Add User</a></li>
+									<li><a class="top-btn" href="/user/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='Manage users'}</a></li>
+									<li><a class="top-btn" href="/user/edit/0"><i class="icon-user glyph-white"></i>  {t d='arkeogis' m='Add user'}</a></li>
 								{/block}
 							</ul>
 						</li>
@@ -69,14 +69,14 @@
 						<li class="dropdown" onclick="this.toggleClass('open');">
        							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
        							<ul id="switchlang" class="dropdown-menu">
-         							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>French    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
-               							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>Deutsch    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+         							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>{t d='arkeogis' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
+               							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>{t d='arkeogis' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
        							</ul>
        						</li>
 						{if \mod\user\Main::userIsLoggedIn()}
-           						<li><a href="/logout">Logout</a></li>
+           						<li><a href="/logout">{t d='arkeogis' m='Logout'}</a></li>
 						{else}
-           						<li><a href="/login">Login</a></li>
+           						<li><a href="/login">{t d='arkeogis' m='Login'}</a></li>
 						{/if}
        		        		</ul>
 				</div>
@@ -85,9 +85,9 @@
 	</div>
 	<div id="public">
 		<ul id="public_tabs" class="tabs">
-			<li class="tab active"><a href="#">Présentation</a></li>	
-			<li class="tab"><a href="#">Exemples</a></li>	
-			<li class="tab"><a href="#">Manuel utilisateur</a></li>	
+			<li class="tab active"><a href="#">{t d='arkeogis' m='Présentation'}</a></li>	
+			<li class="tab"><a href="#">{t d='arkeogis' m='Exemples'}</a></li>	
+			<li class="tab"><a href="#">{t d='arkeogis' m='Manuel utilisateur'}</a></li>	
 		</ul>
 		<div id="presentation" class="content active">
 				{if \mod\user\Main::userHasRight('Manage page') }
@@ -98,22 +98,22 @@
 		<div id="exemples" class="content">
 			<div class="navbar"><div class="navbar-inner"><div class="container">
 				<ul id="slider-menu" class="nav nav-pills nav-stacked">
-					<li ><a data-update="request" class="success" href="page/requetes">Requêtes<i></i></a></li>
-					<li ><a  data-update="maps" class="primary" href="page/cartes">Cartes</a></li>
-					<li ><a  data-update="fiche" class="primary" href="page/fiche_site">Fiche site</a></li>
+					<li ><a data-update="request" class="success" href="page/requetes">{t d='arkeogis' m='Requêtes'}<i></i></a></li>
+					<li ><a  data-update="maps" class="primary" href="page/cartes">{t d='arkeogis' m='Cartes'}</a></li>
+					<li ><a  data-update="fiche" class="primary" href="page/fiche_site">{t d='arkeogis' m='Fiche site'}</a></li>
 				</ul>
 			</div></div></div>
 			<div id="slider-component" >
 				<div id="request" class="row selected">
-					<h2>Requêtes</h2>
+					<h2>{t d='arkeogis' m='Requêtes'}</h2>
 					<img src="/mod/arkeogis/img/slide/requete.jpg" />
 				</div>
 				<div id="maps" class="row">
-					<h2>maps</h2>
+					<h2>{t d='arkeogis' m='Maps'}</h2>
 					<img src="/mod/arkeogis/img/slide/maps.jpg" />
 				</div>
 				<div id="fiche" class="row">
-					<h2>fiche</h2>
+					<h2>{t d='arkeogis' m='Fiche'}</h2>
 					<img src="/mod/arkeogis/img/slide/fiche.jpg" />
 				</div>
 			</div>
@@ -121,10 +121,10 @@
 		<div id="manual" class="content">
 			<div class="navbar"><div class="navbar-inner"><div class="container">
 			<ul id="manual-menu" class="nav nav-pills nav-stacked">
-				<li><a class="primary selected" href="manuel_requetes">Requêtes</a></li>
-				<li><a class="primary" href="manuel_cartes">Cartes</a></li>
-				<li><a class="primary" href="manuel_fiches">Fiches</a></li>
-				<li><a class="primary" href="manuel_import">Import</a></li>
+				<li><a class="primary selected" href="manuel_requetes">{t d='arkeogis' m='Requêtes'}</a></li>
+				<li><a class="primary" href="manuel_cartes">{t d='arkeogis' m='Cartes'}</a></li>
+				<li><a class="primary" href="manuel_fiches">{t d='arkeogis' m='Fiches'}</a></li>
+				<li><a class="primary" href="manuel_import">{t d='arkeogis' m='Import'}</a></li>
 			</ul>
 			</div></div></div>
 			<div id="content"></div>
@@ -144,8 +144,8 @@
 							<li class="divider">&nbsp</li>
 						</ul>
 						<ul class="nav pull-right">
-							<li><a href="/page/credits">Crédits</a></li>
-							<li><a href="/page/contact">Contact</a></li>
+							<li><a href="/page/credits">{t d='arkeogis' m='Crédits'}</a></li>
+							<li><a href="/page/contact">{t d='arkeogis' m='Contact'}</a></li>
 						</ul>
 					</div>
 				</div>
