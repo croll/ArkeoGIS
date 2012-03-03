@@ -1,0 +1,21 @@
+{
+  "Requ\u00eates archiv\u00e9es" : "Requ\u00eates archiv\u00e9es",
+  "Caract\u00e9risation :" : "Caract\u00e9risation :",
+  "Sites exceptionnels" : "Sites exceptionnels",
+  "Afficher<br\/>la carte" : "Afficher<br\/>la carte",
+  "Afficher<br\/>le tableur" : "Afficher<br\/>le tableur",
+  "R\u00e9initialiser la requ\u00eate" : "R\u00e9initialiser la requ\u00eate",
+  "Oui" : "Oui",
+  "Non" : "Non",
+  "Non renseign\u00e9" : "Non renseign\u00e9",
+  "Litt\u00e9rature, prospect\u00e9" : "Litt\u00e9rature, prospect\u00e9",
+  "Sond\u00e9" : "Sond\u00e9",
+  "Fouill\u00e9" : "Fouill\u00e9",
+  "Non-renseign\u00e9" : "Non-renseign\u00e9",
+  "Unique" : "Unique",
+  "Continue" : "Continue",
+  "Multiple" : "Multiple",
+  "Archiver la requ\u00eate" : "Archiver la requ\u00eate",
+  "Imrpimer" : "Imrpimer",
+  "Exporter" : "Exporter"
+}
