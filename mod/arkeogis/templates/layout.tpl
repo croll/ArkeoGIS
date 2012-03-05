@@ -80,7 +80,8 @@
             						<li><a href="/logout">{t d='user' m='Logout'}</a></li>
             						{else}
 							<li><a href="/login">{t d='user' m='Login'}</a></li>
-          						</ul>
+          						{/if}
+							</ul>
 					</div>
 				</div>
 			</div>
