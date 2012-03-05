@@ -29,7 +29,8 @@
 						<li><a href="/page/partenaires">{t d='arkeogis' m='Partenaires'}</a></li>
 						<li><a href="/page/historique">{t d='arkeogis' m='Historique'}</a></li>
 						<li><a href="/page/logiciel">{t d='arkeogis' m='Logiciel'}</a></li>
-						<li><a href="/page/code_source">Code source</a></li>
+						<li><a href="/page/code_source">{t d='arkeogis' m='Code source'}</a></li>
+						<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
 							
 					</ul>
 					<ul class="nav pull-right">
@@ -40,6 +41,7 @@
 								{block name='arkeo_menu' }
 									<li><a class="top-btn" href="/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='Recherche cartographique'}</a></li>
 									<li><a class="top-btn" href="/import/"><i class="icon-pencil glyph-white"></i>  {t d='arkeogis' m='Import'}</a></li>
+									<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
 								{/block}
 							</ul>
 						</li>

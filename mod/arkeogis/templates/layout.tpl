@@ -40,11 +40,13 @@
 							<li><a href="/page/historique">{t d='arkeogis' m='Historique'}</a></li>
 							<li><a href="/page/logiciel">{t d='arkeogis' m='Logiciel'}</a></li>
 							<li><a href="/page/code_source">{t d='arkeogis' m='Code source'}</a></li>
+							<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
 							</ul></li>
 
 							<li><a href="/">{t d='arkeogis' m='Recherches cartographiques'}</a></li>
 							
 							<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
+							<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
 						</ul>
 						<ul class="nav pull-right">
 							{if \mod\user\Main::userhasRight('Manage page') }
