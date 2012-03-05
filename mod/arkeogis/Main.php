@@ -28,6 +28,55 @@ class Main {
 	$page->setLayout('arkeogis/public');
 	$page->display();
   }
+  public static function hook_mod_arkeogis_directory($hookname, $userdata) {
+	// check for optionals parameters 
+	if (isset($matches[1])) {	
+		$check=split('/', $matches[1]);
+		$params=array();
+		for ($i=0; $i <= count($check); $i++) {
+			if ($check[$i] != "") {
+				$iNext= $i+1;
+				$params[$check[$i]]= $check[$iNext];
+				$i++;
+			}
+		}
+		if ($params["sort"]) {
+			$sort = $params["sort"];
+		}	
+		if ($params["maxrow"] && (int)$params["maxrow"]) {
+			$maxrow=$params["maxrow"];
+		}
+		if ($params["offset"] && (int)$params["offset"]) {
+			$offset=$params["offset"];
+		}
+		if ($params["filter"]) {
+			$filter=$params["filter"];
+		}
+	}	
+	// set default list parameter 
+	if (!isset($sort)) $sort="login_asc";		
+	if (!isset($maxrow)) $maxrow= 10;		
+	if (!isset($offset)) $offset= 0;
+		
+	$db=\core\Core::$db;
+	$list = $db->fetchAll("SELECT * from ch_user u, ark_database d where u.uid > ?", array(1));
+	$quant=$db->fetchOne("SELECT count(u.uid) as quant from ch_user u where uid > ? ", array(1));
+	$page = new \mod\webpage\Main();
+	// get lang
+	$lang=\mod\lang\Main::getCurrentLang();
+	$page->smarty->assign('lang', $lang);
+	//var_dump($list);
+	$page->smarty->assign('list', $list);
+	$page->smarty->assign('filter', $filter);
+	$page->smarty->assign('sort', $sort);
+	$page->smarty->assign('offset', $offset);
+	$page->smarty->assign('maxrow', $maxrow);
+	$page->smarty->assign('quant', $quant);
+
+	$page->smarty->assign('directory_mode', 'list');
+	$page->setLayout('arkeogis/directory');
+	$page->display();
+  }
 
   public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
 		\mod\user\Main::redirectIfNotLoggedIn();
