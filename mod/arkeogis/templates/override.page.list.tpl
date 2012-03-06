@@ -12,7 +12,7 @@
 	</div>
 	{/block}
 		{block name='page_list'}
-	<table id="page_list" class="table zebra-striped condensed-table bordered-table table-list" summary="Page List" border="0" cellspacing="0" cellpadding="0">
+	<table id="page_list" class="table table-striped table-bordered table-condensed" summary="Page List" border="0" cellspacing="0" cellpadding="0">
 		<caption class="list">Pages list</caption>
 		<thead>
 			<tr>
