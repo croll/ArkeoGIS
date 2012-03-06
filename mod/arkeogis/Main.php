@@ -5,32 +5,34 @@ namespace mod\arkeogis;
 class Main {
 
   public static function hook_mod_arkeogis_index($hookname, $userdata) {
-	if (\mod\user\Main::userIsLoggedIn()) {;
-		$page = new \mod\webpage\Main();
-		// get lang
-		$lang=\mod\lang\Main::getCurrentLang();
-		$page->smarty->assign('lang', $lang);
-		$page->setLayout('arkeogis/arkeogis');
-		$page->display();
-	} else {
-		return self::hook_mod_arkeogis_public($hookname, $userdata);
-	}
+    if (\mod\user\Main::userIsLoggedIn()) {;
+      $page = new \mod\webpage\Main();
+      // get lang
+      $lang=\mod\lang\Main::getCurrentLang();
+      $page->smarty->assign('lang', $lang);
+      $page->setLayout('arkeogis/arkeogis');
+      $page->display();
+    } else {
+      return self::hook_mod_arkeogis_public($hookname, $userdata);
+    }
   }
+
   public static function hook_mod_arkeogis_public($hookname, $userdata) {
-	// get lang
-	$page = new \mod\webpage\Main();
-	// get lang
-	$lang=\mod\lang\Main::getCurrentLang();
-	// get presentation page 
-	$present = \mod\page\Main::getPageBySysname('presentation');
-	$page->smarty->assign('lang', $lang);
-	$page->smarty->assign('present', $present);
-	$page->setLayout('arkeogis/public');
-	$page->display();
+    // get lang
+    $page = new \mod\webpage\Main();
+    // get lang
+    $lang=\mod\lang\Main::getCurrentLang();
+    // get presentation page 
+    $present = \mod\page\Main::getPageBySysname('presentation');
+    $page->smarty->assign('lang', $lang);
+    $page->smarty->assign('present', $present);
+    $page->setLayout('arkeogis/public');
+    $page->display();
   }
+
   public static function hook_mod_arkeogis_directory($hookname, $userdata) {
-	// check for optionals parameters 
-	if (isset($matches[1])) {	
+    // check for optionals parameters 
+    if (isset($matches[1])) {	
 		$check=split('/', $matches[1]);
 		$params=array();
 		for ($i=0; $i <= count($check); $i++) {
@@ -52,38 +54,38 @@ class Main {
 		if ($params["filter"]) {
 			$filter=$params["filter"];
 		}
-	}	
-	// set default list parameter 
-	if (!isset($sort)) $sort="login_asc";		
-	if (!isset($maxrow)) $maxrow= 10;		
-	if (!isset($offset)) $offset= 0;
+    }	
+    // set default list parameter 
+    if (!isset($sort)) $sort="login_asc";		
+    if (!isset($maxrow)) $maxrow= 10;		
+    if (!isset($offset)) $offset= 0;
 		
-	$db=\core\Core::$db;
-	$list = $db->fetchAll("SELECT * from ch_user u, ark_database d where u.uid > ?", array(1));
-	$quant=$db->fetchOne("SELECT count(u.uid) as quant from ch_user u where uid > ? ", array(1));
-	$page = new \mod\webpage\Main();
-	// get lang
-	$lang=\mod\lang\Main::getCurrentLang();
-	$page->smarty->assign('lang', $lang);
-	//var_dump($list);
-	$page->smarty->assign('list', $list);
-	$page->smarty->assign('filter', $filter);
-	$page->smarty->assign('sort', $sort);
-	$page->smarty->assign('offset', $offset);
-	$page->smarty->assign('maxrow', $maxrow);
-	$page->smarty->assign('quant', $quant);
-
-	$page->smarty->assign('directory_mode', 'list');
-	$page->setLayout('arkeogis/directory');
-	$page->display();
+    $db=\core\Core::$db;
+    $list = $db->fetchAll("SELECT * from ch_user u, ark_database d where u.uid > ?", array(1));
+    $quant=$db->fetchOne("SELECT count(u.uid) as quant from ch_user u where uid > ? ", array(1));
+    $page = new \mod\webpage\Main();
+    // get lang
+    $lang=\mod\lang\Main::getCurrentLang();
+    $page->smarty->assign('lang', $lang);
+    //var_dump($list);
+    $page->smarty->assign('list', $list);
+    $page->smarty->assign('filter', $filter);
+    $page->smarty->assign('sort', $sort);
+    $page->smarty->assign('offset', $offset);
+    $page->smarty->assign('maxrow', $maxrow);
+    $page->smarty->assign('quant', $quant);
+    
+    $page->smarty->assign('directory_mode', 'list');
+    $page->setLayout('arkeogis/directory');
+    $page->display();
   }
-
+  
   public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
 		\mod\user\Main::redirectIfNotLoggedIn();
-	
+    
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
-
+    
 		$menus=array();
 		
 		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path from ark_database order by id");
