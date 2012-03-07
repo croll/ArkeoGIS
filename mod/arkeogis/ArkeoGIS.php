@@ -66,10 +66,6 @@ class ArkeoGIS {
 
 
 	public static function search_sites($search, $columns, $addtable=array()) {
-		$search=$_REQUEST; // override the $search wich is fucked, I don't really know why
-
-		\core\Core::log($search);
-
 		$addtable=array('ark_site_period' => isset($addtable['ark_site_period']) ? $addtable['ark_site_period'] : false,
 										'ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
 										'ark_siteperiod_furniture' => isset($addtable['ark_siteperiod_furniture']) ? $addtable['ark_siteperiod_furniture'] : false,
