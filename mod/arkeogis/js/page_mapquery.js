@@ -245,6 +245,10 @@ function display_query(query) {
 	var win=window.open('/print_sheet#'+encodeURI(JSON.encode(query)), 'sheet print');
     });
 
+    html.getElement('.btn-export').addEvent('click', function() {
+	window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(query));
+    });
+
     html.inject($('querys'));
 }
 

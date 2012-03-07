@@ -79,10 +79,8 @@ class Main {
     $page->setLayout('arkeogis/directory');
     $page->display();
   }
-  
-  public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
-		\mod\user\Main::redirectIfNotLoggedIn();
-    
+
+	private static function load_menus() {
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
     
@@ -98,8 +96,36 @@ class Main {
 		
 		$menus['furniture']=\core\Core::$db->fetchAll("select fu_id as id, fu_parentid as parentid, fu_name_$lang as name, node_path from ark_furniture order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 
-		echo "menus=";
-		echo json_encode($menus);
+		return $menus;
+	}
+  
+	private static function idtok($ar) {
+		$res=array();
+		foreach($ar as $row) $res[$row['id']]=$row['name'];
+		return $res;
+	}
+
+	private static function load_strings() {
+    $lang=\mod\lang\Main::getCurrentLang();
+    $lang=substr($lang, 0, 2);
+    
+		$menus=array();
+		
+		$menus['db']=self::idtok(\core\Core::$db->fetchAll("select da_id as id, da_name as name from ark_database order by da_id"));
+		$menus['period']=self::idtok(\core\Core::$db->fetchAll("select pe_id as id, pe_name_$lang as name from ark_period order by pe_id"));
+		$menus['production']=self::idtok(\core\Core::$db->fetchAll("select pr_id as id, pr_name_$lang as name from ark_production order by pr_id"));
+		
+		$menus['realestate']=self::idtok(\core\Core::$db->fetchAll("select re_id as id, re_name_$lang as name from ark_realestate order by re_id"));
+		
+		$menus['furniture']=self::idtok(\core\Core::$db->fetchAll("select fu_id as id, fu_name_$lang as name from ark_furniture order by fu_id"));
+
+		return $menus;
+	}
+  
+  public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
+		\mod\user\Main::redirectIfNotLoggedIn();
+    
+		echo "menus=".json_encode(self::load_menus());
 	}
 
   public static function hook_mod_arkeogis_init($hookname, $userdata) {
@@ -160,7 +186,7 @@ class Main {
 	}
 
   public static function hook_mod_arkeogis_print_sheet($hookname, $userdata) {
-    if (\mod\user\Main::userIsLoggedIn()) {;
+    if (\mod\user\Main::userIsLoggedIn()) {
       $page = new \mod\webpage\Main();
       $page->setLayout('arkeogis/print_sheet');
       $page->display();
@@ -169,5 +195,69 @@ class Main {
     }
   }
 
+	private static function node_path_to_str($node_path, &$strings, $sep) {
+		if ($node_path == 'NULL') return '';
+		$node_path=explode('.', $node_path);
+		foreach($node_path as $k => $v) $node_path[$k]=trim($strings[$v], '"');
+		return implode($node_path, $sep);
+	}
+
+	private static function node_path_array_to_str($node_path_array, &$strings, $sep) {
+		$node_paths=explode(',', trim($node_path_array, '{}'));
+		foreach($node_paths as $k=>$v)
+			$node_paths[$k]=self::node_path_to_str($v, $strings, $sep);
+		return $node_paths;
+	}
+
+  public static function hook_mod_arkeogis_export_sheet($hookname, $userdata) {
+    if (!\mod\user\Main::userIsLoggedIn())
+			return self::hook_mod_arkeogis_public($hookname, $userdata);
+
+		
+		$q=json_decode($_REQUEST['q'], true);
+		
+		$columns="si_name, ";
+		$columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_start)) AS period_start, ";
+		$columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_end)) AS period_end, ";
+		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
+		$columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id)) as furniture, ";
+		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production";
+		
+		$res=ArkeoGIS::search_sites($q, $columns, array(
+																										'ark_site_period' => true,
+																										'ark_siteperiod_production' => true,
+																										'ark_siteperiod_furniture' => true,
+																										'ark_siteperiod_realestate' => true
+																										));
+		
+		$strings=self::load_strings();
+		
+		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date dans le passé
+		header("Content-Type: text");
+		header("Content-Disposition: attachment; filename=\"export.csv\"");
+		
+		printf('"%s";"%s";"%s";"%s";"%s";"%s"'."\n",
+					 'site name',
+					 'period start',
+					 'period end',
+					 'realestate',
+					 'furniture',
+					 'production');
+		
+		foreach($res as $row) {
+			printf('"%s";"%s";"%s";"%s";"%s";"%s"'."\n",
+						 $row['si_name'],
+						 implode(self::node_path_array_to_str($row['period_start'], $strings['period'], '=>'), '|'),
+						 implode(self::node_path_array_to_str($row['period_end'], $strings['period'], '=>'), '|'),
+						 implode(self::node_path_array_to_str($row['realestate'], $strings['realestate'], '=>'), '|'),
+						 implode(self::node_path_array_to_str($row['furniture'], $strings['furniture'], '=>'), '|'),
+						 implode(self::node_path_array_to_str($row['production'], $strings['production'], '=>'), '|')
+						 );
+		}
+		    
+  }
+
+	
 
 }
