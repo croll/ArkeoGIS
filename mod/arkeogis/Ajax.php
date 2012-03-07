@@ -5,10 +5,12 @@ namespace mod\arkeogis;
 class Ajax {
 
 	public static function showthemap($search) {
+    if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     return self::search_sites($search, "si_code, si_name");
   }
 
 	public static function showthesheet($search) {
+    if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     $columns="si_name, ";
     $columns.="array_agg((SELECT pe_name_fr FROM ark_period WHERE pe_id=sp_period_start)) AS period_start, ";
     $columns.="array_agg((SELECT pe_name_fr FROM ark_period WHERE pe_id=sp_period_end)) AS period_end, ";
@@ -175,6 +177,7 @@ class Ajax {
 
   
   public static function saveQuery($params) {
+    if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
     \core\Core::$db->exec("INSERT INTO ark_savedquery (id_user, name, query) VALUES (?,?,?)",
                           array($uid, $params['name'], $params['query']));
@@ -182,6 +185,7 @@ class Ajax {
   }
 
   public static function deleteQuery($params) {
+    if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
     \core\Core::$db->exec("DELETE FROM ark_savedquery WHERE id_user=? AND id=?",
                           array($uid, $params['queryid']));
@@ -189,12 +193,14 @@ class Ajax {
   }
 
   public static function loadQuery($params) {
+    if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
     return \core\Core::$db->fetchOne("SELECT query FROM ark_savedquery WHERE id_user=? AND id=?",
                                      array($uid, $params['queryid']));
   }
 
   public static function listQueries($params) {
+    if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
     return \core\Core::$db->fetchAll("SELECT * FROM ark_savedquery WHERE id_user=?",
                                      array($uid));
