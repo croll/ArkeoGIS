@@ -38,9 +38,9 @@ if (\core\Core::$db->fetchOne("SELECT COUNT(*) FROM pg_language WHERE lanname = 
 }
 
 if (\core\Core::$db->fetchOne("SELECT COUNT(*) from pg_proc WHERE proname = 'box3d'") == 0) {
-	echo "/!\ Error\n";
-	echo "Postgis is not installed.\n";
-	echo "For example with Debian: \n";
+	echo "\n/!\ Error\n";
+	echo "Postgis is not installed.\n\n";
+	echo "For example with Debian (with postgresql 8.4, replace by 9.1 if you use 9.1): \n";
 	echo "apt-get install postgresql-8.4-postgis (and restart Postgresql server)\n";
 	echo "As postgresl user do:\n";
 	echo "psql captainhook-database < /usr/share/postgresql/8.4/contrib/postgis-1.5/postgis.sql\n";
@@ -55,9 +55,12 @@ if (\core\Core::$db->fetchOne("SELECT COUNT(*) from pg_proc WHERE proname = 'ltr
 	echo "/!\ Error\n";
 	echo "Ltree is not installed.\n";
 	echo "For example with Debian: \n";
-	echo "apt-get install postgresql-contrib-8.4 (and restart Postgresql server)\n";
-	echo "As postgres user do:\n";
+	echo "apt-get install postgresql-contrib-8.4 (or 9.1)\n";
+	echo "\nFor postgresql 8.4 : As postgres user do:\n";
 	echo "psql captainhook-database < /usr/share/postgresql/8.4/contrib/ltree.sql\n";
+	echo "\nFor postgrdsql 9.1 : As postgres user in a psql shell:\n";
+	echo "\\c captainhook-database\n";
+	echo "CREATE EXTENSION ltree;\n";
 	exit;
 }
 
