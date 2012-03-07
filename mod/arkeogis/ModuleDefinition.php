@@ -20,6 +20,7 @@ class ModuleDefinition extends \core\ModuleDefinition {
 		\mod\regroute\Main::registerRoute($this->id, '#^/pmmenus$#', 'mod_arkeogis_pmmenus');
 		\mod\regroute\Main::registerRoute($this->id, '#^/import/?$#', 'mod_arkeogis_import');
 		\mod\regroute\Main::registerRoute($this->id, '#^/import/submit/?$#', 'mod_arkeogis_import_submit');
+		\mod\regroute\Main::registerRoute($this->id, '#^/print_sheet$#', 'mod_arkeogis_print_sheet');
 		/* create ArkeoGIS groups 
 		Admin (loup+croll staff) 
 		Chercheur (un chercheur peut upload sa base et exporter)

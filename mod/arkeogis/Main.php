@@ -159,4 +159,15 @@ class Main {
 		$page->display();
 	}
 
+  public static function hook_mod_arkeogis_print_sheet($hookname, $userdata) {
+    if (\mod\user\Main::userIsLoggedIn()) {;
+      $page = new \mod\webpage\Main();
+      $page->setLayout('arkeogis/print_sheet');
+      $page->display();
+    } else {
+      return self::hook_mod_arkeogis_public($hookname, $userdata);
+    }
+  }
+
+
 }

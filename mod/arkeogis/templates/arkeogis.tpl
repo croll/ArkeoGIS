@@ -3,6 +3,7 @@
 {block name='webpage_head' append}
 	{js file="/pmmenus"}
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
+	{js file="/mod/arkeogis/js/sheet.js"}
 	{js file="/mod/arkeogis/js/page_mapquery.js"}
 	{js file="/mod/map/js/MooGooMaps/Source/Class.SubObjectMapping.js"}
 	{js file="/mod/map/js/MooGooMaps/Source/Map.js"}
@@ -96,7 +97,7 @@
 					 </tr>
 				 </table>
 			</div>
-			<div id="map_sheet" style='display: none'></div>
+			<div id="map_sheet" class='sheetovermap' style='display: none'></div>
 		</div>
 	</div>
 
@@ -112,8 +113,8 @@
 			<button id='btn-save-query' class='btn btn-save-query'>{t d='arkeogis' m='Archiver la requête'}</button>
                   </div>
 		  <div class='query-header-buttons'>
-			<button class='btn-success'>{t d='arkeogis' m='Imprimer'}</button>
-			<button class='btn-success'>{t d='arkeogis' m='Exporter'}</button>
+			<button class='btn-success btn-print'>{t d='arkeogis' m='Imprimer'}</button>
+			<button class='btn-success btn-export'>{t d='arkeogis' m='Exporter'}</button>
 		  </div>
                 </div>
 		<div class='query-filters-border'>

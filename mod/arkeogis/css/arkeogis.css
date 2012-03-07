@@ -486,10 +486,16 @@ div.filtercontent .filter-minus {
 }
 
 #map_sheet { 
+}
+
+.sheetovermap { 
   position: absolute;
   left: 320px;
   height: 500px;
   top: 0;
   background: #fff;
   overflow-y: scroll;
+}
+
+.sheetprint { 
 }
