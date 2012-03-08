@@ -218,8 +218,7 @@ class ArkeoGIS {
 
 	public static function addDatabase($dbName, $dbDescription=NULL, $owner_id=0) {
 		$args = array($dbName, $dbDescription, (int)$owner_id);
-		\core\Core::$db->exec('INSERT INTO "ark_database" ("da_name", "da_description", "da_owner_id", "da_creation", "da_modification") VALUES (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)', $args);
-		return (isset(\core\Core::$db->Insert_ID)) ? \core\Core::$db->Insert_ID : NULL;
+		return \core\Core::$db->exec_returning('INSERT INTO "ark_database" ("da_name", "da_description", "da_owner_id", "da_creation", "da_modification") VALUES (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)', $args, 'da_id');
 	}
 
 	public static function getDatabaseId($dbName) {

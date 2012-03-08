@@ -22,7 +22,7 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">{t d='arkeogis' m="Caractère d'échapement"}</label>
+					<label class="control-label">{t d='arkeogis' m="Caractère d'échappement"}</label>
 					<div class="controls">
 						{$dbUpload.enclosure}
 					</div>
@@ -76,6 +76,32 @@
 			{/foreach}
 			</tbody>
 		</table>
+
+		{if is_array($result.processingErrors) && sizeof($result.processingErrors) > 0}
+		<div style="font-weight: bold">Debug</div>
+		<table class="table table-striped table-bordered table-condensed" style="width: 1200px; margin: 0px auto 50px auto">
+			<thead>
+				<tr>
+					<th>Code</th>
+					<th>Error</th>
+				</tr>
+			</thead>
+			<tbody>
+			{foreach $result.processingErrors as $item}
+				{foreach $item as $it}
+						<tr>
+							<td>{$item@key}</td>
+							<td>
+								{foreach $it.msg as $msg}
+									{$msg}<br />
+								{/foreach}
+							</td>
+						</tr>
+				{/foreach}
+			{/foreach}
+			</tbody>
+		</table>
+		{/if}
 
 	{/if}
 

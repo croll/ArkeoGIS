@@ -60,7 +60,7 @@ class DatabaseImport {
 			}
 		}
 
-		//\core\Core::$db->exec('BEGIN');
+		\core\Core::$db->exec('BEGIN');
 
 		// Retrieve special periods
 
@@ -391,16 +391,8 @@ class DatabaseImport {
 			} // End of site treatment, next one.
 
 		}
-		/*
-		echo "<br /> ==== INSERTING SITE ERRORS ===== ";
-		foreach(self::$_processingErrors as $k=>$entry) {
-			foreach($entry AS $error) {
-				echo "$k :: ".implode("<br />", $error['msg'])."<br />";
-			}
-		}
-		*/
-		//\core\Core::$db->exec('COMMIT');
-		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => $numProcessed, "errors" => self::$_siteErrors);
+		\core\Core::$db->exec('COMMIT');
+		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => $numProcessed, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 
 	private static function _processSiteId($siteCode) {
@@ -447,7 +439,7 @@ class DatabaseImport {
 			}
 		}
 		self::$_current['database'] = self::$_database;
-		return true;
+		return;
 	}
 
 	private static function _checkDifference($num, $value) {
