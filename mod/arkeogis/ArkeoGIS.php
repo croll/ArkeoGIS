@@ -264,4 +264,42 @@ class ArkeoGIS {
 		return $id;
 	}
 
+	public static function node_path_to_str($node_path, &$strings, $sep) {
+		if ($node_path == 'NULL') return '';
+		$node_path=explode('.', $node_path);
+		foreach($node_path as $k => $v) $node_path[$k]=trim($strings[$v], '"');
+		return implode($node_path, $sep);
+	}
+
+	public static function node_path_array_to_str($node_path_array, &$strings, $sep) {
+		$node_paths=explode(',', trim($node_path_array, '{}'));
+		foreach($node_paths as $k=>$v)
+			$node_paths[$k]=self::node_path_to_str($v, $strings, $sep);
+		return $node_paths;
+	}
+
+	private static function idtok($ar) {
+		$res=array();
+		foreach($ar as $row) $res[$row['id']]=$row['name'];
+		return $res;
+	}
+
+	public static function load_strings() {
+    $lang=\mod\lang\Main::getCurrentLang();
+    $lang=substr($lang, 0, 2);
+    
+		$menus=array();
+		
+		$menus['db']=self::idtok(\core\Core::$db->fetchAll("select da_id as id, da_name as name from ark_database order by da_id"));
+		$menus['period']=self::idtok(\core\Core::$db->fetchAll("select pe_id as id, pe_name_$lang as name from ark_period order by pe_id"));
+		$menus['production']=self::idtok(\core\Core::$db->fetchAll("select pr_id as id, pr_name_$lang as name from ark_production order by pr_id"));
+		
+		$menus['realestate']=self::idtok(\core\Core::$db->fetchAll("select re_id as id, re_name_$lang as name from ark_realestate order by re_id"));
+		
+		$menus['furniture']=self::idtok(\core\Core::$db->fetchAll("select fu_id as id, fu_name_$lang as name from ark_furniture order by fu_id"));
+
+		return $menus;
+	}
+  
+
 }

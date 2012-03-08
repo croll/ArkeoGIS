@@ -99,29 +99,6 @@ class Main {
 		return $menus;
 	}
   
-	private static function idtok($ar) {
-		$res=array();
-		foreach($ar as $row) $res[$row['id']]=$row['name'];
-		return $res;
-	}
-
-	private static function load_strings() {
-    $lang=\mod\lang\Main::getCurrentLang();
-    $lang=substr($lang, 0, 2);
-    
-		$menus=array();
-		
-		$menus['db']=self::idtok(\core\Core::$db->fetchAll("select da_id as id, da_name as name from ark_database order by da_id"));
-		$menus['period']=self::idtok(\core\Core::$db->fetchAll("select pe_id as id, pe_name_$lang as name from ark_period order by pe_id"));
-		$menus['production']=self::idtok(\core\Core::$db->fetchAll("select pr_id as id, pr_name_$lang as name from ark_production order by pr_id"));
-		
-		$menus['realestate']=self::idtok(\core\Core::$db->fetchAll("select re_id as id, re_name_$lang as name from ark_realestate order by re_id"));
-		
-		$menus['furniture']=self::idtok(\core\Core::$db->fetchAll("select fu_id as id, fu_name_$lang as name from ark_furniture order by fu_id"));
-
-		return $menus;
-	}
-  
   public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
 		\mod\user\Main::redirectIfNotLoggedIn();
     
@@ -195,20 +172,6 @@ class Main {
     }
   }
 
-	private static function node_path_to_str($node_path, &$strings, $sep) {
-		if ($node_path == 'NULL') return '';
-		$node_path=explode('.', $node_path);
-		foreach($node_path as $k => $v) $node_path[$k]=trim($strings[$v], '"');
-		return implode($node_path, $sep);
-	}
-
-	private static function node_path_array_to_str($node_path_array, &$strings, $sep) {
-		$node_paths=explode(',', trim($node_path_array, '{}'));
-		foreach($node_paths as $k=>$v)
-			$node_paths[$k]=self::node_path_to_str($v, $strings, $sep);
-		return $node_paths;
-	}
-
   public static function hook_mod_arkeogis_export_sheet($hookname, $userdata) {
     if (!\mod\user\Main::userIsLoggedIn())
 			return self::hook_mod_arkeogis_public($hookname, $userdata);
@@ -229,7 +192,7 @@ class Main {
 																										'ark_siteperiod_realestate' => true
 																										));
 		
-		$strings=self::load_strings();
+		$strings=ArkeoGIS::load_strings();
 		
 		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date dans le passé
@@ -247,11 +210,11 @@ class Main {
 		foreach($res as $row) {
 			printf('"%s";"%s";"%s";"%s";"%s";"%s"'."\n",
 						 $row['si_name'],
-						 self::node_path_to_str($row['period_start'], $strings['period'], '=>'),
-						 self::node_path_to_str($row['period_end'], $strings['period'], '=>'),
-						 implode(self::node_path_array_to_str($row['realestate'], $strings['realestate'], '=>'), '|'),
-						 implode(self::node_path_array_to_str($row['furniture'], $strings['furniture'], '=>'), '|'),
-						 implode(self::node_path_array_to_str($row['production'], $strings['production'], '=>'), '|')
+						 ArkeoGIS::node_path_to_str($row['period_start'], $strings['period'], '=>'),
+						 ArkeoGIS::node_path_to_str($row['period_end'], $strings['period'], '=>'),
+						 implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '=>'), '|'),
+						 implode(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '=>'), '|'),
+						 implode(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '=>'), '|')
 						 );
 		}
 		    
