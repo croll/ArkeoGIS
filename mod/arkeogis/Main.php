@@ -88,7 +88,7 @@ class Main {
 		
 		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path from ark_database order by id");
 		
-		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, pe_name_$lang as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, (pe_name_fr || '\n' || pe_name_de || '\n' || pe_desc) as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 		
 		$menus['production']=\core\Core::$db->fetchAll("select pr_id as id, pr_parentid as parentid, pr_name_$lang as name, node_path from ark_production order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 		
@@ -213,12 +213,11 @@ class Main {
     if (!\mod\user\Main::userIsLoggedIn())
 			return self::hook_mod_arkeogis_public($hookname, $userdata);
 
-		
 		$q=json_decode($_REQUEST['q'], true);
 		
 		$columns="si_name, ";
-		$columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_start)) AS period_start, ";
-		$columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_end)) AS period_end, ";
+		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start, ";
+		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end, ";
 		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
 		$columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id)) as furniture, ";
 		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production";
@@ -248,8 +247,8 @@ class Main {
 		foreach($res as $row) {
 			printf('"%s";"%s";"%s";"%s";"%s";"%s"'."\n",
 						 $row['si_name'],
-						 implode(self::node_path_array_to_str($row['period_start'], $strings['period'], '=>'), '|'),
-						 implode(self::node_path_array_to_str($row['period_end'], $strings['period'], '=>'), '|'),
+						 implode(self::node_path_to_str($row['period_start'], $strings['period'], '=>'), '|'),
+						 implode(self::node_path_to_str($row['period_end'], $strings['period'], '=>'), '|'),
 						 implode(self::node_path_array_to_str($row['realestate'], $strings['realestate'], '=>'), '|'),
 						 implode(self::node_path_array_to_str($row['furniture'], $strings['furniture'], '=>'), '|'),
 						 implode(self::node_path_array_to_str($row['production'], $strings['production'], '=>'), '|')
