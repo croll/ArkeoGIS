@@ -216,8 +216,8 @@ class Main {
 		$q=json_decode($_REQUEST['q'], true);
 		
 		$columns="si_name, ";
-		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start, ";
-		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end, ";
+		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=min(sp_period_start)) AS period_start, ";
+		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=max(sp_period_end)) AS period_end, ";
 		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
 		$columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id)) as furniture, ";
 		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production";
@@ -247,8 +247,8 @@ class Main {
 		foreach($res as $row) {
 			printf('"%s";"%s";"%s";"%s";"%s";"%s"'."\n",
 						 $row['si_name'],
-						 implode(self::node_path_to_str($row['period_start'], $strings['period'], '=>'), '|'),
-						 implode(self::node_path_to_str($row['period_end'], $strings['period'], '=>'), '|'),
+						 self::node_path_to_str($row['period_start'], $strings['period'], '=>'),
+						 self::node_path_to_str($row['period_end'], $strings['period'], '=>'),
 						 implode(self::node_path_array_to_str($row['realestate'], $strings['realestate'], '=>'), '|'),
 						 implode(self::node_path_array_to_str($row['furniture'], $strings['furniture'], '=>'), '|'),
 						 implode(self::node_path_array_to_str($row['production'], $strings['production'], '=>'), '|')
