@@ -71,8 +71,8 @@
 						<li class="dropdown" onclick="this.toggleClass('open');">
        							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
        							<ul id="switchlang" class="dropdown-menu">
-         							<li><a  onclick="switchLang('fr_FR');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
-               							<li><a  onclick="switchLang('de_DE');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+         							<li><a  onclick="ch_setlang('fr_FR', '/public');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
+               							<li><a  onclick="ch_setlang('de_DE', '/public');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
        							</ul>
        						</li>
 						{if \mod\user\Main::userIsLoggedIn()}
@@ -159,16 +159,5 @@
 var mypage= new Page();
 var pmod = new Modal.Base(document.body);
 var mytab = new TabPane('public');
-{literal}
-function switchLang(newlang)  {
-	var myswitch = new Request.JSON({
-		'url': '/ajax/call/lang/setCurrentLang',
-		'onSuccess': function(resJSON, resText) {
-				console.log('toto');	
-		}
-	}).get({'lang': {/literal}newlang{literal}});
-	console.log(newlang);
-}
-{/literal}
 </script>
 {/block}
