@@ -213,8 +213,7 @@ class DatabaseImport {
 			if (in_array(strtolower($datas[13]), $occupation[self::$_lang])) {
 				$os = array_keys($occupation[self::$_lang], strtolower($datas[13]));
 				self::$_current['occupation'] = $occupation['en'][$os[0]];
-				// Check if period is "range"
-				self::$_current['period_isrange'] = (self::$_current['occupation'] == 'continuous' && !isset(self::$_stored[self::$_current['code']])) ? true : false;
+				self::$_current['period_isrange'] = 1;
 			} else if (!empty($datas[13])) {
 				self::_addError("Occupation type ($datas[13]) is not referenced.");
 			} else {
@@ -243,6 +242,7 @@ class DatabaseImport {
 					// We have already processed this site
 				} else {
 					self::$_current['period'] = self::$_stored[self::$_current['code']]['period'];
+					self::$_current['period_isrange'] = 0;
 					
 				}	// Done with new site, next it's common to new/already processed site
 			}
