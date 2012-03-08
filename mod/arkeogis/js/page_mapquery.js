@@ -186,6 +186,7 @@ function buildFilterLines(menu, colnum, div) {
 	    'class': 'td1',
 	    'text': model.text
 	});
+	td1.set('html', td1.get('html').replace(/\n/g, '<br />'));
 	td1.inject(tr);
 	
 	if (model.selection) {
