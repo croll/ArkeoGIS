@@ -72,5 +72,7 @@
   "P\u00e9riode" : "P\u00e9riode",
   "Immobilier" : "Immobilier",
   "Mobilier" : "Mobilier",
-  "Production" : "Production"
+  "Production" : "Production",
+  "Caract\u00e8re d'\u00e9chappement" : "Caract\u00e8re d'\u00e9chappement",
+  "Directory" : "Directory"
 }
