@@ -3,7 +3,7 @@ function display_sheet(data) {
     var data2=[];
     for (var i=0; i<data.length; i++) {
 	var row=data[i];
-
+/*
 	var realestate = row.realestate.substring(1,row.realestate.length-1);
 	if (realestate.substring(0,1) == '"')
 	    realestate=realestate.substring(1, realestate.length-1);
@@ -37,6 +37,15 @@ function display_sheet(data) {
 	    realestate,
 	    furniture,
 	    production
+	]);
+	*/
+	data2.push([
+	    row.si_name,
+	    row.period_start+' => '+row.period_end,
+	    row.realestate,
+	    row.furniture,
+	    row.production
+	    
 	]);
     }
 

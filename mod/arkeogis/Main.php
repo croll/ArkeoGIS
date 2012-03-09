@@ -199,7 +199,7 @@ class Main {
 		header("Content-Type: text");
 		header("Content-Disposition: attachment; filename=\"export.csv\"");
 		
-		printf('"%s";"%s";"%s";"%s";"%s";"%s"'."\n",
+		printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\n",
 					 'site name',
 					 'period start',
 					 'period end',
@@ -208,13 +208,13 @@ class Main {
 					 'production');
 		
 		foreach($res as $row) {
-			printf('"%s";"%s";"%s";"%s";"%s";"%s"'."\n",
+			printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\n",
 						 $row['si_name'],
-						 ArkeoGIS::node_path_to_str($row['period_start'], $strings['period'], '=>'),
-						 ArkeoGIS::node_path_to_str($row['period_end'], $strings['period'], '=>'),
-						 implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '=>'), '|'),
-						 implode(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '=>'), '|'),
-						 implode(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '=>'), '|')
+						 ArkeoGIS::node_path_to_str($row['period_start'], $strings['period'], '/'),
+						 ArkeoGIS::node_path_to_str($row['period_end'], $strings['period'], '/'),
+						 implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), ';'),
+						 implode(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), ';'),
+						 implode(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), ';')
 						 );
 		}
 		    
