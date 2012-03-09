@@ -1,3 +1,6 @@
+var infoWindow = null;
+var map;
+
 window.addEvent('domready', function() {
 
     /* initialization of plusminus menus */
@@ -97,7 +100,33 @@ window.addEvent('domready', function() {
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
-		alert(res);
+				res.each(function(marker) {
+					var m = new google.maps.Marker({
+						position: new google.maps.LatLng(marker.geometry.coordinates[1], marker.geometry.coordinates[0]),
+						icon: new google.maps.MarkerImage(marker.icon.iconUrl),
+						map: map
+					});
+
+					google.maps.event.addListener(m, 'mouseover', function() {
+						if (infoWindow)
+							infoWindow.close();
+						infoWindow = new google.maps.InfoWindow({
+							 content: marker.popup.title+marker.popup.content
+						});
+						infoWindow.open(map, m);
+					});
+					google.maps.event.addListener(m, 'click', function() {
+						if (infoWindow)
+							infoWindow.close();
+						infoWindow = new google.maps.InfoWindow({
+							 content: 'POUET'
+						});
+						infoWindow.open(map, m);
+					});
+					google.maps.event.addListener(m, 'mouseout', function() {
+						infoWindow.close();
+					});
+				});
 		display_query(form);
 	    }
 	}).post(form);
@@ -146,9 +175,11 @@ window.addEvent('domready', function() {
 
 
     /* initialization of google map */
-    var map = new Map('map_canvas', [43.60,3.88], { 
-	zoom: 12, 
+    map = new google.maps.Map($('map_canvas'), {
+			center: new google.maps.LatLng(48.58476, 7.750576),
+	zoom: 8, 
 	disableDefaultUI: true,
+	mapTypeId: google.maps.MapTypeId.ROADMAP,
 	mapTypeControl: true,
 	mapTypeControlOptions: {
 	    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
@@ -156,12 +187,12 @@ window.addEvent('domready', function() {
 	},
 	zoomControl: true,
 	zoomControlOptions: {
-	    style: google.maps.ZoomControlStyle.SMALL,
+	    style: google.maps.ZoomControlStyle.BIG,
 	    position: google.maps.ControlPosition.RIGHT_TOP
 	},
 	panControl: true,
 	panControlOptions: {
-	    style: google.maps.ZoomControlStyle.SMALL,
+	    style: google.maps.ZoomControlStyle.BIG,
 	    position: google.maps.ControlPosition.RIGHT_TOP
 	},
 	scaleControl: true,
@@ -268,5 +299,3 @@ function populateSavedQueriesMenu() {
 	}
     }).get();
 }
-
-

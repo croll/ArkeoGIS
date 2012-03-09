@@ -5,10 +5,6 @@
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/sheet.js"}
 	{js file="/mod/arkeogis/js/page_mapquery.js"}
-	{js file="/mod/map/js/MooGooMaps/Source/Class.SubObjectMapping.js"}
-	{js file="/mod/map/js/MooGooMaps/Source/Map.js"}
-	{js file="/mod/map/js/MooGooMaps/Source/Map.Extras.js"}
-	{js file="/mod/map/js/MooGooMaps/Source/Map.Marker.js"}
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false" ></script>
 {/block}
 

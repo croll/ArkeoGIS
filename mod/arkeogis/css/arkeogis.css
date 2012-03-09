@@ -75,6 +75,15 @@ html[xmlns] .clearfix {
 	border:1px solid #ccc;
 }
 
+#map_canvas img {
+	max-width: none;
+}
+
+#mapCanvas label { 
+	width: auto; 
+	display:inline; 
+}
+
 #footer {
 	margin-top: 35px;
 	padding: 10px 0 30px 0;
@@ -497,10 +506,6 @@ div.filtercontent .filter-minus {
 }
 
 .sheetprint { 
-}
-
-.sheetovermap table th, .sheetovermap table td {
-    overflow: hidden;
 }
 
 .sheetovermap table th:nth-child(1) {
