@@ -128,6 +128,11 @@ class DatabaseImport {
 				# 11 : centroid 
 				$stop = false;
 
+				$datas[6] = str_replace(',', '.', $datas[6]);
+				$datas[7] = str_replace(',', '.', $datas[7]);
+				$datas[8] = str_replace(',', '.', $datas[8]);
+				$datas[9] = str_replace(',', '.', $datas[9]);
+
 				$coords = array();
 				self::$_current['centroid'] = false;
 
