@@ -168,6 +168,7 @@ var PlusMinusItem = new Class({
 	    class: 'pmmenu-item',
 	    text: me.model.text
 	});
+	me.html_element.set('html', me.html_element.get('html').replace(/\n/g, '<br />'));
 	me.html_element.inject(to_html_elem);
 	var sub=new Element('div', {
 	    class: 'pmmenu-sub'
