@@ -4,6 +4,8 @@ function display_sheet(data) {
     for (var i=0; i<data.length; i++) {
 	var row=data[i];
 	data2.push([
+	    row.da_name,
+	    row.ci_name,
 	    row.si_name,
 	    row.period_start+'<br />'+row.period_end,
 	    row.realestate,
@@ -21,11 +23,13 @@ function display_sheet(data) {
 	},
 	gridContainer : $('map_sheet'),
 	headers: [
+	    ch_t('arkeogis', 'Base source'),
+	    ch_t('arkeogis', 'Commune'),
 	    ch_t('arkeogis', 'Nom du site'),
 	    ch_t('arkeogis', 'Période'),
 	    ch_t('arkeogis', 'Immobilier'),
 	    ch_t('arkeogis', 'Mobilier'),
-	    ch_t('arkeogis', 'Production'),
+	    ch_t('arkeogis', 'Production')
 	],
 	rows: data2
     });
