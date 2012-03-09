@@ -517,3 +517,7 @@ div.filtercontent .filter-minus {
 .sheetovermap table th:nth-child(6), .sheetovermap table td:nth-child(6) {
     width: 50px;
 }
+
+#map_canvas img {
+	max-width: none;
+}
