@@ -186,7 +186,6 @@ class Main {
 		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production";
 		
 		$res=ArkeoGIS::search_sites($q, $columns, array(
-																										'ark_site_period' => true,
 																										'ark_siteperiod_production' => true,
 																										'ark_siteperiod_furniture' => true,
 																										'ark_siteperiod_realestate' => true
