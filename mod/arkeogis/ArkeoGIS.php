@@ -68,7 +68,8 @@ class ArkeoGIS {
 	public static function search_sites($search, $columns, $addtable=array()) {
 		$addtable=array('ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
 										'ark_siteperiod_furniture' => isset($addtable['ark_siteperiod_furniture']) ? $addtable['ark_siteperiod_furniture'] : false,
-										'ark_siteperiod_realestate' => isset($addtable['ark_siteperiod_realestate']) ? $addtable['ark_siteperiod_realestate'] : false);
+										'ark_siteperiod_realestate' => isset($addtable['ark_siteperiod_realestate']) ? $addtable['ark_siteperiod_realestate'] : false,
+										'ark_database' => isset($addtable['ark_database']) ? $addtable['ark_database'] : false);
 
 		$query=' WHERE sp_period_isrange=1 ';
 		$args=array();
@@ -181,6 +182,9 @@ class ArkeoGIS {
 		}
 		if ($addtable['ark_siteperiod_realestate']) {
 			$select.=" LEFT JOIN ark_siteperiod_realestate ON sr_site_period_id = ark_site_period.sp_id";
+		}
+		if ($addtable['ark_database']) {
+			$select.=" LEFT JOIN ark_database ON si_database_id = da_id";
 		}
 
 		$query=$select.' '.$query.' GROUP BY si_code, si_name';
