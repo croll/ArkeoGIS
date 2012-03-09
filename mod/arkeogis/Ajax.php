@@ -17,16 +17,6 @@ class Ajax {
 		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
 		$columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id)) as furniture, ";
 		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production";
-
-    /*
-		$columns="si_name, ";
-    $columns.="array_agg((SELECT pe_name_fr FROM ark_period WHERE pe_id=sp_period_start)) AS period_start, ";
-    $columns.="array_agg((SELECT pe_name_fr FROM ark_period WHERE pe_id=sp_period_end)) AS period_end, ";
-    $columns.="array_agg((SELECT re_name_fr FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
-    $columns.="array_agg((SELECT fu_name_fr FROM ark_furniture WHERE fu_id=sf_furniture_id)) as furniture, ";
-    $columns.="array_agg((SELECT pr_name_fr FROM ark_production WHERE pr_id=sp_production_id)) as production";
-    */
-
     $res=ArkeoGIS::search_sites($search, $columns, array(
                                   'ark_site_period' => true,
                                   'ark_siteperiod_production' => true,
