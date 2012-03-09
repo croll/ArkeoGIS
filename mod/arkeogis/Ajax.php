@@ -6,7 +6,39 @@ class Ajax {
 
 	public static function showthemap($search) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
-    return ArkeoGIS::search_sites($search, "si_code, si_name");
+
+		$lang = 'fr';
+		$columns="si_name, si_code, ST_AsGeoJSON(si_geom) as geom, si_centroid as centroid, (COALESCE(max(sr_exceptional), 0) + COALESCE(max(sf_exceptional), 0) + COALESCE(max(sp_exceptional), 0)) as exceptional, array_agg(sp_knowledge_type) as knowledge, ";
+    $columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_start)) AS period_start, ";
+    $columns.="array_agg((SELECT pe_name_$lang FROM ark_period WHERE pe_id=sp_period_start)) AS period_start_label, ";
+    $columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_end)) AS period_end, ";
+    $columns.="array_agg((SELECT pe_name_$lang FROM ark_period WHERE pe_id=sp_period_end)) AS period_end_label, ";
+    $columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
+    $columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id)) as furniture, ";
+    $columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production ";
+
+    $sites = ArkeoGIS::search_sites($search, $columns, array(
+                                'ark_site_period' => true,
+                                'ark_siteperiod_production' => true,
+                                'ark_siteperiod_furniture' => true,
+                                'ark_siteperiod_realestate' => true
+                              ));
+		$mapMarkers = array();
+
+		foreach($sites as $site) {
+			$coords = json_decode($site['geom'], true);
+			$content = "<div>".trim($site["period_start_label"], '{}"')." - ".trim($site["period_end_label"], '{}"')."</div>";
+			if (!empty($site['realestate']) && !strstr($site['realestate'], 'NULL')) {
+				$content .= "<div>$site[realestate]</div>";
+			} else if (!empty($site['furniture']) && !strstr($site['furniture'], 'NULL')) {
+				$content .= "<div>$site[furniture]</div>";
+			} else if (!empty($site['production']) && !strstr($site['production'], 'NULL')) {
+				$content .= "<div>$site[production]</div>";
+			}
+			$popupParams = array('title' => (!empty($site['si_name']) ? $site['si_name'] : $site['si_code']), 'content' => $content);
+			$mapMarkers[] = \mod\arkeogis\ArkeoGIS::getMarker('circle', $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
+		}
+		return $mapMarkers;
   }
 
 	public static function showthesheet($search) {

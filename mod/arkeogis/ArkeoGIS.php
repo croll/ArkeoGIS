@@ -295,6 +295,51 @@ class ArkeoGIS {
 
 		return $menus;
 	}
+
+	/* ************* */
+	/*      Map      */
+	/* ************* */
+	
+	public static function getMarker($shape, $geometry, $knowledge, $period, $exceptional, $centroid, $popupParams) {
+
+		$colors[1]   = '#cbcbcb';
+		$colors[2]   = '#8c8c8c';
+		$colors[3]   = array('#005702', '#176619', '#468547', '#5D945E');
+		$colors[36]  = array('#000099', '#1717A2', '#2E2EAC', '#4646B5');
+		$colors[92]  = array('#FF0000', '#FF1717', '#FF2E2E', '#FF4646');
+		$colors[103] = array('#FFFF00', '#FFFF17', '#FFFF2E', '#FFFF46');
+		$colors[115] = array('#330000', '#461717', '#582E2E', '#6B4646');
+		$colors[130] = '#646263';
+		$colors[140] = '#474747';
+
+		$params['geometry'] = $geometry;
+
+		if (strstr($knowledge, 'excavated')) 
+			$params['size'] = array(25, 25);
+		else if (strstr($knowledge, 'surveyed'))
+			$params['size'] = array(20, 20);
+		else if (strstr($knowledge, 'literature'))
+			$params['size'] = array(15, 15);
+		else
+			$params['size'] = array(10, 10);
+
+		$params['shape'] = $shape;
+
+		$params['strokecolor'] = ($exceptional) ? 'black' : NULL;
+
+		$params['text'] = ($centroid) ? '#' : NULL;
+
+		$tmp = preg_split('/\./', trim($period, '{}'));
+		$num = array_shift($tmp);
+		$pos = sizeof($tmp);
+
+		$params['color'] = $colors[$num][$pos];
+
+		$marker = new \mod\map\Marker('image', $geometry);
+		$marker->setIconParams($params);
+		$marker->setPopupParams($popupParams);
+		return $marker->get();
+	}
   
 
 }
