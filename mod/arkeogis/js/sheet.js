@@ -4,13 +4,13 @@ function display_sheet(data) {
     for (var i=0; i<data.length; i++) {
 	var row=data[i];
 	data2.push([
-	    row.da_name,
-	    row.ci_name,
-	    row.si_name,
-	    row.period_start+'<br />'+row.period_end,
-	    row.realestate,
-	    row.furniture,
-	    row.production
+	    '<div>'+row.da_name+'</div>',
+	    '<div>'+row.ci_name+'</div>',
+	    '<div>'+row.si_name+'</div>',
+	    '<div>'+row.period_start+'<br />'+row.period_end+'</div>',
+	    '<div>'+row.realestate+'</div>',
+	    '<div>'+row.furniture+'</div>',
+	    '<div>'+row.production+'</div>'
 	    
 	]);
     }
