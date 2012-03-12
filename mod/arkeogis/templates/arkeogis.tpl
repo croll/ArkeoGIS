@@ -17,6 +17,8 @@
 			<div id="map_canvas">
 			</div>
 
+			        <div id="onglet">
+				</div>
 				<div id="map_menu">
 					<table class='map-query' border='0' cellspacing='0' cellpadding='0'>
 

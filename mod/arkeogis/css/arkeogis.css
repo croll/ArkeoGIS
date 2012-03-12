@@ -54,6 +54,25 @@ html[xmlns] .clearfix {
 	height: 500px;
 }
 
+
+#content #onglet { 
+  position: absolute;
+  background: #fff;
+  z-index: 10;
+  left: 307px;
+  top: 30px;
+  width: 22px;
+  height: 50px;
+  cursor: pointer;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 1px 1px 12px #555;
+  -webkit-box-shadow: 1px 12px 20px #555;
+  box-shadow: 1px 1px 12px #555;
+}
+
 #content #map_menu {
 	padding: 10px;
 	margin: 15px;

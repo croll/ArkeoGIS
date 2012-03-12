@@ -60,6 +60,17 @@ window.addEvent('domready', function() {
 
     /* initialization of buttons "afficher la carte" and "afficher le tableur" */
 
+    var menu_showing=true;
+    $('onglet').addEvent('click', function() {
+	menu_showing=!menu_showing;
+	$('map_menu').setStyles({
+	    'display': menu_showing ? '' : 'none'
+	});
+	$('onglet').setStyles({
+	    'left': menu_showing ? '' : '0'
+	});
+    });
+
     function buildSelectionObject() {
 	var result={};
 
