@@ -73,6 +73,10 @@ html[xmlns] .clearfix {
   box-shadow: 1px 1px 12px #555;
 }
 
+#content #onglet:hover { 
+ background-color: #eee;
+}
+
 #content #map_menu {
 	padding: 10px;
 	margin: 15px;
