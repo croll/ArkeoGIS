@@ -65,7 +65,7 @@ class ArkeoGIS {
 	}
 
 
-	public static function search_sites($search, $select, $addtable=array(), $limit=100) {
+	public static function search_sites($search, $select, $addtable=array(), $limit=1000) {
 		$addtable=array('ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
 										'ark_siteperiod_furniture' => isset($addtable['ark_siteperiod_furniture']) ? $addtable['ark_siteperiod_furniture'] : false,
 										'ark_siteperiod_realestate' => isset($addtable['ark_siteperiod_realestate']) ? $addtable['ark_siteperiod_realestate'] : false,
