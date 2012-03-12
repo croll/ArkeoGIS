@@ -113,12 +113,19 @@ window.addEvent('domready', function() {
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
+		display_query(form);
+		if (res.mapmarkers.length < res.total_count
+		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ?", res.mapmarkers.length, res.total_count))) {
+
+		    // download the sites as csv file
+		    alert("todo ;)");
+		    return;
+		}
 		$('map_sheet').setStyles({
 		    'display': 'none'
 		});
 		show_menu(false);
-		display_query(form);
-				res.each(function(marker) {
+				res.mapmarkers.each(function(marker) {
 					var m = new google.maps.Marker({
 						position: new google.maps.LatLng(marker.geometry.coordinates[1], marker.geometry.coordinates[0]),
 						icon: new google.maps.MarkerImage(marker.icon.iconUrl),
@@ -162,8 +169,17 @@ window.addEvent('domready', function() {
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthesheet',
 	    'onSuccess': function(res) {
-		show_menu(false);
-		display_sheet(res);
+		if ((res.sites.length < res.total_count)
+		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ?", res.sites.length, res.total_count))
+		   ) {
+
+		    // download as csv (todo)
+		    alert("todo ;)");
+		    
+		} else {
+		    show_menu(false);
+		    display_sheet(res.sites);
+		}
 		display_query(form);
 	    }
 	}).post(form);

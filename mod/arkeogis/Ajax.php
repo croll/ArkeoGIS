@@ -17,12 +17,14 @@ class Ajax {
     $columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id)) as furniture, ";
     $columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production ";
 
-    $sites = ArkeoGIS::search_sites($search, $columns, array(
+    $res = ArkeoGIS::search_sites($search, $columns, array(
                                 'ark_site_period' => true,
                                 'ark_siteperiod_production' => true,
                                 'ark_siteperiod_furniture' => true,
                                 'ark_siteperiod_realestate' => true
                               ));
+		$total_count=$res['total_count'];
+		$sites=&$res['sites'];
 		$mapMarkers = array();
 
 		foreach($sites as $site) {
@@ -40,7 +42,7 @@ class Ajax {
 			$num = round(rand(0,2));
 			$mapMarkers[] = \mod\arkeogis\ArkeoGIS::getMarker($shapes[$num], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
 		}
-		return $mapMarkers;
+		return array('total_count' => $total_count, 'mapmarkers' => $mapMarkers);
   }
 
 	public static function showthesheet($search) {
@@ -58,14 +60,16 @@ class Ajax {
                                   'ark_siteperiod_furniture' => true,
                                   'ark_siteperiod_realestate' => true
                                 ));
+		$total_count=$res['total_count'];
+		$sites=&$res['sites'];
 
 		$strings=ArkeoGIS::load_strings();
-    foreach($res as $k => $row) {
-      //$res[$k]['period_start'] = ArkeoGIS::node_path_to_str($row['period_start'], $strings['period'], '/');
-      //$res[$k]['period_end'] = ArkeoGIS::node_path_to_str($row['period_end'], $strings['period'], '/');
-      $res[$k]['realestate'] = implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), ';');
-      $res[$k]['furniture'] = implode(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), ';');
-      $res[$k]['production'] = implode(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), ';');
+    foreach($sites as $k => $row) {
+      //$sites[$k]['period_start'] = ArkeoGIS::node_path_to_str($row['period_start'], $strings['period'], '/');
+      //$sites[$k]['period_end'] = ArkeoGIS::node_path_to_str($row['period_end'], $strings['period'], '/');
+      $sites[$k]['realestate'] = implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), ';');
+      $sites[$k]['furniture'] = implode(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), ';');
+      $sites[$k]['production'] = implode(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), ';');
     }
 
     return $res;
