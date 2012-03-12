@@ -142,19 +142,25 @@ td.exceptionnel div {
 }
 
 table.map-query td.validations button {
- width: 119px;
+  text-align: center;
+}
+
+table.map-query td.validations button {
+ width: 129px;
  font-weight: bold;
  font-size: 14px;
  border-radius: 5px 5px 5px 5px;
 }
 
 table.map-query td.validations .btn-display-map {
+  float: left;
 }
 
 table.map-query td.validations .btn-display-sheet {
+  float: right;
 }
 
-table.map-query .btn-reinit {
+table.map-query .btn-reinit, table.map-query .btn-querydelete {
  width: 100%;
 }
 
