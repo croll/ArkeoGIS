@@ -217,6 +217,26 @@ window.addEvent('domready', function() {
     });
 
 
+    $$('.btn-reinit')[0].addEvent('click', function() {
+	$('select-savedqueries').selectedIndex=0;
+
+	arkeo_menu.db.setSelection([], []);
+	arkeo_menu.period.setSelection([], []);
+	arkeo_menu.production.setSelection([], []);
+	arkeo_menu.realestate.setSelection([], []);
+	arkeo_menu.furniture.setSelection([], []);
+	
+	arkeo_menu.centroid.setSelection([], []);
+	arkeo_menu.knowledge.setSelection([], []);
+	arkeo_menu.occupation.setSelection([], []);
+	
+	$('ex_realestate').checked = false;
+	$('ex_furniture').checked = false;
+	$('ex_production').checked = false;
+
+	$('querys').set('html', '');
+    });
+
 
     /* initialization of google map */
 
