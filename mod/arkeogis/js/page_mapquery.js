@@ -113,6 +113,8 @@ window.addEvent('domready', function() {
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
+		show_menu(false);
+		display_query(form);
 				res.each(function(marker) {
 					var m = new google.maps.Marker({
 						position: new google.maps.LatLng(marker.geometry.coordinates[1], marker.geometry.coordinates[0]),
@@ -140,7 +142,6 @@ window.addEvent('domready', function() {
 						infoWindow.close();
 					});
 				});
-		display_query(form);
 	    }
 	}).post(form);
     });
@@ -158,6 +159,7 @@ window.addEvent('domready', function() {
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthesheet',
 	    'onSuccess': function(res) {
+		show_menu(false);
 		display_sheet(res);
 		display_query(form);
 	    }
