@@ -232,13 +232,14 @@ function buildFilterLines(menu, colnum, div) {
     });
 }
 
+var arkeo_query_displayed=0;
 function display_query(query) {
     var html = $('query-display').clone();
     html.setStyles({
 	display: ''
     });
 
-    html.getElement('.query_num').set('text', 1);
+    html.getElement('.query_num').set('text', ++arkeo_query_displayed);
     ['centroid', 'knowledge', 'occupation', 'db', 'period', 'production', 'realestate', 'furniture'].each(function(m) {
 	var result=[];
 	if (arkeo_menu[m].submenu.buildPath(query[m+'_include'], query[m+'_exclude'], result)) {
