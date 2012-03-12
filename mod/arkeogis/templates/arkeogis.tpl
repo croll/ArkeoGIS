@@ -24,9 +24,7 @@
 
 					 <tr class="menu_archives">
 						<td colspan='2'>
-						 <select id='select-savedqueries'>
-							<option>{t d='arkeogis' m="Requêtes archivées"}</option>
-						 </select>
+						 <select id='select-savedqueries'></select>
 						</td>
 					 </tr>
 

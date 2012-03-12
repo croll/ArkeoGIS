@@ -164,7 +164,8 @@ window.addEvent('domready', function() {
 	    'url': '/ajax/call/arkeogis/loadQuery',
 	    'onSuccess': function(res) {
 		res=JSON.decode(res);
-		$('select-savedqueries').selectedIndex=0;
+		var idx=$('select-savedqueries').selectedIndex;
+		if (idx == 0) return;
 		arkeo_menu.db.setSelection(res.db_include, res.db_exclude);
 		arkeo_menu.period.setSelection(res.period_include, res.period_exclude);
 		arkeo_menu.production.setSelection(res.production_include, res.production_exclude);
@@ -178,6 +179,8 @@ window.addEvent('domready', function() {
 		$('ex_realestate').checked = res.realestate_exceptional == 1;
 		$('ex_furniture').checked = res.furniture_exceptional == 1;
 		$('ex_production').checked = res.production_exceptional == 1;
+
+		$('select-savedqueries').selectedIndex=idx;
 	    }
 	}).post({
 	    'queryid': $('select-savedqueries').get('value')
@@ -185,7 +188,38 @@ window.addEvent('domready', function() {
     });
 
 
+    $$('.btn-querydelete').addEvent('click', function() {
+	var option=$('select-savedqueries').getSelected();
+	if (option.get('value') == '0')
+	    return alert(ch_t('arkeogis', "Vous devez selectionner une requête avant"));
+	if (!confirm(ch_t('arkeogis', "Souhaitez-vous vraiment effacer la requête '%s' ?", option.get('text')))) return;
+	new Request.JSON({
+	    'url': '/ajax/call/arkeogis/deleteQuery',
+	    'onSuccess': function(res) {
+		populateSavedQueriesMenu();
+		alert(ch_t('arkeogis', "Requête '%s' effacée", option.get('text')));
+	    }
+	}).post({
+	    'queryid': option.get('value')
+	});
+    });
+
+
+    ['centroid', 'knowledge', 'occupation', 'db', 'period', 'production', 'realestate', 'furniture'].each(function(m) {
+	arkeo_menu[m].addEvent('selection', function() {
+	    $('select-savedqueries').selectedIndex=0;
+	})
+    });
+    [ 'ex_realestate', 'ex_furniture', 'ex_production' ].each(function(m) {
+	$(m).addEvent('change', function() {
+	    $('select-savedqueries').selectedIndex=0;
+	})
+    });
+
+
+
     /* initialization of google map */
+
     map = new google.maps.Map($('map_canvas'), {
 			center: new google.maps.LatLng(48.58476, 7.750576),
 	zoom: 8, 
@@ -301,12 +335,20 @@ function populateSavedQueriesMenu() {
 	'url': '/ajax/call/arkeogis/listQueries',
 	'onSuccess': function(res) {
 	    var sel=$('select-savedqueries');
-	    sel.options = Array.slice(sel.options, 0,1);
+	    var id=sel.getSelected().get('value');
+	    sel.set('html', '');
+	    Array.push(sel.options, (new Element('option', {
+		'value': '0',
+		'text': ch_t('arkeogis', "Requêtes archivées")
+	    })));
+	    var index=1;
 	    res.each(function(line) {
 		Array.push(sel.options, (new Element('option', {
 		    'value': line.id,
 		    'text': line.name
 		})));
+		if (line.id == id) sel.selectedIndex=index;
+		index++;
 	    });
 	}
     }).get();
