@@ -113,6 +113,9 @@ window.addEvent('domready', function() {
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
+		$('map_sheet').setStyles({
+		    'display': 'none'
+		});
 		show_menu(false);
 		display_query(form);
 				res.each(function(marker) {
