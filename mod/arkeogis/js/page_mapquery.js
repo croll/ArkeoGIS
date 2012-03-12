@@ -108,6 +108,15 @@ window.addEvent('domready', function() {
 
     $('btn-show-the-map').addEvent('click', function() {
 	var form=buildSelectionObject();
+	if ((form.db_include.length > 0 || form.db_exclude > 0)
+	    && (form.period_include.length > 0 || form.period_exclude.length > 0)
+	    && (form.production_include.length > 0 || form.production_exclude.length > 0
+		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
+		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0)) {
+	} else {
+	    return alert(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
+	}
+	
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
@@ -145,6 +154,14 @@ window.addEvent('domready', function() {
 
     $('btn-show-the-table').addEvent('click', function() {
 	var form=buildSelectionObject();
+	if ((form.db_include.length > 0 || form.db_exclude > 0)
+	    && (form.period_include.length > 0 || form.period_exclude.length > 0)
+	    && (form.production_include.length > 0 || form.production_exclude.length > 0
+		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
+		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0)) {
+	} else {
+	    return alert(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
+	}
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthesheet',
 	    'onSuccess': function(res) {
