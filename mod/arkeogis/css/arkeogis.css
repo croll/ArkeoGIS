@@ -75,6 +75,15 @@ html[xmlns] .clearfix {
 	border:1px solid #ccc;
 }
 
+#map_canvas img {
+	max-width: none;
+}
+
+#mapCanvas label { 
+	width: auto; 
+	display:inline; 
+}
+
 #footer {
 	margin-top: 35px;
 	padding: 10px 0 30px 0;
@@ -499,21 +508,46 @@ div.filtercontent .filter-minus {
 .sheetprint { 
 }
 
-.sheetovermap table th:nth-child(1), .sheetovermap table td:nth-child(1) {
+.sheetovermap table th:nth-child(1) {
     width: 50px;
 }
-.sheetovermap table th:nth-child(2), .sheetovermap table td:nth-child(2) {
+.sheetovermap table th:nth-child(2) {
+    width: 60px;
+}
+.sheetovermap table th:nth-child(3) {
+    width: 60px;
+}
+.sheetovermap table th:nth-child(4) {
+    width: 200px;
+}
+.sheetovermap table th:nth-child(5) {
+    width: 60px;
+}
+.sheetovermap table th:nth-child(6) {
+    width: 60px;
+}
+.sheetovermap table th:nth-child(7) {
+    width: 60px;
+}
+
+.sheetovermap table td:nth-child(1) div {
     width: 50px;
 }
-.sheetovermap table th:nth-child(3), .sheetovermap table td:nth-child(3) {
-    width: 50px;
+.sheetovermap table td:nth-child(2) div {
+    width: 60px;
 }
-.sheetovermap table th:nth-child(4), .sheetovermap table td:nth-child(4) {
-    width: 50px;
+.sheetovermap table td:nth-child(3) div {
+    width: 60px;
 }
-.sheetovermap table th:nth-child(5), .sheetovermap table td:nth-child(5) {
-    width: 50px;
+.sheetovermap table td:nth-child(4) div {
+    width: 200px;
 }
-.sheetovermap table th:nth-child(6), .sheetovermap table td:nth-child(6) {
-    width: 50px;
+.sheetovermap table td:nth-child(5) div {
+    width: 60px;
+}
+.sheetovermap table td:nth-child(6) div {
+    width: 60px;
+}
+.sheetovermap table td:nth-child(7) div {
+    width: 60px;
 }

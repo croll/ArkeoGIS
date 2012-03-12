@@ -187,12 +187,12 @@ window.addEvent('domready', function() {
 	},
 	zoomControl: true,
 	zoomControlOptions: {
-	    style: google.maps.ZoomControlStyle.SMALL,
+	    style: google.maps.ZoomControlStyle.BIG,
 	    position: google.maps.ControlPosition.RIGHT_TOP
 	},
 	panControl: true,
 	panControlOptions: {
-	    style: google.maps.ZoomControlStyle.SMALL,
+	    style: google.maps.ZoomControlStyle.BIG,
 	    position: google.maps.ControlPosition.RIGHT_TOP
 	},
 	scaleControl: true,
