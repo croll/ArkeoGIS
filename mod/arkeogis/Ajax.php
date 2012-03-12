@@ -36,7 +36,9 @@ class Ajax {
 				$content .= "<div>$site[production]</div>";
 			}
 			$popupParams = array('title' => (!empty($site['si_name']) ? $site['si_name'] : $site['si_code']), 'content' => $content);
-			$mapMarkers[] = \mod\arkeogis\ArkeoGIS::getMarker('circle', $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
+			$shapes = array('circle', 'rectangle', 'triangle');
+			$num = round(rand(0,2));
+			$mapMarkers[] = \mod\arkeogis\ArkeoGIS::getMarker($shapes[$num], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
 		}
 		return $mapMarkers;
   }

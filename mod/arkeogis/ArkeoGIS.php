@@ -197,10 +197,10 @@ class ArkeoGIS {
 
 		//$query.=' GROUP BY si_code';
 
-		\core\Core::log($query);
+		//\core\Core::log($query);
 		$result=\core\Core::$db->fetchAll($query, $args);
-		\core\Core::log($result);
-		\core\Core::log('result count: '.count($result));
+		//\core\Core::log($result);
+		//\core\Core::log('result count: '.count($result));
 		return $result;
 	}
 
@@ -315,28 +315,30 @@ class ArkeoGIS {
 		$params['geometry'] = $geometry;
 
 		if (strstr($knowledge, 'excavated')) 
-			$params['size'] = array(25, 25);
+			$iconParams['size'] = array(25, 25);
 		else if (strstr($knowledge, 'surveyed'))
-			$params['size'] = array(20, 20);
+			$iconParams['size'] = array(20, 20);
 		else if (strstr($knowledge, 'literature'))
-			$params['size'] = array(15, 15);
+			$iconParams['size'] = array(15, 15);
 		else
-			$params['size'] = array(10, 10);
+			$iconParams['size'] = array(10, 10);
 
-		$params['shape'] = $shape;
+		$iconParams['shape'] = $shape;
 
-		$params['strokecolor'] = ($exceptional) ? 'black' : NULL;
+		$iconParams['strokecolor'] = '#333333';
+		$iconParams['strokewidth'] = ($exceptional) ? 2 : 1;
 
-		$params['text'] = ($centroid) ? '#' : NULL;
+		$iconParams['text'] = ($centroid) ? '#' : NULL;
 
 		$tmp = preg_split('/\./', trim($period, '{}'));
 		$num = array_shift($tmp);
 		$pos = sizeof($tmp);
 
-		$params['color'] = $colors[$num][$pos];
+		$iconParams['alpha'] = 0.75;
+		$iconParams['color'] = $colors[$num][$pos];
 
 		$marker = new \mod\map\Marker('image', $geometry);
-		$marker->setIconParams($params);
+		$marker->setIconParams($iconParams);
 		$marker->setPopupParams($popupParams);
 		return $marker->get();
 	}
