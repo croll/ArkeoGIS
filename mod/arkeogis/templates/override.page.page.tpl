@@ -1,4 +1,4 @@
-{extends tplextends('arkeogis/layout', 'onajax:page_content')}
+{extends tplextends('arkeogis/public', 'onajax:page_content')}
 {block name='page_menu' append}
 	{if $smarty.server.REQUEST_URI != '/page/list/'}
 	 <li><a href="/page/edit/{$page.pid}"><i class="icon-edit glyph-white"></i>  Edit</a></li>
