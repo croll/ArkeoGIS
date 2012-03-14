@@ -31,12 +31,18 @@
 						<li><a href="/page/documentation">{t d='arkeogis' m='Documentation'}</a></li>
 						<li><a href="/page/exemples">{t d='arkeogis' m='Exemples'}</a></li>
 						<li><a href="/page/logiciel">{t d='arkeogis' m='Logiciel'}</a></li>
-						<li><a href="/page/faq">{t d='arkeogis' m='FAQ'}</a></li>
+						{if \mod\user\Main::userhasRight('View databases') }
+							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
+						{/if}
 						<li><a href="/page/manuel_utilisateur">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
+							
+						{if \mod\user\Main::userhasRight('Manage personal database') }
+						<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
+						{/if}
 							
 					</ul>
 					<ul class="nav pull-right">
-						{if \mod\user\Main::userhasRight('Manage rights') }
+						{if \mod\user\Main::userhasRight('Manage personal database') }
 						<li class="dropdown" onclick="this.toggleClass('open');">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">ArkeoGIS<b class="caret"></b></a>
 							<ul class="dropdown-menu">

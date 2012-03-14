@@ -34,12 +34,14 @@
 								
 							<li><a href="/public">{t d='arkeogis' m='Accueil'}</a></li>
 
+							{if \mod\user\Main::userhasRight('View databases') }
 							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
-							<li><a href="/page/faq">{t d='arkeogis' m='FAQ'}</a></li>
+							{/if}
 							<li><a href="/page/manuel_utilisateur">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
-
-							
+								
+							{if \mod\user\Main::userhasRight('Manage personal database') }
 							<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
+							{/if}
 						</ul>
 						<ul class="nav pull-right">
 							{if \mod\user\Main::userhasRight('Manage page') }

@@ -23,7 +23,7 @@ class Main {
     // get lang
     $lang=\mod\lang\Main::getCurrentLang();
     if ($lang == 'de_DE') {
-	$present = \mod\page\Main::getPageBySysname('accueil');
+	$present = \mod\page\Main::getPageBySysname('startseite');
     } else if ($lang == 'fr_FR') {
 	$present = \mod\page\Main::getPageBySysname('accueil');
     }
