@@ -35,7 +35,7 @@
   "Logiciel" : "Logiciel",
   "Code source" : "Code source",
   "Directory" : "Directory",
-  "Recherches cartographiques" : "Recherches cartographiques",
+  "Cartographie" : "Map",
   "Import" : "Import",
   "Recherche cartographique" : "Recherche cartographique",
   "Logout" : "Logout",

@@ -106,6 +106,7 @@ window.addEvent('domready', function() {
 	    && (form.production_include.length > 0 || form.production_exclude.length > 0
 		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
 		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0)) {
+	var form=buildSelectionObject();
 	} else {
 	    return alert(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
 	}
@@ -114,6 +115,7 @@ window.addEvent('domready', function() {
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
 		display_query(form);
+		console.log(res.mapmarkers.length);
 		if (res.mapmarkers.length < res.total_count
 		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ?", res.mapmarkers.length, res.total_count))) {
 
@@ -170,7 +172,7 @@ window.addEvent('domready', function() {
 	    'url': '/ajax/call/arkeogis/showthesheet',
 	    'onSuccess': function(res) {
 		if ((res.sites.length < res.total_count)
-		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ?", res.sites.length, res.total_count))
+		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous plutôt télécharger la liste au format csv ?", res.sites.length, res.total_count))
 		   ) {
 
 		    // download as csv (todo)
@@ -270,12 +272,11 @@ window.addEvent('domready', function() {
 
 
     /* initialization of google map */
-
     map = new google.maps.Map($('map_canvas'), {
 			center: new google.maps.LatLng(48.58476, 7.750576),
-	zoom: 8, 
+	zoom: 7, 
 	disableDefaultUI: true,
-	mapTypeId: google.maps.MapTypeId.ROADMAP,
+	mapTypeId: google.maps.MapTypeId.TERRAIN,
 	mapTypeControl: true,
 	mapTypeControlOptions: {
 	    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,

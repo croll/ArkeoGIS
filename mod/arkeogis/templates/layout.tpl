@@ -43,7 +43,7 @@
 							<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
 							</ul></li>
 
-							<li><a href="/">{t d='arkeogis' m='Recherches cartographiques'}</a></li>
+							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
 							
 							<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
 							<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
