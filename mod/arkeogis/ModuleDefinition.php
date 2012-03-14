@@ -27,12 +27,13 @@ class ModuleDefinition extends \core\ModuleDefinition {
 		Chercheur (un chercheur peut upload sa base et exporter)
 		Etudiant (il ne peut pas upload une base ni exporter)
 		*/
-		\mod\user\Main::addGroup('Chercheur', 1);
-		\mod\user\Main::renameGroup('Registered', 'Etudiant');
 		/* set Rights */
 		\mod\user\Main::addRight("Manage personal database", "User can create , Import , delete and Export it's own personnal database");			
 		\mod\user\Main::addRight("View databases", "User can view maps and database");			
 		\mod\user\Main::addRight("Manage all databases", "User can manage all databases (Warning:Restricted to admin group)");
+	
+		\mod\user\Main::addGroup('Chercheur', 1);
+		\mod\user\Main::renameGroup('Registered', 'Etudiant');
 		// assign rights tio groups
 		\mod\user\Main::assignRight('View databases', 'Admin');
 		\mod\user\Main::assignRight('View databases', 'Chercheur');
