@@ -198,7 +198,7 @@ class DatabaseImport {
 					}
 					// Geom
 					# 5 EPSG
-						self::$_current['geom'] = (is_array($coords) && !empty($coords['x']) && !empty($coords['y'])) ? "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : -999).")', $epsg)" : NULL;
+						self::$_current['geom'] = (is_array($coords) && !empty($coords['x']) && !empty($coords['y'])) ? "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : -999).")', 4326)" : NULL;
 				}
 				
 			} // End of first time site processing

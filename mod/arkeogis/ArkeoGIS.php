@@ -325,7 +325,11 @@ class ArkeoGIS {
 
 		$iconParams['text'] = ($centroid) ? '#' : NULL;
 
-		$tmp = preg_split('/\./', trim($period, '{}'));
+		$tmp = trim($period, '{}');
+		// todo multiple period
+		$tmp = preg_split("/,/",$tmp); 
+		$tmp = $tmp[0];
+		$tmp = preg_split('/\./', $tmp);
 		$num = array_shift($tmp);
 		$pos = sizeof($tmp);
 
