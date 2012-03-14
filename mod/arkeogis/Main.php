@@ -32,7 +32,36 @@ class Main {
     $page->setLayout('arkeogis/public');
     $page->display();
   }
-
+  public static function hook_mod_arkeogis_exemple($hookname, $userdata) {
+    // get lang
+    $page = new \mod\webpage\Main();
+    // get lang
+    $lang=\mod\lang\Main::getCurrentLang();
+    if ($lang == 'de_DE') {
+	$present = \mod\page\Main::getPageBySysname('startseite');
+    } else if ($lang == 'fr_FR') {
+	$present = \mod\page\Main::getPageBySysname('accueil');
+    }
+    $page->smarty->assign('lang', $lang);
+    $page->smarty->assign('present', $present);
+    $page->setLayout('arkeogis/exemple');
+    $page->display();
+  }
+  public static function hook_mod_arkeogis_manuel($hookname, $userdata) {
+    // get lang
+    $page = new \mod\webpage\Main();
+    // get lang
+    $lang=\mod\lang\Main::getCurrentLang();
+    if ($lang == 'de_DE') {
+	$present = \mod\page\Main::getPageBySysname('startseite');
+    } else if ($lang == 'fr_FR') {
+	$present = \mod\page\Main::getPageBySysname('accueil');
+    }
+    $page->smarty->assign('lang', $lang);
+    $page->smarty->assign('present', $present);
+    $page->setLayout('arkeogis/manuel');
+    $page->display();
+  }
   public static function hook_mod_arkeogis_directory($hookname, $userdata) {
     // check for optionals parameters 
     if (isset($matches[1])) {	

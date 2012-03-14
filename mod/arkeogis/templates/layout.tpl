@@ -37,7 +37,8 @@
 							{if \mod\user\Main::userhasRight('View databases') }
 							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
 							{/if}
-							<li><a href="/page/manuel_utilisateur">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
+							<li><a href="/exemple">{t d='arkeogis' m='Exemples'}</a></li>
+							<li><a href="/manuel">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
 								
 							{if \mod\user\Main::userhasRight('Manage personal database') }
 							<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
@@ -76,7 +77,8 @@
             						</li>
 							{if \mod\user\Main::userIsLoggedIn() }
             						<li><a href="/logout">{t d='user' m='Logout'}</a></li>
-            						{else}
+            						<li><a>{\mod\user\Main::getUserFullName($smarty.session.login)}</a></li>
+							{else}
 							<li><a href="/login">{t d='user' m='Login'}</a></li>
           						{/if}
 							</ul>

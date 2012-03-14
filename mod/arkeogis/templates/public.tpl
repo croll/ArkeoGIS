@@ -29,12 +29,12 @@
 						<li><a href="/page/partenaires">{t d='arkeogis' m='Partenaires'}</a></li>
 						<li><a href="/page/historique">{t d='arkeogis' m='Historique'}</a></li>
 						<li><a href="/page/documentation">{t d='arkeogis' m='Documentation'}</a></li>
-						<li><a href="/page/exemples">{t d='arkeogis' m='Exemples'}</a></li>
+						<li><a href="/exemple">{t d='arkeogis' m='Exemples'}</a></li>
 						<li><a href="/page/logiciel">{t d='arkeogis' m='Logiciel'}</a></li>
 						{if \mod\user\Main::userhasRight('View databases') }
 							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
 						{/if}
-						<li><a href="/page/manuel_utilisateur">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
+						<li><a href="/manuel">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
 							
 						{if \mod\user\Main::userhasRight('Manage personal database') }
 						<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
@@ -42,18 +42,7 @@
 							
 					</ul>
 					<ul class="nav pull-right">
-						{if \mod\user\Main::userhasRight('Manage personal database') }
-						<li class="dropdown" onclick="this.toggleClass('open');">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">ArkeoGIS<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								{block name='arkeo_menu' }
-									<li><a class="top-btn" href="/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='Recherche cartographique'}</a></li>
-									<li><a class="top-btn" href="/import/"><i class="icon-pencil glyph-white"></i>  {t d='arkeogis' m='Import'}</a></li>
-									<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
-								{/block}
-							</ul>
-						</li>
-						{/if}
+						
 						{if \mod\user\Main::userhasRight('Manage page') }
 						<li class="dropdown" onclick="this.toggleClass('open');">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='page' m='Page'}<b class="caret"></b></a>
