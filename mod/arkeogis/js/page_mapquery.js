@@ -115,7 +115,6 @@ window.addEvent('domready', function() {
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
 		display_query(form);
-		console.log(res.mapmarkers.length);
 		if (res.mapmarkers.length < res.total_count
 		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ?", res.mapmarkers.length, res.total_count))) {
 
