@@ -12,6 +12,6 @@
 			Created  {$page.created|date_format: '%d %b %Y'} by {$page.full_name} : last updated - {$page.updated|date_format: '%d %b %Y'}
 		</small>
 	</div>
-	<div id="page_rawcontent">{$page.content}</div>
+	<div id="page_rawcontent" class="clearfix">{$page.content}</div>
 {/block}
 
