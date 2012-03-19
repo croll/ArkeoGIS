@@ -17,6 +17,7 @@
 {block name='webpage_body'}
 <div id="arkeogis_container">
 	<div id="top_of_page">
+		<a class="float" onclick= "mypage.getTranslated('{$page_name}', 'fr_FR')">trans</a>
 		<div id="arkeologo">
 		</div>
 	</div>
@@ -26,11 +27,11 @@
 				<div class="nav-collapse">
 					<ul class="nav nav-pills nav-stacked">
 						<li><a href="/">{t d='arkeogis' m='Accueil'}</a></li>
-						<li><a href="/page/partenaires">{t d='arkeogis' m='Partenaires'}</a></li>
-						<li><a href="/page/historique">{t d='arkeogis' m='Historique'}</a></li>
-						<li><a href="/page/documentation">{t d='arkeogis' m='Documentation'}</a></li>
+						<li><a href="/page/{\mod\page\Main::getTranslated('partenaires', $lang)}">{t d='arkeogis' m='Partenaires'}</a></li>
+						<li><a href="/page/{\mod\page\Main::getTranslated('historique', $lang)}">{t d='arkeogis' m='Historique'}</a></li>
+						<li><a href="/page/{\mod\page\Main::getTranslated('documentation', $lang)}">{t d='arkeogis' m='Documentation'}</a></li>
 						<li><a href="/exemple">{t d='arkeogis' m='Exemples'}</a></li>
-						<li><a href="/page/logiciel">{t d='arkeogis' m='Logiciel'}</a></li>
+						<li><a href="/page/{\mod\page\Main::getTranslated('logiciel', $lang)}">{t d='arkeogis' m='Logiciel'}</a></li>
 						{if \mod\user\Main::userhasRight('View databases') }
 							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
 						{/if}
@@ -68,8 +69,8 @@
 						<li class="dropdown" onclick="this.toggleClass('open');">
        							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
        							<ul id="switchlang" class="dropdown-menu">
-         							<li><a  onclick="ch_setlang('fr_FR', '/public');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
-               							<li><a  onclick="ch_setlang('de_DE', '/public');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+         							<li><a  onclick="ch_setlang('fr_FR', '/page/{\mod\page\Main::getTranslated($page_name, 'fr_FR')}');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
+               							<li><a  onclick="ch_setlang('de_DE', '/page/{\mod\page\Main::getTranslated($page_name, 'de_DE')}');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
        							</ul>
        						</li>
 						{if \mod\user\Main::userIsLoggedIn()}

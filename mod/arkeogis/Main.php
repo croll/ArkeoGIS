@@ -22,12 +22,10 @@ class Main {
     $page = new \mod\webpage\Main();
     // get lang
     $lang=\mod\lang\Main::getCurrentLang();
-    if ($lang == 'de_DE') {
-	$present = \mod\page\Main::getPageBySysname('startseite');
-    } else if ($lang == 'fr_FR') {
-	$present = \mod\page\Main::getPageBySysname('accueil');
-    }
+    $sysname = \mod\page\Main::getTranslated('accueil', $lang);
+    $present = \mod\page\Main::getPageBySysname($sysname);
     $page->smarty->assign('lang', $lang);
+    $page->smarty->assign('page_name', $sysname);
     $page->smarty->assign('present', $present);
     $page->setLayout('arkeogis/public');
     $page->display();
