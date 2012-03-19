@@ -17,7 +17,6 @@
 {block name='webpage_body'}
 <div id="arkeogis_container">
 	<div id="top_of_page">
-		<a class="float" onclick= "mypage.getTranslated('{$page_name}', 'fr_FR')">trans</a>
 		<div id="arkeologo">
 		</div>
 	</div>
