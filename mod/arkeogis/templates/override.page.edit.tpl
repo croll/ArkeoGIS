@@ -58,13 +58,13 @@
 
 			<div class="action">
 				<input class="btn primary" id='page_edit_submit'  type="submit" name="submit" value="{t d='page' m='Save'}">
-				<button type="reset" class="btn">{t d='page' m='Cancel'}</button>
+				<button type="reset" class="btn" ><a href="../list/">{t d='page' m='Cancel'}</a></button>
 			</div>
 		
 		</form>
 </fieldset>
-	<div>
-
+	</div>
+	{*
 	<br />
 		<div><a href="#" class="ajaxLink btn" onclick="$('eButtons').toggle();">Wysiwyg Editor Examples for developers</a></div>
 		<div id="eButtons" style='display: none'>
@@ -89,7 +89,7 @@ Second line of text preceded by two line breaks.</textarea>
 			<input onclick="myeditor.checkDirty();" type="button" value="checkDirty()" />
 			<input onclick="myeditor.resetDirty();" type="button" value="resetDirty()" />
 		</div>
-
+	*}
 
 <script>
 	var myeditor = new CHWysiwyg({ 'contentElement' : 'editor1',});
