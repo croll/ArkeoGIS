@@ -19,8 +19,8 @@
 			<th><div >{t d='arkeogis' m='Login'}</div></th>
 			<th><div>{t d='arkeogis' m='Full Name'}</div></th>
 			<th><div>{t d='arkeogis' m='Email'}</div></th>
+			<th><div>{t d='arkeogis' m='Groups'}</div></th>
 			<th><div>{t d='arkeogis' m='Databases'}</div></th>
-			<th>Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -29,9 +29,8 @@
 				<td>{$list[p].login}</td>
 				<td>{$list[p].full_name}</td>
 				<td>{$list[p].email}</td>
+				<td>{$list[p].groups}</td>
 				<td>{$list[p].databases}</td>
-				<td class="action">
-				</td>
 			</tr>
 			{/section}
 		</tbody>
