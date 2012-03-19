@@ -22,4 +22,10 @@
 		</div>
 	</div>
 </div>
+{literal}
+<script>
+	var myex= new Example({updateElement: 'slider-menu'});
+</script>
+{/literal}
 {/block}
+
