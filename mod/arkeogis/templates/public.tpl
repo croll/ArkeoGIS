@@ -96,16 +96,8 @@
 			<div class="navbar">
 				<div class="container">
 					<div class="nav-collapse">
-						<ul class="nav">
-							<li>ArkeoGIS 2012</li>
-							<li class="divider">&nbsp</li>
-							<li>Adress</li>
-							<li class="divider">&nbsp</li>
-							<li>Email</li>
-							<li class="divider">&nbsp</li>
-						</ul>
 						<ul class="nav pull-right">
-							<li><a href="/page/credits">{t d='arkeogis' m='Crédits'}</a></li>
+							<li><a href="javascript:void(0)">ArkeoGIS 2012</a></li>
 							<li><a href="/page/contact">{t d='arkeogis' m='Contact'}</a></li>
 						</ul>
 					</div>
