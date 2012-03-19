@@ -56,7 +56,7 @@
 								</ul>
 							</li>
 							{/if}
-							<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
+							<li><a href="/directory/">{t d='arkeogis' m='Directory'}</a></li>
 							{if \mod\user\Main::userhasRight('Manage rights') }
 							<li class="dropdown" onclick="this.toggleClass('open');">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='user' m='User'}<b class="caret"></b></a>

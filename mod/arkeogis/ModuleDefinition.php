@@ -18,7 +18,7 @@ class ModuleDefinition extends \core\ModuleDefinition {
 		\mod\regroute\Main::registerRoute($this->id, '#^/public$#', 'mod_arkeogis_public');
 		\mod\regroute\Main::registerRoute($this->id, '#^/exemple$#', 'mod_arkeogis_exemple');
 		\mod\regroute\Main::registerRoute($this->id, '#^/manuel$#', 'mod_arkeogis_manuel');
-		\mod\regroute\Main::registerRoute($this->id, '#^/directory$#', 'mod_arkeogis_directory');
+		\mod\regroute\Main::registerRoute($this->id, '#^/directory/([a-z0-9/_:@]+)?$#', 'mod_arkeogis_directory');
 		\mod\regroute\Main::registerRoute($this->id, '#^/pmmenus$#', 'mod_arkeogis_pmmenus');
 		\mod\regroute\Main::registerRoute($this->id, '#^/import/?$#', 'mod_arkeogis_import');
 		\mod\regroute\Main::registerRoute($this->id, '#^/import/submit/?$#', 'mod_arkeogis_import_submit');

@@ -35,13 +35,7 @@ class Main {
     $page = new \mod\webpage\Main();
     // get lang
     $lang=\mod\lang\Main::getCurrentLang();
-    if ($lang == 'de_DE') {
-	$present = \mod\page\Main::getPageBySysname('startseite');
-    } else if ($lang == 'fr_FR') {
-	$present = \mod\page\Main::getPageBySysname('accueil');
-    }
     $page->smarty->assign('lang', $lang);
-    $page->smarty->assign('present', $present);
     $page->setLayout('arkeogis/exemple');
     $page->display();
   }
@@ -50,13 +44,7 @@ class Main {
     $page = new \mod\webpage\Main();
     // get lang
     $lang=\mod\lang\Main::getCurrentLang();
-    if ($lang == 'de_DE') {
-	$present = \mod\page\Main::getPageBySysname('startseite');
-    } else if ($lang == 'fr_FR') {
-	$present = \mod\page\Main::getPageBySysname('accueil');
-    }
     $page->smarty->assign('lang', $lang);
-    $page->smarty->assign('present', $present);
     $page->setLayout('arkeogis/manuel');
     $page->display();
   }
@@ -91,13 +79,17 @@ class Main {
     if (!isset($offset)) $offset= 0;
 		
     $db=\core\Core::$db;
-    $list = $db->fetchAll("SELECT * from ch_user u, ark_database d where u.uid > ?", array(1));
+    $list = $db->fetchAll("SELECT uid, login, full_name, email  from ch_user u where u.uid > ?", array(1));
+    for($i=0; $i<count($list); $i++) {
+		$list[$i]['groups'] = self::getUserGroups($list[$i]['uid']);
+		$list[$i]['databases'] = self::getUserDatabases($list[$i]['uid']);
+
+    }
     $quant=$db->fetchOne("SELECT count(u.uid) as quant from ch_user u where uid > ? ", array(1));
     $page = new \mod\webpage\Main();
     // get lang
     $lang=\mod\lang\Main::getCurrentLang();
     $page->smarty->assign('lang', $lang);
-    //var_dump($list);
     $page->smarty->assign('list', $list);
     $page->smarty->assign('filter', $filter);
     $page->smarty->assign('sort', $sort);
@@ -108,9 +100,28 @@ class Main {
     $page->smarty->assign('directory_mode', 'list');
     $page->setLayout('arkeogis/directory');
     $page->display();
-  }
+    }
+    private static function getUserGroups($uid) {
+    	$db=\core\Core::$db;
+	$groups = \mod\user\Main::getUserGroups($uid, 'name');
+	$gstring='';
+	foreach ($groups as $key) {
+		$gstring .= ' '.$key;
+	}
+	var_dump($gstring);
+	return $gstring;
+    }
+    private static function getUserDatabases($uid) {
+    	$db=\core\Core::$db;
+	$dbs = $db->fetchAll('SELECT da_name FROM ark_database WHERE da_owner_id=?', array($uid));
+	$dbstring='';
+	foreach ($dbs as $key) {
+		$dbstring .= $key.' ';
+	}
+	return $dbstring;
+    }
 
-	private static function load_menus() {
+    private static function load_menus() {
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
     
