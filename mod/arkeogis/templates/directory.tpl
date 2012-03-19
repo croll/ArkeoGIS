@@ -1,4 +1,11 @@
 {extends tplextends('arkeogis/layout')}
+{block name='webpage_head' append}
+	{js file="/mod/cssjs/js/chmypaginate.js"}
+	{js file="/mod/cssjs/js/chfilter.js"}
+	
+	{css file="/mod/cssjs/css/mypaginate.css"}
+{/block}
+
 {block name='arkeogis_content'}
 <div class="directory-list">
 	{block name='paginator'}
