@@ -108,7 +108,6 @@ class Main {
 	foreach ($groups as $key) {
 		$gstring .= ' '.$key;
 	}
-	var_dump($gstring);
 	return $gstring;
     }
     private static function getUserDatabases($uid) {
