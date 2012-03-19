@@ -40,7 +40,7 @@
 							<li><a href="/exemple">{t d='arkeogis' m='Exemples'}</a></li>
 							<li><a href="/manuel">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
 								
-							{if \mod\user\Main::userhasRight('Manage personal database') }
+							{if \mod\user\Main::userhasRight('Manage personal database') || \mod\user\Main::userhasRight('Manage all databases')}
 							<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
 							{/if}
 						</ul>
