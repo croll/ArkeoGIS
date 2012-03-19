@@ -93,7 +93,16 @@
 		</div>
 
 		<div id="footer">
-			ArkeoGIS 2012
+			<div class="navbar">
+				<div class="container">
+					<div class="nav-collapse">
+						<ul class="nav pull-right">
+							<li><a href="javascript:void(0)">ArkeoGIS 2012</a></li>
+							<li><a href="/page/contact">{t d='arkeogis' m='Contact'}</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 
 	</div>
