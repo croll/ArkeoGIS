@@ -215,6 +215,11 @@ class ArkeoGIS {
 		return \core\Core::$db->fetchOne('SELECT "da_id" FROM "ark_database" WHERE "da_name" = ?', (array)$dbName);
 	}
 
+	public static function isDatabaseOwner($dbId, $userId) {
+		$uid = \core\Core::$db->fetchOne('SELECT "da_owner_id" FROM "ark_database" WHERE "da_id" = ? AND "da_owner_id" = ?', array($dbId, (int)$userId));
+		return (is_int($uid)) ? true : false;
+	}
+
 	/* ************* */
 	/*    Common   */
 	/* ************* */

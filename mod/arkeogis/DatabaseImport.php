@@ -15,9 +15,8 @@ class DatabaseImport {
 	private static $_lang; 
 	private static $_strings;
 
-	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $ownerId=0) {
+	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr') {
 
-		// TO BE LINKED WITH TRANSLATION MODULE
 		self::$_lang = $lang;
 		$numProcessed = 0;
 
@@ -41,6 +40,18 @@ class DatabaseImport {
 		self::$_cache['siteperiod'] = array();
 		self::$_cache['specialperiod'] = array();
 
+		$stop = false;
+		$uid = NULL;
+		// Get user ID
+		if ($_SESSION['login'] == 'admin') 
+			$uid = 0;
+		else
+			$uid = \mod\user\Main::getUserId($_SESSION['login']);
+
+		if (!is_int($uid)) {
+			die("User ID cannot be found");
+		}
+
 		if (!is_file($filepath) || !is_readable($filepath)) {
 			// Check if filename is in current directory (for tests)
 			$moduleDir = dirname(__FILE__);
@@ -60,7 +71,7 @@ class DatabaseImport {
 			}
 		}
 
-		\core\Core::$db->exec('BEGIN');
+		//\core\Core::$db->exec('BEGIN');
 
 		// Retrieve special periods
 
@@ -71,7 +82,7 @@ class DatabaseImport {
 		foreach($lines as $datas) {
 
 			self::$_lineNumber++;
-			self::$_current = array('owner' => $ownerId);
+			self::$_current = array();
 			self::$_csvDatas = implode(';', $datas);
 
 			if (self::$_lineNumber != 0 && self::$_lineNumber <= $skipline) {
@@ -83,7 +94,7 @@ class DatabaseImport {
 			if (!isset($datas[1])) continue;
 
 			# 1 : Database
-			self::_processDatabaseName($datas[1]);
+			self::_processDatabaseName($datas[1], $uid);
 
 			# 0 : Site ID
 			if (!self::_processSiteId($datas[0])) {
@@ -321,7 +332,7 @@ class DatabaseImport {
 				if (!isset(self::$_stored[self::$_current['code']]) || empty(self::$_stored[self::$_current['code']])) {
 					// Store site informations
 					try {
-						\mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_database['id'], ((isset(self::$_current['city_id'])) ? self::$_current['city_id'] : NULL), self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], self::$_current['owner']);
+						\mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_database['id'], ((isset(self::$_current['city_id'])) ? self::$_current['city_id'] : NULL), self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], $uid);
 						self::$_stored[self::$_current['code']] = self::$_current;
 						$numProcessed += 1;
 					} catch (\Exception $e) {
@@ -396,7 +407,7 @@ class DatabaseImport {
 			} // End of site treatment, next one.
 
 		}
-		\core\Core::$db->exec('COMMIT');
+		//\core\Core::$db->exec('COMMIT');
 		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => $numProcessed, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 
@@ -412,7 +423,7 @@ class DatabaseImport {
 		return true;
 	}
 
-	private static function _processDatabaseName($dbName) {
+	private static function _processDatabaseName($dbName, $ownerId) {
 		// Db name provided
 		if (!empty($dbName)) {
 			// we check if it matches previously stored db dbName
@@ -424,14 +435,22 @@ class DatabaseImport {
 					return;
 				}
 			}
-			self::$_database['name'] = $dbName;
 			$dbId = \mod\arkeogis\ArkeoGIS::getDatabaseId($dbName);
+			// Check if owner owns the database
+			if (!\mod\user\Main::userhasRight('Manage all databases') && !\mod\user\Main::userhasRight('Manage personal database')) {
+				self::_addError('You are not allowed to import a database');
+				return false;
+			} else if ($dbId && !\mod\user\Main::userhasRight('Manage all databases') && (\mod\user\Main::userhasRight('Manage personal database') && !\mod\arkeogis\ArkeoGIS::isDatabaseOwner($dbId, $ownerId))) {
+				self::_addError('Database '.self::$_database['name'].' already exists and not belongs to you');
+				return false;
+			}
+			self::$_database['name'] = $dbName;
 			if (!empty($dbId)) {
 				self::$_database['id'] = $dbId;
 				self::$_database['name'] = $dbName;
 			} else {
 				try {
-					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName);
+					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName, '', $ownerId);
 					self::$_database['name'] = $dbName;
 				} catch (\Exception $e) {
 					self::_addError("Unable to register database name $dbName: ".$e->getMessage());
@@ -440,7 +459,7 @@ class DatabaseImport {
 		// No db name provided
 		} else {
 			if (empty(self::$_database['name'])) {
-				self::$_current('No database name provided and no database already registered');
+				self::_addError('No database name provided and no database already registered');
 			}
 		}
 		self::$_current['database'] = self::$_database;
