@@ -29,12 +29,12 @@
 						<li><a href="/page/{\mod\page\Main::getTranslated('partenaires', $lang)}">{t d='arkeogis' m='Partenaires'}</a></li>
 						<li><a href="/page/{\mod\page\Main::getTranslated('historique', $lang)}">{t d='arkeogis' m='Historique'}</a></li>
 						<li><a href="/page/{\mod\page\Main::getTranslated('documentation', $lang)}">{t d='arkeogis' m='Documentation'}</a></li>
-						<li><a href="/exemple">{t d='arkeogis' m='Exemples'}</a></li>
+						<li><a href="/exemple/">{t d='arkeogis' m='Exemples'}</a></li>
 						<li><a href="/page/{\mod\page\Main::getTranslated('logiciel', $lang)}">{t d='arkeogis' m='Logiciel'}</a></li>
 						{if \mod\user\Main::userhasRight('View databases') }
 							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
 						{/if}
-						<li><a href="/manuel">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
+						<li><a href="/manuel/">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
 							
 						{if \mod\user\Main::userhasRight('Manage personal database') }
 						<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
