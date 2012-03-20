@@ -31,7 +31,6 @@ class Main {
     $page->display();
   }
   public static function hook_mod_arkeogis_exemple($hookname, $userdata) {
-    // get lang
     $page = new \mod\webpage\Main();
     // get lang
     $lang=\mod\lang\Main::getCurrentLang();
@@ -39,11 +38,16 @@ class Main {
     $page->setLayout('arkeogis/exemple');
     $page->display();
   }
-  public static function hook_mod_arkeogis_manuel($hookname, $userdata) {
-    // get lang
+  public static function hook_mod_arkeogis_manuel($hookname, $userdata, $matches) {
     $page = new \mod\webpage\Main();
     // get lang
+    if($matches[1]== NULL) {
+	$tab="requetes";
+    } else {
+	$tab = $matches[1];
+    }
     $lang=\mod\lang\Main::getCurrentLang();
+    $page->smarty->assign('tab', $tab);
     $page->smarty->assign('lang', $lang);
     $page->setLayout('arkeogis/manuel');
     $page->display();
@@ -112,7 +116,7 @@ class Main {
     }
     private static function getUserDatabases($uid) {
     	$db=\core\Core::$db;
-	$dbs = $db->fetchAll('SELECT da_name FROM ark_database WHERE da_owner_id=?', array($uid));
+	$dbs = $db->fetchAll('SELECT "da_name" FROM "ark_database" WHERE "da_owner_id"=?', array($uid));
 	$dbstring='';
 	foreach ($dbs as $key) {
 		$dbstring .= $key.' ';
