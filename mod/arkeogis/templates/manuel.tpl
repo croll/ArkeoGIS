@@ -14,7 +14,7 @@
 		<li class="tab {if $tab eq 'productions'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('productions', $lang)}">{t d='arkeogis' m='Production'}</a></li>
 		<li class="tab {if $tab eq 'faq'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('faq', $lang)}">{t d='arkeogis' m='FAQ'}</a></li>
 	</ul>
-	<div id="content"></div>
+	<div id="content" class="clearfix"></div>
 </div>
 {literal}
 <script>
