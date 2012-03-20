@@ -26,26 +26,23 @@
 				<div class="nav-collapse">
 					<ul class="nav nav-pills nav-stacked">
 						<li><a href="/">{t d='arkeogis' m='Accueil'}</a></li>
-						<li><a href="/page/partenaires">{t d='arkeogis' m='Partenaires'}</a></li>
-						<li><a href="/page/historique">{t d='arkeogis' m='Historique'}</a></li>
-						<li><a href="/page/logiciel">{t d='arkeogis' m='Logiciel'}</a></li>
-						<li><a href="/page/code_source">{t d='arkeogis' m='Code source'}</a></li>
-						<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
+						<li><a href="/page/{\mod\page\Main::getTranslated('partenaires', $lang)}">{t d='arkeogis' m='Partenaires'}</a></li>
+						<li><a href="/page/{\mod\page\Main::getTranslated('historique', $lang)}">{t d='arkeogis' m='Historique'}</a></li>
+						<li><a href="/page/{\mod\page\Main::getTranslated('documentation', $lang)}">{t d='arkeogis' m='Documentation'}</a></li>
+						<li><a href="/exemple/">{t d='arkeogis' m='Exemples'}</a></li>
+						<li><a href="/page/{\mod\page\Main::getTranslated('logiciel', $lang)}">{t d='arkeogis' m='Logiciel'}</a></li>
+						{if \mod\user\Main::userhasRight('View databases') }
+							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
+						{/if}
+						<li><a href="/manuel/">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
+							
+						{if \mod\user\Main::userhasRight('Manage personal database') }
+						<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
+						{/if}
 							
 					</ul>
 					<ul class="nav pull-right">
-						{if \mod\user\Main::userhasRight('Manage rights') }
-						<li class="dropdown" onclick="this.toggleClass('open');">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">ArkeoGIS<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								{block name='arkeo_menu' }
-									<li><a class="top-btn" href="/"><i class="icon-th-list glyph-white"></i>  {t d='arkeogis' m='Recherche cartographique'}</a></li>
-									<li><a class="top-btn" href="/import/"><i class="icon-pencil glyph-white"></i>  {t d='arkeogis' m='Import'}</a></li>
-									<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
-								{/block}
-							</ul>
-						</li>
-						{/if}
+						
 						{if \mod\user\Main::userhasRight('Manage page') }
 						<li class="dropdown" onclick="this.toggleClass('open');">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='page' m='Page'}<b class="caret"></b></a>
@@ -71,8 +68,8 @@
 						<li class="dropdown" onclick="this.toggleClass('open');">
        							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
        							<ul id="switchlang" class="dropdown-menu">
-         							<li><a  onclick="ch_setlang('fr_FR', '/public');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
-               							<li><a  onclick="ch_setlang('de_DE', '/public');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+         							<li><a  onclick="ch_setlang('fr_FR', '/page/{\mod\page\Main::getTranslated($page_name, 'fr_FR')}');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
+               							<li><a  onclick="ch_setlang('de_DE', '/page/{\mod\page\Main::getTranslated($page_name, 'de_DE')}');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
        							</ul>
        						</li>
 						{if \mod\user\Main::userIsLoggedIn()}
@@ -85,68 +82,22 @@
 			</div>
 		</div>
 	</div>
-	<div id="public">
-		<ul id="public_tabs" class="tabs">
-			<li class="tab active"><a href="#">{t d='arkeogis' m='Présentation'}</a></li>	
-			<li class="tab"><a href="#">{t d='arkeogis' m='Exemples'}</a></li>	
-			<li class="tab"><a href="#">{t d='arkeogis' m='Manuel utilisateur'}</a></li>	
-		</ul>
+	{block name='arkeogis_content'}
 		<div id="presentation" class="content active">
 				{if \mod\user\Main::userHasRight('Manage page') }
 					<a href="/page/edit/{$present.pid}"class="float"><i class="icon-edit"></i></a>
 				{/if}
 				<div>{$present.content}</div>
 		</div>
-		<div id="exemples" class="content">
-			<div class="navbar"><div class="navbar-inner"><div class="container">
-				<ul id="slider-menu" class="nav nav-pills nav-stacked">
-					<li ><a data-update="request" class="success" href="page/requetes">{t d='arkeogis' m='Requêtes'}<i></i></a></li>
-					<li ><a  data-update="maps" class="primary" href="page/cartes">{t d='arkeogis' m='Cartes'}</a></li>
-					<li ><a  data-update="fiche" class="primary" href="page/fiche_site">{t d='arkeogis' m='Fiche site'}</a></li>
-				</ul>
-			</div></div></div>
-			<div id="slider-component" >
-				<div id="request" class="row selected">
-					<h2>{t d='arkeogis' m='Requêtes'}</h2>
-					<img src="/mod/arkeogis/img/slide/requete.jpg" />
-				</div>
-				<div id="maps" class="row">
-					<h2>{t d='arkeogis' m='Maps'}</h2>
-					<img src="/mod/arkeogis/img/slide/maps.jpg" />
-				</div>
-				<div id="fiche" class="row">
-					<h2>{t d='arkeogis' m='Fiche'}</h2>
-					<img src="/mod/arkeogis/img/slide/fiche.jpg" />
-				</div>
-			</div>
-		</div>
-		<div id="manual" class="content">
-			<div class="navbar"><div class="navbar-inner"><div class="container">
-			<ul id="manual-menu" class="nav nav-pills nav-stacked">
-				<li><a class="primary selected" href="manuel_requetes">{t d='arkeogis' m='Requêtes'}</a></li>
-				<li><a class="primary" href="manuel_cartes">{t d='arkeogis' m='Cartes'}</a></li>
-				<li><a class="primary" href="manuel_fiches">{t d='arkeogis' m='Fiches'}</a></li>
-				<li><a class="primary" href="manuel_import">{t d='arkeogis' m='Import'}</a></li>
-			</ul>
-			</div></div></div>
-			<div id="content"></div>
-		</div>
-	</div>
+		
+	{/block}
 	<div id="footer">
 		<div class="navbar">
 			<div class="navbar">
 				<div class="container">
 					<div class="nav-collapse">
-						<ul class="nav">
-							<li>ArkeoGIS 2012</li>
-							<li class="divider">&nbsp</li>
-							<li>Adress</li>
-							<li class="divider">&nbsp</li>
-							<li>Email</li>
-							<li class="divider">&nbsp</li>
-						</ul>
 						<ul class="nav pull-right">
-							<li><a href="/page/credits">{t d='arkeogis' m='Crédits'}</a></li>
+							<li><a href="javascript:void(0)">ArkeoGIS 2012</a></li>
 							<li><a href="/page/contact">{t d='arkeogis' m='Contact'}</a></li>
 						</ul>
 					</div>
@@ -158,6 +109,5 @@
 <script>
 var mypage= new Page();
 var pmod = new Modal.Base(document.body);
-var mytab = new TabPane('public');
 </script>
 {/block}

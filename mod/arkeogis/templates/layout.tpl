@@ -31,22 +31,17 @@
 				<div class="container">
 					<div class="nav-collapse">
 						<ul class="nav">
-							<li class="dropdown" onclick="this.toggleClass('open');">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">ArkeoGIS<b class="caret"></b></a>
-								<ul class="dropdown-menu">
 								
 							<li><a href="/public">{t d='arkeogis' m='Accueil'}</a></li>
-							<li><a href="/page/partenaires">{t d='arkeogis' m='Partenaires'}</a></li>
-							<li><a href="/page/historique">{t d='arkeogis' m='Historique'}</a></li>
-							<li><a href="/page/logiciel">{t d='arkeogis' m='Logiciel'}</a></li>
-							<li><a href="/page/code_source">{t d='arkeogis' m='Code source'}</a></li>
-							<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
-							</ul></li>
 
-							<li><a href="/">{t d='arkeogis' m='Recherches cartographiques'}</a></li>
-							
+							{if \mod\user\Main::userhasRight('View databases') }
+							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
+							{/if}
+							<li><a href="/manuel/">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
+								
+							{if \mod\user\Main::userhasRight('Manage personal database') || \mod\user\Main::userhasRight('Manage all databases')}
 							<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
-							<li><a href="/directory">{t d='arkeogis' m='Directory'}</a></li>
+							{/if}
 						</ul>
 						<ul class="nav pull-right">
 							{if \mod\user\Main::userhasRight('Manage page') }
@@ -60,6 +55,7 @@
 								</ul>
 							</li>
 							{/if}
+							<li><a href="/directory/">{t d='arkeogis' m='Directory'}</a></li>
 							{if \mod\user\Main::userhasRight('Manage rights') }
 							<li class="dropdown" onclick="this.toggleClass('open');">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='user' m='User'}<b class="caret"></b></a>
@@ -80,7 +76,8 @@
             						</li>
 							{if \mod\user\Main::userIsLoggedIn() }
             						<li><a href="/logout">{t d='user' m='Logout'}</a></li>
-            						{else}
+            						<li><a>{\mod\user\Main::getUserFullName($smarty.session.login)}</a></li>
+							{else}
 							<li><a href="/login">{t d='user' m='Login'}</a></li>
           						{/if}
 							</ul>
@@ -95,7 +92,16 @@
 		</div>
 
 		<div id="footer">
-			ArkeoGIS 2012
+			<div class="navbar">
+				<div class="container">
+					<div class="nav-collapse">
+						<ul class="nav pull-right">
+							<li><a href="javascript:void(0)">ArkeoGIS 2012</a></li>
+							<li><a href="/page/contact">{t d='arkeogis' m='Contact'}</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 
 	</div>

@@ -215,6 +215,11 @@ class ArkeoGIS {
 		return \core\Core::$db->fetchOne('SELECT "da_id" FROM "ark_database" WHERE "da_name" = ?', (array)$dbName);
 	}
 
+	public static function isDatabaseOwner($dbId, $userId) {
+		$uid = \core\Core::$db->fetchOne('SELECT "da_owner_id" FROM "ark_database" WHERE "da_id" = ? AND "da_owner_id" = ?', array($dbId, (int)$userId));
+		return (is_int($uid)) ? true : false;
+	}
+
 	/* ************* */
 	/*    Common   */
 	/* ************* */
@@ -295,7 +300,7 @@ class ArkeoGIS {
 	/*      Map      */
 	/* ************* */
 	
-	public static function getMarker($shape, $geometry, $knowledge, $period, $exceptional, $centroid, $popupParams) {
+	public static function getMarker($code, $shape, $geometry, $knowledge, $period, $exceptional, $centroid, $popupParams) {
 
 		$colors[1]   = '#cbcbcb';
 		$colors[2]   = '#8c8c8c';
@@ -325,7 +330,11 @@ class ArkeoGIS {
 
 		$iconParams['text'] = ($centroid) ? '#' : NULL;
 
-		$tmp = preg_split('/\./', trim($period, '{}'));
+		$tmp = trim($period, '{}');
+		// todo multiple period
+		$tmp = preg_split("/,/",$tmp); 
+		$tmp = $tmp[0];
+		$tmp = preg_split('/\./', $tmp);
 		$num = array_shift($tmp);
 		$pos = sizeof($tmp);
 
@@ -333,6 +342,7 @@ class ArkeoGIS {
 		$iconParams['color'] = $colors[$num][$pos];
 
 		$marker = new \mod\map\Marker('image', $geometry);
+		$marker->setId($code);
 		$marker->setIconParams($iconParams);
 		$marker->setPopupParams($popupParams);
 		return $marker->get();

@@ -1,4 +1,11 @@
 {extends tplextends('arkeogis/layout')}
+{block name='webpage_head' append}
+	{js file="/mod/cssjs/js/chmypaginate.js"}
+	{js file="/mod/cssjs/js/chfilter.js"}
+	
+	{css file="/mod/cssjs/css/mypaginate.css"}
+{/block}
+
 {block name='arkeogis_content'}
 <div class="directory-list">
 	{block name='paginator'}
@@ -19,8 +26,8 @@
 			<th><div >{t d='arkeogis' m='Login'}</div></th>
 			<th><div>{t d='arkeogis' m='Full Name'}</div></th>
 			<th><div>{t d='arkeogis' m='Email'}</div></th>
+			<th><div>{t d='arkeogis' m='Groups'}</div></th>
 			<th><div>{t d='arkeogis' m='Databases'}</div></th>
-			<th>Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -29,9 +36,8 @@
 				<td>{$list[p].login}</td>
 				<td>{$list[p].full_name}</td>
 				<td>{$list[p].email}</td>
+				<td>{$list[p].groups}</td>
 				<td>{$list[p].databases}</td>
-				<td class="action">
-				</td>
 			</tr>
 			{/section}
 		</tbody>
@@ -44,7 +50,7 @@
 		$$('a.ajaxLink').addEvent('click', function(event){
 				event.preventDefault();
 		});
-		var paginate= new CHMyPaginate({
+		var dpaginate= new CHMyPaginate({
 			paginateElement: 'pagination',
 			tableElement: 'directory_list',
 			path:'/directory/',

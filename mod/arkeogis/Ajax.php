@@ -8,7 +8,7 @@ class Ajax {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
 
 		$lang = 'fr';
-		$columns="si_name, si_code, ST_AsGeoJSON(si_geom) as geom, si_centroid as centroid, (COALESCE(max(sr_exceptional), 0) + COALESCE(max(sf_exceptional), 0) + COALESCE(max(sp_exceptional), 0)) as exceptional, array_agg(sp_knowledge_type) as knowledge, ";
+		$columns="da_id, si_name, si_code, ST_AsGeoJSON(si_geom) as geom, si_centroid as centroid, (COALESCE(max(sr_exceptional), 0) + COALESCE(max(sf_exceptional), 0) + COALESCE(max(sp_exceptional), 0)) as exceptional, array_agg(sp_knowledge_type) as knowledge, ";
     $columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_start)) AS period_start, ";
     $columns.="array_agg((SELECT pe_name_$lang FROM ark_period WHERE pe_id=sp_period_start)) AS period_start_label, ";
     $columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_end)) AS period_end, ";
@@ -18,6 +18,7 @@ class Ajax {
     $columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production ";
 
     $res = ArkeoGIS::search_sites($search, $columns, array(
+                                'ark_database' => true,
                                 'ark_site_period' => true,
                                 'ark_siteperiod_production' => true,
                                 'ark_siteperiod_furniture' => true,
@@ -40,7 +41,9 @@ class Ajax {
 			$popupParams = array('title' => (!empty($site['si_name']) ? $site['si_name'] : $site['si_code']), 'content' => $content);
 			$shapes = array('circle', 'rectangle', 'triangle');
 			$num = round(rand(0,2));
-			$mapMarkers[] = \mod\arkeogis\ArkeoGIS::getMarker($shapes[$num], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
+			$m = \mod\arkeogis\ArkeoGIS::getMarker($site['si_code'], $shapes[$num], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
+			$m['database'] = $site['da_id'];
+			$mapMarkers[] = $m;
 		}
 		return array('total_count' => $total_count, 'mapmarkers' => $mapMarkers);
   }
@@ -105,4 +108,10 @@ class Ajax {
     return \core\Core::$db->fetchAll("SELECT * FROM ark_savedquery WHERE id_user=?",
                                      array($uid));
   }
+
+	public static function showsitesheet($params) {
+    if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
+    $smarty = \mod\smarty\Main::newSmarty();
+		return array('title' => 'Le titre', 'content' => $smarty->fetch('arkeogis/sitesheet'));
+	}
 }

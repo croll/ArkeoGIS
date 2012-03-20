@@ -11,7 +11,6 @@ class Tools {
 			$q .= "WHERE ci_nameupper ILIKE ?";
 			$args[] = str_replace('?','_',strtoupper(iconv("utf-8", "ascii//TRANSLIT", $name)));
 		}
-		print_r($args);
 		if (!empty($code)) {
 			$q .= ((sizeof($args) == 1) ? 'AND' : 'WHERE')." ci_code = ?";
 			$args[] = (string)$code;
@@ -31,7 +30,10 @@ class Tools {
 	}
 
 	public static function transformPoint($point, $from, $to) {
-		$args = array($point['x'], $point['y'], $from, $to);
-		return \core\Core::$db->fetchOne("SELECT ST_AsText(ST_Transform(ST_GeomFromText('POINT(? ?)', ?), ?)) AS geom", $args);
+		$args = array($from, $to);
+		$p = \core\Core::$db->fetchOne("SELECT ST_AsText(ST_Transform(ST_GeomFromText('POINT(".(float)$point['x']." ".(float)$point['y'].")', ?), ?)) AS geom", $args);
+		if (!preg_match("/POINT\(([0-9\.]+) +([0-9\.]+)\)/", $p, $m)) 
+			return NULL;
+		return array('x' => $m[1], 'y' => $m[2]);
 	}
 }

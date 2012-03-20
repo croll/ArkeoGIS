@@ -106,6 +106,7 @@ window.addEvent('domready', function() {
 	    && (form.production_include.length > 0 || form.production_exclude.length > 0
 		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
 		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0)) {
+	var form=buildSelectionObject();
 	} else {
 	    return alert(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
 	}
@@ -126,6 +127,9 @@ window.addEvent('domready', function() {
 		});
 		show_menu(false);
 				res.mapmarkers.each(function(marker) {
+					console.log(marker);
+					if (infoWindow)
+						infoWindow.close();
 					var m = new google.maps.Marker({
 						position: new google.maps.LatLng(marker.geometry.coordinates[1], marker.geometry.coordinates[0]),
 						icon: new google.maps.MarkerImage(marker.icon.iconUrl),
@@ -143,10 +147,7 @@ window.addEvent('domready', function() {
 					google.maps.event.addListener(m, 'click', function() {
 						if (infoWindow)
 							infoWindow.close();
-						infoWindow = new google.maps.InfoWindow({
-							 content: 'POUET'
-						});
-						infoWindow.open(map, m);
+							show_sheet(marker.database, marker.id);
 					});
 					google.maps.event.addListener(m, 'mouseout', function() {
 						infoWindow.close();
@@ -170,7 +171,7 @@ window.addEvent('domready', function() {
 	    'url': '/ajax/call/arkeogis/showthesheet',
 	    'onSuccess': function(res) {
 		if ((res.sites.length < res.total_count)
-		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ?", res.sites.length, res.total_count))
+		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous plutôt télécharger la liste au format csv ?", res.sites.length, res.total_count))
 		   ) {
 
 		    // download as csv (todo)
@@ -270,12 +271,11 @@ window.addEvent('domready', function() {
 
 
     /* initialization of google map */
-
     map = new google.maps.Map($('map_canvas'), {
 			center: new google.maps.LatLng(48.58476, 7.750576),
-	zoom: 8, 
+	zoom: 7, 
 	disableDefaultUI: true,
-	mapTypeId: google.maps.MapTypeId.ROADMAP,
+	mapTypeId: google.maps.MapTypeId.TERRAIN,
 	mapTypeControl: true,
 	mapTypeControlOptions: {
 	    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
@@ -414,4 +414,23 @@ function show_menu(show) {
     $('onglet').setStyles({
 	'left': menu_showing ? '' : '0'
     });
+}
+
+var modalWin;
+function show_sheet(dbId, siteId) {
+	modalWin = new Modal.Base(document.body, {
+		header: "Fiche site",
+		body: "Chargement..."
+	});
+	new Request.JSON({
+		'url': '/ajax/call/arkeogis/showsitesheet',
+			onRequest: function() {
+			},
+		onSuccess: function(res) {
+			modalWin.setTitle(res.title).setBody(res.content).show();
+		},
+		onFailure: function() {
+			modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
+		}
+	}).post({database: dbId, id: siteId});
 }

@@ -22,14 +22,36 @@ class Main {
     $page = new \mod\webpage\Main();
     // get lang
     $lang=\mod\lang\Main::getCurrentLang();
-    // get presentation page 
-    $present = \mod\page\Main::getPageBySysname('presentation');
+    $sysname = \mod\page\Main::getTranslated('accueil', $lang);
+    $present = \mod\page\Main::getPageBySysname($sysname);
     $page->smarty->assign('lang', $lang);
+    $page->smarty->assign('page_name', $sysname);
     $page->smarty->assign('present', $present);
     $page->setLayout('arkeogis/public');
     $page->display();
   }
-
+  public static function hook_mod_arkeogis_exemple($hookname, $userdata) {
+    $page = new \mod\webpage\Main();
+    // get lang
+    $lang=\mod\lang\Main::getCurrentLang();
+    $page->smarty->assign('lang', $lang);
+    $page->setLayout('arkeogis/exemple');
+    $page->display();
+  }
+  public static function hook_mod_arkeogis_manuel($hookname, $userdata, $matches) {
+    $page = new \mod\webpage\Main();
+    // get lang
+    if($matches[1]== NULL) {
+	$tab="requetes";
+    } else {
+	$tab = $matches[1];
+    }
+    $lang=\mod\lang\Main::getCurrentLang();
+    $page->smarty->assign('tab', $tab);
+    $page->smarty->assign('lang', $lang);
+    $page->setLayout('arkeogis/manuel');
+    $page->display();
+  }
   public static function hook_mod_arkeogis_directory($hookname, $userdata) {
     // check for optionals parameters 
     if (isset($matches[1])) {	
@@ -61,13 +83,17 @@ class Main {
     if (!isset($offset)) $offset= 0;
 		
     $db=\core\Core::$db;
-    $list = $db->fetchAll("SELECT * from ch_user u, ark_database d where u.uid > ?", array(1));
+    $list = $db->fetchAll("SELECT uid, login, full_name, email  from ch_user u where u.uid > ?", array(1));
+    for($i=0; $i<count($list); $i++) {
+		$list[$i]['groups'] = self::getUserGroups($list[$i]['uid']);
+		$list[$i]['databases'] = self::getUserDatabases($list[$i]['uid']);
+
+    }
     $quant=$db->fetchOne("SELECT count(u.uid) as quant from ch_user u where uid > ? ", array(1));
     $page = new \mod\webpage\Main();
     // get lang
     $lang=\mod\lang\Main::getCurrentLang();
     $page->smarty->assign('lang', $lang);
-    //var_dump($list);
     $page->smarty->assign('list', $list);
     $page->smarty->assign('filter', $filter);
     $page->smarty->assign('sort', $sort);
@@ -78,9 +104,27 @@ class Main {
     $page->smarty->assign('directory_mode', 'list');
     $page->setLayout('arkeogis/directory');
     $page->display();
-  }
+    }
+    private static function getUserGroups($uid) {
+    	$db=\core\Core::$db;
+	$groups = \mod\user\Main::getUserGroups($uid, 'name');
+	$gstring='';
+	foreach ($groups as $key) {
+		$gstring .= ' '.$key;
+	}
+	return $gstring;
+    }
+    private static function getUserDatabases($uid) {
+    	$db=\core\Core::$db;
+	$dbs = $db->fetchAll('SELECT "da_name" FROM "ark_database" WHERE "da_owner_id"=?', array($uid));
+	$dbstring='';
+	foreach ($dbs as $key) {
+		$dbstring .= $key['da_name'].' ';
+	}
+	return $dbstring;
+    }
 
-	private static function load_menus() {
+    private static function load_menus() {
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
     
