@@ -50,7 +50,7 @@
 		$$('a.ajaxLink').addEvent('click', function(event){
 				event.preventDefault();
 		});
-		var paginate= new CHMyPaginate({
+		var dpaginate= new CHMyPaginate({
 			paginateElement: 'pagination',
 			tableElement: 'directory_list',
 			path:'/directory/',
