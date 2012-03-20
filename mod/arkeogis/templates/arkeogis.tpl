@@ -1,6 +1,7 @@
 {extends tplextends('arkeogis/layout')}
 
 {block name='webpage_head' append}
+	{css file="/mod/cssjs/css/Modal.css"}
 	{js file="/pmmenus"}
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/sheet.js"}

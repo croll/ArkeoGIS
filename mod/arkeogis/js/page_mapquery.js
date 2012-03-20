@@ -127,6 +127,9 @@ window.addEvent('domready', function() {
 		});
 		show_menu(false);
 				res.mapmarkers.each(function(marker) {
+					console.log(marker);
+					if (infoWindow)
+						infoWindow.close();
 					var m = new google.maps.Marker({
 						position: new google.maps.LatLng(marker.geometry.coordinates[1], marker.geometry.coordinates[0]),
 						icon: new google.maps.MarkerImage(marker.icon.iconUrl),
@@ -144,10 +147,7 @@ window.addEvent('domready', function() {
 					google.maps.event.addListener(m, 'click', function() {
 						if (infoWindow)
 							infoWindow.close();
-						infoWindow = new google.maps.InfoWindow({
-							 content: 'POUET'
-						});
-						infoWindow.open(map, m);
+							show_sheet(marker.database, marker.id);
 					});
 					google.maps.event.addListener(m, 'mouseout', function() {
 						infoWindow.close();
@@ -414,4 +414,23 @@ function show_menu(show) {
     $('onglet').setStyles({
 	'left': menu_showing ? '' : '0'
     });
+}
+
+var modalWin;
+function show_sheet(dbId, siteId) {
+	modalWin = new Modal.Base(document.body, {
+		header: "Fiche site",
+		body: "Chargement..."
+	});
+	new Request.JSON({
+		'url': '/ajax/call/arkeogis/showsitesheet',
+			onRequest: function() {
+			},
+		onSuccess: function(res) {
+			modalWin.setTitle(res.title).setBody(res.content).show();
+		},
+		onFailure: function() {
+			modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
+		}
+	}).post({database: dbId, id: siteId});
 }

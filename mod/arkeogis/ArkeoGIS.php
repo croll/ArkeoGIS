@@ -300,7 +300,7 @@ class ArkeoGIS {
 	/*      Map      */
 	/* ************* */
 	
-	public static function getMarker($shape, $geometry, $knowledge, $period, $exceptional, $centroid, $popupParams) {
+	public static function getMarker($code, $shape, $geometry, $knowledge, $period, $exceptional, $centroid, $popupParams) {
 
 		$colors[1]   = '#cbcbcb';
 		$colors[2]   = '#8c8c8c';
@@ -342,6 +342,7 @@ class ArkeoGIS {
 		$iconParams['color'] = $colors[$num][$pos];
 
 		$marker = new \mod\map\Marker('image', $geometry);
+		$marker->setId($code);
 		$marker->setIconParams($iconParams);
 		$marker->setPopupParams($popupParams);
 		return $marker->get();
