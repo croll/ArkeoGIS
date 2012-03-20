@@ -68,8 +68,15 @@
 						<li class="dropdown" onclick="this.toggleClass('open');">
        							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
        							<ul id="switchlang" class="dropdown-menu">
+
+								{if isset($page_name) }
          							<li><a  onclick="ch_setlang('fr_FR', '/page/{\mod\page\Main::getTranslated($page_name, 'fr_FR')}');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
                							<li><a  onclick="ch_setlang('de_DE', '/page/{\mod\page\Main::getTranslated($page_name, 'de_DE')}');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+								{else}
+								<li><a  onclick="ch_setlang('fr_FR', '{$smarty.server.REQUEST_URI}');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
+               							<li><a  onclick="ch_setlang('de_DE', '{$smarty.server.REQUEST_URI}');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+	
+								{/if}
        							</ul>
        						</li>
 						{if \mod\user\Main::userIsLoggedIn()}
