@@ -178,7 +178,9 @@ class Main {
 
 		$q=json_decode($_REQUEST['q'], true);
 		
-		$columns="si_name, ";
+		$columns="si_code, si_name, si_description, si_city_id, si_geom, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
+		$columns.=", ci_code, ci_name, ci_country, ci_geom"; // ark_city
+		$columns.=", da_name, da_description, da_creation, da_modification"; // ark_database
 		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=min(sp_period_start)) AS period_start, ";
 		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=max(sp_period_end)) AS period_end, ";
 		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
