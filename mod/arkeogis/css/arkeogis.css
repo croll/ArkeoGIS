@@ -580,3 +580,95 @@ div.filtercontent .filter-minus {
 .sheetovermap table td:nth-child(7) div {
     width: 60px;
 }
+
+#sitesheet .datesauthor {
+	margin-left: 10px;
+	font-size: 11px;
+}
+
+#sitesheet .geoinfos {
+	margin-left: 10px;
+	margin: 10px 0 10px 10px;
+	font-size: 15px;
+}
+
+#sitesheet .bluebackground {
+	float: left;
+	margin-left: 10px;
+	padding: 0px 4px 0px 4px;
+	text-transform: uppercase;
+	font-weight: bold;
+	background-color: #0a77ec;
+	color: #fff;
+	font-size: 12px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+#sitesheet .floatleft {
+	margin-left: 3px;
+	float: left;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+#sitesheet .periodcharacs {
+	margin: 10px 5px 0 5px;
+	border: 1px solid #e7e7e7;
+	background-color: #f5f5f5;
+	padding: 0 10px 10px 10px;
+}
+
+#sitesheet .periodcharacs .title {
+	color: #525252;
+	margin-top: 10px;
+	font-weight: bold;
+	font-size: 12px;
+}
+
+#sitesheet .periodcharacs .periodstart, #sitesheet .periodcharacs .periodend {
+	margin-top: 2px;
+	padding: 0 0 2px 2px;
+	background: #fff;
+	width: 100%;
+	border: 1px solid #e7e7e7;
+}
+
+#sitesheet .periodcharacs .periodstart .lib, #sitesheet .periodcharacs .periodend .lib {
+	margin: 5px 3px 0 1px;
+	min-width: 55px;
+	padding-left: 3px;
+	color: #525252;
+	font-weight: bold;
+	float: left;
+}
+
+#sitesheet .periodcharacs .periodstart .period, #sitesheet .periodcharacs .periodend .period {
+	margin: 5px 3px 0 0;
+	float: left;
+}
+
+#sitesheet .periodcharacs .sep {
+	margin: 5px 3px 0 3px;
+	float:left;
+	width: 15px;
+}
+
+#sitesheet .periodcharacs .blockcharac {
+	margin-top: 2px;
+	padding: 0 0 2px 2px;
+	background: #fff;
+	width: 100%;
+	border: 1px solid #e7e7e7;
+}
+
+#sitesheet .periodcharacs .charac {
+	margin: 5px 3px 0 3px;
+	float:left;
+}
+
+#sitesheet .periodcharacs .exceptional {
+	border: 1px solid #ff8888;
+}
