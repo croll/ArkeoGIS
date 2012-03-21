@@ -54,6 +54,8 @@ CREATE TABLE "ark_site" (
   "si_city_id" INTEGER DEFAULT NULL REFERENCES ark_city,
   "si_centroid" SMALLINT NOT NULL DEFAULT 0,
   "si_occupation" ark_site_occupation_type DEFAULT NULL,
+  "si_city_name" VARCHAR(255) NOT NULL,
+  "si_city_code" VARCHAR(255) NOT NULL,
   "si_creation" TIMESTAMP NOT NULL,
   "si_modification" TIMESTAMP DEFAULT NULL
 );
@@ -88,9 +90,9 @@ CREATE TABLE "ark_site_period" (
   "sp_depth" INTEGER DEFAULT NULL
 );
 
-CREATE INDEX ark_siteperiod_site_id_idx ON "ark_site" ("sp_site_id");
-CREATE INDEX ark_siteperiod_period_start_idx ON "ark_site" ("sp_period_start");
-CREATE INDEX ark_siteperiod_period_end_idx ON "ark_site" ("sp_period_end");
+CREATE INDEX ark_siteperiod_site_id_idx ON "ark_site_period" ("sp_site_id");
+CREATE INDEX ark_siteperiod_period_start_idx ON "ark_site_period" ("sp_period_start");
+CREATE INDEX ark_siteperiod_period_end_idx ON "ark_site_period" ("sp_period_end");
 
 -- ---
 -- Table 'ark_siteperiod_realestate'

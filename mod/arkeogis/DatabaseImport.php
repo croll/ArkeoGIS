@@ -332,7 +332,7 @@ class DatabaseImport {
 				if (!isset(self::$_stored[self::$_current['code']]) || empty(self::$_stored[self::$_current['code']])) {
 					// Store site informations
 					try {
-						self::$_current['siteId'] = \mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_database['id'], ((isset(self::$_current['city_id'])) ? self::$_current['city_id'] : NULL), self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], $uid);
+						self::$_current['siteId'] = \mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_database['id'], ((isset(self::$_current['city_id'])) ? self::$_current['city_id'] : NULL), self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], trim($datas[3], '" '), trim($datas[4], '" '), $uid);
 						self::$_stored[self::$_current['code']] = self::$_current;
 						$numProcessed += 1;
 					} catch (\Exception $e) {
