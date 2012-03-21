@@ -25,7 +25,6 @@ class Main {
     $sysname = \mod\page\Main::getTranslated('accueil', $lang);
     $present = \mod\page\Main::getPageBySysname($sysname);
     $page->smarty->assign('lang', $lang);
-    $page->smarty->assign('page_name', $sysname);
     $page->smarty->assign('present', $present);
     $page->setLayout('arkeogis/public');
     $page->display();

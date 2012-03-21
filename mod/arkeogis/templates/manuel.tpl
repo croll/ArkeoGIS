@@ -9,12 +9,12 @@
 		<li class="tab {if $tab eq 'fiches'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('manuel_fiches', $lang)}">{t d='arkeogis' m='Fiches'}</a></li>
 		<li class="tab {if $tab eq 'import'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('manuel_import', $lang)}">{t d='arkeogis' m='Import'}</a></li>
 		<li class="tab {if $tab eq 'chronologie'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('chronologie', $lang)}">{t d='arkeogis' m='Chronologie'}</a></li>
-		<li class="tab {if $tab eq 'immobiliers'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('immobiliers', $lang)}">{t d='arkeogis' m='Immobiliers'}</a></li>
-		<li class="tab {if $tab eq 'mobiliers'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('mobiliers', $lang)}">{t d='arkeogis' m='Mobiliers'}</a></li>
+		<li class="tab {if $tab eq 'immobiliers'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('immobiliers', $lang)}">{t d='arkeogis' m='Immobilier'}</a></li>
+		<li class="tab {if $tab eq 'mobiliers'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('mobiliers', $lang)}">{t d='arkeogis' m='Mobilier'}</a></li>
 		<li class="tab {if $tab eq 'productions'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('productions', $lang)}">{t d='arkeogis' m='Production'}</a></li>
 		<li class="tab {if $tab eq 'faq'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('faq', $lang)}">{t d='arkeogis' m='FAQ'}</a></li>
 	</ul>
-	<div id="content"></div>
+	<div id="content" class="clearfix"></div>
 </div>
 {literal}
 <script>

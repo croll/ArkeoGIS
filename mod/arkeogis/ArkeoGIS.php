@@ -13,17 +13,18 @@ class ArkeoGIS {
 
 	public static function addSite($code, $name, $databaseid, $cityid=NULL, $geom=NULL, $centroid, $occupation, $authorid=0) {
 		try {
-			\core\Core::$db->exec('INSERT INTO "ark_site" ("si_code", "si_name", "si_database_id", "si_city_id", "si_geom", "si_centroid", "si_occupation", "si_author_id", "si_creation", "si_modification") VALUES (?,?,?,?,'.$geom.',?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)', array($code, $name, (int)$databaseid, $cityid, (int)$centroid, $occupation, $authorid));
+			$siteId = \core\Core::$db->exec_returning('INSERT INTO "ark_site" ("si_code", "si_name", "si_database_id", "si_city_id", "si_geom", "si_centroid", "si_occupation", "si_author_id", "si_creation", "si_modification") VALUES (?,?,?,?,'.$geom.',?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)', array($code, $name, (int)$databaseid, $cityid, (int)$centroid, $occupation, $authorid), 'si_id');
 		} catch (\Exception $e) {
 			throw new \Exception('Unable to add site: '.$e->getmessage());
 		}
+		return $siteId;
 	}
 
 	// Site informations fill functions  are splitted into two functions for convenience
-	public static function addSitePeriod($siteCode, $startid, $endid, $isrange=0, $depth=NULL, $knowledge='unknown', $comment=NULL, $biblio=NULL) {
-		$args = array($siteCode, $startid, $endid, $isrange, $depth, $knowledge, $comment, $biblio);
+	public static function addSitePeriod($siteId, $startid, $endid, $isrange=0, $depth=NULL, $knowledge='unknown', $comment=NULL, $biblio=NULL) {
+		$args = array($siteId, $startid, $endid, $isrange, $depth, $knowledge, $comment, $biblio);
 		try {
-			return \core\Core::$db->exec_returning('INSERT INTO "ark_site_period" ("sp_site_code", "sp_period_start", "sp_period_end", "sp_period_isrange", "sp_depth", "sp_knowledge_type", "sp_comment", "sp_bibliography") VALUES (?,?,?,?,?,?,?,?) ', $args, 'sp_id');
+			return \core\Core::$db->exec_returning('INSERT INTO "ark_site_period" ("sp_site_id", "sp_period_start", "sp_period_end", "sp_period_isrange", "sp_depth", "sp_knowledge_type", "sp_comment", "sp_bibliography") VALUES (?,?,?,?,?,?,?,?) ', $args, 'sp_id');
 		} catch (\Exception $e) {
 			throw new \Exception('Unable to add site period: '.$e->getmessage());
 		}
@@ -37,9 +38,9 @@ class ArkeoGIS {
 		}
 	}
 
-	public static function getSitePeriod($siteCode, $startid, $endid) {
-		$args = array($siteCode, (int)$startid, (int)$endid);
-		return \core\Core::$db->fetchOne('SELECT "sp_id" FROM "ark_site_period" WHERE "sp_site_code" = ? AND "sp_period_start" = ? AND "sp_period_end" = ?' , $args);
+	public static function getSitePeriod($siteId, $startid, $endid) {
+		$args = array($siteId, (int)$startid, (int)$endid);
+		return \core\Core::$db->fetchOne('SELECT "sp_id" FROM "ark_site_period" WHERE "sp_site_id" = ? AND "sp_period_start" = ? AND "sp_period_end" = ?' , $args);
 	}
 
 	public static function addSitePeriodCharacteristic($sitePeriodId, $carac, $caracId, $exceptional=0) {
@@ -171,9 +172,25 @@ class ArkeoGIS {
 			$where.=' AND sr_exceptional = 1';
 		}
 
-		$groupby='si_code';
+		if (isset($search['site_id'])) {
+			$where.=' AND si_id = ?';
+			$args[]=$search['site_id'];
+		}	
+
+		if (isset($search['site_code'])) {
+			$where.=' AND si_code = ?';
+			$args[]=$search['site_code'];
+		}	
+		
+		if (isset($search['database_id'])) {
+			$addtable['ark_database']=true;
+			$where.=' AND da_id = ?';
+			$args[]=(int)$search['database_id'];
+		}
+
+		$groupby='si_id';
 		$from=" ark_site";
-		$from.=" LEFT JOIN ark_site_period ON sp_site_code = si_code";
+		$from.=" LEFT JOIN ark_site_period ON sp_site_id = si_id";
 		if ($addtable['ark_siteperiod_production']) {
 			$from.=" LEFT JOIN ark_siteperiod_production ON sp_site_period_id = ark_site_period.sp_id";
 		}
@@ -193,7 +210,7 @@ class ArkeoGIS {
 		}
 
 		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.' GROUP BY '.$groupby.' LIMIT '.$limit;
-		$query_count='SELECT COUNT(DISTINCT(ark_site.si_code)) FROM '.$from.' WHERE '.$where;
+		$query_count='SELECT COUNT(DISTINCT(ark_site.si_id)) FROM '.$from.' WHERE '.$where;
 
 		return array('total_count' => \core\Core::$db->fetchOne($query_count, $args),
 								 'sites' => \core\Core::$db->fetchAll($query, $args));
@@ -300,7 +317,7 @@ class ArkeoGIS {
 	/*      Map      */
 	/* ************* */
 	
-	public static function getMarker($code, $shape, $geometry, $knowledge, $period, $exceptional, $centroid, $popupParams) {
+	public static function getMarker($siteId, $shape, $geometry, $knowledge, $period, $exceptional, $centroid, $popupParams) {
 
 		$colors[1]   = '#cbcbcb';
 		$colors[2]   = '#8c8c8c';
@@ -342,7 +359,7 @@ class ArkeoGIS {
 		$iconParams['color'] = $colors[$num][$pos];
 
 		$marker = new \mod\map\Marker('image', $geometry);
-		$marker->setId($code);
+		$marker->setId($siteId);
 		$marker->setIconParams($iconParams);
 		$marker->setPopupParams($popupParams);
 		return $marker->get();

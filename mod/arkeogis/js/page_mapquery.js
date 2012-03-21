@@ -131,7 +131,7 @@ window.addEvent('domready', function() {
 					if (infoWindow)
 						infoWindow.close();
 					var m = new google.maps.Marker({
-						position: new google.maps.LatLng(marker.geometry.coordinates[1], marker.geometry.coordinates[0]),
+						position: new google.maps.LatLng(marker.geometry.coordinates[0], marker.geometry.coordinates[1]),
 						icon: new google.maps.MarkerImage(marker.icon.iconUrl),
 						map: map
 					});
@@ -147,7 +147,7 @@ window.addEvent('domready', function() {
 					google.maps.event.addListener(m, 'click', function() {
 						if (infoWindow)
 							infoWindow.close();
-							show_sheet(marker.database, marker.id);
+							show_sheet(marker.id);
 					});
 					google.maps.event.addListener(m, 'mouseout', function() {
 						infoWindow.close();
@@ -417,7 +417,7 @@ function show_menu(show) {
 }
 
 var modalWin;
-function show_sheet(dbId, siteId) {
+function show_sheet(siteId) {
 	modalWin = new Modal.Base(document.body, {
 		header: "Fiche site",
 		body: "Chargement..."
@@ -432,5 +432,5 @@ function show_sheet(dbId, siteId) {
 		onFailure: function() {
 			modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
 		}
-	}).post({database: dbId, id: siteId});
+	}).post({id: siteId});
 }

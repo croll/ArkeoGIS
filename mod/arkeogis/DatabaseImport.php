@@ -332,7 +332,7 @@ class DatabaseImport {
 				if (!isset(self::$_stored[self::$_current['code']]) || empty(self::$_stored[self::$_current['code']])) {
 					// Store site informations
 					try {
-						\mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_database['id'], ((isset(self::$_current['city_id'])) ? self::$_current['city_id'] : NULL), self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], $uid);
+						self::$_current['siteId'] = \mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_database['id'], ((isset(self::$_current['city_id'])) ? self::$_current['city_id'] : NULL), self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], $uid);
 						self::$_stored[self::$_current['code']] = self::$_current;
 						$numProcessed += 1;
 					} catch (\Exception $e) {
@@ -380,12 +380,12 @@ class DatabaseImport {
 				foreach($periods as $period) {
 
 					$md5Period = self::$_current['code'].$period[0].$period[1];
-					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['code'], $period[0], $period[1]);
+					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['siteId'], $period[0], $period[1]);
 					if (!empty($existing)) {
 						self::$_cache['siteperiod'][$md5Period] = $existing;
 					} else {
 						try {
-							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod(self::$_current['code'], $period[0], $period[1], self::$_current['period_isrange'], ((isset(self::$_current['depth'])) ?  self::$_current['depth'] : NULL),self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod(self::$_current['siteId'], $period[0], $period[1], self::$_current['period_isrange'], ((isset(self::$_current['depth'])) ?  self::$_current['depth'] : NULL),self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
 						} catch (\Exception $e) {
 							self::_addProcessingError($e->getMessage());
 							continue;
@@ -410,7 +410,7 @@ class DatabaseImport {
 		//\core\Core::$db->exec('COMMIT');
 		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => $numProcessed, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
-
+//
 	private static function _processSiteId($siteCode) {
 		if (empty($siteCode)) {
 			return false;

@@ -85,5 +85,12 @@
   "Souhaitez-vous vraiment effacer la requ\u00eate '%s' ?" : "Souhaitez-vous vraiment effacer la requ\u00eate '%s' ?",
   "Requ\u00eate '%s' effac\u00e9e" : "Requ\u00eate '%s' effac\u00e9e",
   "Base source" : "Base source",
-  "Commune" : "Commune"
+  "Commune" : "Commune",
+  "Groups" : "Groups",
+  "Chronologie" : "Chronologie",
+  "Immobiliers" : "Immobiliers",
+  "Mobiliers" : "Mobiliers",
+  "FAQ" : "FAQ",
+  "Documentation" : "Documentation",
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?" : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?"
 }
