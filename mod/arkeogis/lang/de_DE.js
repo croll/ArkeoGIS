@@ -77,13 +77,18 @@
   "Email" : "Email",
   "Databases" : "Databases",
   "Caract\u00e8re d'\u00e9chappement" : "Caract\u00e8re d'\u00e9chappement",
-  "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier" : "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier",
   "Directory" : "Verzeichnis",
-  "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation" : "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation",
   "Vous devez selectionner une requ\u00eate avant" : "Vous devez selectionner une requ\u00eate avant",
   "Souhaitez-vous vraiment effacer la requ\u00eate '%s' ?" : "Souhaitez-vous vraiment effacer la requ\u00eate '%s' ?",
   "Requ\u00eate '%s' effac\u00e9e" : "Requ\u00eate '%s' effac\u00e9e",
   "Base source" : "Base source",
   "Commune" : "Commune",
-  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ?" : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ?"
+  "Groups" : "Groups",
+  "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier" : "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier",
+  "Chronologie" : "Chronologie",
+  "FAQ" : "FAQ",
+  "Documentation" : "Documentation",
+  "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation" : "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation",
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ?" : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ?",
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?" : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?"
 }

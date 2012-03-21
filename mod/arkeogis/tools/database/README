@@ -2,4 +2,4 @@ For conveniance *install and *uninstall sql files are already generated from csv
 
 Usage:
 
-./path/to/captainhook/tools/csvToLtree.php (interactive mode)
+../csvToLtreeArkeo.php (interactive mode)

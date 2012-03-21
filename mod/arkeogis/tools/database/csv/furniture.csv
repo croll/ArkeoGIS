@@ -38,17 +38,17 @@
 ;;;"Pot Besançon # Pot Besançon"
 ;"Tuile # Ziegel";"Inscription # Inschrift";
 ;"Brique # Baustein";"Inscription # Inschrift";
-"Métal # Metall";"Armement # Waffen Rüstungen";"Epée # Schwert";
+"Métal # Metall";"Armement # Waffen Rüstungen";"Casque # Helm";
+;;"Epée # Schwert";
 ;;"Lance # Lance";
-;;"Casque # Helm";
 ;"Harnachement # Pferdegeschirr";"Char # Wagen";
 ;"Parure # Tracht";"Fibule # Fibel";"Fibule S4 # Schlangenfibel S4"
 ;;;"Fibule S5 # Schlangenfibel S5"
 ;;;"Fibule P1 # Paukenfibel PW"
-;;"Plaques de ceinture Hallstattienne # Gürtelblech";
-;;"Parure annulaire # Ring";
 ;;"Epingle vasiforme # Vasenkopfnadel";
+;;"Plaques de ceinture Hallstattienne # Gürtelblech";
 ;;"Plaque boucle # Gürtelschnalle";
+;;"Parure annulaire # Ring";
 ;"Outils # Werkzeuge";"Faucille # Sichel";
 ;;"Marteau # Hammer";
 ;;"Hache # Axt";

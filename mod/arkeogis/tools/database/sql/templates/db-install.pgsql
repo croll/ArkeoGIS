@@ -45,11 +45,12 @@ CREATE INDEX ark_city_name_idx ON "ark_city" ("ci_name");
 CREATE TYPE "ark_site_occupation_type" AS ENUM ('unknown', 'uniq', 'continuous', 'multiple');
 		
 CREATE TABLE "ark_site" (
-  "si_code" VARCHAR(50) PRIMARY KEY,
+  "si_id" SERIAL PRIMARY KEY,
+  "si_code" VARCHAR(50),
   "si_database_id" INTEGER NOT NULL REFERENCES "ark_database" ON DELETE CASCADE,
   "si_author_id" INTEGER NOT NULL,
   "si_name" VARCHAR(255) NOT NULL,
-  "sp_description" TEXT DEFAULT NULL,
+  "si_description" TEXT DEFAULT NULL,
   "si_city_id" INTEGER DEFAULT NULL REFERENCES ark_city,
   "si_centroid" SMALLINT NOT NULL DEFAULT 0,
   "si_occupation" ark_site_occupation_type DEFAULT NULL,
@@ -59,7 +60,9 @@ CREATE TABLE "ark_site" (
 
 SELECT AddGeometryColumn('ark_site', 'si_geom', 4326, 'POINT', 3);
 CREATE INDEX "ark_site_geom_idx" ON "ark_site" USING GIST ("si_geom"); 
+CREATE INDEX ark_site_code_idx ON "ark_site" ("si_code");
 CREATE INDEX ark_site_name_idx ON "ark_site" ("si_name");
+CREATE INDEX ark_site_databaseidx ON "ark_site" ("si_database_id");
 
 -- ---
 -- Table 'ark_site_period'
@@ -69,7 +72,7 @@ CREATE TYPE "ark_siteperiod_knowledge_type" AS ENUM ('unknown', 'literature', 's
 
 CREATE TABLE "ark_site_period" (
   "sp_id" SERIAL PRIMARY KEY,
-  "sp_site_code" VARCHAR(50) NOT NULL REFERENCES "ark_site" ON DELETE CASCADE,
+  "sp_site_id" INTEGER NOT NULL REFERENCES "ark_site" ON DELETE CASCADE,
   "sp_period_start" INTEGER NOT NULL REFERENCES "ark_period",
   "sp_period_end" INTEGER NOT NULL REFERENCES "ark_period",
   "sp_period_isrange" SMALLINT NOT NULL DEFAULT 0,
@@ -84,6 +87,10 @@ CREATE TABLE "ark_site_period" (
   "sp_bibliography" TEXT DEFAULT NULL,
   "sp_depth" INTEGER DEFAULT NULL
 );
+
+CREATE INDEX ark_siteperiod_site_id_idx ON "ark_site" ("sp_site_id");
+CREATE INDEX ark_siteperiod_period_start_idx ON "ark_site" ("sp_period_start");
+CREATE INDEX ark_siteperiod_period_end_idx ON "ark_site" ("sp_period_end");
 
 -- ---
 -- Table 'ark_siteperiod_realestate'

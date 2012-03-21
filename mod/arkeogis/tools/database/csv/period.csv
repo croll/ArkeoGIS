@@ -58,9 +58,9 @@
 ;;;"LTD2b  # LTD2b";
 "Gallo-Romain  # Gallo-Römisch";"Gallo-Romain Indéterminé  # Gallo-Römisch Unbestimmt";;;
 ;"Période augustéenne  # Augustäisch";;;
-;"Haut Empire  # Frühe Kaiserzeit";"+21 +100 # +21 +100 ¤ (ap.JC)";;
-;;"+101 +250 # +101 +250 ¤ (ap.JC)";;
-;"Antiquité tardive # Spätantike";"+251 +310 # Constantin ¤ (ap.JC)";;
+;"Haut Empire  # Frühe Kaiserzeit";"Julio-Claudiens Flaviens # Flavier ¤ ( +21 +100 ap.JC)";;
+;;"Antonins Sevères # Antonins Sevères ¤ (+101 +260 ap.JC)";;
+;"Antiquité tardive # Spätantike";" Constantin # Constantin ¤ (+261 +310 ap.JC)";;
 ;;"IVe siècle # 4. Jhdt  ¤ (ap.JC)";;
 ;;"Ve siècle #  5. Jhdt  ¤ (ap.JC)";;
 ;"Grandes  invasions # Völkerwanderungszeit";;;
@@ -72,7 +72,10 @@
 ;"Mérovingien récent  # Jüng.Merowingerzeit  ¤  (+601 +720 ap.JC)";"Mérovingien récent I # Jüng. Merowingerzeit I   ¤  (+601 +630 ap.JC)";;
 ;;"Mérovingien récent II # Jüng. Merowingerzeit II  ¤  (+631 +680 ap.JC) ";;
 ;;"Mérovingien récent III  # Jüng. Merowingerzeit III ¤ (+681 +720 ap.JC) ";;
-;"Othonien  # Othonisch  ¤  (+721 +800 ap.JC)";;;
+;"Carolingien  # Karolinger  ¤  (+721 +800 ap.JC)";;;
 "Moyen-âge  # Mittelalter";"Moyen-âge Indéterminé # Mittelalter  Unbestimmt";;;
 ;"Moyen-âge I  # Mittelalter I  ¤ (8eme. 9eme ap.JC)";;;
 ;"Moyen-âge II  # Mittelalter II ¤ (10eme.11eme ap.JC)";;;
+;"Moyen-âge classique # Spät Mittelalter ¤ (XIIe-1492 ap.JC)";;;
+"Moderne # Neuzeitlich  ¤ (1492-1789 ap.JC)";;;;
+"Contemporaine # Zeitgeschichtlich ¤ (1789 - )";;;;

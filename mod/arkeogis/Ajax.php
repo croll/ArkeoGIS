@@ -8,7 +8,7 @@ class Ajax {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
 
 		$lang = 'fr';
-		$columns="da_id, si_name, si_code, ST_AsGeoJSON(si_geom) as geom, si_centroid as centroid, (COALESCE(max(sr_exceptional), 0) + COALESCE(max(sf_exceptional), 0) + COALESCE(max(sp_exceptional), 0)) as exceptional, array_agg(sp_knowledge_type) as knowledge, ";
+		$columns="da_id, si_name, si_id, si_code, ST_AsGeoJSON(si_geom) as geom, si_centroid as centroid, (COALESCE(max(sr_exceptional), 0) + COALESCE(max(sf_exceptional), 0) + COALESCE(max(sp_exceptional), 0)) as exceptional, array_agg(sp_knowledge_type) as knowledge, ";
     $columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_start)) AS period_start, ";
     $columns.="array_agg((SELECT pe_name_$lang FROM ark_period WHERE pe_id=sp_period_start)) AS period_start_label, ";
     $columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_end)) AS period_end, ";
@@ -41,8 +41,7 @@ class Ajax {
 			$popupParams = array('title' => (!empty($site['si_name']) ? $site['si_name'] : $site['si_code']), 'content' => $content);
 			$shapes = array('circle', 'rectangle', 'triangle');
 			$num = round(rand(0,2));
-			$m = \mod\arkeogis\ArkeoGIS::getMarker($site['si_code'], $shapes[$num], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
-			$m['database'] = $site['da_id'];
+			$m = \mod\arkeogis\ArkeoGIS::getMarker($site['si_id'], $shapes[$num], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
 			$mapMarkers[] = $m;
 		}
 		return array('total_count' => $total_count, 'mapmarkers' => $mapMarkers);
@@ -111,7 +110,28 @@ class Ajax {
 
 	public static function showsitesheet($params) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
+		// Site infos
+		$query = "SELECT si_name AS name, ST_AsGeoJSON(si_geom) AS geom, si_centroid AS centroid, si_occupation AS occuption, si_creation AS creation, si_modification AS modification, ci_name AS city, uid AS user FROM ark_site AS si ";
+		$query .= "LEFT JOIN ch_user AS us ON si.si_author_id=us.uid ";
+		$query .= "LEFT JOIN ark_city AS ci ON si.si_city_id=ci.ci_id ";
+		$query .= "WHERE si.si_id=? AND si_database_id=?";
+    $infos = \core\Core::$db->fetchAll($query, array($params['id'], $params['database']));
+		if (sizeof($infos) > 1) {
+			throw new \Exception("Multiple result found for a site id and a database id");
+		} else if (sizeof($infos) < 1)
+			return NULL;
+		// Get site periods and caracteristics
+		$query = "SELECT re_name_$lang AS realestate, fu_name_$lang AS furniture, pr_name_$lang AS production, (SELECT pr_name_$lang FROM ark_period WHERE pe_id=sp_period_start) AS start, (SELECT pr_name_$lang FROM ark_period WHERE pe_id=sp_period_end) AS end, sp_period_isrange AS isrange, sp_knowledge_type AS knowledge, sp_comment AS comment, sp_bibliogragpy AS bibliography ";
+		$query .= "FROM ark_site_period AS sp ";
+		$query .= "LEFT JOIN ark_siteperiod_realestate AS sr ON sp.sp_id=sr.sr_site_period_id LEFT JOIN ark_realestate AS re ON sr.sr_realestate_id=re.re_id ";
+		$query .= "LEFT JOIN ark_siteperiod_furniture AS sf ON sp.sp_id=sf.sf_site_period_id LEFT JOIN ark_furniture AS fu ON sf.sf_furniture_id=fu.fu_id ";
+		$query .= "LEFT JOIN ark_siteperiod_production AS spp ON sp.sp_id=spp.sp_site_period_id LEFT JOIN ark_production AS pr ON spf.sf_production_id=pr.pr_id ";
+		$query .= "WHERE sp_site_id=?";
+    $infos = \core\Core::$db->fetchAll($query, array($params['id']));
+		
+		$strings=ArkeoGIS::load_strings();
     $smarty = \mod\smarty\Main::newSmarty();
+		$smarty->assign('infos', $infos);
 		return array('title' => 'Le titre', 'content' => $smarty->fetch('arkeogis/sitesheet'));
 	}
 }
