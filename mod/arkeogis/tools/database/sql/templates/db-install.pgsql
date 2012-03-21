@@ -90,9 +90,9 @@ CREATE TABLE "ark_site_period" (
   "sp_depth" INTEGER DEFAULT NULL
 );
 
-CREATE INDEX ark_siteperiod_site_id_idx ON "ark_site" ("sp_site_id");
-CREATE INDEX ark_siteperiod_period_start_idx ON "ark_site" ("sp_period_start");
-CREATE INDEX ark_siteperiod_period_end_idx ON "ark_site" ("sp_period_end");
+CREATE INDEX ark_siteperiod_site_id_idx ON "ark_site_period" ("sp_site_id");
+CREATE INDEX ark_siteperiod_period_start_idx ON "ark_site_period" ("sp_period_start");
+CREATE INDEX ark_siteperiod_period_end_idx ON "ark_site_period" ("sp_period_end");
 
 -- ---
 -- Table 'ark_siteperiod_realestate'
