@@ -11,9 +11,9 @@ class ArkeoGIS {
 		\core\Core::$db->exec('DELETE FROM "ark_site" WHERE si_code=? AND si_database_id=?', array((string)$code,(int)$databaseId));
 	}
 
-	public static function addSite($code, $name, $databaseid, $cityid=NULL, $geom=NULL, $centroid, $occupation, $authorid=0) {
+	public static function addSite($code, $name, $databaseid, $cityid=NULL, $geom=NULL, $centroid, $occupation, $city_name, $city_code, $authorid=0) {
 		try {
-			$siteId = \core\Core::$db->exec_returning('INSERT INTO "ark_site" ("si_code", "si_name", "si_database_id", "si_city_id", "si_geom", "si_centroid", "si_occupation", "si_author_id", "si_creation", "si_modification") VALUES (?,?,?,?,'.$geom.',?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)', array($code, $name, (int)$databaseid, $cityid, (int)$centroid, $occupation, $authorid), 'si_id');
+			$siteId = \core\Core::$db->exec_returning('INSERT INTO "ark_site" ("si_code", "si_name", "si_database_id", "si_city_id", "si_geom", "si_centroid", "si_occupation", "si_author_id", "si_city_name", "si_city_code", "si_creation", "si_modification") VALUES (?,?,?,?,'.$geom.',?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)', array($code, $name, (int)$databaseid, $cityid, (int)$centroid, $occupation, $authorid, $city_name, $city_code), 'si_id');
 		} catch (\Exception $e) {
 			throw new \Exception('Unable to add site: '.$e->getmessage());
 		}
@@ -27,7 +27,7 @@ class ArkeoGIS {
 			return \core\Core::$db->exec_returning('INSERT INTO "ark_site_period" ("sp_site_id", "sp_period_start", "sp_period_end", "sp_period_isrange", "sp_depth", "sp_knowledge_type", "sp_comment", "sp_bibliography") VALUES (?,?,?,?,?,?,?,?) ', $args, 'sp_id');
 		} catch (\Exception $e) {
 			throw new \Exception('Unable to add site period: '.$e->getmessage());
-		}
+}
 	}
 
 	public static function addSitePeriodAditionalInfos($sitePeriodCode, $soil=NULL, $superfical=NULL, $analysis=NULL, $paleosol=NULL, $date_dendro=NULL, $date_14c=NULL) {
@@ -283,6 +283,13 @@ class ArkeoGIS {
 		return implode($node_path, $sep);
 	}
 
+	public static function node_path_to_array($node_path, &$strings) {
+		if ($node_path == 'NULL') return '';
+		$node_path=explode('.', $node_path);
+		foreach($node_path as $k => $v) $node_path[$k]=trim($strings[$v], '"');
+		return $node_path;
+	}
+
 	public static function node_path_array_to_str($node_path_array, &$strings, $sep) {
 		$node_paths=explode(',', trim($node_path_array, '{}'));
 		foreach($node_paths as $k=>$v)
@@ -311,6 +318,58 @@ class ArkeoGIS {
 		$menus['furniture']=self::idtok(\core\Core::$db->fetchAll("select fu_id as id, fu_name_$lang as name from ark_furniture order by fu_id"));
 
 		return $menus;
+	}
+
+	public static function getSiteInfos($siteId) {
+		$siteInfos = array();
+		$query = "SELECT si_name AS name, si_code AS code, ST_AsGeoJSON(si_geom) AS geom, si_centroid AS centroid, si_occupation AS occupation, to_char(si_creation, 'dd/mm/yyyy') AS creation, to_char(si_modification, 'dd/mm/yyyy') AS modification, si_city_name AS city_name, si_city_code AS city_code, uid AS author FROM ark_site AS si ";
+		$query .= "LEFT JOIN ch_user AS us ON si.si_author_id=us.uid ";
+		$query .= "WHERE si.si_id=?";
+    $infos = \core\Core::$db->fetchAll($query, array($siteId));
+		if (sizeof($infos) > 1) {
+			throw new \Exception("Multiple result found for a site id");
+		} else if (sizeof($infos) < 1)
+			return NULL;
+		$geom = json_decode($infos[0]['geom']);
+		$siteInfos['name'] = $infos[0]['name'];
+		$siteInfos['code'] = $infos[0]['code'];
+		$siteInfos['author'] = $infos[0]['author'];
+		$siteInfos['geom'] = $geom->coordinates;
+		$siteInfos['centroid'] = $infos[0]['centroid'];
+		$siteInfos['occupation'] = $infos[0]['occupation'];
+		$siteInfos['creation'] = $infos[0]['creation'];
+		$siteInfos['modification'] = $infos[0]['modification'];
+		$siteInfos['city']['name'] = $infos[0]['city_name'];
+		$siteInfos['city']['code'] = $infos[0]['city_code'];
+		// Get site periods and caracteristics
+		$query = "SELECT re.node_path AS realestate_path, fu.node_path AS furniture_path, pr.node_path AS production_path, sr_exceptional, sf_exceptional, sp_exceptional, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start_path, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end_path, sp_period_isrange AS isrange, sp_knowledge_type AS knowledge, sp_comment AS comment, sp_bibliography AS bibliography ";
+		$query .= "FROM ark_site_period AS sp ";
+		$query .= "LEFT JOIN ark_siteperiod_realestate AS sr ON sp.sp_id=sr.sr_site_period_id LEFT JOIN ark_realestate AS re ON sr.sr_realestate_id=re.re_id ";
+		$query .= "LEFT JOIN ark_siteperiod_furniture AS sf ON sp.sp_id=sf.sf_site_period_id LEFT JOIN ark_furniture AS fu ON sf.sf_furniture_id=fu.fu_id ";
+		$query .= "LEFT JOIN ark_siteperiod_production AS spp ON sp.sp_id=spp.sp_site_period_id LEFT JOIN ark_production AS pr ON spp.sp_production_id=pr.pr_id ";
+		$query .= "WHERE sp_site_id=?";
+		// Get caracteristics for each period
+		$strings=ArkeoGIS::load_strings();
+		foreach(\core\Core::$db->fetchAll($query, array($siteId)) as $pInfos) {
+			$datas = array();
+
+			$datas['start'] = Arkeogis::node_path_to_array($pInfos['period_start_path'], $strings['period']);
+			$datas['end'] = Arkeogis::node_path_to_array($pInfos['period_end_path'], $strings['period']);
+			if (!empty($pInfos['realestate_path'])) {
+				$datas['realestate'] = Arkeogis::node_path_to_array($pInfos['realestate_path'], $strings['realestate']);
+				$datas['realestate_exp'] = $pInfos['sr_exceptional'];
+			}
+			if (!empty($pInfos['production_path'])) {
+				$datas['production'] = Arkeogis::node_path_to_array($pInfos['production_path'], $strings['production']);
+				$datas['production_exp'] = $pInfos['sp_exceptional'];
+			}
+			if (!empty($pInfos['furniture_path'])) {
+				$datas['furniture'] = Arkeogis::node_path_to_array($pInfos['furniture_path'], $strings['furniture']);
+				$datas['furniture_exp'] = $pInfos['sf_exceptional'];
+			}
+			$siteInfos['characteristics'][] = $datas;
+		}
+		return $siteInfos;
 	}
 
 	/* ************* */

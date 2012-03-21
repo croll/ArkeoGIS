@@ -54,6 +54,8 @@ CREATE TABLE "ark_site" (
   "si_city_id" INTEGER DEFAULT NULL REFERENCES ark_city,
   "si_centroid" SMALLINT NOT NULL DEFAULT 0,
   "si_occupation" ark_site_occupation_type DEFAULT NULL,
+  "si_city_name" VARCHAR(255) NOT NULL,
+  "si_city_code" VARCHAR(255) NOT NULL,
   "si_creation" TIMESTAMP NOT NULL,
   "si_modification" TIMESTAMP DEFAULT NULL
 );
