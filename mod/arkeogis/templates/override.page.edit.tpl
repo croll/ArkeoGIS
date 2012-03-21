@@ -58,7 +58,7 @@
 
 			<div class="action">
 				<input class="btn primary" id='page_edit_submit'  type="submit" name="submit" value="{t d='page' m='Save'}">
-				<button type="reset" class="btn" ><a href="../list/">{t d='page' m='Cancel'}</a></button>
+				<a class="btn" href="../list/">{t d='page' m='Cancel'}</a>
 			</div>
 		
 		</form>
