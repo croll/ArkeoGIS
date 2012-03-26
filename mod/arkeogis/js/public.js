@@ -90,3 +90,46 @@ var Manual = new Class({
 		mypage.render(tar,'content', 'fr_FR');
 	}
 });
+var Directory = new Class({
+	Implements: [Options,Events],
+	options: {
+		dbElements: '.dbnames',
+		paginate: 'true',
+		onComplete: null
+	},
+	initialize: function(options) {
+		this.setOptions(options);
+		$$('.dbnames').each(function(item, index) {
+			var list = item.get('html').split(',');
+			item.set('html', '');
+			var res= new Element('div');
+			list.each(function(el) {
+				if (el != '') {
+					var db= new Element('a',{href: '#', class: 'dblinks', html: el});
+					db.addEvent('click', function() {
+						event.preventDefault(); 
+						mydir.getDesc(el);
+					});
+					res.adopt(db);
+				}
+			});
+			item.adopt(res);
+		});
+	},
+	getDesc: function(dbname) {
+		console.log(dbname);
+		new Request.JSON({
+			'url': '/ajax/call/arkeogis/getDbDesc',
+			'onSuccess': function(resJSON, resText) {
+				mydir.displayDesc(dbname,resJSON);
+			}
+		}).get({'dbname': dbname});
+
+
+	},
+	displayDesc: function(dbname, desc) {
+		dmod.setTitle(dbname+' database description');
+		dmod.setBody(desc);
+		dmod.show();
+	}
+});

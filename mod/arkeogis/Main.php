@@ -122,7 +122,7 @@ class Main {
 	$dbs = $db->fetchAll('SELECT "da_name" FROM "ark_database" WHERE "da_owner_id"=?', array($uid));
 	$dbstring='';
 	foreach ($dbs as $key) {
-		$dbstring .= $key['da_name'].' ';
+		$dbstring .= $key['da_name'].',';
 	}
 	return $dbstring;
     }

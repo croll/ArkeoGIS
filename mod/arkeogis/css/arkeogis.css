@@ -29,6 +29,16 @@ html[xmlns] .clearfix {
 	margin: 0 auto;
 	/* margin: 20px 40px 20px 40px; */
 }
+/*
+ * Directory
+ */
+
+
+.dbnames a.dblinks {
+
+	margin-right: 5px;
+}
+
 
 /*
  * Map 

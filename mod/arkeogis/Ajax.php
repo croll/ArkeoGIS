@@ -3,7 +3,13 @@
 namespace mod\arkeogis;
 
 class Ajax {
+	public static function getDbDesc($arkDb) {
+		// get ark_database decription 
+    		if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
+		
+    		return \core\Core::$db->fetchOne("Select da_description FROM ark_database WHERE da_name =?",array($arkDb));
 
+	}
 	public static function showthemap($search) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
 

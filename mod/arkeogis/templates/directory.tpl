@@ -2,8 +2,10 @@
 {block name='webpage_head' append}
 	{js file="/mod/cssjs/js/chmypaginate.js"}
 	{js file="/mod/cssjs/js/chfilter.js"}
+	{js file="/mod/cssjs/js/Modal.js"}
 	
 	{css file="/mod/cssjs/css/mypaginate.css"}
+	{css file="/mod/cssjs/css/Modal.css"}
 {/block}
 
 {block name='arkeogis_content'}
@@ -37,7 +39,7 @@
 				<td>{$list[p].full_name}</td>
 				<td>{$list[p].email}</td>
 				<td>{$list[p].groups}</td>
-				<td>{$list[p].databases}</td>
+				<td class="dbnames">{$list[p].databases}</td>
 			</tr>
 			{/section}
 		</tbody>
@@ -79,6 +81,8 @@
 			quant: {$quant}
 		});
 	});
+		var mydir = new Directory();
+		var dmod = new Modal.Base(document.body);
 
 </script>
 {/block}
