@@ -19,7 +19,7 @@
 {/block}
 
 {block name='webpage_body'}
-	<div id="arkeogis_container">
+	<div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 950px;"{/if}>
 
 		<div id="top_of_page">
 			<div id="arkeologo">

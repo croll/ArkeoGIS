@@ -52,6 +52,10 @@ class Main {
     $page->display();
   }
   public static function hook_mod_arkeogis_directory($hookname, $userdata) {
+   
+    if (!\mod\user\Main::userIsLoggedIn()) {
+    	return false;
+     }
     // check for optionals parameters 
     if (isset($matches[1])) {	
 		$check=split('/', $matches[1]);
@@ -118,7 +122,7 @@ class Main {
 	$dbs = $db->fetchAll('SELECT "da_name" FROM "ark_database" WHERE "da_owner_id"=?', array($uid));
 	$dbstring='';
 	foreach ($dbs as $key) {
-		$dbstring .= $key['da_name'].' ';
+		$dbstring .= $key['da_name'].',';
 	}
 	return $dbstring;
     }
@@ -182,12 +186,16 @@ class Main {
   }
 
 	public static function hook_mod_arkeogis_import($hookname, $userdata, $urlmatches) {
+		if (\mod\user\Main::userHasRight('Manage personal database') || \mod\user\Main::userHasRight('Manage all databases')) {
 		$page = new \mod\webpage\Main();
 		$page->setLayout('arkeogis/import');
 		$page->display();
+		} 
 	}
 
 	public static function hook_mod_arkeogis_import_submit($hookname, $userdata, $urlmatches) {
+		if (\mod\user\Main::userHasRight('Manage personal database') || \mod\user\Main::userHasRight('Manage all databases')) {
+
 		$params = array('mod' => 'arkeogis', 'file' => 'templates/dbUpload.json');
 		$form = new \mod\form\Form($params);
 		if ($form->validate()) {
@@ -203,6 +211,7 @@ class Main {
 		}
 		$page->setLayout('arkeogis/import');
 		$page->display();
+		}
 	}
 
   public static function hook_mod_arkeogis_print_sheet($hookname, $userdata) {

@@ -48,7 +48,6 @@
 			data-btn="Add Permission" 
 			data-bclick="myperm.setPerm();" 
 			href="/ajax/call/user/permList"><i class="icon-perm"></i><span>Permissions</span></a></li>
-  		<li class="tab"><a href="/logout"><i class="icon-loader"></i><span>Logout</span></a></li>
 	</ul>
 	<div id="settings" class="content">
 			{*include file='user/admin/settings'*}
