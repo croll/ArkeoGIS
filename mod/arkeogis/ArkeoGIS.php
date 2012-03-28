@@ -67,14 +67,17 @@ class ArkeoGIS {
 
 
 	public static function search_sites($search, $select, $addtable=array(), $limit=1000,
-                                      $custom_groupby=false, $orderby='ark_site.si_id', $getcount=true) {
+                                      $custom_groupby=false, $orderby='ark_site.si_id', $getcount=true, 
+                                      $onlysprange=true
+  ) {
 		$addtable=array('ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
 										'ark_siteperiod_furniture' => isset($addtable['ark_siteperiod_furniture']) ? $addtable['ark_siteperiod_furniture'] : false,
 										'ark_siteperiod_realestate' => isset($addtable['ark_siteperiod_realestate']) ? $addtable['ark_siteperiod_realestate'] : false,
 										'ark_database' => isset($addtable['ark_database']) ? $addtable['ark_database'] : false,
 										'ark_city' => isset($addtable['ark_city']) ? $addtable['ark_city'] : false);
 
-		$where='sp_period_isrange=1 ';
+		if ($onlysprange) $where='sp_period_isrange=1 ';
+    else $where='1=1 ';
 		$args=array();
 
 		if (isset($search['db_include']) && count($search['db_include'])) {
@@ -83,14 +86,14 @@ class ArkeoGIS {
 		}
 
 		if (isset($search['db_exclude']) && count($search['db_exclude'])) {
-			$where.=' AND si_database_id NOT IN (?)';
+			$where.=' AND (si_database_id NOT IN (?) OR si_database_id IS NULL)';
 			$args[]=$search['db_exclude'];
 		}
 
 		if (isset($search['period_include']) && count($search['period_include'])) {
       $where.=' AND (0=1 ';
 			foreach($search['period_include'] as $period) {
-				$where.=' OR sp_period_start >= ? AND sp_period_start <= ?';
+				$where.=' OR sp_period_start >= ? AND sp_period_end <= ?';
 				$args[]=$period;
 				$args[]=$period;
 			}
@@ -98,9 +101,9 @@ class ArkeoGIS {
 		}
 
 		if (isset($search['period_exclude']) && count($search['period_exclude'])) {
-      $where.=' AND (0=1 ';
+      $where.=' AND (sp_period_start IS NULL ';
 			foreach($search['period_exclude'] as $period) {
-				$where.=' OR NOT (sp_period_start >= ? AND sp_period_start <= ?)';
+				$where.=' OR NOT (sp_period_start >= ? AND sp_period_end <= ?)';
 				$args[]=$period;
 				$args[]=$period;
 			}
@@ -130,7 +133,7 @@ class ArkeoGIS {
 
 		if (isset($search['production_exclude']) && count($search['production_exclude'])) {
 			$addtable['ark_siteperiod_production']=true;
-			$where.=' AND sp_production_id NOT IN (?)';
+			$where.=' AND (sp_production_id NOT IN (?) OR sp_production_id IS NULL)';
 			$args[]=$search['production_exclude'];
 		}
 
@@ -147,7 +150,7 @@ class ArkeoGIS {
 
 		if (isset($search['furniture_exclude']) && count($search['furniture_exclude'])) {
 			$addtable['ark_siteperiod_furniture']=true;
-			$where.=' AND sf_furniture_id NOT IN (?)';
+			$where.=' AND (sf_furniture_id NOT IN (?) OR sf_furniture_id IS NULL)';
 			$args[]=$search['furniture_exclude'];
 		}
 
@@ -164,7 +167,7 @@ class ArkeoGIS {
 
 		if (isset($search['realestate_exclude']) && count($search['realestate_exclude'])) {
 			$addtable['ark_siteperiod_realestate']=true;
-			$where.=' AND sr_realestate_id NOT IN (?)';
+			$where.=' AND (sr_realestate_id NOT IN (?) OR sr_realestate_id IS NULL)';
 			$args[]=$search['realestate_exclude'];
 		}
 
@@ -210,13 +213,12 @@ class ArkeoGIS {
 			$groupby.=', ci_id';
 		}
 
-    error_log('custom: '.$custom_groupby);
 		if ($custom_groupby !== false) $groupby=$custom_groupby;
 		
 		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.($groupby ? ' GROUP BY '.$groupby : '').($orderby ? ' ORDER BY '.$orderby : '').($limit ? ' LIMIT '.$limit : '');
 		$query_count='SELECT COUNT(DISTINCT(ark_site.si_id)) FROM '.$from.' WHERE '.$where;
 
-    error_log($query);
+    //error_log(sqltostr($query, $args));
 
 		return array('total_count' => $getcount ? \core\Core::$db->fetchOne($query_count, $args) : 'unwanted',
 								 'sites' => \core\Core::$db->fetchAll($query, $args));
@@ -445,4 +447,16 @@ class ArkeoGIS {
 	}
   
 
+}
+
+
+// usefull for debugging...
+function sqltostr($query, $args) {
+  $argc=0;
+  $res='';
+  for ($i=0; $i<strlen($query); $i++) {
+    if ($query[$i] == '?') $res.=\core\Core::$db->quote($args[$argc++]);
+    else $res.=$query[$i];
+  }
+  return $res;
 }

@@ -351,9 +351,18 @@ function display_query(query) {
 	    queryfilter_html.setStyles({
 		display: ''
 	    });
-	    var title='arkeogis';
+	    var title=m;
+	    if (m == 'production') title=ch_t('arkeogis', "Production");
+	    else if (m == 'realestate') title=ch_t('arkeogis', "Immobilier");
+	    else if (m == 'furniture') title=ch_t('arkeogis', "Mobilier");
+	    else if (m == 'centroid') title=ch_t('arkeogis', "Centroid");
+	    else if (m == 'knowledge') title=ch_t('arkeogis', "Connaissance");
+	    else if (m == 'occupation') title=ch_t('arkeogis', "Occupation");
+	    else if (m == 'db') title=ch_t('arkeogis', "Base de donnée");
+	    else if (m == 'period') title=ch_t('arkeogis', "Période");
+
 	    if (m == 'production' || m == 'realestate' || m == 'furniture')
-		if (query[m+'_exceptional'] == 1) title+=' (exceptionals only)';
+		if (query[m+'_exceptional'] == 1) title+=' '+ch_t('arkeogis', '(exceptionals only)');
 	    queryfilter_html.getElement('div.filtername span').set('text', title);
 
 	    div=new Element('div', {
