@@ -66,7 +66,7 @@ class ArkeoGIS {
 	}
 
 
-	public static function search_sites($search, $select, $addtable=array(), $limit=1000, $custom_groupby=false) {
+	public static function search_sites($search, $select, $addtable=array(), $limit=1000, $custom_groupby=false, $orderby='ark_site.si_id') {
 		$addtable=array('ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
 										'ark_siteperiod_furniture' => isset($addtable['ark_siteperiod_furniture']) ? $addtable['ark_siteperiod_furniture'] : false,
 										'ark_siteperiod_realestate' => isset($addtable['ark_siteperiod_realestate']) ? $addtable['ark_siteperiod_realestate'] : false,
@@ -211,7 +211,7 @@ class ArkeoGIS {
 
 		if ($custom_groupby !== false) $groupby=$custom_groupby;
 		
-		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.($groupby ? ' GROUP BY '.$groupby : '').($limit ? ' LIMIT '.$limit : '');
+		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.($groupby ? ' GROUP BY '.$groupby : '').($orderby ? ' ORDER BY '.$orderby : '').($limit ? ' LIMIT '.$limit : '');
 		$query_count='SELECT COUNT(DISTINCT(ark_site.si_id)) FROM '.$from.' WHERE '.$where;
 
 		return array('total_count' => \core\Core::$db->fetchOne($query_count, $args),
