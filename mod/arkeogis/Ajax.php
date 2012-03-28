@@ -67,7 +67,7 @@ class Ajax {
 
 	public static function showthesheet($search) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
-    $columns="da_name, ci_name, si_name, ";
+    $columns="ark_site.si_id, da_name, ci_name, si_name, ";
 		$columns.="(SELECT pe_name_fr||'/'||pe_name_de FROM ark_period WHERE pe_id=min(sp_period_start)) AS period_start, ";
 		$columns.="(SELECT pe_name_fr||'/'||pe_name_de FROM ark_period WHERE pe_id=max(sp_period_end)) AS period_end, ";
 		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";

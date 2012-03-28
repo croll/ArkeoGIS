@@ -4,14 +4,14 @@ function display_sheet(data) {
     for (var i=0; i<data.length; i++) {
 	var row=data[i];
 	data2.push([
-	    '<div>'+row.da_name+'</div>',
-	    '<div>'+row.ci_name+'</div>',
-	    '<div>'+row.si_name+'</div>',
-	    '<div>'+row.period_start+'<br />'+row.period_end+'</div>',
-	    '<div>'+row.realestate+'</div>',
-	    '<div>'+row.furniture+'</div>',
-	    '<div>'+row.production+'</div>'
-	    
+	    row.si_id,
+	    row.da_name,
+	    row.ci_name,
+	    row.si_name,
+	    row.period_start+'<br />'+row.period_end,
+	    row.realestate,
+	    row.furniture,
+	    row.production	    
 	]);
     }
 
@@ -23,6 +23,7 @@ function display_sheet(data) {
 	},
 	gridContainer : $('map_sheet'),
 	headers: [
+	    'si_id',
 	    ch_t('arkeogis', 'Base source'),
 	    ch_t('arkeogis', 'Commune'),
 	    ch_t('arkeogis', 'Nom du site'),

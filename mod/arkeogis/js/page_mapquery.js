@@ -122,7 +122,7 @@ window.addEvent('domready', function() {
 		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ?", res.mapmarkers.length, res.total_count))) {
 
 		    // download the sites as csv file
-		    alert("todo ;)");
+		    window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(form));
 		    return;
 		}
 		$('map_sheet').setStyles({
@@ -180,12 +180,16 @@ window.addEvent('domready', function() {
 		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous plutôt télécharger la liste au format csv ?", res.sites.length, res.total_count))
 		   ) {
 
-		    // download as csv (todo)
-		    alert("todo ;)");
+		    // download as csv
+		    window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(form));
 		    
 		} else {
 		    show_menu(false);
 		    display_sheet(res.sites);
+		    $$('#map_sheet tr').addEvent('click', function(e, tr) {
+			var id=this.firstChild.get('html');
+			show_sheet(id);
+		    });
 		}
 		display_query(form);
 	    }
