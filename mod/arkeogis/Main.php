@@ -230,18 +230,24 @@ class Main {
 
 		$q=json_decode($_REQUEST['q'], true);
 		
-		$columns="si_name, ";
-		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=min(sp_period_start)) AS period_start, ";
-		$columns.="(SELECT node_path FROM ark_period WHERE pe_id=max(sp_period_end)) AS period_end, ";
-		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
-		$columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id)) as furniture, ";
-		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production";
+		$columns="si_code, si_name, si_description, si_city_id, si_geom, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
+		$columns.=", ci_code, ci_name, ci_country, ci_geom"; // ark_city
+		$columns.=", da_name, da_description, da_creation, da_modification"; // ark_database
+		$columns.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start";
+		$columns.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end";
+		$columns.=", (SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id) as realestate";
+		$columns.=", (SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id) as furniture";
+		$columns.=", (SELECT node_path FROM ark_production WHERE pr_id=sp_production_id) as production";
 		
 		$res=ArkeoGIS::search_sites($q, $columns, array(
 																										'ark_siteperiod_production' => true,
 																										'ark_siteperiod_furniture' => true,
-																										'ark_siteperiod_realestate' => true
-																										));
+																										'ark_siteperiod_realestate' => true,
+																										'ark_city' => true,
+																										'ark_database' => true
+																										),
+																false,
+																'');
 		
 		$strings=ArkeoGIS::load_strings();
 		
@@ -250,22 +256,28 @@ class Main {
 		header("Content-Type: text");
 		header("Content-Disposition: attachment; filename=\"export.csv\"");
 		
-		printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\n",
-					 'site name',
-					 'period start',
-					 'period end',
-					 'realestate',
-					 'furniture',
-					 'production');
+		$cols=array('si_code', 'site_name', 'description', 'period start', 'period end', 'realestate', 'furniture', 'production');
+		$f_header='';
+		$f_row='';
+		foreach($cols as $col) {
+			$f_header.=($f_header == '' ? '' : "\t") . '"%s"';
+			$f_row.=($f_row == '' ? '' : "\t") . '"%s"';
+		}
+		$f_header.="\n";
+		$f_row.="\n";
+
+		vprintf($f_header, $cols);
 		
-		foreach($res as $row) {
-			printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\n",
+		foreach($res['sites'] as $row) {
+			printf($f_row,
+						 $row['si_code'],
 						 $row['si_name'],
+						 $row['si_description'],
 						 ArkeoGIS::node_path_to_str($row['period_start'], $strings['period'], '/'),
 						 ArkeoGIS::node_path_to_str($row['period_end'], $strings['period'], '/'),
-						 implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), ';'),
-						 implode(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), ';'),
-						 implode(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), ';')
+						 ArkeoGIS::node_path_to_str($row['realestate'], $strings['realestate'], '/'),
+						 ArkeoGIS::node_path_to_str($row['furniture'], $strings['furniture'], '/'),
+						 ArkeoGIS::node_path_to_str($row['production'], $strings['production'], '/')
 						 );
 		}
 		    
