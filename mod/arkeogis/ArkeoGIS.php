@@ -66,7 +66,8 @@ class ArkeoGIS {
 	}
 
 
-	public static function search_sites($search, $select, $addtable=array(), $limit=1000, $custom_groupby=false, $orderby='ark_site.si_id') {
+	public static function search_sites($search, $select, $addtable=array(), $limit=1000,
+                                      $custom_groupby=false, $orderby='ark_site.si_id', $getcount=true) {
 		$addtable=array('ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
 										'ark_siteperiod_furniture' => isset($addtable['ark_siteperiod_furniture']) ? $addtable['ark_siteperiod_furniture'] : false,
 										'ark_siteperiod_realestate' => isset($addtable['ark_siteperiod_realestate']) ? $addtable['ark_siteperiod_realestate'] : false,
@@ -209,12 +210,15 @@ class ArkeoGIS {
 			$groupby.=', ci_id';
 		}
 
+    error_log('custom: '.$custom_groupby);
 		if ($custom_groupby !== false) $groupby=$custom_groupby;
 		
 		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.($groupby ? ' GROUP BY '.$groupby : '').($orderby ? ' ORDER BY '.$orderby : '').($limit ? ' LIMIT '.$limit : '');
 		$query_count='SELECT COUNT(DISTINCT(ark_site.si_id)) FROM '.$from.' WHERE '.$where;
 
-		return array('total_count' => \core\Core::$db->fetchOne($query_count, $args),
+    error_log($query);
+
+		return array('total_count' => $getcount ? \core\Core::$db->fetchOne($query_count, $args) : 'unwanted',
 								 'sites' => \core\Core::$db->fetchAll($query, $args));
 	}
 
@@ -286,7 +290,7 @@ class ArkeoGIS {
 	}
 
 	public static function node_path_to_array($node_path, &$strings) {
-		if ($node_path == 'NULL') return '';
+		if ($node_path == 'NULL' || $node_path=='') return array();
 		$node_path=explode('.', $node_path);
 		foreach($node_path as $k => $v) $node_path[$k]=trim($strings[$v], '"');
 		return $node_path;
@@ -318,6 +322,19 @@ class ArkeoGIS {
 		$menus['realestate']=self::idtok(\core\Core::$db->fetchAll("select re_id as id, re_name_$lang as name from ark_realestate order by re_id"));
 		
 		$menus['furniture']=self::idtok(\core\Core::$db->fetchAll("select fu_id as id, fu_name_$lang as name from ark_furniture order by fu_id"));
+    $menus['knowledge']=array(
+      'unknown' => \mod\lang\Main::ch_t('arkeogis', "Non renseigné"),
+      'literature' => \mod\lang\Main::ch_t('arkeogis', "Littérature, prospecté"),
+      'surveyed' => \mod\lang\Main::ch_t('arkeogis', "Sondé"),
+      'excavated' => \mod\lang\Main::ch_t('arkeogis', "Fouillé")
+    );
+
+    $menus['occupation']=array(
+      'unknown' => \mod\lang\Main::ch_t('arkeogis', "Non renseigné"),
+      'uniq' => \mod\lang\Main::ch_t('arkeogis', "Unique"),
+      'continuous' => \mod\lang\Main::ch_t('arkeogis', "Continue (plusieurs périodes contiguës)"),
+      'multiple' => \mod\lang\Main::ch_t('arkeogis', "Multiple (plusieurs périodes indépendantes)")
+    );
 
 		return $menus;
 	}
