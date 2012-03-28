@@ -48,7 +48,7 @@ html[xmlns] .clearfix {
 	height: 80px;
 	width: 100%;
 }
-#arkeogis_container .navbar .navbar-inner .container {
+#arkeogis_container .navbar .navbar-inner .container, #footer .navbar .navbar .container {
 	width: 100%;
 }
 
