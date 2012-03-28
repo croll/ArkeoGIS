@@ -180,6 +180,10 @@ window.addEvent('domready', function() {
 		} else {
 		    show_menu(false);
 		    display_sheet(res.sites);
+		    $$('#map_sheet tr').addEvent('click', function(e, tr) {
+			var id=this.firstChild.get('html');
+			show_sheet(id);
+		    });
 		}
 		display_query(form);
 	    }
