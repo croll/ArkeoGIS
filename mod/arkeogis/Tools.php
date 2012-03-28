@@ -32,7 +32,7 @@ class Tools {
 	public static function transformPoint($point, $from, $to) {
 		$args = array($from, $to);
 		$p = \core\Core::$db->fetchOne("SELECT ST_AsText(ST_Transform(ST_GeomFromText('POINT(".(float)$point['x']." ".(float)$point['y'].")', ?), ?)) AS geom", $args);
-		if (!preg_match("/POINT\(([0-9\.]+) +([0-9\.]+)\)/", $p, $m)) 
+		if (!preg_match("/POINT\((-?[0-9\.]+) +(-?[0-9\.]+)\)/", $p, $m)) 
 			return NULL;
 		return array('x' => $m[1], 'y' => $m[2]);
 	}

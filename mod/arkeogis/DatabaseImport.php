@@ -196,11 +196,14 @@ class DatabaseImport {
 					}
 					if (!empty($epsg) && $epsg != 4326) {
 						// Check if geom exists
-						if (!\core\Core::$db->fetchOne('SELECT count(srtext) FROM "spatial_ref_sys" WHERE "srid" = 4326')) {
+						if (!\core\Core::$db->fetchOne('SELECT count(srtext) FROM "spatial_ref_sys" WHERE "srid" = ?', array($epsg))) {
 							self::_addError("EPSG code provided not found ($datas[5]) it must be numeric, see http://www.epsg-registry.org/");
 						} else {
 							try {
 								$coords = \mod\arkeogis\Tools::transformPoint($coords, $epsg, 4326);
+								if (empty($coords)) {
+									self::_addError("Unable to transform coordinates in WGS84.");
+								}
 							} catch (\Exception $e) {
 								self::_addError("Unable to transform coordinates in WGS84. Error: ".$e->getMessage());
 								$coords = null;
@@ -385,7 +388,14 @@ class DatabaseImport {
 						self::$_cache['siteperiod'][$md5Period] = $existing;
 					} else {
 						try {
-							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod(self::$_current['siteId'], $period[0], $period[1], self::$_current['period_isrange'], ((isset(self::$_current['depth'])) ?  self::$_current['depth'] : NULL),self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+							if (empty(self::$_current['siteId'])) {
+								if (isset(self::$_stored[self::$_current['code']]))
+									$siteId = self::$_stored[self::$_current['code']]['siteId'];
+								else 
+									throw new \Exception('Unable to get site id for this period');
+							} else
+								$siteId = self::$_current['siteId'];
+							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], self::$_current['period_isrange'], ((isset(self::$_current['depth'])) ?  self::$_current['depth'] : NULL),self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
 						} catch (\Exception $e) {
 							self::_addProcessingError($e->getMessage());
 							continue;
