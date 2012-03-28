@@ -10,7 +10,9 @@ class Ajax {
     		return \core\Core::$db->fetchOne("Select da_description FROM ark_database WHERE da_name =?",array($arkDb));
 
 	}
-	public static function showthemap($search) {
+	public static function showthemap($params) {
+		$search = $params['search'];
+		$queryNum = $params['queryNum'];
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
 
     $lang=\mod\lang\Main::getCurrentLang();
@@ -46,9 +48,8 @@ class Ajax {
 				$content .= "<div>$site[production]</div>";
 			}
 			$popupParams = array('title' => (!empty($site['si_name']) ? $site['si_name'] : $site['si_code']), 'content' => $content);
-			$shapes = array('circle', 'rectangle', 'triangle');
-			$num = round(rand(0,2));
-			$m = \mod\arkeogis\ArkeoGIS::getMarker($site['si_id'], $shapes[$num], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
+			$shapes = array('circle', 'square', 'triangle', 'diamond', 'parallelogram', 'trianglerectangle', 'rectangle' , 'trianglerectangleinverted');
+			$m = \mod\arkeogis\ArkeoGIS::getMarker($site['si_id'], $shapes[$queryNum-1], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
 			$mapMarkers[] = $m;
 		}
 		return array('total_count' => $total_count, 'mapmarkers' => $mapMarkers);
