@@ -540,58 +540,35 @@ div.filtercontent .filter-minus {
 
 .sheetovermap { 
   position: absolute;
-  left: 320px;
-  height: 500px;
+  left: 8px;
+  height: 501px;
   top: 0;
   background: #fff;
   overflow-y: scroll;
 }
 
-.sheetprint { 
+.sheetovermap table { 
+  width: 1170px;
+}
+
+.sheetovermap table tr:hover td {
+  background: #eee;
+  cursor: pointer;
 }
 
 .sheetovermap table th:nth-child(1) {
-    width: 50px;
-}
-.sheetovermap table th:nth-child(2) {
-    width: 60px;
-}
-.sheetovermap table th:nth-child(3) {
-    width: 60px;
-}
-.sheetovermap table th:nth-child(4) {
-    width: 200px;
-}
-.sheetovermap table th:nth-child(5) {
-    width: 60px;
-}
-.sheetovermap table th:nth-child(6) {
-    width: 60px;
-}
-.sheetovermap table th:nth-child(7) {
-    width: 60px;
+  display: none;
 }
 
-.sheetovermap table td:nth-child(1) div {
-    width: 50px;
+.sheetovermap table td:nth-child(1) {
+  display: none;
 }
-.sheetovermap table td:nth-child(2) div {
-    width: 60px;
+
+.sheetovermap table td div { 
+  overflow: hidden;
 }
-.sheetovermap table td:nth-child(3) div {
-    width: 60px;
-}
-.sheetovermap table td:nth-child(4) div {
-    width: 200px;
-}
-.sheetovermap table td:nth-child(5) div {
-    width: 60px;
-}
-.sheetovermap table td:nth-child(6) div {
-    width: 60px;
-}
-.sheetovermap table td:nth-child(7) div {
-    width: 60px;
+
+.sheetprint { 
 }
 
 #sitesheet .datesauthor {

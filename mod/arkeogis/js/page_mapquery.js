@@ -1,5 +1,7 @@
 var infoWindow = null;
 var map;
+var queryNum = 0;
+var mapMarkers = [];
 
 window.addEvent('domready', function() {
 
@@ -100,6 +102,7 @@ window.addEvent('domready', function() {
     }
 
     $('btn-show-the-map').addEvent('click', function() {
+				queryNum += 1;
 	var form=buildSelectionObject();
 	if ((form.db_include.length > 0 || form.db_exclude > 0)
 	    && (form.period_include.length > 0 || form.period_exclude.length > 0)
@@ -119,7 +122,7 @@ window.addEvent('domready', function() {
 		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ?", res.mapmarkers.length, res.total_count))) {
 
 		    // download the sites as csv file
-		    alert("todo ;)");
+		    window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(form));
 		    return;
 		}
 		$('map_sheet').setStyles({
@@ -127,7 +130,6 @@ window.addEvent('domready', function() {
 		});
 		show_menu(false);
 				res.mapmarkers.each(function(marker) {
-					console.log(marker);
 					if (infoWindow)
 						infoWindow.close();
 					var m = new google.maps.Marker({
@@ -135,6 +137,9 @@ window.addEvent('domready', function() {
 						icon: new google.maps.MarkerImage(marker.icon.iconUrl),
 						map: map
 					});
+					if (typeOf(mapMarkers[queryNum]) != 'array') 
+						mapMarkers[queryNum] = [];
+					mapMarkers[queryNum].push(m);
 
 					google.maps.event.addListener(m, 'mouseover', function() {
 						if (infoWindow)
@@ -154,10 +159,11 @@ window.addEvent('domready', function() {
 					});
 				});
 	    }
-	}).post(form);
+	}).post({search: form, queryNum: queryNum});
     });
 
     $('btn-show-the-table').addEvent('click', function() {
+				queryNum += 1;
 	var form=buildSelectionObject();
 	if ((form.db_include.length > 0 || form.db_exclude > 0)
 	    && (form.period_include.length > 0 || form.period_exclude.length > 0)
@@ -174,12 +180,16 @@ window.addEvent('domready', function() {
 		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous plutôt télécharger la liste au format csv ?", res.sites.length, res.total_count))
 		   ) {
 
-		    // download as csv (todo)
-		    alert("todo ;)");
+		    // download as csv
+		    window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(form));
 		    
 		} else {
 		    show_menu(false);
 		    display_sheet(res.sites);
+		    $$('#map_sheet tr').addEvent('click', function(e, tr) {
+			var id=this.firstChild.get('html');
+			show_sheet(id);
+		    });
 		}
 		display_query(form);
 	    }
@@ -250,6 +260,8 @@ window.addEvent('domready', function() {
 
 
     $$('.btn-reinit')[0].addEvent('click', function() {
+				queryNum = 0;
+				clearMarkers();
 	$('select-savedqueries').selectedIndex=0;
 
 	arkeo_menu.db.setSelection([], []);
@@ -442,4 +454,14 @@ function show_sheet(siteId) {
 			modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
 		}
 	}).post({id: siteId});
+}
+
+function clearMarkers() {
+	if (mapMarkers.length > 0) {
+		mapMarkers.each(function(mGroup) {
+			mGroup.each(function(m) {
+				m.setMap(null);
+			});
+		});
+	}
 }
