@@ -334,8 +334,8 @@ class ArkeoGIS {
     $menus['occupation']=array(
       'unknown' => \mod\lang\Main::ch_t('arkeogis', "Non renseigné"),
       'uniq' => \mod\lang\Main::ch_t('arkeogis', "Unique"),
-      'continuous' => \mod\lang\Main::ch_t('arkeogis', "Continue (plusieurs périodes contiguës)"),
-      'multiple' => \mod\lang\Main::ch_t('arkeogis', "Multiple (plusieurs périodes indépendantes)")
+      'continuous' => \mod\lang\Main::ch_t('arkeogis', "Continue"),
+      'multiple' => \mod\lang\Main::ch_t('arkeogis', "Multiple")
     );
 
 		return $menus;
