@@ -6,7 +6,7 @@ function display_sheet(data) {
 	data2.push([
 	    row.si_id,
 	    row.da_name,
-	    row.ci_name,
+	    row.si_city_name,
 	    row.si_name,
 	    row.period_start+'<br />'+row.period_end,
 	    row.realestate,
