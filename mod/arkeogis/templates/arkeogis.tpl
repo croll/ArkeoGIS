@@ -56,15 +56,12 @@
 						<td colspan='2'><div id='menu_period' style='position: relative'></div></td>
 					 </tr>
 
+					{*
 					 <tr class="title_caracterisation">
 						<td></td>
 						<td>{t d='arkeogis' m="Caractérisation :"}</td>
 					 </tr>
-
-					 <tr class="title_exceptionnels">
-						<td class="fleche_exceptionnels"></td>
-						<td>{t d='arkeogis' m="Sites exceptionnels"}</td>
-					 </tr>
+					*}
 
 					 <tr class="menu_realestate">
 						<td class='exceptionnel'><div><input type='checkbox' id='ex_realestate' value='1'/></div></td>
@@ -77,6 +74,11 @@
 					 <tr class="menu_production">
 						<td class='exceptionnel'><div><input type='checkbox' id='ex_production' value='1'/></div></td>
 						<td><div id='menu_production' style='position: relative'></div></td>
+					 </tr>
+
+					 <tr class="title_exceptionnels">
+						<td class="fleche_exceptionnels"></td>
+						<td style="height:32px">{t d='arkeogis' m="Sites exceptionnels"}</td>
 					 </tr>
 
 					 <tr class="buttons">

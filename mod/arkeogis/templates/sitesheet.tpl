@@ -89,7 +89,7 @@
 			{/if}
 
 			{if isset($charac.furniture)}
-				<div class="title {if (isset($charac.furniture_exp) && $charac.furniture_exp)}exceptional{/if}">{t d='arkeogis' m='Immobilier'}</div>
+				<div class="title {if (isset($charac.furniture_exp) && $charac.furniture_exp)}exceptional{/if}">{t d='arkeogis' m='Mobilier'}</div>
 				<div class="blockcharac">
 					{foreach $charac.furniture as $name}
 						<div class="charac">{$name}</div>

@@ -139,7 +139,7 @@ window.addEvent('domready', function() {
 					if (infoWindow)
 						infoWindow.close();
 					var m = new google.maps.Marker({
-						position: new google.maps.LatLng(marker.geometry.coordinates[0], marker.geometry.coordinates[1]),
+						position: new google.maps.LatLng(marker.geometry.coordinates[1], marker.geometry.coordinates[0]),
 						icon: new google.maps.MarkerImage(marker.icon.iconUrl),
 						map: map
 					});
