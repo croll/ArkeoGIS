@@ -22,6 +22,7 @@ class ArkeoGIS {
 
 	// Site informations fill functions  are splitted into two functions for convenience
 	public static function addSitePeriod($siteId, $startid, $endid, $isrange=0, $depth=NULL, $knowledge='unknown', $comment=NULL, $biblio=NULL) {
+		if (is_null($isrange)) $isrange = 0;
 		$args = array($siteId, $startid, $endid, $isrange, $depth, $knowledge, $comment, $biblio);
 		try {
 			return \core\Core::$db->exec_returning('INSERT INTO "ark_site_period" ("sp_site_id", "sp_period_start", "sp_period_end", "sp_period_isrange", "sp_depth", "sp_knowledge_type", "sp_comment", "sp_bibliography") VALUES (?,?,?,?,?,?,?,?) ', $args, 'sp_id');
