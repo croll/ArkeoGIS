@@ -191,7 +191,7 @@ window.addEvent('domready', function() {
 
 		    // download as csv
 		    window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(form));
-		} else if (res.mapmarkers.length == 0) {
+		} else if (res.sites.length == 0) {
 			CaptainHook.Message.show(ch_t('arkeogis', 'Aucun résultat'));
 		} else {
 		    show_menu(false);
