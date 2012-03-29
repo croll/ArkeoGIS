@@ -568,10 +568,10 @@ class DatabaseImport {
 
 	private static function _processExceptional($type, $value) {
 		if (!empty($value)) {
-			if (strtolower($value) != self::$_strings['Yes'][self::$_lang] && strtolower($value) != self::$_strings['No'][self::$_lang]) {
+			if (strtolower($value) != self::$_strings['Yes'][self::$_lang] && strtolower($value) != self::$_strings['No'][self::$_lang] && $value != 0 && $value != 1) {
 				self::_addError(ucfirst($type)." exceptional flag invalid ($value)");	
 			}
-			if (strtolower($value) == self::$_strings['Yes'][self::$_lang]) {
+			if (strtolower($value) == self::$_strings['Yes'][self::$_lang] || $value == 1) {
 				self::$_current[$type.'_ex'] = $value;
 			}
 		}
