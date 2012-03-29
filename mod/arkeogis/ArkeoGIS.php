@@ -94,7 +94,7 @@ class ArkeoGIS {
 		if (isset($search['period_include']) && count($search['period_include'])) {
       $where.=' AND (0=1 ';
 			foreach($search['period_include'] as $period) {
-				$where.=' OR sp_period_start >= ? AND sp_period_end <= ?';
+				$where.=' OR sp_period_start <= ? AND sp_period_end >= ?';
 				$args[]=$period;
 				$args[]=$period;
 			}
@@ -104,7 +104,7 @@ class ArkeoGIS {
 		if (isset($search['period_exclude']) && count($search['period_exclude'])) {
       $where.=' AND (sp_period_start IS NULL ';
 			foreach($search['period_exclude'] as $period) {
-				$where.=' OR NOT (sp_period_start >= ? AND sp_period_end <= ?)';
+				$where.=' OR NOT (sp_period_start <= ? AND sp_period_end >= ?)';
 				$args[]=$period;
 				$args[]=$period;
 			}
