@@ -39,6 +39,7 @@
 	
 		<div class="periodcharacs">
 
+			{if isset($charac.knowledge) && !empty($charac.knowledge)}
 			<div class="title">{t d='arkeogis' m='Etat des connaissances'}: 
 				{if ($charac.knowledge == 'unknown')}
 					{t d='arkeogis' m='Inconnue'}
@@ -50,6 +51,7 @@
 					{t d='arkeogis' m='Fouillé'}
 				{/if}
 			</div>
+			{/if}
 
 			<div class="title">{t d='arkeogis' m='Période'}</div>
 
@@ -117,14 +119,16 @@
 			{if isset($charac.bibliography)}
 				<div class="title">{t d='arkeogis' m='Bibliographie'}</div>
 				<div class="blockcharac">
-					<div class="charac">{$charac.bibliography}</div>
+					<div class="charac">{$charac.bibliography|nl2br}</div>
+					<div class="clearfix"></div>
 				</div>
 			{/if}
 
 			{if isset($charac.comment)}
 				<div class="title">{t d='arkeogis' m='Bibliographie'}</div>
 				<div class="blockcharac">
-					<div class="charac">{$charac.comment}</div>
+					<div class="charac">{$charac.comment|nl2br}</div>
+					<div class="clearfix"></div>
 				</div>
 			{/if}
 

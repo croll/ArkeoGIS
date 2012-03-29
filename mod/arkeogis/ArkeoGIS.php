@@ -378,6 +378,8 @@ class ArkeoGIS {
 			$datas['start'] = Arkeogis::node_path_to_array($pInfos['period_start_path'], $strings['period']);
 			$datas['end'] = Arkeogis::node_path_to_array($pInfos['period_end_path'], $strings['period']);
 			$datas['knowledge'] = $pInfos['knowledge'];
+			$datas['comment'] = $pInfos['comment'];
+			$datas['bibliography'] = $pInfos['bibliography'];
 			if (!empty($pInfos['realestate_path'])) {
 				$datas['realestate'] = Arkeogis::node_path_to_array($pInfos['realestate_path'], $strings['realestate']);
 				$datas['realestate_exp'] = $pInfos['sr_exceptional'];
