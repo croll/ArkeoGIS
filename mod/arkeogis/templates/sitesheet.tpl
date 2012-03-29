@@ -9,7 +9,10 @@
 		{if $infos.city.code}
 		<div>{t d='arkeogis' m='Code commune'} : {$infos.city.code}</div>
 		{/if}
-		<div>{t d='arkeogis' m='Coordonnées'} : {$infos.geom[0]} {$infos.geom[1]} {if ($infos.geom[3]) != -999} {$infos.geom[3]}{/if} </div>
+		<div>{t d='arkeogis' m='Coordonnées'} : {$infos.geom[0]} {$infos.geom[1]} </div>
+		{if ($infos.geom[2] != -999)} 
+			<div>{t d='arkeogis' m='Altitude'} : {$infos.geom[2]}</div>
+		{/if}
 	</div>
 
 	{if ($infos.centroid == 1)}
@@ -18,16 +21,35 @@
 	{/if}
 
 	<div class="bluebackground">{t d='arkeogis' m='Occupation du site'}</div>
-	<div class="floatleft">{$infos.occupation}</div>
+	<div class="floatleft">
+		{if ($infos.occupation == 'unknown')}
+			{t d='arkeogis' m='Inconnue'}
+		{else if ($infos.occupation == 'uniq')}
+			{t d='arkeogis' m='Unique'}
+		{else if ($infos.occupation == 'continuous')}
+			{t d='arkeogis' m='Continue'}
+		{else if ($infos.occupation == 'multiple')}
+			{t d='arkeogis' m='Multiple'}
+		{/if}
+	</div>
 
 	<div class="clearfix"></div>
 	
-
-	<div class="periodcharacs">
-
 		{foreach $infos.characteristics as $charac}
+	
+		<div class="periodcharacs">
 
-			<div class="title">{t d='arkeogis' m='Etat des connaissances'}: {$charac.knowledge}</div>
+			<div class="title">{t d='arkeogis' m='Etat des connaissances'}: 
+				{if ($charac.knowledge == 'unknown')}
+					{t d='arkeogis' m='Inconnue'}
+				{else if ($charac.knowledge == 'literature')}
+					{t d='arkeogis' m='Littérature / Prospection'}
+				{else if ($charac.knowledge == 'surveyed')}
+					{t d='arkeogis' m='Sondé'}
+				{else if ($charac.knowledge == 'excavated')}
+					{t d='arkeogis' m='Fouillé'}
+				{/if}
+			</div>
 
 			<div class="title">{t d='arkeogis' m='Période'}</div>
 
@@ -54,7 +76,7 @@
 			</div>
 
 			{if isset($charac.realestate)}
-				<div class="title {if ($charac.furniture_exp)}exceptional{/if}">{t d='arkeogis' m='Immobilier'}</div>
+				<div class="title {if (isset($charac.realestate_exp) && $charac.realestate_exp)}exceptional{/if}">{t d='arkeogis' m='Immobilier'}</div>
 				<div class="blockcharac">
 					{foreach $charac.realestate as $name}
 						<div class="charac">{$name}</div>
@@ -67,7 +89,7 @@
 			{/if}
 
 			{if isset($charac.furniture)}
-				<div class="title {if ($charac.furniture_exp)}exceptional{/if}">{t d='arkeogis' m='Immobilier'}</div>
+				<div class="title {if (isset($charac.furniture_exp) && $charac.furniture_exp)}exceptional{/if}">{t d='arkeogis' m='Immobilier'}</div>
 				<div class="blockcharac">
 					{foreach $charac.furniture as $name}
 						<div class="charac">{$name}</div>
@@ -80,7 +102,7 @@
 			{/if}
 
 			{if isset($charac.production)}
-				<div class="title {if ($charac.production_exp)}exceptional{/if}">{t d='arkeogis' m='Production'}</div>
+				<div class="title {if (isset($charac.production_exp) && $charac.production_exp)}exceptional{/if}">{t d='arkeogis' m='Production'}</div>
 				<div class="blockcharac">
 					{foreach $charac.production as $name}
 						<div class="charac">{$name}</div>
@@ -92,7 +114,21 @@
 				</div>
 			{/if}
 
+			{if isset($charac.bibliography)}
+				<div class="title">{t d='arkeogis' m='Bibliographie'}</div>
+				<div class="blockcharac">
+					<div class="charac">{$charac.bibliography}</div>
+				</div>
+			{/if}
+
+			{if isset($charac.comment)}
+				<div class="title">{t d='arkeogis' m='Bibliographie'}</div>
+				<div class="blockcharac">
+					<div class="charac">{$charac.comment}</div>
+				</div>
+			{/if}
+
+		</div>
 		{/foreach}
-	</div>
 
 </div>

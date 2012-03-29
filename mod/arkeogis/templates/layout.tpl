@@ -24,6 +24,10 @@
 		<div id="top_of_page">
 			<div id="arkeologo">
 			</div>
+			<div id="arkeospinner">
+				<img id="arkeospinnerimg" src="/mod/arkeogis/img/spinner.gif">
+			</div>
+			<div class="clearfix"></div>
 		</div>
 
 		<div class="navbar">

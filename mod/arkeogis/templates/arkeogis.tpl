@@ -2,6 +2,9 @@
 
 {block name='webpage_head' append}
 	{css file="/mod/cssjs/css/Modal.css"}
+	{css file="/mod/cssjs/css/message.css"}
+	{js file="/mod/cssjs/js/messageclass.js"}
+	{js file="/mod/cssjs/js/message.js"}
 	{js file="/pmmenus"}
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/sheet.js"}

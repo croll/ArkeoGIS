@@ -355,7 +355,7 @@ class ArkeoGIS {
 		$geom = json_decode($infos[0]['geom']);
 		$siteInfos['name'] = $infos[0]['name'];
 		$siteInfos['code'] = $infos[0]['code'];
-		$siteInfos['author'] = $infos[0]['author'];
+		$siteInfos['author'] = \mod\user\Main::getUserFullNameById($infos[0]['author']);
 		$siteInfos['geom'] = $geom->coordinates;
 		$siteInfos['centroid'] = $infos[0]['centroid'];
 		$siteInfos['occupation'] = $infos[0]['occupation'];

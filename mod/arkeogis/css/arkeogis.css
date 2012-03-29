@@ -45,7 +45,7 @@ html[xmlns] .clearfix {
  */
 
 #top_of_page {
-	height: 80px;
+	height: 90px;
 	width: 100%;
 }
 #arkeogis_container .navbar .navbar-inner .container, #footer .navbar .navbar .container {
@@ -53,10 +53,22 @@ html[xmlns] .clearfix {
 }
 
 #arkeologo {
+	float: left;
 	width: 264px;
 	height: 56px;
-	margin: 21px 0 0 30px;
+	margin: 22px 0 0 30px;
 	background-image: url("/mod/arkeogis/img/logo.png");
+}
+
+#arkeospinner {
+	display: none;
+	width: 56px;
+	height: 56px;
+	float: left;
+}
+
+#arkeospinnerimg {
+	margin: 21px 0 0 15px;
 }
 
 #content #map_area {

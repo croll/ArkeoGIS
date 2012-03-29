@@ -129,7 +129,6 @@ class Ajax {
 	public static function showsitesheet($params) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
 		$siteInfos = ArkeoGIS::getSiteInfos($params['id']);
-		\core\Core::log($siteInfos);
     $smarty = \mod\smarty\Main::newSmarty();
 		$smarty->assign('infos', $siteInfos);
 		$title = (!empty($siteInfos['name'])) ? $siteInfos['name'] : 'ID: '.$siteInfos['code'];

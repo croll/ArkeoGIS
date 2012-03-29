@@ -2,6 +2,7 @@ var infoWindow = null;
 var map;
 var queryNum = 0;
 var mapMarkers = [];
+var modalWin;
 
 window.addEvent('domready', function() {
 
@@ -111,19 +112,24 @@ window.addEvent('domready', function() {
 		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0)) {
 	var form=buildSelectionObject();
 	} else {
-	    return alert(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
+	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
+			return;
 	}
 	
+	showSpinner();
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
+			hideSpinner();
 		display_query(form);
 		if (res.mapmarkers.length < res.total_count
-		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ?", res.mapmarkers.length, res.total_count))) {
+		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1000 premiers sites.", res.mapmarkers.length, res.total_count))) {
 
 		    // download the sites as csv file
 		    window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(form));
 		    return;
+		} else if (res.mapmarkers.length == 0) {
+			CaptainHook.Message.show(ch_t('arkeogis', 'Aucun résultat'));
 		}
 		$('map_sheet').setStyles({
 		    'display': 'none'
@@ -171,18 +177,22 @@ window.addEvent('domready', function() {
 		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
 		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0)) {
 	} else {
-	    return alert(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
+	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
+			return;
 	}
+	showSpinner();
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthesheet',
 	    'onSuccess': function(res) {
+			hideSpinner();
 		if ((res.sites.length < res.total_count)
 		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous plutôt télécharger la liste au format csv ?", res.sites.length, res.total_count))
 		   ) {
 
 		    // download as csv
 		    window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(form));
-		    
+		} else if (res.mapmarkers.length == 0) {
+			CaptainHook.Message.show(ch_t('arkeogis', 'Aucun résultat'));
 		} else {
 		    show_menu(false);
 		    display_sheet(res.sites);
@@ -232,14 +242,17 @@ window.addEvent('domready', function() {
 
     $$('.btn-querydelete').addEvent('click', function() {
 	var option=$('select-savedqueries').getSelected();
-	if (option.get('value') == '0')
-	    return alert(ch_t('arkeogis', "Vous devez selectionner une requête avant"));
+	if (option.get('value') == '0') {
+	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez selectionner une requête avant"));
+			return;
+	}
 	if (!confirm(ch_t('arkeogis', "Souhaitez-vous vraiment effacer la requête '%s' ?", option.get('text')))) return;
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/deleteQuery',
 	    'onSuccess': function(res) {
 		populateSavedQueriesMenu();
-		alert(ch_t('arkeogis', "Requête '%s' effacée", option.get('text')));
+		CaptainHook.Message.show(ch_t('arkeogis', "Requête '%s' effacée", option.get('text')));
+		return;
 	    }
 	}).post({
 	    'queryid': option.get('value')
@@ -383,7 +396,7 @@ function display_query(query) {
 	    'url': '/ajax/call/arkeogis/saveQuery',
 	    'onSuccess': function(res) {
 		populateSavedQueriesMenu();
-		alert(ch_t('arkeogis', "Requête enregistrée"));
+		CaptainHook.Message.show(ch_t('arkeogis', "Requête enregistrée"));
 	    }
 	}).post({
 	    'name': html.getElement('.input-save-query').get('value'),
@@ -437,7 +450,6 @@ function show_menu(show) {
     });
 }
 
-var modalWin;
 function show_sheet(siteId) {
 	modalWin = new Modal.Base(document.body, {
 		header: "Fiche site",
@@ -463,5 +475,14 @@ function clearMarkers() {
 				m.setMap(null);
 			});
 		});
+		mapMarkers = [];
 	}
+}
+
+function showSpinner() {
+	$('arkeospinner').setStyle('display', 'block');
+}
+
+function hideSpinner() {
+	$('arkeospinner').setStyle('display', 'none');
 }
