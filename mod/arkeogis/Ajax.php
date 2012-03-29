@@ -17,7 +17,7 @@ class Ajax {
 
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
-		$columns="da_id, si_name, si_id, si_code, ST_AsGeoJSON(si_geom) as geom, si_centroid as centroid, (COALESCE(max(sr_exceptional), 0) + COALESCE(max(sf_exceptional), 0) + COALESCE(max(sp_exceptional), 0)) as exceptional, array_agg(sp_knowledge_type) as knowledge, ";
+		$columns="da_id, da_name, si_name, si_id, si_code, ST_AsGeoJSON(si_geom) as geom, si_centroid as centroid, (COALESCE(max(sr_exceptional), 0) + COALESCE(max(sf_exceptional), 0) + COALESCE(max(sp_exceptional), 0)) as exceptional, array_agg(sp_knowledge_type) as knowledge, ";
     $columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_start)) AS period_start, ";
     $columns.="array_agg((SELECT pe_name_$lang FROM ark_period WHERE pe_id=sp_period_start)) AS period_start_label, ";
     $columns.="array_agg((SELECT node_path FROM ark_period WHERE pe_id=sp_period_end)) AS period_end, ";
@@ -35,19 +35,29 @@ class Ajax {
                               ));
 		$total_count=$res['total_count'];
 		$sites=&$res['sites'];
+		$sites=&$res['sites'];
+
+		$strings=ArkeoGIS::load_strings();
+    foreach($sites as $k => $row) {
+      $sites[$k]['realestate'] = implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), ';');
+      $sites[$k]['furniture'] = implode(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), ';');
+      $sites[$k]['production'] = implode(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), ';');
+    }
 		$mapMarkers = array();
 
 		foreach($sites as $site) {
 			$coords = json_decode($site['geom'], true);
-			$content = "<div>".trim($site["period_start_label"], '{}"')." - ".trim($site["period_end_label"], '{}"')."</div>";
+			$title = '<div><b>'.((!empty($site['si_name'])) ? $site['si_name'] : 'ID: '.$site['si_code']).'</b></div>';
+			$content = "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Base de donnée').": </b>$site[da_name]</div>";
+			$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Période').': </b>'.trim($site["period_start_label"], '{}"')." - ".trim($site["period_end_label"], '{}"')."</div>";
 			if (!empty($site['realestate']) && !strstr($site['realestate'], 'NULL')) {
-				$content .= "<div>$site[realestate]</div>";
+				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Immobilier').": </b>$site[realestate]</div>";
 			} else if (!empty($site['furniture']) && !strstr($site['furniture'], 'NULL')) {
-				$content .= "<div>$site[furniture]</div>";
+				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Mobilier').": </b>$site[furniture]</div>";
 			} else if (!empty($site['production']) && !strstr($site['production'], 'NULL')) {
-				$content .= "<div>$site[production]</div>";
+				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Production').": </b>$site[production]</div>";
 			}
-			$popupParams = array('title' => (!empty($site['si_name']) ? $site['si_name'] : $site['si_code']), 'content' => $content);
+			$popupParams = array('title' => $title, 'content' => $content);
 			$shapes = array('circle', 'square', 'triangle', 'diamond', 'parallelogram', 'trianglerectangle', 'rectangle' , 'trianglerectangleinverted');
 			$m = \mod\arkeogis\ArkeoGIS::getMarker($site['si_id'], $shapes[$queryNum-1], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
 			$mapMarkers[] = $m;
