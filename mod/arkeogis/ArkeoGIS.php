@@ -94,7 +94,7 @@ class ArkeoGIS {
 		if (isset($search['period_include']) && count($search['period_include'])) {
       $where.=' AND (0=1 ';
 			foreach($search['period_include'] as $period) {
-				$where.=' OR sp_period_start >= ? AND sp_period_end <= ?';
+				$where.=' OR sp_period_start <= ? AND sp_period_end >= ?';
 				$args[]=$period;
 				$args[]=$period;
 			}
@@ -104,7 +104,7 @@ class ArkeoGIS {
 		if (isset($search['period_exclude']) && count($search['period_exclude'])) {
       $where.=' AND (sp_period_start IS NULL ';
 			foreach($search['period_exclude'] as $period) {
-				$where.=' OR NOT (sp_period_start >= ? AND sp_period_end <= ?)';
+				$where.=' OR NOT (sp_period_start <= ? AND sp_period_end >= ?)';
 				$args[]=$period;
 				$args[]=$period;
 			}
@@ -355,7 +355,7 @@ class ArkeoGIS {
 		$geom = json_decode($infos[0]['geom']);
 		$siteInfos['name'] = $infos[0]['name'];
 		$siteInfos['code'] = $infos[0]['code'];
-		$siteInfos['author'] = $infos[0]['author'];
+		$siteInfos['author'] = \mod\user\Main::getUserFullNameById($infos[0]['author']);
 		$siteInfos['geom'] = $geom->coordinates;
 		$siteInfos['centroid'] = $infos[0]['centroid'];
 		$siteInfos['occupation'] = $infos[0]['occupation'];
@@ -378,6 +378,8 @@ class ArkeoGIS {
 			$datas['start'] = Arkeogis::node_path_to_array($pInfos['period_start_path'], $strings['period']);
 			$datas['end'] = Arkeogis::node_path_to_array($pInfos['period_end_path'], $strings['period']);
 			$datas['knowledge'] = $pInfos['knowledge'];
+			$datas['comment'] = $pInfos['comment'];
+			$datas['bibliography'] = $pInfos['bibliography'];
 			if (!empty($pInfos['realestate_path'])) {
 				$datas['realestate'] = Arkeogis::node_path_to_array($pInfos['realestate_path'], $strings['realestate']);
 				$datas['realestate_exp'] = $pInfos['sr_exceptional'];

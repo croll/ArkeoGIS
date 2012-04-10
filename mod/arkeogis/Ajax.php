@@ -67,7 +67,7 @@ class Ajax {
 
 	public static function showthesheet($search) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
-    $columns="ark_site.si_id, da_name, ci_name, si_name, ";
+    $columns="ark_site.si_id, da_name, si_city_name, si_name, ";
 		$columns.="(SELECT pe_name_fr||'/'||pe_name_de FROM ark_period WHERE pe_id=min(sp_period_start)) AS period_start, ";
 		$columns.="(SELECT pe_name_fr||'/'||pe_name_de FROM ark_period WHERE pe_id=max(sp_period_end)) AS period_end, ";
 		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id)) as realestate, ";
@@ -75,7 +75,6 @@ class Ajax {
 		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id)) as production";
     $res=ArkeoGIS::search_sites($search, $columns, array(
                                   'ark_database' => true,
-                                  'ark_city' => true,
                                   'ark_siteperiod_production' => true,
                                   'ark_siteperiod_furniture' => true,
                                   'ark_siteperiod_realestate' => true
@@ -129,7 +128,6 @@ class Ajax {
 	public static function showsitesheet($params) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
 		$siteInfos = ArkeoGIS::getSiteInfos($params['id']);
-		\core\Core::log($siteInfos);
     $smarty = \mod\smarty\Main::newSmarty();
 		$smarty->assign('infos', $siteInfos);
 		$title = (!empty($siteInfos['name'])) ? $siteInfos['name'] : 'ID: '.$siteInfos['code'];
