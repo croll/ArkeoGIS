@@ -102,6 +102,12 @@ class DatabaseImport {
 				continue;
 			}
 
+			# 10 z
+			if (!empty($datas[10]) && is_string($datas[10])) {
+				self::_addError('Altitude invalid: String provided, Int expected: '.$datas[10]);
+				continue;
+			}
+
 			 // Site not already processed
 			if (!isset(self::$_stored[self::$_current['code']])) {
 
