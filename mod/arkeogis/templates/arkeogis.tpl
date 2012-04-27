@@ -116,7 +116,7 @@
                   </div>
 		  <div class='query-header-buttons'>
 			<button class='btn-success btn-print'>{t d='arkeogis' m='Imprimer'}</button>
-			<button class='btn-success btn-export'>{t d='arkeogis' m='Exporter'}</button>
+			<button class='btn-success btn-export' {if !$canexport}style='display:none'{/if}>{t d='arkeogis' m='Exporter'}</button>
 		  </div>
                 </div>
 		<div class='query-filters-border'>

@@ -98,6 +98,9 @@ class Ajax {
   public static function saveQuery($params) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
+    $count=\core\Core::$db->fetchOne("SELECT count(*) FROM ark_savedquery WHERE id_user=? AND name=?",
+                                     array($uid, $params['name']));
+    if ($count) return 'duplicate';
     \core\Core::$db->exec("INSERT INTO ark_savedquery (id_user, name, query) VALUES (?,?,?)",
                           array($uid, $params['name'], $params['query']));
     return 'ok';

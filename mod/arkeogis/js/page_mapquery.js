@@ -251,7 +251,9 @@ window.addEvent('domready', function() {
 	    'url': '/ajax/call/arkeogis/deleteQuery',
 	    'onSuccess': function(res) {
 		populateSavedQueriesMenu();
-		CaptainHook.Message.show(ch_t('arkeogis', "Requête '%s' effacée", option.get('text')));
+		if (res == 'ok')
+		    CaptainHook.Message.show(ch_t('arkeogis', "Requête '%s' effacée", option.get('text')));
+		else alert('problem');
 		return;
 	    }
 	}).post({
@@ -396,7 +398,12 @@ function display_query(query) {
 	    'url': '/ajax/call/arkeogis/saveQuery',
 	    'onSuccess': function(res) {
 		populateSavedQueriesMenu();
-		CaptainHook.Message.show(ch_t('arkeogis', "Requête enregistrée"));
+		if (res == 'ok')
+		    CaptainHook.Message.show(ch_t('arkeogis', "Requête enregistrée"));
+		else if (res == 'duplicate')
+		    alert(ch_t('arkeogis', "Une requête '%s' existe déjà sous ce nom",
+			       html.getElement('.input-save-query').get('value')));
+		else alert('problem');
 	    }
 	}).post({
 	    'name': html.getElement('.input-save-query').get('value'),

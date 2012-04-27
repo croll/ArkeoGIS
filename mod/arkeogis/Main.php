@@ -10,6 +10,9 @@ class Main {
       // get lang
       $lang=\mod\lang\Main::getCurrentLang();
       $page->smarty->assign('lang', $lang);
+      $page->smarty->assign('canexport',
+                            \mod\user\Main::userBelongsToGroup('Admin')
+                            || \mod\user\Main::userBelongsToGroup('Chercheur'));
       $page->setLayout('arkeogis/arkeogis');
       $page->display();
     } else {
@@ -29,6 +32,7 @@ class Main {
     $page->setLayout('arkeogis/public');
     $page->display();
   }
+
   public static function hook_mod_arkeogis_exemple($hookname, $userdata) {
     $page = new \mod\webpage\Main();
     // get lang
@@ -37,6 +41,7 @@ class Main {
     $page->setLayout('arkeogis/exemple');
     $page->display();
   }
+
   public static function hook_mod_arkeogis_manuel($hookname, $userdata, $matches) {
     $page = new \mod\webpage\Main();
     // get lang
@@ -51,6 +56,17 @@ class Main {
     $page->setLayout('arkeogis/manuel');
     $page->display();
   }
+
+  public static function display_html_error($error) {
+    $page = new \mod\webpage\Main();
+    // get lang
+    $lang=\mod\lang\Main::getCurrentLang();
+    $page->smarty->assign('lang', $lang);
+    $page->smarty->assign('error', $error);
+    $page->setLayout('arkeogis/error');
+    $page->display();
+  }
+
   public static function hook_mod_arkeogis_directory($hookname, $userdata) {
    
     if (!\mod\user\Main::userIsLoggedIn()) {
@@ -231,6 +247,9 @@ class Main {
   public static function hook_mod_arkeogis_export_sheet($hookname, $userdata) {
     if (!\mod\user\Main::userIsLoggedIn())
 			return self::hook_mod_arkeogis_public($hookname, $userdata);
+
+    if (!\mod\user\Main::userBelongsToGroup('Admin') && !\mod\user\Main::userBelongsToGroup('Chercheur'))
+      return self::display_html_error(\mod\lang\Main::ch_t('arkeogis', "Vous n'avez pas la permission de télécharger au format csv"));
 
 		$q=json_decode($_REQUEST['q'], true);
 		
