@@ -1,5 +1,8 @@
 {extends tplextends('arkeogis/layout')}
-
+{block name='webpage_head' append}
+{js file="/mod/user/js/user.js"}
+{css file="/mod/user/css/user.css"}
+{/block}	
 {block name='user_menu' append}
 		{if $user.uid !=0} 
 		<li><a  href="/user/{$user.sysname}"><i class="icon-eye-open glyph-white"></i>  {t d='user' m='View'}</a></li>
