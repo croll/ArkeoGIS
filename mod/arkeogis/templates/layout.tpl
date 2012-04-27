@@ -13,7 +13,6 @@
 	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap.css"}
 	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap-responsive.css"}
 	{css file="/mod/cssjs/css/mypaginate.css"}
-	{css file="/mod/cssjs/css/captainhook.css"}
 	{css file="/mod/page/css/page.css"}
 	{css file="/mod/arkeogis/css/arkeogis.css"}
 {/block}
@@ -41,7 +40,7 @@
 							{if \mod\user\Main::userhasRight('View databases') }
 							<li><a href="/">{t d='arkeogis' m='Carte'}</a></li>
 							{/if}
-							<li><a href="/manuel/">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
+							<li><a href="/manuel/" target="_blank">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
 								
 							{if \mod\user\Main::userhasRight('Manage personal database') || \mod\user\Main::userhasRight('Manage all databases')}
 							<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
