@@ -17,6 +17,15 @@
 	{css file="/mod/arkeogis/css/arkeogis.css"}
 {/block}
 
+{block name='webpage_head'}
+	<meta charset="utf-8">
+  <title>ArkeoGIS</title>
+  <link rel="shortcut icon" href="/mod/arkeogis/img/favicon.ico" type="image/x-icon" />
+  <!--[if lt IE 9]>
+    <script src="/mod/cssjs/ext/html5shiv/html5.js"></script>
+  <![endif]-->
+{/block}
+
 {block name='webpage_body'}
 	<div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 950px;"{/if}>
 
