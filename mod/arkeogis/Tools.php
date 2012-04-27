@@ -36,11 +36,11 @@ class Tools {
 			return NULL;
 		return array('x' => $m[1], 'y' => $m[2]);
 	}
-	private static function getUserGroups($uid) {
+	public static function getUserGroups($uid) {
 	return  implode('' , \mod\user\Main::getUserGroups($uid, 'name'));
     	}
     
-	private static function getUserDatabases($uid) {
+	public static function getUserDatabases($uid) {
     		$db=\core\Core::$db;
 		$dbs = $db->fetchAll('SELECT "da_name" FROM "ark_database" WHERE "da_owner_id"=?', array($uid));
 		$dbstring='';
