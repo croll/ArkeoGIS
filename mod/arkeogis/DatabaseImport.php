@@ -15,7 +15,7 @@ class DatabaseImport {
 	private static $_lang; 
 	private static $_strings;
 
-	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr') {
+	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $description='') {
 
 		self::$_lang = $lang;
 		$numProcessed = 0;
@@ -94,7 +94,7 @@ class DatabaseImport {
 			if (!isset($datas[1])) continue;
 
 			# 1 : Database
-			self::_processDatabaseName($datas[1], $uid);
+			self::_processDatabaseName($datas[1], $description, $uid);
 
 			# 0 : Site ID
 			if (!self::_processSiteId($datas[0])) {
@@ -439,7 +439,7 @@ class DatabaseImport {
 		return true;
 	}
 
-	private static function _processDatabaseName($dbName, $ownerId) {
+	private static function _processDatabaseName($dbName, $description, $ownerId) {
 		// Db name provided
 		if (!empty($dbName)) {
 			// we check if it matches previously stored db dbName
@@ -466,7 +466,7 @@ class DatabaseImport {
 				self::$_database['name'] = $dbName;
 			} else {
 				try {
-					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName, '', $ownerId);
+					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName, $description, $ownerId);
 					self::$_database['name'] = $dbName;
 				} catch (\Exception $e) {
 					self::_addError("Unable to register database name $dbName: ".$e->getMessage());
