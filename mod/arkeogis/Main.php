@@ -130,8 +130,8 @@ class Main {
     $q .=" LIMIT ? OFFSET ?";
     $list = $db->fetchAll($q, $dbParams);
     for($i=0; $i<count($list); $i++) {
-		$list[$i]['groups'] = self::getUserGroups($list[$i]['uid']);
-		$list[$i]['databases'] = self::getUserDatabases($list[$i]['uid']);
+		$list[$i]['groups'] = \mod\arkeogis\Tools::getUserGroups($list[$i]['uid']);
+		$list[$i]['databases'] = \mod\arkeogis\Tools::getUserDatabases($list[$i]['uid']);
 
     }
     $quant=$db->fetchOne("SELECT count(u.uid) as quant from ch_user u where uid > ? ", array(1));
@@ -160,26 +160,7 @@ class Main {
 		$q =" ORDER BY ".$sorted;
 		return $q;
    } 
-    private static function getUserGroups($uid) {
-    	$db=\core\Core::$db;
-	$groups = \mod\user\Main::getUserGroups($uid, 'name');
-	$gstring='';
-	foreach ($groups as $key) {
-		$gstring .= ' '.$key;
-	}
-	return $gstring;
-    }
-    private static function getUserDatabases($uid) {
-    	$db=\core\Core::$db;
-	$dbs = $db->fetchAll('SELECT "da_name" FROM "ark_database" WHERE "da_owner_id"=?', array($uid));
-	$dbstring='';
-	foreach ($dbs as $key) {
-		$dbstring .= $key['da_name'].',';
-	}
-	return $dbstring;
-    }
-
-    private static function load_menus() {
+        private static function load_menus() {
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
     
