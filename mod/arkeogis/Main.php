@@ -126,7 +126,7 @@ class Main {
     $dbParams[]=(int)$offset;
     $q='SELECT "uid", "login", "full_name", "email" FROM "ch_user" u WHERE u.uid > ?';	
     $q .= $mid;
-    $q .= self::order_by($sort);
+    $q .= \mod\arkeogis\Tools::order_by($sort);
     $q .=" LIMIT ? OFFSET ?";
     $list = $db->fetchAll($q, $dbParams);
     for($i=0; $i<count($list); $i++) {
@@ -150,16 +150,7 @@ class Main {
     $page->setLayout('arkeogis/directory');
     $page->display();
     }
-    private function dbSort($sort) {
-		$s=explode('_',$sort);
-		$s[1]=strtoupper($s[1]);
-		return $s[0]." ".$s[1];
-    }
-    private function order_by($sort) {
-		$sorted = self::dbSort($sort);
-		$q =" ORDER BY ".$sorted;
-		return $q;
-   } 
+    
         private static function load_menus() {
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
