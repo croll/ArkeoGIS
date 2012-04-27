@@ -404,14 +404,14 @@ class ArkeoGIS {
 	public static function getMarker($siteId, $shape, $geometry, $knowledge, $period, $exceptional, $centroid, $popupParams) {
 
 		$colors[1]   = '#cbcbcb';
-		$colors[2]   = '#8c8c8c';
+		$colors[2]   = '#b03fc1';
 		$colors[3]   = array('#005702', '#176619', '#468547', '#5D945E');
 		$colors[36]  = array('#000099', '#1717A2', '#2E2EAC', '#4646B5');
 		$colors[92]  = array('#FF0000', '#FF1717', '#FF2E2E', '#FF4646');
 		$colors[103] = array('#FFFF00', '#FFFF17', '#FFFF2E', '#FFFF46');
 		$colors[115] = array('#330000', '#461717', '#582E2E', '#6B4646');
-		$colors[130] = '#646263';
-		$colors[140] = '#474747';
+		$colors[120] = '#00B5B3';
+		$colors[121] = '#FFB135';
 
 		$params['geometry'] = $geometry;
 

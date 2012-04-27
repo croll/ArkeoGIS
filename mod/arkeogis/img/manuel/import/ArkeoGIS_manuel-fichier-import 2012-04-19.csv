@@ -1,0 +1,26 @@
+"Francais";"SITE_ID_SOURCE";"BASE_SOURCE";"NOM_SITE";"NOM_COMMUNE_PRINCIPALE";"CODE_COMMUNE";"SYSTEME_PROJECTION";"LONGITUDE_Y";"LATITUDE_X";"LONGITUDE_Y_BIS";"LATITUDE_X_BIS";"ALTITUDE_Z";"CENTRE_COMMUNE";"ETAT_CONNAISSANCES";"OCCUPATION";"DATATION_DEBUT_PLUS_FINE";"DATATION_FIN_PLUS_FINE";"IMMO_NIV1";"IMMO_NIV2";"IMMO_NIV3";"IMMO_NIV4";"PROFONDEUR_VESTIGES";"IMMO_EXP";"MOB_NIV1";"MOB_NIV2";"MOB_NIV3";"MOB_NIV4";"MOB_EXP";"PROD_NIV1";"PROD_NIV2";"PROD_NIV3";"PROD_EXP";"BIBLIOGRAPHIE";"REMARQUES"
+"Allemand";"ADEX_ID";"DAT_QUELLE";"BEZEICHNG";"GDE_NAME";"GDE_KENN";"KOO_REFSYS";"X_VON";"Y_VON";"X_BIS";"Y_BIS";"  ";"GENAUIGK";"BEGRUENDUNG";"PHASE";"DAT_FEIN";;;;;;"Tiefe der Befunde";;;;;;;;;;;"LITERATUR";"LISTENTEXT"
+"Requête";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";;"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";;"oui/ja/yes";;"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";;"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes";"oui/ja/yes"
+"Valeur du champ : Une valeur inconnue doit être renseignée soit par un champ laissé vide soit par la valeur NULL ne pas utiliser le « 0 » qui est une valeur.";"Alphanumérique";"Alphanumérique ";"Alphanumérique";"Alphanumérique";"Numérique";" Code epsg du systéme utilisé";"Numérique A renseigné si coordonnées d'un point si surface indique le point supérieur gauche soit le nord-ouest  ";" Numérique A renseigné si coordonnées d'un point si surface indique le point supérieur gauche soit le nord-ouest ";" Numérique A laissé vide si coordonnées d'un point si surface indique le point inférieur droit soit le sud est.";" Numérique A laissé vide si coordonnées d'un point si surface indique le point inférieur droit soit le sud est.";"Numérique C'est l'Altitude, la plus haute du site qui est retenue et exprimée en métre.";"Oui–Non / Ja-Nein 
+ Par défaut  non";"Non renseigné / Unbestimmt 
+Littérature, prospecté / Literatur, Lesefund
+Sondé / Sondiert
+Fouillé / Ausgegraben";"Non-renseigné / Unbestimmt 
+Unique (par défaut) / Einzelphase
+Continue (plusieurs périodes contiguës) / Durchgehend
+Multiple (plusieur periodes indépendantes) / Mehrphasig";"Doit reprendre exactement le libellé du formulaire à l'exclusion des informations entre parenthèses Hormis les sites de périodes «Indéterminé»  «Néolithique» « Moderne » ou « Contemporaine » de niv1 la datation sera obligatoirement au moins de niveau 2.";"Doit reprendre exactement le libellé du formulaire à l'exclusion des informations entre parenthèses Hormis les sites de périodes « Indéterminé », « Néolithique », « Moderne » ou « Contemporaine » de niv1 la datation sera obligatoirement au moins de niveau 2.";"
+Doit reprendre exactement le libellé du formulaire.";"
+Doit reprendre exactement le libellé du formulaire, le niveau précédent doit être obligatoirement renseigné.";"
+Doit reprendre exactement le libellé du formulaire, le niveau précédent doit être obligatoirement renseigné.";"
+Doit reprendre exactement le libellé du formulaire, le niveau précédent doit être obligatoirement renseigné.";"Numérique Exprimé en centimètre doit être supérieur ou égal à 10.";"Oui–Non / Ja-Nein 
+ Par défaut non";"
+Doit reprendre exactement le libellé du formulaire.";"
+Doit reprendre exactement le libellé du formulaire, le niveau précédent doit être obligatoirement renseigné.";"
+Doit reprendre exactement le libellé du formulaire, le niveau précédent doit être obligatoirement renseigné.";"
+Doit reprendre exactement le libellé du formulaire, le niveau précédent doit être obligatoirement renseigné.";"Oui–Non / Ja-Nein 
+ Par défaut non";"
+Doit reprendre exactement le libellé du formulaire.";"
+Doit reprendre exactement le libellé du formulaire, le niveau précédent doit être obligatoirement renseigné.";"
+Doit reprendre exactement le libellé du formulaire, le niveau précédent doit être obligatoirement renseigné.";"Oui–Non / Ja-Nein 
+ Par défaut non";"Texte/Textfeld";"Texte/Textfeld"
+"Présence du champ ";"  OBLIGATOIRE";"OBLIGATOIRE";;"OBLIGATOIRE";"OBLIGATOIRE si pas de coordonées pour le site";"OBLIGATOIRE si vide Code epsg du WGS84";"OBLIGATOIRE si pas centre commune.";"OBLIGATOIRE si pas centre commune.";"OBLIGATOIRE si surface.";"OBLIGATOIRE si surface.";;;"OBLIGATOIRE Une des propositions";"OBLIGATOIRE Une des propositions";"OBLIGATOIRE pour le premier enregistrement du site.";"OBLIGATOIRE pour le premier enregistrement du site.";"OBLIGATOIRE";"au ";"moins";"une";"caractérisation";"immobilière,";"mobilière";"ou";"production";"pour ";"procéder";"à ";"l'enregistrement";"du ";"site.";;
