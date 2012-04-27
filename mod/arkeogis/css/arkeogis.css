@@ -670,3 +670,8 @@ div.filtercontent .filter-minus {
 #sitesheet .periodcharacs .exceptional {
 	border: 1px solid #ff8888;
 }
+
+.import-db-description {
+	width: 500px;
+	height: 160px;
+}

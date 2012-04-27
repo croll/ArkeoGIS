@@ -6,6 +6,11 @@
 	"enctype" : "multipart/form-data",
 	"elements" : 
 	[
+		{	"type" : "textarea",
+			"name" : "description",
+			"value" : "",
+			"class" : "import-db-description"
+		},
 		{	"type" : "text",
 			"name" : "separator",
 			"value" : ";",

@@ -39,7 +39,7 @@
 							<li><a href="/public">{t d='arkeogis' m='Accueil'}</a></li>
 
 							{if \mod\user\Main::userhasRight('View databases') }
-							<li><a href="/">{t d='arkeogis' m='Cartographie'}</a></li>
+							<li><a href="/">{t d='arkeogis' m='Carte'}</a></li>
 							{/if}
 							<li><a href="/manuel/">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
 								

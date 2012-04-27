@@ -8,6 +8,13 @@
 			<fieldset>
 				<legend>{t d='arkeogis' m="Import d'une base"}</legend>
 				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Description de la base"}</label>
+					<div class="controls">
+					{$dbUpload.description}
+					<p class="help-block">{t d='arkeogis' m="Vous pouvez présenter en quelques lignes votre base de donnée."}</p>	
+					</div>
+				</div>
+				<div class="control-group">
 					<label class="control-label">{t d='arkeogis' m="Séparateur"}</label>
 					<div class="controls">
 					{$dbUpload.separator}
