@@ -8,6 +8,9 @@
 
 
 #slider-component .row {
+	min-height: 580px;
+}
+#slider-component .row {
 	margin: 0;
 	height: 20em;
 	background: transparent none;
