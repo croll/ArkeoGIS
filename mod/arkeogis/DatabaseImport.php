@@ -389,7 +389,10 @@ class DatabaseImport {
 				foreach($periods as $period) {
 
 					$md5Period = self::$_current['code'].$period[0].$period[1];
-					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['siteId'], $period[0], $period[1]);
+					if (!isset(self::$_current['siteId']))
+						$existing = null;
+					else
+						$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['siteId'], $period[0], $period[1]);
 					if (!empty($existing)) {
 						self::$_cache['siteperiod'][$md5Period] = $existing;
 					} else {
