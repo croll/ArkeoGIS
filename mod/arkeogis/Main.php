@@ -40,7 +40,7 @@ class Main {
   public static function hook_mod_arkeogis_manuel($hookname, $userdata, $matches) {
     $page = new \mod\webpage\Main();
     // get lang
-    if($matches[1]== NULL) {
+    if(!isset($matches[1]) || $matches[1]== NULL) {
 	$tab="requetes";
     } else {
 	$tab = $matches[1];
