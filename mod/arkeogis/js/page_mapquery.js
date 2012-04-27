@@ -449,12 +449,15 @@ function populateSavedQueriesMenu() {
 var menu_showing=true;
 function show_menu(show) {
     menu_showing=show;
-    $('map_menu').setStyles({
-	'display': menu_showing ? '' : 'none'
-    });
-    $('onglet').setStyles({
-	'left': menu_showing ? '' : '0'
-    });
+		if (menu_showing) {
+			document.body.getElement('div[id=onglet] i').removeClass('icon-chevron-right').addClass('icon-chevron-left');
+			$('onglet').setStyle('left', '');
+			$('map_menu').setStyle('display', '');
+		} else {
+			document.body.getElement('div[id=onglet] i').removeClass('icon-chevron-left').addClass('icon-chevron-right');
+			$('onglet').setStyle('left', 0);
+			$('map_menu').setStyle('display', 'none');
+		}
 }
 
 function show_sheet(siteId) {

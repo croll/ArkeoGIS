@@ -87,15 +87,18 @@ html[xmlns] .clearfix {
   left: 307px;
   top: 30px;
   width: 22px;
-  height: 50px;
+  height: 30px;
   cursor: pointer;
-
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   -moz-box-shadow: 1px 1px 12px #555;
   -webkit-box-shadow: 1px 12px 20px #555;
   box-shadow: 1px 1px 12px #555;
+}
+
+#content #onglet i {
+	margin: 7px 0 0 5px;
 }
 
 #content #onglet:hover { 
