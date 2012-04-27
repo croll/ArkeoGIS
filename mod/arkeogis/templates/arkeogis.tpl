@@ -64,21 +64,21 @@
 					*}
 
 					 <tr class="menu_realestate">
-						<td class='exceptionnel'><div><input type='checkbox' id='ex_realestate' value='1'/></div></td>
 						<td><div id='menu_realestate' style='position: relative'></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_realestate' value='1'/></div></td>
 					 </tr>
 					 <tr class="menu_furniture">
-						<td class='exceptionnel'><div><input type='checkbox' id='ex_furniture' value='1'/></div></td>
 						<td><div id='menu_furniture' style='position: relative'></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_furniture' value='1'/></div></td>
 					 </tr>
 					 <tr class="menu_production">
-						<td class='exceptionnel'><div><input type='checkbox' id='ex_production' value='1'/></div></td>
 						<td><div id='menu_production' style='position: relative'></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_production' value='1'/></div></td>
 					 </tr>
 
 					 <tr class="title_exceptionnels">
+						<td class="text_exceptionnels">{t d='arkeogis' m="Sites exceptionnels"}</td>
 						<td class="fleche_exceptionnels"></td>
-						<td style="height:32px">{t d='arkeogis' m="Sites exceptionnels"}</td>
 					 </tr>
 
 					 <tr class="buttons">
