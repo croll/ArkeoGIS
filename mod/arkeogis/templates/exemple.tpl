@@ -10,15 +10,15 @@
 	<div id="slider-component" >
 		<div id="request" class="row selected">
 			<h2>{t d='arkeogis' m='Requêtes'}</h2>
-			<img src="/mod/arkeogis/img/slide/requete.jpg" />
+			<img src="/mod/arkeogis/img/slide/requete.png" />
 		</div>
 		<div id="maps" class="row">
 			<h2>{t d='arkeogis' m='Maps'}</h2>
-			<img src="/mod/arkeogis/img/slide/maps.jpg" />
+			<img src="/mod/arkeogis/img/slide/map.png" />
 		</div>
 		<div id="fiche" class="row">
 			<h2>{t d='arkeogis' m='Fiche'}</h2>
-			<img src="/mod/arkeogis/img/slide/fiche.jpg" />
+			<img src="/mod/arkeogis/img/slide/fiche.png" />
 		</div>
 	</div>
 </div>

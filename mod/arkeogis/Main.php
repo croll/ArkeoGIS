@@ -84,9 +84,35 @@ class Main {
     if (!isset($sort)) $sort="login_asc";		
     if (!isset($maxrow)) $maxrow= 10;		
     if (!isset($offset)) $offset= 0;
-		
+    		
     $db=\core\Core::$db;
-    $list = $db->fetchAll("SELECT uid, login, full_name, email  from ch_user u where u.uid > ?", array(1));
+    $dbPParams=array(); 
+    $dbParams[]=1;
+    $mid = "";
+    if (isset($filter)) {
+	$filters = split('@', $filter);
+	for($i=0; $i<count($filters); $i++) {
+		//var_dump($filters);
+		$fd=split(':', $filters[$i]);
+		if ($fd[0] == 'login') {
+		 	$mid .=" AND u.login like ?";	
+			$dbParams[]=$fd[1];
+		} else if ($fd[0] == 'full_name') {
+		 	$mid .=" AND u.full_name like ?";	
+			$dbParams[]=$fd[1];
+		} else if ($fd[0] == 'email') {
+		 	$mid .=" AND u.email like ?";	
+			$dbParams[]=$fd[1];
+		}
+	}
+    }
+    $dbParams[]=(int)$maxrow;
+    $dbParams[]=(int)$offset;
+    $q='SELECT "uid", "login", "full_name", "email" FROM "ch_user" u WHERE u.uid > ?';	
+    $q .= $mid;
+    $q .= self::order_by($sort);
+    $q .=" LIMIT ? OFFSET ?";
+    $list = $db->fetchAll($q, $dbParams);
     for($i=0; $i<count($list); $i++) {
 		$list[$i]['groups'] = self::getUserGroups($list[$i]['uid']);
 		$list[$i]['databases'] = self::getUserDatabases($list[$i]['uid']);
@@ -108,6 +134,16 @@ class Main {
     $page->setLayout('arkeogis/directory');
     $page->display();
     }
+    private function dbSort($sort) {
+		$s=explode('_',$sort);
+		$s[1]=strtoupper($s[1]);
+		return $s[0]." ".$s[1];
+    }
+    private function order_by($sort) {
+		$sorted = self::dbSort($sort);
+		$q =" ORDER BY ".$sorted;
+		return $q;
+   } 
     private static function getUserGroups($uid) {
     	$db=\core\Core::$db;
 	$groups = \mod\user\Main::getUserGroups($uid, 'name');
