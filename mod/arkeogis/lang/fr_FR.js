@@ -121,5 +121,6 @@
   "Aucun r\u00e9sultat" : "Aucun r\u00e9sultat",
   "(exceptionals only)" : "(exceptionals only)",
   "Error" : "Error",
-  "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv" : "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv"
+  "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv" : "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv",
+  "Documents" : "Documents"
 }

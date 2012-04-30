@@ -3,12 +3,9 @@
 namespace mod\arkeogis;
 
 class Ajax {
-	public static function getDbDesc($arkDb) {
-		// get ark_database decription 
+	public static function getDbDesc($params) {
     		if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
-		
-    		return \core\Core::$db->fetchOne("Select da_description FROM ark_database WHERE da_name =?",array($arkDb));
-
+    		return \core\Core::$db->fetchOne("Select da_description FROM ark_database WHERE da_name =?",array($params['dbname']));
 	}
 	public static function showthemap($params) {
 		$search = $params['search'];

@@ -103,7 +103,8 @@ class DatabaseImport {
 			}
 
 			# 10 z
-			if (!empty($datas[10]) && is_string($datas[10])) {
+			$datas[10] = trim($datas[10]);
+			if (!empty($datas[10]) && !preg_match('/^[0-9]+$/', $datas[10])) {
 				self::_addError('Altitude invalid: String provided, Int expected: '.$datas[10]);
 				continue;
 			}
@@ -467,6 +468,9 @@ class DatabaseImport {
 			if (!empty($dbId)) {
 				self::$_database['id'] = $dbId;
 				self::$_database['name'] = $dbName;
+				if (!empty($description)) {
+						\mod\arkeogis\ArkeoGIS::addDatabase($dbId, $description);
+				}
 			} else {
 				try {
 					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName, $description, $ownerId);
