@@ -460,11 +460,14 @@ class ArkeoGIS {
 
 // usefull for debugging...
 function sqltostr($query, $args) {
+	$f=fopen("/tmp/debug-arkeogis.txt", 'a');
   $argc=0;
   $res='';
   for ($i=0; $i<strlen($query); $i++) {
     if ($query[$i] == '?') $res.=\core\Core::$db->quote($args[$argc++]);
     else $res.=$query[$i];
   }
+	fprintf($f, "\n%s:\n%s\n", date('r'), $res);
+	fclose($f);
   return $res;
 }

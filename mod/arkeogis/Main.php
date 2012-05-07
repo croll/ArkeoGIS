@@ -216,14 +216,14 @@ class Main {
     }
   }
 
-  public static function hook_mod_arkeogis_export_sheet($hookname, $userdata) {
+  public static function hook_mod_arkeogis_export_sheet($hookname, $userdata, $urlmatches) {
     if (!\mod\user\Main::userIsLoggedIn())
 			return self::hook_mod_arkeogis_public($hookname, $userdata);
 
     if (!\mod\user\Main::userBelongsToGroup('Admin') && !\mod\user\Main::userBelongsToGroup('Chercheur'))
       return self::display_html_error(\mod\lang\Main::ch_t('arkeogis', "Vous n'avez pas la permission de télécharger au format csv"));
 
-		$q=json_decode($_REQUEST['q'], true);
+		$q=json_decode(urldecode($urlmatches[1]), true);
 		
 		$columns="ark_site.si_id, si_code, si_name, si_description, si_city_id, ST_AsGeoJSON(si_geom) as coords, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
 		$columns.=", ci_code, ci_name, ci_country, ci_geom"; // ark_city
