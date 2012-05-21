@@ -3,12 +3,9 @@
 namespace mod\arkeogis;
 
 class Ajax {
-	public static function getDbDesc($arkDb) {
-		// get ark_database decription 
+	public static function getDbDesc($params) {
     		if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
-		
-    		return \core\Core::$db->fetchOne("Select da_description FROM ark_database WHERE da_name =?",array($arkDb));
-
+    		return \core\Core::$db->fetchOne("Select da_description FROM ark_database WHERE da_name =?",array($params['dbname']));
 	}
 	public static function showthemap($params) {
 		$search = $params['search'];
@@ -98,6 +95,9 @@ class Ajax {
   public static function saveQuery($params) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
+    $count=\core\Core::$db->fetchOne("SELECT count(*) FROM ark_savedquery WHERE id_user=? AND name=?",
+                                     array($uid, $params['name']));
+    if ($count) return 'duplicate';
     \core\Core::$db->exec("INSERT INTO ark_savedquery (id_user, name, query) VALUES (?,?,?)",
                           array($uid, $params['name'], $params['query']));
     return 'ok';

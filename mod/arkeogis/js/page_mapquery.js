@@ -126,7 +126,7 @@ window.addEvent('domready', function() {
 		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1000 premiers sites.", res.mapmarkers.length, res.total_count))) {
 
 		    // download the sites as csv file
-		    window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(form));
+		    window.location.href='/export_sheet/'+encodeURIComponent(JSON.encode(form));
 		    return;
 		} else if (res.mapmarkers.length == 0) {
 			CaptainHook.Message.show(ch_t('arkeogis', 'Aucun résultat'));
@@ -190,7 +190,7 @@ window.addEvent('domready', function() {
 		   ) {
 
 		    // download as csv
-		    window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(form));
+		    window.location.href='/export_sheet/'+encodeURIComponent(JSON.encode(form));
 		} else if (res.sites.length == 0) {
 			CaptainHook.Message.show(ch_t('arkeogis', 'Aucun résultat'));
 		} else {
@@ -251,7 +251,9 @@ window.addEvent('domready', function() {
 	    'url': '/ajax/call/arkeogis/deleteQuery',
 	    'onSuccess': function(res) {
 		populateSavedQueriesMenu();
-		CaptainHook.Message.show(ch_t('arkeogis', "Requête '%s' effacée", option.get('text')));
+		if (res == 'ok')
+		    CaptainHook.Message.show(ch_t('arkeogis', "Requête '%s' effacée", option.get('text')));
+		else alert('problem');
 		return;
 	    }
 	}).post({
@@ -396,7 +398,12 @@ function display_query(query) {
 	    'url': '/ajax/call/arkeogis/saveQuery',
 	    'onSuccess': function(res) {
 		populateSavedQueriesMenu();
-		CaptainHook.Message.show(ch_t('arkeogis', "Requête enregistrée"));
+		if (res == 'ok')
+		    CaptainHook.Message.show(ch_t('arkeogis', "Requête enregistrée"));
+		else if (res == 'duplicate')
+		    alert(ch_t('arkeogis', "Une requête '%s' existe déjà sous ce nom",
+			       html.getElement('.input-save-query').get('value')));
+		else alert('problem');
 	    }
 	}).post({
 	    'name': html.getElement('.input-save-query').get('value'),
@@ -409,7 +416,7 @@ function display_query(query) {
     });
 
     html.getElement('.btn-export').addEvent('click', function() {
-	window.location.href='/export_sheet/?q='+encodeURIComponent(JSON.encode(query));
+	window.location.href='/export_sheet/'+encodeURIComponent(JSON.encode(query));
     });
 
     html.inject($('querys'));
@@ -442,12 +449,15 @@ function populateSavedQueriesMenu() {
 var menu_showing=true;
 function show_menu(show) {
     menu_showing=show;
-    $('map_menu').setStyles({
-	'display': menu_showing ? '' : 'none'
-    });
-    $('onglet').setStyles({
-	'left': menu_showing ? '' : '0'
-    });
+		if (menu_showing) {
+			document.body.getElement('div[id=onglet] i').removeClass('icon-chevron-right').addClass('icon-chevron-left');
+			$('onglet').setStyle('left', '');
+			$('map_menu').setStyle('display', '');
+		} else {
+			document.body.getElement('div[id=onglet] i').removeClass('icon-chevron-left').addClass('icon-chevron-right');
+			$('onglet').setStyle('left', 0);
+			$('map_menu').setStyle('display', 'none');
+		}
 }
 
 function show_sheet(siteId) {

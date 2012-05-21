@@ -16,7 +16,7 @@
 			</div>
 		{/if}	
 		<div class="hero-unit">
-			<legend><h2>ArkeoGIS</h2></legend>
+			<img src="mod/arkeogis/img/logo.png" alt="ArkeoGIS" style="margin: -30px 0 20px -20px"/>
 			<div style="width:320px;margin: 0 auto">
 				{$loginform}
 			<div>

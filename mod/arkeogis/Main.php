@@ -10,6 +10,9 @@ class Main {
       // get lang
       $lang=\mod\lang\Main::getCurrentLang();
       $page->smarty->assign('lang', $lang);
+      $page->smarty->assign('canexport',
+                            \mod\user\Main::userBelongsToGroup('Admin')
+                            || \mod\user\Main::userBelongsToGroup('Chercheur'));
       $page->setLayout('arkeogis/arkeogis');
       $page->display();
     } else {
@@ -29,6 +32,7 @@ class Main {
     $page->setLayout('arkeogis/public');
     $page->display();
   }
+
   public static function hook_mod_arkeogis_exemple($hookname, $userdata) {
     $page = new \mod\webpage\Main();
     // get lang
@@ -37,6 +41,7 @@ class Main {
     $page->setLayout('arkeogis/exemple');
     $page->display();
   }
+
   public static function hook_mod_arkeogis_manuel($hookname, $userdata, $matches) {
     $page = new \mod\webpage\Main();
     // get lang
@@ -51,6 +56,17 @@ class Main {
     $page->setLayout('arkeogis/manuel');
     $page->display();
   }
+
+  public static function display_html_error($error) {
+    $page = new \mod\webpage\Main();
+    // get lang
+    $lang=\mod\lang\Main::getCurrentLang();
+    $page->smarty->assign('lang', $lang);
+    $page->smarty->assign('error', $error);
+    $page->setLayout('arkeogis/error');
+    $page->display();
+  }
+
   public static function hook_mod_arkeogis_directory($hookname, $userdata) {
    
     if (!\mod\user\Main::userIsLoggedIn()) {
@@ -143,7 +159,7 @@ class Main {
 		
 		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path from ark_database order by id");
 		
-		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, (pe_name_fr || '\n' || pe_name_de || '\n' || pe_desc) as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
+		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, (pe_name_fr || '\n' || pe_name_de) as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 		
 		$menus['production']=\core\Core::$db->fetchAll("select pr_id as id, pr_parentid as parentid, pr_name_$lang as name, node_path from ark_production order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 		
@@ -159,39 +175,6 @@ class Main {
     
 		echo "menus=".json_encode(self::load_menus());
 	}
-
-  public static function hook_mod_arkeogis_init($hookname, $userdata) {
-		\mod\user\Main::redirectIfNotLoggedIn();
-		$page = new \mod\webpage\Main();
-		$page->setLayout('arkeogis/map');
-		$image = new \Imagick();    // Create a new instance an $image class
-
-		$width =  100;        // Some necessary dimensions
-		$height = 100; 
-		$image->newImage( $width, $height, 'black' );
-
-		$draw = new \ImagickDraw();    //Create a new drawing class (?)
-
-		$draw->setFillColor('yellow');    // Set up some colors to use for fill and outline
-		$draw->setStrokeColor('green');
-
-		$draw->rectangle( 5, 5, 40, 40 );    // Draw the circle already 
-		//$draw->setStrokeColor('red');
-		//$draw->setStrokeDashArray(array(5,5,5));
-		
-		$draw->scale(2,2);
-		$draw->skewX(45);
-
-		$image->drawImage( $draw );    // Apply the stuff from the draw class to the image canvas
-		$image->setImageFormat('png');    // Give the image a format
-		$image->writeImage(dirname(__FILE__).'/test.png');    // ...Or just write it to a file...
-		
-
-		// render
-		$page->smarty->assign('image', '/mod/arkeogis/test.png');
-		$page->display();
-
-  }
 
 	public static function hook_mod_arkeogis_import($hookname, $userdata, $urlmatches) {
 		if (\mod\user\Main::userHasRight('Manage personal database') || \mod\user\Main::userHasRight('Manage all databases')) {
@@ -212,7 +195,8 @@ class Main {
 			$file = $form->getValue('dbfile');
 			$skipline = $form->getValue('skipline');
 			$lang = $form->getValue('select_lang');
-			$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang);
+			$description = $form->getValue('description');
+			$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $description);
 			unlink($file['tmp_name']);
 			$page = new \mod\webpage\Main();
 			$page->smarty->assign("result", $result);
@@ -232,11 +216,14 @@ class Main {
     }
   }
 
-  public static function hook_mod_arkeogis_export_sheet($hookname, $userdata) {
+  public static function hook_mod_arkeogis_export_sheet($hookname, $userdata, $urlmatches) {
     if (!\mod\user\Main::userIsLoggedIn())
 			return self::hook_mod_arkeogis_public($hookname, $userdata);
 
-		$q=json_decode($_REQUEST['q'], true);
+    if (!\mod\user\Main::userBelongsToGroup('Admin') && !\mod\user\Main::userBelongsToGroup('Chercheur'))
+      return self::display_html_error(\mod\lang\Main::ch_t('arkeogis', "Vous n'avez pas la permission de télécharger au format csv"));
+
+		$q=json_decode(urldecode($urlmatches[1]), true);
 		
 		$columns="ark_site.si_id, si_code, si_name, si_description, si_city_id, ST_AsGeoJSON(si_geom) as coords, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
 		$columns.=", ci_code, ci_name, ci_country, ci_geom"; // ark_city

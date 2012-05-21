@@ -21,8 +21,7 @@
 			<div id="map_canvas">
 			</div>
 
-			        <div id="onglet">
-				</div>
+			  <div id="onglet"><i class="icon icon-chevron-left"></i></div>
 				<div id="map_menu">
 					<table class='map-query' border='0' cellspacing='0' cellpadding='0'>
 
@@ -64,21 +63,21 @@
 					*}
 
 					 <tr class="menu_realestate">
-						<td class='exceptionnel'><div><input type='checkbox' id='ex_realestate' value='1'/></div></td>
 						<td><div id='menu_realestate' style='position: relative'></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_realestate' value='1'/></div></td>
 					 </tr>
 					 <tr class="menu_furniture">
-						<td class='exceptionnel'><div><input type='checkbox' id='ex_furniture' value='1'/></div></td>
 						<td><div id='menu_furniture' style='position: relative'></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_furniture' value='1'/></div></td>
 					 </tr>
 					 <tr class="menu_production">
-						<td class='exceptionnel'><div><input type='checkbox' id='ex_production' value='1'/></div></td>
 						<td><div id='menu_production' style='position: relative'></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_production' value='1'/></div></td>
 					 </tr>
 
 					 <tr class="title_exceptionnels">
+						<td class="text_exceptionnels">{t d='arkeogis' m="Sites exceptionnels"}</td>
 						<td class="fleche_exceptionnels"></td>
-						<td style="height:32px">{t d='arkeogis' m="Sites exceptionnels"}</td>
 					 </tr>
 
 					 <tr class="buttons">
@@ -116,7 +115,7 @@
                   </div>
 		  <div class='query-header-buttons'>
 			<button class='btn-success btn-print'>{t d='arkeogis' m='Imprimer'}</button>
-			<button class='btn-success btn-export'>{t d='arkeogis' m='Exporter'}</button>
+			<button class='btn-success btn-export' {if !$canexport}style='display:none'{/if}>{t d='arkeogis' m='Exporter'}</button>
 		  </div>
                 </div>
 		<div class='query-filters-border'>

@@ -15,7 +15,7 @@ class DatabaseImport {
 	private static $_lang; 
 	private static $_strings;
 
-	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr') {
+	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $description='') {
 
 		self::$_lang = $lang;
 		$numProcessed = 0;
@@ -94,7 +94,7 @@ class DatabaseImport {
 			if (!isset($datas[1])) continue;
 
 			# 1 : Database
-			self::_processDatabaseName($datas[1], $uid);
+			self::_processDatabaseName($datas[1], $description, $uid);
 
 			# 0 : Site ID
 			if (!self::_processSiteId($datas[0])) {
@@ -103,7 +103,8 @@ class DatabaseImport {
 			}
 
 			# 10 z
-			if (!empty($datas[10]) && is_string($datas[10])) {
+			$datas[10] = trim($datas[10]);
+			if (!empty($datas[10]) && !preg_match('/^[0-9]+$/', $datas[10])) {
 				self::_addError('Altitude invalid: String provided, Int expected: '.$datas[10]);
 				continue;
 			}
@@ -389,7 +390,10 @@ class DatabaseImport {
 				foreach($periods as $period) {
 
 					$md5Period = self::$_current['code'].$period[0].$period[1];
-					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['siteId'], $period[0], $period[1]);
+					if (!isset(self::$_current['siteId']))
+						$existing = null;
+					else
+						$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['siteId'], $period[0], $period[1]);
 					if (!empty($existing)) {
 						self::$_cache['siteperiod'][$md5Period] = $existing;
 					} else {
@@ -439,7 +443,7 @@ class DatabaseImport {
 		return true;
 	}
 
-	private static function _processDatabaseName($dbName, $ownerId) {
+	private static function _processDatabaseName($dbName, $description, $ownerId) {
 		// Db name provided
 		if (!empty($dbName)) {
 			// we check if it matches previously stored db dbName
@@ -464,9 +468,12 @@ class DatabaseImport {
 			if (!empty($dbId)) {
 				self::$_database['id'] = $dbId;
 				self::$_database['name'] = $dbName;
+				if (!empty($description)) {
+						\mod\arkeogis\ArkeoGIS::addDatabase($dbId, $description);
+				}
 			} else {
 				try {
-					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName, '', $ownerId);
+					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName, $description, $ownerId);
 					self::$_database['name'] = $dbName;
 				} catch (\Exception $e) {
 					self::_addError("Unable to register database name $dbName: ".$e->getMessage());
