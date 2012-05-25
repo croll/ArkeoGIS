@@ -294,12 +294,12 @@ class Main {
                 isset($realestate[2]) ? $realestate[2] : '',                                           // IMMO_NIV3
                 isset($realestate[3]) ? $realestate[3] : '',                                           // IMMO_NIV4
                 '',                                                                                    // PROFONDEUR_VESTIGES
-                $row['sr_exceptional'],                                                                // IMMO_EXP
+                self::yesno($row['sr_exceptional']),                                                   // IMMO_EXP
                 isset($furniture[0]) ? $furniture[0] : '',                                             // MOB_NIV1
                 isset($furniture[1]) ? $furniture[1] : '',                                             // MOB_NIV2
                 isset($furniture[2]) ? $furniture[2] : '',                                             // MOB_NIV3
                 isset($furniture[3]) ? $furniture[3] : '',                                             // MOB_NIV4
-                $row['sf_exceptional'],                                                                // MOB_EXP
+                self::yesno($row['sf_exceptional']),                                                   // MOB_EXP
                 isset($production[0]) ? $production[0] : '',                                           // PROD_NIV1
                 isset($production[1]) ? $production[1] : '',                                           // PROD_NIV2
                 isset($production[2]) ? $production[2] : '',                                           // PROD_NIV3
@@ -313,6 +313,8 @@ class Main {
 		    
   }
 
-	
+	public static function yesno($val) {
+		return $val ? \mod\lang\Main::ch_t('arkeogis', 'oui') : \mod\lang\Main::ch_t('arkeogis', 'non');
+	}
 
 }
