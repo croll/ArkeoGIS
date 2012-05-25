@@ -246,7 +246,7 @@ class Main {
 																false, // limit
                                 '', // group_by,
                                 '',
-																'ark_site.si_code, ark_site.si_id', // orderby
+																'ark_site.si_code, ark_site.si_id, ark_site_period.sp_id', // orderby
                                 false, // getcount
                                 false  // onlysprange
     );
