@@ -4,14 +4,15 @@
 	{js file="/mod/cssjs/js/mootools.js"}
 	{js file="/mod/cssjs/js/mootools.more.js"}
 	{js file="/mod/cssjs/js/captainhook.js"}
+	{js file="/mod/cssjs/js/chbootstrap.js"}
 	{js file="/mod/cssjs/js/tabs.js"}
 	{js file="/mod/arkeogis/js/public.js"}
 	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap.css"}
-	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap-responsive.css"}
 	{css file="/mod/cssjs/css/Modal.css"}
 	{css file="/mod/cssjs/css/tabs.css"}
 	{css file="/mod/arkeogis/css/arkeogis.css"}
 	{css file="/mod/arkeogis/css/public.css"}
+	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap-responsive.css"}
 {/block}
 
 {block name='webpage_body'}
@@ -23,7 +24,23 @@
 	<div class="navbar">
 		<div class="navbar-inner">
 			<div class="container">
-				<div class="nav-collapse">
+				<a id="ts"  class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            				<span class="icon-bar"></span>
+            				<span class="icon-bar"></span>
+            				<span class="icon-bar"></span>
+          			</a>
+				<script type="text/javascript">
+				window.addEvent('domready', function() {
+					var myFx = new Fx.Slide('tm', {
+    							duration: 1000,
+    							transition: Fx.Transitions.Pow.easeOut
+					});	
+					var tt = $('ts').addEvent('click', function(event){
+						myFx.toggle('vertical');
+					});
+				});
+				</script>
+				<div id="tm" class="nav-collapse collapse">
 					<ul class="nav nav-pills nav-stacked">
 						<li><a href="/">{t d='arkeogis' m='Accueil'}</a></li>
 						<li><a href="/page/{\mod\page\Main::getTranslated('partenaires', $lang)}">{t d='arkeogis' m='Partenaires'}</a></li>
