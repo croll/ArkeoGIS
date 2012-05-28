@@ -114,11 +114,11 @@
   "(exceptionals only)" : "(Nur aussergew\u00f6hnliche)",
   "Error" : "Fehler",
   "Documents" : "Unterlagen",
-  "Vous pouvez pr\u00e9senter en quelques lignes votre base de donn\u00e9e." : "Vous pouvez pr\u00e9senter en quelques lignes votre base de donn\u00e9e.",
-  "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier" : "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier",
-  "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation" : "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation",
-  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1000 premiers sites." : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1000 premiers sites.",
-  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?" : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?",
+  "Vous pouvez pr\u00e9senter en quelques lignes votre base de donn\u00e9e_" : "Sie k\u00f6nnen Ihre Datenbank kurz vorstellen.",
+  "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier" : "Bentuzte Sprache um Perioden\/Funde\/Befunde zum charakterisieren",
+  "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation" : "Sie m\u00fcssen mindestens eine Datenbank, einen Zeitabschnitt une eine Charakterisierung ausw\u00e4hlen",
+  "Seulement %d sites seront affich\u00e9 sur %d au total_ Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1000 premiers sites_" : "Es werden nur XXX Fundstellen von XXX abgebildet. M\u00f6chten Sie die liste als .csv-Datei herunterladen ?",
+  "Seulement %d sites seront affich\u00e9 sur %d au total_ Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?" : "Es werden nur XXX Fundstellen von XXX abgebildet. M\u00f6chten Sie die liste als .csv-Datei herunterladen ?",
   "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv" : "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv",
   "oui" : "oui"
 }
