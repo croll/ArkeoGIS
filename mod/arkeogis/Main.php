@@ -67,7 +67,7 @@ class Main {
     $page->display();
   }
 
-  public static function hook_mod_arkeogis_directory($hookname, $userdata) {
+  public static function hook_mod_arkeogis_directory($hookname, $userdata, $matches) {
    
     if (!\mod\user\Main::userIsLoggedIn()) {
     	return false;
