@@ -35,7 +35,7 @@ var PlusMinusMenu = new Class({
     inject: function(to_html_elem) {
 	var me=this;
 	me.html_element=new Element('div', {
-	    class: 'pmmenu-popup'
+	    'class': 'pmmenu-popup'
 	});
 	me.html_element.inject($$('body')[0]);
 	
@@ -47,22 +47,22 @@ var PlusMinusMenu = new Class({
 	});
 
 	var title=new Element('div', {
-	    class: 'pmmenu-title',
+	    'class': 'pmmenu-title',
 	    text: me.parent_item.model.text
 	});
 	title.inject(me.html_element);
 	var title_sub=new Element('div', {
-	    class: 'pmmenu-title-sub'
+	    'class': 'pmmenu-title-sub'
 	});
 	title_sub.inject(title);
 	
 	var tools=new Element('div', {
-	    class: 'pmmenu-tools',
+	    'class': 'pmmenu-tools',
 	    text: ch_t('arkeogis', "Selection")
 	});
 	tools.inject(me.html_element);
 	var tools_all=new Element('button', {
-	    class: 'select-all',
+	    'class': 'select-all',
 	    text: ch_t('arkeogis', 'ALL')
 	});
 	tools_all.addEvent('click', function(e) {
@@ -70,7 +70,7 @@ var PlusMinusMenu = new Class({
 	});
 	tools_all.inject(tools);
 	var tools_none=new Element('button', {
-	    class: 'select-none',
+	    'class': 'select-none',
 	    text: ch_t('arkeogis', 'NONE')
 	});
 	tools_none.addEvent('click', function(e) {
@@ -165,17 +165,17 @@ var PlusMinusItem = new Class({
     inject: function(to_html_elem) {
 	var me=this;
 	me.html_element=new Element('div', {
-	    class: 'pmmenu-item',
+	    'class': 'pmmenu-item',
 	    text: me.model.text
 	});
 	me.html_element.set('html', me.html_element.get('html').replace(/\n/g, '<br />'));
 	me.html_element.inject(to_html_elem);
 	var sub=new Element('div', {
-	    class: 'pmmenu-sub'
+	    'class': 'pmmenu-sub'
 	});
 	sub.inject(me.html_element);
 	var sel=new Element('div', {
-	    class: 'pmmenu-sel'
+	    'class': 'pmmenu-sel'
 	});
 	sel.inject(me.html_element);
 	if (me.submenu) {

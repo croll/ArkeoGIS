@@ -105,7 +105,7 @@ var Directory = new Class({
 			var res= new Element('div');
 			list.each(function(el) {
 				if (el != '') {
-					var db= new Element('a',{href: '#', class: 'dblinks', html: el});
+					var db= new Element('a',{href: '#', 'class': 'dblinks', html: el});
 					db.addEvent('click', function() {
 						event.preventDefault(); 
 						mydir.getDesc(el);

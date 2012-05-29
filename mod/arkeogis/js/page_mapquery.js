@@ -385,7 +385,7 @@ function display_query(query) {
 	    queryfilter_html.getElement('div.filtername span').set('text', title);
 
 	    div=new Element('div', {
-		class: 'filtercontent'
+		'class': 'filtercontent'
 	    });
 	    buildFilterLines(result, 0, div);
 	    div.inject(queryfilter_html);
@@ -450,13 +450,13 @@ var menu_showing=true;
 function show_menu(show) {
     menu_showing=show;
 		if (menu_showing) {
-			document.body.getElement('div[id=onglet] i').removeClass('icon-chevron-right').addClass('icon-chevron-left');
-			$('onglet').setStyle('left', '');
-			$('map_menu').setStyle('display', '');
+		    $$('div[id=onglet] i', document.body)[0].removeClass('icon-chevron-right').addClass('icon-chevron-left');
+		    $('onglet').setStyle('left', '');
+		    $('map_menu').setStyle('display', '');
 		} else {
-			document.body.getElement('div[id=onglet] i').removeClass('icon-chevron-left').addClass('icon-chevron-right');
-			$('onglet').setStyle('left', 0);
-			$('map_menu').setStyle('display', 'none');
+		    $$('div[id=onglet] i', document.body)[0].removeClass('icon-chevron-left').addClass('icon-chevron-right');
+		    $('onglet').setStyle('left', 0);
+		    $('map_menu').setStyle('display', 'none');
 		}
 }
 
