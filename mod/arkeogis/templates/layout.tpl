@@ -126,7 +126,7 @@
 					<div class="nav-collapse">
 						<ul class="nav pull-right">
 							<li><a href="javascript:void(0)">ArkeoGIS 2012</a></li>
-							<li><a href="/page/contact">{t d='arkeogis' m='Contact'}</a></li>
+							<li><a href="/contact">{t d='arkeogis' m='Contact'}</a></li>
 						</ul>
 					</div>
 				</div>

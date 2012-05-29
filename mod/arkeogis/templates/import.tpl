@@ -35,14 +35,14 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">Langue</label>
+					<label class="control-label">{t d='arkeogis' m="Langue"}</label>
 					<div class="controls">
 						{$dbUpload.select_lang}
 					<p class="help-block">{t d='arkeogis' m="Langue utilisée pour caractériser les périodes/mobilier/immobilier"}</p>	
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">Fichier à analyser</label>
+					<label class="control-label">{t d='arkeogis' m="Fichier à analyser"}</label>
 					<div class="controls">
 						{$dbUpload.dbfile}
 					</div>

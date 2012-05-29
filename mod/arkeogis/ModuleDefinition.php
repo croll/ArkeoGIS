@@ -30,6 +30,7 @@ class ModuleDefinition extends \core\ModuleDefinition {
 		Etudiant (il ne peut pas upload une base ni exporter)
 		*/
 		/* set Rights */
+		/*
 		\mod\user\Main::addRight("Manage personal database", "User can create , Import , delete and Export it's own personnal database");			
 		\mod\user\Main::addRight("View databases", "User can view maps and database");			
 		\mod\user\Main::addRight("Manage all databases", "User can manage all databases (Warning:Restricted to admin group)");
@@ -45,15 +46,18 @@ class ModuleDefinition extends \core\ModuleDefinition {
 		\mod\user\Main::assignRight('View page', 'Anonymous');
 		\mod\user\Main::assignRight('View page', 'Etudiant');
 		\mod\user\Main::assignRight('View page', 'Chercheur');
+		 */
 	}
 
 	function uninstall() {
+		/*
 		\mod\user\Main::delRight('View databases');
 		\mod\user\Main::delRight('Manage personal database');
 		\mod\user\Main::delRight('Manage all databases');
 		\mod\user\Main::delGroup('Chercheur');
 		\mod\user\Main::renameGroup('Etudiant', 'Registered');
-    		\mod\regroute\Main::unregister($this->id);
+		 */
+  	\mod\regroute\Main::unregister($this->id);
 		parent::uninstall();
 	}
 }
