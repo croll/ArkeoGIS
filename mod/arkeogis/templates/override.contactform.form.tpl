@@ -25,7 +25,11 @@
 
 		{t d="contactform" m="Mél"} : "Loup Bernard" loup.bernard(at)unistra.fr
 	</div>
-
+	<script type="text/javascript">
+		 var RecaptchaOptions = {
+    			theme : 'clean'
+ 		};
+	</script>
 	{form mod="contactform" file="templates/form.json"}
 		<fieldset>
 
