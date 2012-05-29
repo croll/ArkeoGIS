@@ -1,4 +1,4 @@
-{extends tplextends('arkeogis/layout')}
+{extends tplextends('arkeogis/public')}
 
 {block name='arkeogis_content'}
 	<div style="width: 340px;margin: 200px auto">

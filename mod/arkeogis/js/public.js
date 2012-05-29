@@ -120,7 +120,7 @@ var Directory = new Class({
 		console.log(dbname);
 		new Request.JSON({
 			'url': '/ajax/call/arkeogis/getDbDesc',
-			'onSuccess': function(resJSON, resText) {
+			'onSuccess': function(resJSON) {
 				mydir.displayDesc(dbname,resJSON);
 			}
 		}).get({'dbname': dbname});
@@ -128,8 +128,6 @@ var Directory = new Class({
 
 	},
 	displayDesc: function(dbname, desc) {
-		dmod.setTitle(dbname+' database description');
-		dmod.setBody(desc);
-		dmod.show();
+		dmod.setTitle(dbname).setBody(desc).show();
 	}
 });

@@ -1,4 +1,4 @@
-{extends tplextends('arkeogis/layout')}
+{extends tplextends('arkeogis/public')}
 
 {block name='webpage_head' append}
 	{js file="/mod/cssjs/js/mootools.more.js"}
@@ -9,6 +9,15 @@
 {/block}
 
 {block name='arkeogis_content'}
+
+	<script type="text/javascript">
+			window.addEvent('domready', function() {
+				 var RecaptchaOptions = {
+							theme : 'clean'
+				};
+				Locale.use('{\mod\lang\Main::getCurrentLang()|replace:'_':'-'}');
+			});
+	</script>
 
 	{if (empty($config) || empty($config.key))}
 		<p class="alert alert-warn">{t d="contactform" m="You have to define your recapcha api key in the contact module interface, default link is /contact/admin."}
@@ -25,11 +34,6 @@
 
 		{t d="contactform" m="Mél"} : "Loup Bernard" loup.bernard(at)unistra.fr
 	</div>
-	<script type="text/javascript">
-		 var RecaptchaOptions = {
-    			theme : 'clean'
- 		};
-	</script>
 	{form mod="contactform" file="templates/form.json"}
 		<fieldset>
 

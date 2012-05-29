@@ -219,7 +219,7 @@ class ArkeoGIS {
 		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.($groupby ? ' GROUP BY '.$groupby : '').($orderby ? ' ORDER BY '.$orderby : '').($limit ? ' LIMIT '.$limit : '');
 		$query_count='SELECT COUNT(DISTINCT(ark_site.si_id)) FROM '.$from.' WHERE '.$where;
 
-    error_log(sqltostr($query, $args));
+    //error_log(sqltostr($query, $args));
 
 		return array('total_count' => $getcount ? \core\Core::$db->fetchOne($query_count, $args) : 'unwanted',
 								 'sites' => \core\Core::$db->fetchAll($query, $args));
