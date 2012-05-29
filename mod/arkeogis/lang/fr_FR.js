@@ -123,5 +123,7 @@
   "Error" : "Error",
   "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv" : "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv",
   "Documents" : "Documents",
-  "oui" : "oui"
+  "oui" : "oui",
+  "Langue" : "Langue",
+  "Fichier \u00e0 analyser" : "Fichier \u00e0 analyser"
 }
