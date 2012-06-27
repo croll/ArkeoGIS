@@ -12,7 +12,7 @@
 	{css file="/mod/cssjs/css/tabs.css"}
 	{css file="/mod/arkeogis/css/arkeogis.css"}
 	{css file="/mod/arkeogis/css/public.css"}
-	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap-responsive.css"}
+	{css file="/mod/arkeogis/css/bootstrap-arkeo.css"}
 {/block}
 
 {block name='webpage_body'}
