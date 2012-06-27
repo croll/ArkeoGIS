@@ -11,7 +11,7 @@
 	{js file="/mod/page/js/page.js"}
 	{js file="/mod/arkeogis/js/public.js"}
 	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap.css"}
-	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap-responsive.css"}
+	{css file="/mod/arkeogis/css/bootstrap-arkeo.css"}
 	{css file="/mod/cssjs/css/mypaginate.css"}
 	{css file="/mod/page/css/page.css"}
 	{css file="/mod/arkeogis/css/arkeogis.css"}

@@ -24,23 +24,12 @@
 	<div class="navbar">
 		<div class="navbar-inner">
 			<div class="container">
-				<a id="ts"  class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             				<span class="icon-bar"></span>
             				<span class="icon-bar"></span>
             				<span class="icon-bar"></span>
           			</a>
-				<script type="text/javascript">
-				window.addEvent('domready', function() {
-					var myFx = new Fx.Slide('tm', {
-    							duration: 1000,
-    							transition: Fx.Transitions.Pow.easeOut
-					});	
-					var tt = $('ts').addEvent('click', function(event){
-						myFx.toggle('vertical');
-					});
-				});
-				</script>
-				<div id="tm" class="nav-collapse collapse">
+				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills nav-stacked">
 						<li><a href="/">{t d='arkeogis' m='Accueil'}</a></li>
 						<li><a href="/page/{\mod\page\Main::getTranslated('partenaires', $lang)}">{t d='arkeogis' m='Partenaires'}</a></li>

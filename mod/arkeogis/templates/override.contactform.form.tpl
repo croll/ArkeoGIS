@@ -20,7 +20,7 @@
 	</script>
 
 	{if (empty($config) || empty($config.key))}
-		<p class="alert alert-warn">{t d="contactform" m="You have to define your recapcha api key in the contact module interface, default link is /contact/admin."}
+		<p class="alert alert-danger">{t d="contactform" m="You have to define your recapcha api key in the contact module interface, default link is /contact/admin."}
 	{/if}
 
 	<div style="margin: 40px 0 30px 0">
