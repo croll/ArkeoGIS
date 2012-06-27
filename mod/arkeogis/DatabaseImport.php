@@ -356,11 +356,11 @@ class DatabaseImport {
 				$periods = array();
 				$multipleStart = false;
 				$multipleEnd = false;
-				if (in_array(self::$_current['period']['start'], self::$_cache['specialperiod'][$lang])) {
+				if (in_array(self::$_current['period']['start'], array_keys(self::$_cache['specialperiod'][$lang]))) {
 					$multipleStart = true;
 					//$periods['start'] = self::$_cache['specialperiod'][$lang][self::$_current['period']['start']];
 				}
-				if (in_array(self::$_current['period']['end'], self::$_cache['specialperiod'][$lang])) {
+				if (in_array(self::$_current['period']['end'], array_keys(self::$_cache['specialperiod'][$lang]))) {
 					$multipleEnd = true;
 					//$periods['end'] = self::$_cache['specialperiod'][$lang][self::$_current['period']['end']];
 				}
@@ -520,27 +520,39 @@ class DatabaseImport {
 	}
 
 	private static function _processPeriod($start, $end) {
-		if (!isset(self::$_cache['period'][$start])) {
-			$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($start, 'period', NULL, NULL, self::$_lang);
-			if (sizeof($resPath) > 1) {
-				self::_addError("Multiple results found for period ($start)");
-				return;
-			} else if (empty($resPath)) {
-				self::_addError("No matching starting period found ($start)");
-				return;
+		// Special period start
+		if (in_array($start, array_keys(self::$_cache['specialperiod'][self::$_lang]))) {
+			self::$_cache['period'][$start] = $start;
+		} else {
+		// Normal period start
+			if (!isset(self::$_cache['period'][$start])) {
+				$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($start, 'period', NULL, NULL, self::$_lang);
+				if (sizeof($resPath) > 1) {
+					self::_addError("Multiple results found for period ($start)");
+					return;
+				} else if (empty($resPath)) {
+					self::_addError("No matching starting period found ($start)");
+					return;
+				}
+				self::$_cache['period'][$start] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
 			}
-			self::$_cache['period'][$start] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
 		}
-		if (!isset(self::$_cache['period'][$end])) {
-			$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($end, 'period', NULL, NULL, self::$_lang);
-			if (sizeof($resPath) > 1) {
-				self::_addError("Multiple results found for period ($end)");
-				return;
-			} else if (empty($resPath)) {
-				self::_addError("No matching ending period found ($end)");
-				return;
+		// Special period end
+		if (in_array($end, array_keys(self::$_cache['specialperiod'][self::$_lang]))) {
+			self::$_cache['period'][$end] = $end;
+		} else {
+		// Normal period end
+			if (!isset(self::$_cache['period'][$end])) {
+				$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($end, 'period', NULL, NULL, self::$_lang);
+				if (sizeof($resPath) > 1) {
+					self::_addError("Multiple results found for period ($end)");
+					return;
+				} else if (empty($resPath)) {
+					self::_addError("No matching ending period found ($end)");
+					return;
+				}
+				self::$_cache['period'][$end] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
 			}
-			self::$_cache['period'][$end] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
 		}
 		return array('start' => self::$_cache['period'][$start], 'end' => self::$_cache['period'][$end]);
 	}

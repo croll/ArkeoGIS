@@ -263,14 +263,15 @@ class ArkeoGIS {
 		$args = array($label);
 
 		if (!is_null($level)) {
-			 $q.= 'AND nlevel(node_path) = ?';
+			 $q.= 'AND nlevel(node_path) = ? ';
 			 $args[] = $level;
 		}
 
 		if (!is_null($parentPath)) { 
-			$q.= 'AND node_path <@ ?';
+			$q.= 'AND node_path <@ ? ';
 			$args[] = $parentPath;
 		}
+		error_log(sqltostr($q, $args));
 		return \core\Core::$db->fetchAll($q, $args);
 	}
 
