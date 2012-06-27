@@ -19,7 +19,7 @@ function display_sheet(data) {
 	properties: {
 	    border: 1,
 	    cellspacing: 3,
-	    class: 'table table-striped table-bordered table-condensed'
+	    'class': 'table table-striped table-bordered table-condensed'
 	},
 	gridContainer : $('map_sheet'),
 	headers: [
