@@ -125,5 +125,6 @@
   "Langue" : "Langue",
   "Fichier \u00e0 analyser" : "Fichier \u00e0 analyser",
   "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1000 premiers sites." : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1000 premiers sites.",
-  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?" : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?"
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?" : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?",
+  "donner un nom \u00e0 votre requete" : "donner un nom \u00e0 votre requete"
 }

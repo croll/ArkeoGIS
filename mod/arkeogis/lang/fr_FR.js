@@ -125,5 +125,6 @@
   "Documents" : "Documents",
   "oui" : "oui",
   "Langue" : "Langue",
-  "Fichier \u00e0 analyser" : "Fichier \u00e0 analyser"
+  "Fichier \u00e0 analyser" : "Fichier \u00e0 analyser",
+  "donner un nom \u00e0 votre requete" : "donner un nom \u00e0 votre requete"
 }

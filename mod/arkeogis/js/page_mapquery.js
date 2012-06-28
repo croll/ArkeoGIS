@@ -394,6 +394,8 @@ function display_query(query) {
     });
 
     html.getElement('.btn-save-query').addEvent('click', function() {
+	if (!html.getElement('.input-save-query').get('value').trim())
+	    return alert(ch_t('arkeogis', "donner un nom à votre requete"));
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/saveQuery',
 	    'onSuccess': function(res) {
