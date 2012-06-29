@@ -57,9 +57,11 @@
 			]
 		},
 		{	"type" : "submit",
+			"id" : "submit",
 			"name" : "submit",
 			"class" : "btn btn-primary",
-			"value" : "Submit"
+			"value" : "Submit",
+			"disabled" : "disabled"
 		}
 	]
 }

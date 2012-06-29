@@ -72,7 +72,7 @@ class Ajax {
 				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Production').": </b>$site[production]</div>";
 			}
 			$popupParams = array('title' => $title, 'content' => $content);
-			$shapes = array('circle', 'square', 'triangle', 'diamond', 'parallelogram', 'trianglerectangle', 'rectangle' , 'trianglerectangleinverted');
+			$shapes = array('circle', 'square', 'triangle', 'diamond', 'parallelogram', 'trianglerectangle', 'rectangle', 'trianglerectangleinverted');
 			$m = \mod\arkeogis\ArkeoGIS::getMarker($site['si_id'], $shapes[$queryNum-1], $coords, $site['knowledge'], $site['period_end'], $site['exceptional'], $site['centroid'], $popupParams);
 			$mapMarkers[] = $m;
 		}

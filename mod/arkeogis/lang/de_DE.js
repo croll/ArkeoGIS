@@ -116,5 +116,17 @@
   "Documents" : "Projektunterlagen",
   "oui" : "ja",
   "Langue" : "Sprache",
-  "Fichier \u00e0 analyser" : "Datei zu analysieren"
+  "Fichier \u00e0 analyser" : "Datei zu analysieren",
+  "Vous pouvez pr\u00e9senter en quelques lignes votre base de donn\u00e9e." : "Vous pouvez pr\u00e9senter en quelques lignes votre base de donn\u00e9e.",
+  "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier" : "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier",
+  "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation" : "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation",
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1000 premiers sites." : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1000 premiers sites.",
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?" : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous plut\u00f4t t\u00e9l\u00e9charger la liste au format csv ?",
+  "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv" : "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv",
+  "Les donn\u00e9es de la base import\u00e9e dans le service Ark\u00e9oGIS sont librement consultables par des personnes identifi\u00e9es par le service Arkeogis, ces donn\u00e9es sont exportables \u00e0 des fins de recherche par des personnes identifi\u00e9es par le service Arkeogis comme chercheurs ou Administrateur du service." : "Les donn\u00e9es de la base import\u00e9e dans le service Ark\u00e9oGIS sont librement consultables par des personnes identifi\u00e9es par le service Arkeogis, ces donn\u00e9es sont exportables \u00e0 des fins de recherche par des personnes identifi\u00e9es par le service Arkeogis comme chercheurs ou Administrateur du service.",
+  "J'accepte ces conditions" : "J'accepte ces conditions",
+  "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) premi\u00e8rement dans votre langue de travail puis dans une deuxi\u00e8me de ces deux langues (fran\u00e7ais ou allemand). Si vous ne pouvez traduire correctement cette pr\u00e9sentation, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande" : "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) premi\u00e8rement dans votre langue de travail puis dans une deuxi\u00e8me de ces deux langues (fran\u00e7ais ou allemand). Si vous ne pouvez traduire correctement cette pr\u00e9sentation, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande",
+  "lignes trait\u00e9s" : "lignes trait\u00e9s",
+  "sites import\u00e9s" : "sites import\u00e9s",
+  "erreurs (voir ci dessous)" : "erreurs (voir ci dessous)"
 }
