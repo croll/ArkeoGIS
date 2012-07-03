@@ -9,7 +9,6 @@
   "Exporter" : "Exporter",
   "Import d'une base" : "Import d'une base",
   "S\u00e9parateur" : "S\u00e9parateur",
-  "Utilisez \\\\t pour une tabulation" : "Utilisez \\\\t pour une tabulation",
   "Lignes \u00e0 ignorer" : "Lignes \u00e0 ignorer",
   "Nombre de ligne en d\u00e9but de fichier \u00e0 ne pas traiter" : "Nombre de ligne en d\u00e9but de fichier \u00e0 ne pas traiter",
   "Caract\u00e8re d'\u00e9chapement" : "Caract\u00e8re d'\u00e9chapement",
@@ -132,5 +131,7 @@
   "sites import\u00e9s" : "sites import\u00e9s",
   "erreurs (voir ci dessous)" : "erreurs (voir ci dessous)",
   "lignes trait\u00e9es" : "lignes trait\u00e9es",
-  "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate."
+  "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate.",
+  "Utilisez" : "Utilisez",
+  "pour une tabulation" : "pour une tabulation"
 }

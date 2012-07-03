@@ -9,7 +9,6 @@
   "Exporter" : "Exportieren",
   "Import d'une base" : "Datenbank importieren",
   "S\u00e9parateur" : "Trenner",
-  "Utilisez \\\\t pour une tabulation" : "Tabulator \\\\t benutzen.",
   "Lignes \u00e0 ignorer" : "Zeilen zu ignorieren.",
   "Nombre de ligne en d\u00e9but de fichier \u00e0 ne pas traiter" : "Anzahl der zeilen am anfang der datei die nicht verarbeitet werden.",
   "Caract\u00e8re d'\u00e9chapement" : "Escapezeichen",
@@ -129,5 +128,7 @@
   "sites import\u00e9s" : "sites import\u00e9s",
   "erreurs (voir ci dessous)" : "erreurs (voir ci dessous)",
   "lignes trait\u00e9es" : "lignes trait\u00e9es",
-  "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate."
+  "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate.",
+  "Utilisez" : "Tabulator",
+  "pour une tabulation" : "benutzen"
 }

@@ -34,7 +34,8 @@
 					<label class="control-label">{t d='arkeogis' m="Séparateur"}</label>
 					<div class="controls">
 					{$dbUpload.separator}
-					<p class="help-block">{t d='arkeogis' m="Utilisez \\t pour une tabulation"}</p>	
+					<p class="help-block">{t d='arkeogis' m="Utilisez"} \t 
+					{t d='arkeogis' m="pour une tabulation"}</p>	
 					</div>
 				</div>
 				<div class="control-group">
