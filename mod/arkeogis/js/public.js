@@ -22,8 +22,8 @@ var Example = new Class({
 	},
 	setPage: function(options,item) {
 		var tar = item.getChildren('a').get('data-update')[0];
-		item.addEvent('click', function(event) {
-			event.stop();
+		item.addEvent('click', function(e) {
+			e.stop();
 			myex.setActive(options, item, tar);	
 		});
 		if ($(tar).hasClass('selected')) {
@@ -75,8 +75,8 @@ var Manual = new Class({
 	},
 	setPage: function(options, item, mypage){
 		var tar = item.getChildren('a').get('href')[0];
-		item.addEvent('click', function(event) {
-			event.stop();
+		item.addEvent('click', function(e) {
+			e.stop();
 			myman.setActive(options,item);
 			myman.display(options,mypage,tar);
 		});
@@ -104,10 +104,10 @@ var Directory = new Class({
 			item.set('html', '');
 			var res= new Element('div');
 			list.each(function(el) {
-				if (el != '') {
+				if (el !== '') {
 					var db= new Element('a',{href: '#', 'class': 'dblinks', html: el});
-					db.addEvent('click', function() {
-						event.preventDefault(); 
+					db.addEvent('click', function(e) {
+						e.preventDefault(); 
 						mydir.getDesc(el);
 					});
 					res.adopt(db);

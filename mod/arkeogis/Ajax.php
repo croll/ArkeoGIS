@@ -47,7 +47,7 @@ class Ajax {
 
 		$strings=ArkeoGIS::load_strings();
     foreach($sites as $k => $row) {
-			\core\Core::log($row);
+			//\core\Core::log($row);
       $sites[$k]['realestate'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), ';');
       $sites[$k]['furniture'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), ';');
       $sites[$k]['production'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), ';');
@@ -98,7 +98,7 @@ class Ajax {
 
 		$strings=ArkeoGIS::load_strings();
     foreach($sites as $k => $row) {
-			\core\Core::log($row);
+			//\core\Core::log($row);
       //$sites[$k]['period_start'] = ArkeoGIS::node_path_to_str($row['period_start'], $strings['period'], '/');
       //$sites[$k]['period_end'] = ArkeoGIS::node_path_to_str($row['period_end'], $strings['period'], '/');
       $sites[$k]['realestate'] = implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), '<br />');

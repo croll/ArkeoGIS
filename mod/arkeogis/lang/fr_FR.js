@@ -129,8 +129,8 @@
   "Les donn\u00e9es de la base import\u00e9e dans le service Ark\u00e9oGIS sont librement consultables par des personnes identifi\u00e9es par le service Arkeogis, ces donn\u00e9es sont exportables \u00e0 des fins de recherche par des personnes identifi\u00e9es par le service Arkeogis comme chercheurs ou Administrateur du service." : "Les donn\u00e9es de la base import\u00e9e dans le service Ark\u00e9oGIS sont librement consultables par des personnes identifi\u00e9es par le service Arkeogis, ces donn\u00e9es sont exportables \u00e0 des fins de recherche par des personnes identifi\u00e9es par le service Arkeogis comme chercheurs ou Administrateur du service.",
   "J'accepte ces conditions" : "J'accepte ces conditions",
   "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) premi\u00e8rement dans votre langue de travail puis dans une deuxi\u00e8me de ces deux langues (fran\u00e7ais ou allemand). Si vous ne pouvez traduire correctement cette pr\u00e9sentation, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande" : "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) premi\u00e8rement dans votre langue de travail puis dans une deuxi\u00e8me de ces deux langues (fran\u00e7ais ou allemand). Si vous ne pouvez traduire correctement cette pr\u00e9sentation, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande",
-  "lignes trait\u00e9s" : "lignes trait\u00e9s",
   "sites import\u00e9s" : "sites import\u00e9s",
   "erreurs (voir ci dessous)" : "erreurs (voir ci dessous)",
-  "donner un nom \u00e0 votre requete" : "donner un nom \u00e0 votre requete"
+  "lignes trait\u00e9es" : "lignes trait\u00e9es",
+  "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate."
 }
