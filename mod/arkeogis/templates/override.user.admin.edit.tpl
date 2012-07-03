@@ -23,10 +23,10 @@
 			<input type="hidden" name="created" value="{$user.created}" >
 			<input type="hidden" name="updated" value="{$user.updated}" >
 
-			<div class="clearfix"><label for="login"><span>{t d='user' m='User login'}:</span></label><input class="xlarge" title="login" type="text" name="login" value="{$user.login}" ></div>
+			<div class="clearfix"><label for="login"><span>{t d='user' m='User login'}:</span> {t d='user' m='(caractères autorisés lettres minuscules et majuscules, chiffres, _ et .)'}</label><input class="xlarge" title="login" type="text" name="login" value="{$user.login}" ></div>
 			<div class="clearfix"><label for="full_name"><span>{t d='user' m='User full name'}:</span></label><input class="xlarge" title="full_name" type="text" name="full_name" value="{$user.full_name}" ></div>
 			<div class="clearfix"><label for="email"><span>{t d='user' m='User email'}:</span></label><input class="xlarge" title="email" type="text" name="email" value="{$user.email}" ></div>
-			<div class="clearfix"><label for="password"><span>{t d='user' m='User password'}:</span></label><input class="xlarge" title="password" type="text" name="password" value="" ></div>
+			<div class="clearfix"><label for="password"><span>{t d='user' m='User password'}:</span>{t d='user' m='(caractères autorisés lettres minuscules et majuscules, chiffres, _ et ! )'}</label><input class="xlarge" title="password" type="text" name="password" value="" ></div>
 			<div class="clearfix"><label for="pass2"><span>{t d='user' m='Repeat password'}:</span></label><input class="xlarge" title="pass2" type="text" name="pass2" value="" ></div>
 			<div class="clearfix"><label for="active"><span>{t d='user' m='User is active'}:</span><input onclick="var c=this.get('value'); if (c==0) this.set('value', 1); else this.set('value', 0);" class="checkbox" title="active" type="checkbox" name="active" {if $user.status == 1} checked ="checked" {/if} value="{$user.status}" ></label></div>
 
