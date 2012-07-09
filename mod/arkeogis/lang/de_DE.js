@@ -130,5 +130,6 @@
   "lignes trait\u00e9es" : "lignes trait\u00e9es",
   "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate.",
   "Utilisez" : "Tabulator",
-  "pour une tabulation" : "benutzen"
+  "pour une tabulation" : "benutzen",
+  "Date de modification de la fiche" : "Date de modification de la fiche"
 }
