@@ -125,10 +125,11 @@
   "Les donn\u00e9es de la base import\u00e9e dans le service Ark\u00e9oGIS sont librement consultables par des personnes identifi\u00e9es par le service Arkeogis, ces donn\u00e9es sont exportables \u00e0 des fins de recherche par des personnes identifi\u00e9es par le service Arkeogis comme chercheurs ou Administrateur du service." : "Die in ArkeoGIS eingef\u00fcgte Daten k\u00f6nnen durch ArkeoGIS angemeldete Benutzer frei aufgesucht sein, Forscher und Administrator k\u00f6nnen diese Daten auch zum bearbeiten exportieren.",
   "J'accepte ces conditions" : "Ich akzeptiere diese Nutzungsbedingungen",
   "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) premi\u00e8rement dans votre langue de travail puis dans une deuxi\u00e8me de ces deux langues (fran\u00e7ais ou allemand). Si vous ne pouvez traduire correctement cette pr\u00e9sentation, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande" : "Bitte beschreiben Sie in diesen Feld Ihre Datenbank in Ihrer Arbeitssprache, und dann \u00fcbersetzen Sie den Text in der andere Sprache (Franz\u00f6sisch oder Deutsch). Wenn Sie zur \u00fcbersetzung Hilfe brauchen, k\u00f6nnen wir Sie gerne helfen. Bentuzen Sie dazu den ArkeoGISkontaktbogen (Betreff \u00fcbersetzungshilfe).",
-  "sites import\u00e9s" : "sites import\u00e9s",
-  "erreurs (voir ci dessous)" : "erreurs (voir ci dessous)",
-  "lignes trait\u00e9es" : "lignes trait\u00e9es",
-  "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate.",
-  "Utilisez" : "Tabulator",
-  "pour une tabulation" : "benutzen"
+  "sites import\u00e9s" : "importierte Fundstellen.",
+  "erreurs (voir ci dessous)" : "Fehler (siehe unten).",
+  "lignes trait\u00e9es" : "verarbeitete Linien.",
+  "Donnez un nom \u00e0 votre requ\u00eate." : "Geben Sie Ihrer Abfrage bitte einen Name.",
+  "Utilisez" : "wenn Ihrer Trennzeichen einen Tabulator ist,",
+  "pour une tabulation" : "benutzen",
+  "Date de modification de la fiche" : "Date de modification de la fiche"
 }

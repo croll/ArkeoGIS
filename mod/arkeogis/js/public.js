@@ -117,7 +117,6 @@ var Directory = new Class({
 		});
 	},
 	getDesc: function(dbname) {
-		console.log(dbname);
 		new Request.JSON({
 			'url': '/ajax/call/arkeogis/getDbDesc',
 			'onSuccess': function(resJSON) {
