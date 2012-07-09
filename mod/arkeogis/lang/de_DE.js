@@ -129,7 +129,7 @@
   "erreurs (voir ci dessous)" : "erreurs (voir ci dessous)",
   "lignes trait\u00e9es" : "lignes trait\u00e9es",
   "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate.",
-  "Utilisez" : "Tabulator",
+  "Utilisez" : "wenn Ihrer Trennzeichen einen Tabulator ist,",
   "pour une tabulation" : "benutzen",
   "Date de modification de la fiche" : "Date de modification de la fiche"
 }
