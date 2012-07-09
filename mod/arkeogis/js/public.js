@@ -130,3 +130,19 @@ var Directory = new Class({
 		dmod.setTitle(dbname).setBody(desc).show();
 	}
 });
+
+window.addEvent('domready', function() {
+	var browserWarning = new BrowserUpdateWarning({
+		imagesDirectory: '/mod/cssjs/ext/BrowserUpdateWarning/images/',
+		opacity: 30,
+		allowContinue: false,
+		downloadOptions: ['ie','safari','firefox','chrome'],
+		onFailure: function() {
+			//if (Browser.name == 'ie' && Browser.version == 6) {
+				$('arkeogis_container').empty();
+		//	}
+		}
+	});
+
+	browserWarning.check();
+});

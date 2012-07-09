@@ -23,7 +23,7 @@
   "Imprimer" : "Imprimer",
   "Import d'une base" : "Import d'une base",
   "S\u00e9parateur" : "S\u00e9parateur",
-  "Utilisez \\\\t pour une tabulation" : "Utilisez \\\\t pour une tabulation",
+  "Utilisez \\\\t pour une tabulation" : "Utilisez \\t si votre s\u00e9parateur est une tabulation",
   "Lignes \u00e0 ignorer" : "Lignes \u00e0 ignorer",
   "Nombre de ligne en d\u00e9but de fichier \u00e0 ne pas traiter" : "Nombre de ligne en d\u00e9but de fichier \u00e0 ne pas traiter",
   "Caract\u00e8re d'\u00e9chappement" : "Caract\u00e8re d'\u00e9chappement",

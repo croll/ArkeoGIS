@@ -3,6 +3,8 @@
 {block name='webpage_head' append}
 	{js file="/mod/cssjs/js/mootools.js"}
 	{js file="/mod/cssjs/js/mootools.more.js"}
+	{css file="/mod/cssjs/ext/BrowserUpdateWarning/css/BrowserUpdateWarning.css"}
+	{js file="/mod/cssjs/ext/BrowserUpdateWarning/BrowserUpdateWarning.js"}
 	{js file="/mod/cssjs/js/captainhook.js"}
 	{js file="/mod/cssjs/js/chbootstrap.js"}
 	{js file="/mod/cssjs/js/tabs.js"}
