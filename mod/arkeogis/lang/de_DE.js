@@ -131,5 +131,7 @@
   "Donnez un nom \u00e0 votre requ\u00eate." : "Geben Sie Ihrer Abfrage bitte einen Name.",
   "Utilisez" : "wenn Ihrer Trennzeichen einen Tabulator ist,",
   "pour une tabulation" : "benutzen",
-  "Date de modification de la fiche" : "Kartei Ver\u00e4nderungsdatum"
+  "Date de modification de la fiche" : "Kartei Ver\u00e4nderungsdatum",
+	"Français" : "Français",
+	"Allemand" : "Allemand"
 }
