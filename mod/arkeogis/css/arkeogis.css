@@ -158,6 +158,7 @@ table.map-query tr.buttons td {
 
 table.map-query tr.menu_archives select { 
  width: 100%;
+ max-width: 273px;
 }
 
 tr.title_caracterisation td { 
