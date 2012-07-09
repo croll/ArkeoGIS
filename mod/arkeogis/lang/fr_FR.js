@@ -53,7 +53,7 @@
   "Add user" : "Add user",
   "French" : "French",
   "Deutsch" : "Deutsch",
-  "Logout" : "Logout",
+  "Logout" : "D\u00e9connexion",
   "Recherche cartographique" : "Recherche cartographique",
   "Login" : "Login",
   "Pr\u00e9sentation" : "Pr\u00e9sentation",
