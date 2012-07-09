@@ -179,6 +179,8 @@ class Main {
 	public static function hook_mod_arkeogis_import($hookname, $userdata, $urlmatches) {
 		if (\mod\user\Main::userHasRight('Manage personal database') || \mod\user\Main::userHasRight('Manage all databases')) {
 		$page = new \mod\webpage\Main();
+    $lang=\mod\lang\Main::getCurrentLang();
+    $page->smarty->assign('lang', $lang);
 		$page->setLayout('arkeogis/import');
 		$page->display();
 		} 

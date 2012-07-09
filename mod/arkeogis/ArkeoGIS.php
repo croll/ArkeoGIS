@@ -239,7 +239,7 @@ class ArkeoGIS {
 
 	public static function updateDatabase($dbId, $dbDescription) {
 		$args = array($dbDescription, $dbId);
-		\core\Core::$db->exec('UPDATE "ark_database" SET "da_description" = ? WHERE "db_id" = ?', $args);
+		\core\Core::$db->exec('UPDATE "ark_database" SET "da_description" = ? WHERE "da_id" = ?', $args);
 	}
 
 	public static function getDatabaseId($dbName) {

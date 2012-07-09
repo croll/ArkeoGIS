@@ -469,7 +469,7 @@ class DatabaseImport {
 				self::$_database['id'] = $dbId;
 				self::$_database['name'] = $dbName;
 				if (!empty($description)) {
-						\mod\arkeogis\ArkeoGIS::addDatabase($dbId, $description);
+					\mod\arkeogis\ArkeoGIS::updateDatabase($dbId, $description);
 				}
 			} else {
 				try {

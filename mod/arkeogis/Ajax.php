@@ -6,7 +6,7 @@ class Ajax {
 
 	public static function getDbDesc($params) {
     		if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
-    		return \core\Core::$db->fetchOne("Select da_description FROM ark_database WHERE da_name =?",array($params['dbname']));
+    		return nl2br(\core\Core::$db->fetchOne("Select da_description FROM ark_database WHERE da_name =?",array($params['dbname'])));
 	}
 
 	private static function implode_unempty($ar, $sep) {
