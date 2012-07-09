@@ -24,15 +24,12 @@
 	{/if}
 
 	<div style="margin: 40px 0 30px 0">
-		Programme INTERREG - ArkeoGIS<br />
-		Loup Bernard<br />
-		5, allée du Général Rouvillois<br />
-		CS 50008<br />
-		67083 Strasbourg cedex<br /><br />
-
-		{t d="contactform" m="Tél"} : +33 (0)3 68 85 62 03<br /><br />
-
-		{t d="contactform" m="Mél"} : "Loup Bernard" loup.bernard(at)unistra.fr
+	     <span style="font-size:12px;"><strong>Programme INTERREG - ArkeoGIS</strong></span><br />
+	     <span style="font-size:12px;">Loup Bernard</span><br />
+	     <span style="font-size:12px;">5, allée du Général Rouvillois</span><br />
+	     <span style="font-size:12px;">CS 50008</span><br />
+	     <span style="font-size:12px;">67083 Strasbourg cedex</span><br />
+	     <span style="font-size:12px;">{t d="contactform" m="Tél"} : +33 (0)3 68 85 62 03</span>
 	</div>
 	{form mod="contactform" file="templates/form.json"}
 		<fieldset>
