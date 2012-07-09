@@ -441,7 +441,9 @@ function populateSavedQueriesMenu() {
 		    'value': line.id,
 		    'text': line.name
 		})));
-		if (line.id == id) sel.selectedIndex=index;
+		if (typeOf('line') != undefined && line.id == id) {
+			sel.selectedIndex=index;
+		}
 		index++;
 	    });
 	}

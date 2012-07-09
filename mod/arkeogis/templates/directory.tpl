@@ -1,5 +1,8 @@
 {extends tplextends('arkeogis/layout')}
 {block name='webpage_head' append}
+	{css file="/mod/cssjs/css/message.css"}
+	{js file="/mod/cssjs/js/messageclass.js"}
+	{js file="/mod/cssjs/js/message.js"}
 	{js file="/mod/cssjs/js/chmypaginate.js"}
 	{js file="/mod/cssjs/js/chfilter.js"}
 	{js file="/mod/cssjs/js/Modal.js"}

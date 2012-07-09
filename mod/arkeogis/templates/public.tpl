@@ -3,6 +3,8 @@
 {block name='webpage_head' append}
 	{js file="/mod/cssjs/js/mootools.js"}
 	{js file="/mod/cssjs/js/mootools.more.js"}
+	{css file="/mod/cssjs/ext/BrowserUpdateWarning/css/BrowserUpdateWarning.css"}
+	{js file="/mod/cssjs/ext/BrowserUpdateWarning/BrowserUpdateWarning.js"}
 	{js file="/mod/cssjs/js/captainhook.js"}
 	{js file="/mod/cssjs/js/chbootstrap.js"}
 	{js file="/mod/cssjs/js/tabs.js"}
@@ -50,7 +52,7 @@
 					<ul class="nav pull-right">
 						
 						{if \mod\user\Main::userhasRight('Manage page') }
-						<li class="dropdown" onclick="this.toggleClass('open');">
+						<li class="dropdown" id="li1" onclick="$('li1').toggleClass('open');">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='page' m='Page'}<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								{block name='page_menu' }
@@ -61,7 +63,7 @@
 						</li>
 						{/if}
 						{if \mod\user\Main::userhasRight('Manage rights') }
-						<li class="dropdown" onclick="this.toggleClass('open');">
+						<li class="dropdown" id="li2"  onclick="$('li2').toggleClass('open');">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='user' m="User"}<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								{block name='user_menu' }
@@ -71,7 +73,7 @@
 							</ul>
 						</li>
 						{/if}
-						<li class="dropdown" onclick="this.toggleClass('open');">
+						<li class="dropdown" id="li3"  onclick="$('li3').toggleClass('open');">
        							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
        							<ul id="switchlang" class="dropdown-menu">
 

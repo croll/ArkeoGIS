@@ -117,7 +117,6 @@ var Directory = new Class({
 		});
 	},
 	getDesc: function(dbname) {
-		console.log(dbname);
 		new Request.JSON({
 			'url': '/ajax/call/arkeogis/getDbDesc',
 			'onSuccess': function(resJSON) {
@@ -130,4 +129,20 @@ var Directory = new Class({
 	displayDesc: function(dbname, desc) {
 		dmod.setTitle(dbname).setBody(desc).show();
 	}
+});
+
+window.addEvent('domready', function() {
+	var browserWarning = new BrowserUpdateWarning({
+		imagesDirectory: '/mod/cssjs/ext/BrowserUpdateWarning/images/',
+		opacity: 30,
+		allowContinue: false,
+		downloadOptions: ['ie','safari','firefox','chrome'],
+		onFailure: function() {
+			//if (Browser.name == 'ie' && Browser.version == 6) {
+				$('arkeogis_container').empty();
+		//	}
+		}
+	});
+
+	browserWarning.check();
 });
