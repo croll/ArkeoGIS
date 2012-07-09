@@ -54,7 +54,7 @@
   "Deutsch" : "Deutsch",
   "Logout" : "Ausloggen",
   "Recherche cartographique" : "Kartensuche",
-  "Login" : "Login",
+  "Login" : "Anmelden",
   "Pr\u00e9sentation" : "Vorstellung",
   "Exemples" : "Beispiele",
   "Manuel utilisateur" : "Benutzer Handbuch",

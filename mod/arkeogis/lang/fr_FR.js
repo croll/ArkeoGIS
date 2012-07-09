@@ -55,7 +55,7 @@
   "Deutsch" : "Deutsch",
   "Logout" : "D\u00e9connexion",
   "Recherche cartographique" : "Recherche cartographique",
-  "Login" : "Login",
+  "Login" : "Identification",
   "Pr\u00e9sentation" : "Pr\u00e9sentation",
   "Exemples" : "Exemples",
   "Manuel utilisateur" : "Manuel utilisateur",
