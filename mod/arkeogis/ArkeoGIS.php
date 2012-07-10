@@ -67,7 +67,7 @@ class ArkeoGIS {
 	}
 
 
-	public static function search_sites($search, $select, $addtable=array(), $limit=1000,
+	public static function search_sites($search, $select, $addtable=array(), $limit=1500,
                                       $custom_groupby=false, $orderby='ark_site.si_id', $getcount=true, 
                                       $onlysprange=true
   ) {

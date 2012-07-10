@@ -40,7 +40,7 @@ class Ajax {
 																													 'ark_siteperiod_production' => true,
 																													 'ark_siteperiod_furniture' => true,
 																													 'ark_siteperiod_realestate' => true
-																													 ), 1000, 'ark_site.si_id, da_id', 'ark_site.si_id', true, false);
+																													 ), 1500, 'ark_site.si_id, da_id', 'ark_site.si_id', true, false);
 		$total_count=$res['total_count'];
 		$sites=&$res['sites'];
 		$sites=&$res['sites'];
@@ -92,7 +92,7 @@ class Ajax {
 																												 'ark_siteperiod_production' => true,
 																												 'ark_siteperiod_furniture' => true,
 																												 'ark_siteperiod_realestate' => true
-																												 ), 1000, 'ark_site.si_id, da_id', 'ark_site.si_id', true, false);
+																												 ), 1500, 'ark_site.si_id, da_id', 'ark_site.si_id', true, false);
 		$total_count=$res['total_count'];
 		$sites=&$res['sites'];
 
