@@ -135,6 +135,7 @@
   "Utilisez" : "Utilisez",
   "pour une tabulation" : "si votre s\u00e9parateur est une tabulation",
   "Date de modification de la fiche" : "Date de modification de la fiche",
-	"Français" : "Français",
-	"Allemand" : "Allemand"
+  "Fran\u00e7ais" : "Fran\u00e7ais",
+  "Allemand" : "Allemand",
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites." : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites."
 }

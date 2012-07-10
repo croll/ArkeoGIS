@@ -132,6 +132,7 @@
   "Utilisez" : "wenn Ihrer Trennzeichen einen Tabulator ist,",
   "pour une tabulation" : "benutzen",
   "Date de modification de la fiche" : "Kartei Ver\u00e4nderungsdatum",
-	"Français" : "Français",
-	"Allemand" : "Allemand"
+  "Fran\u00e7ais" : "Fran\u00e7ais",
+  "Allemand" : "Allemand",
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites." : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites."
 }

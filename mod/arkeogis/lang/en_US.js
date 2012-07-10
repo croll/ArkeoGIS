@@ -127,6 +127,7 @@
   "lignes trait\u00e9es" : "lignes trait\u00e9es",
   "Date de modification de la fiche" : "Date de modification de la fiche",
   "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate.",
-	"Français" : "Français",
-	"Allemand" : "Allemand"
+  "Fran\u00e7ais" : "Fran\u00e7ais",
+  "Allemand" : "Allemand",
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites." : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites."
 }
