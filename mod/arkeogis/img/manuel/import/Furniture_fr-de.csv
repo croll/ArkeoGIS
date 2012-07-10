@@ -40,7 +40,7 @@
 ;"Brique # Baustein";"Inscription # Inschrift";
 "Métal # Metall";"Armement # Waffen Rüstungen";"Casque # Helm";
 ;;"Epée # Schwert";
-;;"Lance # Lance";
+;;"Lance # Lanze";
 ;"Harnachement # Pferdegeschirr";"Char # Wagen";
 ;"Parure # Tracht";"Fibule # Fibel";"Fibule S4 # Schlangenfibel S4"
 ;;;"Fibule S5 # Schlangenfibel S5"
@@ -75,7 +75,7 @@
 ;;"Denier  # Denare";
 ;;"Sesterce  # Sesterz";
 ;;"Bas empire  # Spätantike";
-;"Potin  # Potinmûnze";"Sanglier # Potin au Sanglier";
+;"Potin  # Potinmünze";"Sanglier # Potin au Sanglier";
 ;;"Grosse tête # Potin à la grosse tête";
 ;;"Kaletedu  # Kaletedu-Quinar";
 ;;"Boïenne  # Boïenne";
