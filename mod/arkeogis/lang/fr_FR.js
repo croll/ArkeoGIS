@@ -55,7 +55,7 @@
   "Deutsch" : "Deutsch",
   "Logout" : "D\u00e9connexion",
   "Recherche cartographique" : "Recherche cartographique",
-  "Login" : "Login",
+  "Login" : "Identification",
   "Pr\u00e9sentation" : "Pr\u00e9sentation",
   "Exemples" : "Exemples",
   "Manuel utilisateur" : "Manuel utilisateur",
@@ -134,5 +134,7 @@
   "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate.",
   "Utilisez" : "Utilisez",
   "pour une tabulation" : "si votre s\u00e9parateur est une tabulation",
-  "Date de modification de la fiche" : "Date de modification de la fiche"
+  "Date de modification de la fiche" : "Date de modification de la fiche",
+	"Français" : "Français",
+	"Allemand" : "Allemand"
 }

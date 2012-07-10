@@ -38,8 +38,8 @@
   "Cartographie" : "Map",
   "Import" : "Import",
   "Recherche cartographique" : "Recherche cartographique",
-  "Logout" : "Logout",
-  "Login" : "Login",
+  "Logout" : "D\u00e9connexion",
+  "Login" : "Identification",
   "Pr\u00e9sentation" : "Pr\u00e9sentation",
   "Exemples" : "Exemples",
   "Manuel utilisateur" : "Manuel utilisateur",
@@ -121,5 +121,12 @@
   "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) premi\u00e8rement dans votre langue de travail puis dans une deuxi\u00e8me de ces deux langues (fran\u00e7ais ou allemand). Si vous ne pouvez traduire correctement cette pr\u00e9sentation, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande" : "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) premi\u00e8rement dans votre langue de travail puis dans une deuxi\u00e8me de ces deux langues (fran\u00e7ais ou allemand). Si vous ne pouvez traduire correctement cette pr\u00e9sentation, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande",
   "lignes trait\u00e9s" : "lignes trait\u00e9s",
   "sites import\u00e9s" : "sites import\u00e9s",
-  "erreurs (voir ci dessous)" : "erreurs (voir ci dessous)"
+  "erreurs (voir ci dessous)" : "erreurs (voir ci dessous)",
+  "Utilisez" : "Utilisez",
+  "pour une tabulation" : "pour une tabulation",
+  "lignes trait\u00e9es" : "lignes trait\u00e9es",
+  "Date de modification de la fiche" : "Date de modification de la fiche",
+  "Donnez un nom \u00e0 votre requ\u00eate." : "Donnez un nom \u00e0 votre requ\u00eate.",
+	"Français" : "Français",
+	"Allemand" : "Allemand"
 }

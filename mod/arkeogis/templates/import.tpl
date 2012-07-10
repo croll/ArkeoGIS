@@ -53,7 +53,10 @@
 				<div class="control-group">
 					<label class="control-label">{t d='arkeogis' m="Langue"}</label>
 					<div class="controls">
-						{$dbUpload.select_lang}
+						<select name="select_lang">
+							<option value="fr">{t d="arkeogis" m="Français"}</option>
+							<option value="de">{t d="arkeogis" m="Allemand"}</option>
+						</select>
 					<p class="help-block">{t d='arkeogis' m="Langue utilisée pour caractériser les périodes/mobilier/immobilier"}</p>	
 					</div>
 				</div>
