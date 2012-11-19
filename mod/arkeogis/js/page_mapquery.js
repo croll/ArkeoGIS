@@ -123,7 +123,7 @@ window.addEvent('domready', function() {
 			hideSpinner();
 		display_query(form);
 		if (res.mapmarkers.length < res.total_count
-		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites.", res.mapmarkers.length, res.total_count))) {
+		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites.", res.mapmarkers.length, parseInt(res.total_count)))) {
 
 		    // download the sites as csv file
 		    window.location.href='/export_sheet/'+encodeURIComponent(JSON.encode(form));
