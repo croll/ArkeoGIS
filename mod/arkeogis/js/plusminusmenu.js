@@ -142,7 +142,8 @@ var PlusMinusItem = new Class({
     parent_menu: null,
     selected: '',
     options: {
-	nominus: false
+	nominus: false,
+	enabled: true
     },
 
     initialize: function(text, value, submenu, options) {
@@ -168,6 +169,7 @@ var PlusMinusItem = new Class({
 	    'class': 'pmmenu-item',
 	    text: me.model.text
 	});
+	me.html_element.addClass(me.options.enabled ? 'pmmenu-enabled' : 'pmmenu-disabled');
 	me.html_element.set('html', me.html_element.get('html').replace(/\n/g, '<br />'));
 	me.html_element.inject(to_html_elem);
 	var sub=new Element('div', {
@@ -319,7 +321,9 @@ var PlusMinusItem = new Class({
 	var pitem=this.searchValue(jsitem.parentid);
 	if (pitem) {
 	    if (!pitem.submenu) pitem.setSubMenu(new PlusMinusMenu(null));
-	    pitem.submenu.addItem(new PlusMinusItem(jsitem.name, jsitem.id, null));
+	    pitem.submenu.addItem(new PlusMinusItem(jsitem.name, jsitem.id, null, {
+		enabled : typeof(jsitem.enabled) == 'undefined' ? true : jsitem.enabled
+	    }));
 	} else {
 	    alert("id not found: "+jsitem.id);
 	}
