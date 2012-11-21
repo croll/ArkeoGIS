@@ -22,6 +22,7 @@ function csvToLtree($filepath, $separator, $charset, $lf, $skipline=NULL) {
 			$lineNumber++;
 			continue;
 		}
+		$line=trim($line, "\r\n");
     if (strlen($line) > 3900) throw new \Exception("Line wrap seems to be bad.");
 		$lineNumber++;
     if ($charset != 'utf8') $line=iconv($charset, 'utf8', $line);
