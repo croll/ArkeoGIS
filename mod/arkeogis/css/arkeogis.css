@@ -313,7 +313,7 @@ border-bottom-left-radius: 3px;
 .pmmenu-title-sub { 
  position: absolute;
  right: 2px;
- top: 6px;
+ top: 3px;
  width: 14px;
  height: 14px;
  background-image: url("/mod/cssjs/ext/twitter-bootstrap/img/glyphicons-halflings.png");
@@ -323,7 +323,7 @@ border-bottom-left-radius: 3px;
 .pmmenu-sel {
  position: absolute;
  left: 5px;
- top: 5px;
+ top: 3px;
  width: 14px;
  height: 14px;
 }
