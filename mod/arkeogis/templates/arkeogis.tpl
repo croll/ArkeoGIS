@@ -74,6 +74,10 @@
 						<td><div id='menu_production' style='position: relative'></div></td>
 						<td class='exceptionnel'><div><input type='checkbox' id='ex_production' value='1'/></div></td>
 					 </tr>
+					 <tr class="menu_landscape">
+						<td><div id='menu_landscape' style='position: relative'></div></td>
+						<td class='exceptionnel'><div><input type='checkbox' id='ex_landscape' value='1'/></div></td>
+					 </tr>
 
 					 <tr class="title_exceptionnels">
 						<td class="text_exceptionnels">{t d='arkeogis' m="Sites exceptionnels"}</td>

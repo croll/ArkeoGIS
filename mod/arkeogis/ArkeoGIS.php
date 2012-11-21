@@ -54,6 +54,9 @@ class ArkeoGIS {
 			case 'furniture':
 				$prefix = 'sf';
 			break;
+			case 'landscape':
+				$prefix = 'sl';
+			break;
 			case 'production':
 				$prefix = 'sp';
 			break;
@@ -73,6 +76,7 @@ class ArkeoGIS {
   ) {
 		$addtable=array('ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
 										'ark_siteperiod_furniture' => isset($addtable['ark_siteperiod_furniture']) ? $addtable['ark_siteperiod_furniture'] : false,
+										'ark_siteperiod_landscape' => isset($addtable['ark_siteperiod_landscape']) ? $addtable['ark_siteperiod_landscape'] : false,
 										'ark_siteperiod_realestate' => isset($addtable['ark_siteperiod_realestate']) ? $addtable['ark_siteperiod_realestate'] : false,
 										'ark_database' => isset($addtable['ark_database']) ? $addtable['ark_database'] : false,
 										'ark_city' => isset($addtable['ark_city']) ? $addtable['ark_city'] : false);
@@ -160,6 +164,23 @@ class ArkeoGIS {
 			$where.=' AND sf_exceptional = 1';
 		}
 
+		if (isset($search['landscape_include']) && count($search['landscape_include'])) {
+			$addtable['ark_siteperiod_landscape']=true;
+			$where.=' AND sl_landscape_id IN (?)';
+			$args[]=$search['landscape_include'];
+		}
+
+		if (isset($search['landscape_exclude']) && count($search['landscape_exclude'])) {
+			$addtable['ark_siteperiod_landscape']=true;
+			$where.=' AND (sl_landscape_id NOT IN (?) OR sl_landscape_id IS NULL)';
+			$args[]=$search['landscape_exclude'];
+		}
+
+		if (isset($search['landscape_exceptional']) && $search['landscape_exceptional'] == 1) {
+			$addtable['ark_siteperiod_landscape']=true;
+			$where.=' AND sl_exceptional = 1';
+		}
+
 		if (isset($search['realestate_include']) && count($search['realestate_include'])) {
 			$addtable['ark_siteperiod_realestate']=true;
 			$where.=' AND sr_realestate_id IN (?)';
@@ -201,6 +222,9 @@ class ArkeoGIS {
 		}
 		if ($addtable['ark_siteperiod_furniture']) {
 			$from.=" LEFT JOIN ark_siteperiod_furniture ON sf_site_period_id = ark_site_period.sp_id";
+		}
+		if ($addtable['ark_siteperiod_landscape']) {
+			$from.=" LEFT JOIN ark_siteperiod_landscape ON sl_site_period_id = ark_site_period.sp_id";
 		}
 		if ($addtable['ark_siteperiod_realestate']) {
 			$from.=" LEFT JOIN ark_siteperiod_realestate ON sr_site_period_id = ark_site_period.sp_id";
@@ -327,10 +351,9 @@ class ArkeoGIS {
 		$menus['db']=self::idtok(\core\Core::$db->fetchAll("select da_id as id, da_name as name from ark_database order by da_id"));
 		$menus['period']=self::idtok(\core\Core::$db->fetchAll("select pe_id as id, pe_name_$lang as name from ark_period order by pe_id"));
 		$menus['production']=self::idtok(\core\Core::$db->fetchAll("select pr_id as id, pr_name_$lang as name from ark_production order by pr_id"));
-		
-		$menus['realestate']=self::idtok(\core\Core::$db->fetchAll("select re_id as id, re_name_$lang as name from ark_realestate order by re_id"));
-		
+		$menus['realestate']=self::idtok(\core\Core::$db->fetchAll("select re_id as id, re_name_$lang as name from ark_realestate order by re_id"));		
 		$menus['furniture']=self::idtok(\core\Core::$db->fetchAll("select fu_id as id, fu_name_$lang as name from ark_furniture order by fu_id"));
+		$menus['landscape']=self::idtok(\core\Core::$db->fetchAll("select la_id as id, la_name_$lang as name from ark_landscape order by la_id"));
     $menus['knowledge']=array(
       'unknown' => \mod\lang\Main::ch_t('arkeogis', "Non renseigné"),
       'literature' => \mod\lang\Main::ch_t('arkeogis', "Littérature, prospecté"),
@@ -370,10 +393,11 @@ class ArkeoGIS {
 		$siteInfos['city']['name'] = $infos[0]['city_name'];
 		$siteInfos['city']['code'] = $infos[0]['city_code'];
 		// Get site periods and caracteristics
-		$query = "SELECT re.node_path AS realestate_path, fu.node_path AS furniture_path, pr.node_path AS production_path, sr_exceptional, sf_exceptional, sp_exceptional, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start_path, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end_path, sp_period_isrange AS isrange, sp_knowledge_type AS knowledge, sp_comment AS comment, sp_bibliography AS bibliography ";
+		$query = "SELECT re.node_path AS realestate_path, fu.node_path AS furniture_path, la.node_path AS landscape_path, pr.node_path AS production_path, sr_exceptional, sf_exceptional, sl_exceptional, sp_exceptional, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start_path, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end_path, sp_period_isrange AS isrange, sp_knowledge_type AS knowledge, sp_comment AS comment, sp_bibliography AS bibliography ";
 		$query .= "FROM ark_site_period AS sp ";
 		$query .= "LEFT JOIN ark_siteperiod_realestate AS sr ON sp.sp_id=sr.sr_site_period_id LEFT JOIN ark_realestate AS re ON sr.sr_realestate_id=re.re_id ";
 		$query .= "LEFT JOIN ark_siteperiod_furniture AS sf ON sp.sp_id=sf.sf_site_period_id LEFT JOIN ark_furniture AS fu ON sf.sf_furniture_id=fu.fu_id ";
+		$query .= "LEFT JOIN ark_siteperiod_landscape AS sl ON sp.sp_id=sl.sl_site_period_id LEFT JOIN ark_landscape AS la ON sl.sl_landscape_id=la.la_id ";
 		$query .= "LEFT JOIN ark_siteperiod_production AS spp ON sp.sp_id=spp.sp_site_period_id LEFT JOIN ark_production AS pr ON spp.sp_production_id=pr.pr_id ";
 		$query .= "WHERE sp_site_id=?";
 		// Get caracteristics for each period
@@ -397,6 +421,10 @@ class ArkeoGIS {
 			if (!empty($pInfos['furniture_path'])) {
 				$datas['furniture'] = Arkeogis::node_path_to_array($pInfos['furniture_path'], $strings['furniture']);
 				$datas['furniture_exp'] = $pInfos['sf_exceptional'];
+			}
+			if (!empty($pInfos['landscape_path'])) {
+				$datas['landscape'] = Arkeogis::node_path_to_array($pInfos['landscape_path'], $strings['landscape']);
+				$datas['landscape_exp'] = $pInfos['sl_exceptional'];
 			}
 			$siteInfos['characteristics'][] = $datas;
 		}

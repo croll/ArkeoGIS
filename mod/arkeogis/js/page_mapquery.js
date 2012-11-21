@@ -34,6 +34,11 @@ window.addEvent('domready', function() {
 	arkeo_menu.furniture.addJsonItem(menus.furniture[i]);
     arkeo_menu.furniture.inject($('menu_furniture'));
 
+    arkeo_menu.landscape = new PlusMinusItem(ch_t('arkeogis', "Choix paysage"), null, null);
+    for (var i=0; i<menus.landscape.length; i++)
+	arkeo_menu.landscape.addJsonItem(menus.landscape[i]);
+    arkeo_menu.landscape.inject($('menu_landscape'));
+
 
     /* initialization of menus centroid, knowledge, occupation */
 
@@ -82,6 +87,8 @@ window.addEvent('domready', function() {
 	result.realestate_exclude = arkeo_menu.realestate.getSelection('-');
 	result.furniture_include = arkeo_menu.furniture.getSelection('+');
 	result.furniture_exclude = arkeo_menu.furniture.getSelection('-');
+	result.landscape_include = arkeo_menu.landscape.getSelection('+');
+	result.landscape_exclude = arkeo_menu.landscape.getSelection('-');
 
 
 	// get selections of multiselect menus
@@ -98,6 +105,7 @@ window.addEvent('domready', function() {
 	result.realestate_exceptional = $('ex_realestate').checked ? 1 : 0;
 	result.furniture_exceptional = $('ex_furniture').checked ? 1 : 0;
 	result.production_exceptional = $('ex_production').checked ? 1: 0;
+	result.landscape_exceptional = $('ex_landscape').checked ? 1 : 0;
 
 	return result;
     }
@@ -109,7 +117,8 @@ window.addEvent('domready', function() {
 	    && (form.period_include.length > 0 || form.period_exclude.length > 0)
 	    && (form.production_include.length > 0 || form.production_exclude.length > 0
 		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
-		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0)) {
+		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0
+		|| form.landscape_include.length > 0 || form.landscape_exclude.length > 0)) {
 	var form=buildSelectionObject();
 	} else {
 	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
@@ -175,7 +184,8 @@ window.addEvent('domready', function() {
 	    && (form.period_include.length > 0 || form.period_exclude.length > 0)
 	    && (form.production_include.length > 0 || form.production_exclude.length > 0
 		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
-		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0)) {
+		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0
+		|| form.landscape_include.length > 0 || form.landscape_exclude.length > 0)) {
 	} else {
 	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
 			return;
@@ -223,6 +233,7 @@ window.addEvent('domready', function() {
 		arkeo_menu.production.setSelection(res.production_include, res.production_exclude);
 		arkeo_menu.realestate.setSelection(res.realestate_include, res.realestate_exclude);
 		arkeo_menu.furniture.setSelection(res.furniture_include, res.furniture_exclude);
+		arkeo_menu.landscape.setSelection(res.landscape_include, res.landscape_exclude);
 
 		arkeo_menu.centroid.setSelection(res.centroid_include, []);
 		arkeo_menu.knowledge.setSelection(res.knowledge_include, []);
@@ -231,6 +242,7 @@ window.addEvent('domready', function() {
 		$('ex_realestate').checked = res.realestate_exceptional == 1;
 		$('ex_furniture').checked = res.furniture_exceptional == 1;
 		$('ex_production').checked = res.production_exceptional == 1;
+		$('ex_landscape').checked = res.landscape_exceptional == 1;
 
 		$('select-savedqueries').selectedIndex=idx;
 	    }
@@ -262,12 +274,12 @@ window.addEvent('domready', function() {
     });
 
 
-    ['centroid', 'knowledge', 'occupation', 'db', 'period', 'production', 'realestate', 'furniture'].each(function(m) {
+    ['centroid', 'knowledge', 'occupation', 'db', 'period', 'production', 'realestate', 'furniture', 'landscape'].each(function(m) {
 	arkeo_menu[m].addEvent('selection', function() {
 	    $('select-savedqueries').selectedIndex=0;
 	})
     });
-    [ 'ex_realestate', 'ex_furniture', 'ex_production' ].each(function(m) {
+    [ 'ex_realestate', 'ex_furniture', 'ex_production', 'ex_landscape' ].each(function(m) {
 	$(m).addEvent('change', function() {
 	    $('select-savedqueries').selectedIndex=0;
 	})
@@ -284,6 +296,7 @@ window.addEvent('domready', function() {
 	arkeo_menu.production.setSelection([], []);
 	arkeo_menu.realestate.setSelection([], []);
 	arkeo_menu.furniture.setSelection([], []);
+	arkeo_menu.landscape.setSelection([], []);
 	
 	arkeo_menu.centroid.setSelection([], []);
 	arkeo_menu.knowledge.setSelection([], []);
@@ -292,6 +305,7 @@ window.addEvent('domready', function() {
 	$('ex_realestate').checked = false;
 	$('ex_furniture').checked = false;
 	$('ex_production').checked = false;
+	$('ex_landscape').checked = false;
 
 	$('querys').set('html', '');
     });
@@ -363,7 +377,7 @@ function display_query(query) {
     });
 
     html.getElement('.query_num').set('text', ++arkeo_query_displayed);
-    ['centroid', 'knowledge', 'occupation', 'db', 'period', 'production', 'realestate', 'furniture'].each(function(m) {
+    ['centroid', 'knowledge', 'occupation', 'db', 'period', 'production', 'realestate', 'furniture', 'landscape'].each(function(m) {
 	var result=[];
 	if (arkeo_menu[m].submenu.buildPath(query[m+'_include'], query[m+'_exclude'], result)) {
 	    var queryfilter_html=$('query-filter').clone();
@@ -374,13 +388,14 @@ function display_query(query) {
 	    if (m == 'production') title=ch_t('arkeogis', "Production");
 	    else if (m == 'realestate') title=ch_t('arkeogis', "Immobilier");
 	    else if (m == 'furniture') title=ch_t('arkeogis', "Mobilier");
+	    else if (m == 'landscape') title=ch_t('arkeogis', "Paysage");
 	    else if (m == 'centroid') title=ch_t('arkeogis', "Centroid");
 	    else if (m == 'knowledge') title=ch_t('arkeogis', "Connaissance");
 	    else if (m == 'occupation') title=ch_t('arkeogis', "Occupation");
 	    else if (m == 'db') title=ch_t('arkeogis', "Base de donnée");
 	    else if (m == 'period') title=ch_t('arkeogis', "Période");
 
-	    if (m == 'production' || m == 'realestate' || m == 'furniture')
+	    if (m == 'production' || m == 'realestate' || m == 'furniture' || m == 'landscape')
 		if (query[m+'_exceptional'] == 1) title+=' '+ch_t('arkeogis', '(exceptionals only)');
 	    queryfilter_html.getElement('div.filtername span').set('text', title);
 
