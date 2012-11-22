@@ -4,6 +4,8 @@ var queryNum = 0;
 var mapMarkers = [];
 var modalWin;
 
+var select_savedqueries_inhib_selection_event=false;
+
 window.addEvent('domready', function() {
 
     /* initialization of plusminus menus */
@@ -107,6 +109,14 @@ window.addEvent('domready', function() {
 	result.production_exceptional = $('ex_production').checked ? 1: 0;
 	result.landscape_exceptional = $('ex_landscape').checked ? 1 : 0;
 
+	// get saved query
+	var option=$('select-savedqueries').getSelected();
+	result.saved_query={
+	    value: option.get('value')[0],
+	    index: $('select-savedqueries').selectedIndex,
+	    name: option.get('text')[0]
+	};
+
 	return result;
     }
 
@@ -119,7 +129,6 @@ window.addEvent('domready', function() {
 		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
 		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0
 		|| form.landscape_include.length > 0 || form.landscape_exclude.length > 0)) {
-	var form=buildSelectionObject();
 	} else {
 	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
 			return;
@@ -186,6 +195,7 @@ window.addEvent('domready', function() {
 		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
 		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0
 		|| form.landscape_include.length > 0 || form.landscape_exclude.length > 0)) {
+	var form=buildSelectionObject();
 	} else {
 	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
 			return;
@@ -228,6 +238,7 @@ window.addEvent('domready', function() {
 		res=JSON.decode(res);
 		var idx=$('select-savedqueries').selectedIndex;
 		if (idx == 0) return;
+		select_savedqueries_inhib_selection_event=true;
 		arkeo_menu.db.setSelection(res.db_include, res.db_exclude);
 		arkeo_menu.period.setSelection(res.period_include, res.period_exclude);
 		arkeo_menu.production.setSelection(res.production_include, res.production_exclude);
@@ -244,44 +255,24 @@ window.addEvent('domready', function() {
 		$('ex_production').checked = res.production_exceptional == 1;
 		$('ex_landscape').checked = res.landscape_exceptional == 1;
 
-		$('select-savedqueries').selectedIndex=idx;
+		select_savedqueries_inhib_selection_event=false;
+		//$('select-savedqueries').selectedIndex=idx;
 	    }
 	}).post({
 	    'queryid': $('select-savedqueries').get('value')
 	});
     });
 
-
-    $$('.btn-querydelete').addEvent('click', function() {
-	var option=$('select-savedqueries').getSelected();
-	if (option.get('value') == '0') {
-	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez selectionner une requête avant"));
-			return;
-	}
-	if (!confirm(ch_t('arkeogis', "Souhaitez-vous vraiment effacer la requête '%s' ?", option.get('text')))) return;
-	new Request.JSON({
-	    'url': '/ajax/call/arkeogis/deleteQuery',
-	    'onSuccess': function(res) {
-		populateSavedQueriesMenu();
-		if (res == 'ok')
-		    CaptainHook.Message.show(ch_t('arkeogis', "Requête '%s' effacée", option.get('text')));
-		else alert('problem');
-		return;
-	    }
-	}).post({
-	    'queryid': option.get('value')
-	});
-    });
-
-
     ['centroid', 'knowledge', 'occupation', 'db', 'period', 'production', 'realestate', 'furniture', 'landscape'].each(function(m) {
 	arkeo_menu[m].addEvent('selection', function() {
-	    $('select-savedqueries').selectedIndex=0;
+	    if (!select_savedqueries_inhib_selection_event)
+		$('select-savedqueries').selectedIndex=0;
 	})
     });
     [ 'ex_realestate', 'ex_furniture', 'ex_production', 'ex_landscape' ].each(function(m) {
 	$(m).addEvent('change', function() {
-	    $('select-savedqueries').selectedIndex=0;
+	    if (!select_savedqueries_inhib_selection_event)
+		$('select-savedqueries').selectedIndex=0;
 	})
     });
 
@@ -408,6 +399,35 @@ function display_query(query) {
 	}
     });
 
+    if (query.saved_query.value > 0) {
+	html.getElement('.input-save-query').set('value', query.saved_query.name);
+	html.getElement('.input-save-query').set('disabled', true);
+	html.getElement('.btn-delete-query').setStyle('display', '');
+    } else {
+	html.getElement('.btn-save-query').setStyle('display', '');
+    }
+
+    html.getElement('.btn-delete-query').addEvent('click', function() {
+	var option=$('select-savedqueries').getSelected();
+	if (!confirm(ch_t('arkeogis', "Souhaitez-vous vraiment effacer la requête '%s' ?", query.saved_query.name))) return;
+	new Request.JSON({
+	    'url': '/ajax/call/arkeogis/deleteQuery',
+	    'onSuccess': function(res) {
+		populateSavedQueriesMenu();
+		if (res == 'ok') {
+		    CaptainHook.Message.show(ch_t('arkeogis', "Requête '%s' effacée", query.saved_query.name));
+		    html.getElement('.input-save-query').set('disabled', false);
+		    html.getElement('.btn-delete-query').setStyle('display', 'none');
+		    html.getElement('.btn-save-query').setStyle('display', '');
+		}
+		else alert('problem');
+		return;
+	    }
+	}).post({
+	    'queryid': query.saved_query.value
+	});
+    });
+
     html.getElement('.btn-save-query').addEvent('click', function() {
 	if (!html.getElement('.input-save-query').get('value').trim())
 	    return alert(ch_t('arkeogis', "Donnez un nom à votre requête."));
@@ -415,8 +435,12 @@ function display_query(query) {
 	    'url': '/ajax/call/arkeogis/saveQuery',
 	    'onSuccess': function(res) {
 		populateSavedQueriesMenu();
-		if (res == 'ok')
+		if (res == 'ok') {
 		    CaptainHook.Message.show(ch_t('arkeogis', "Requête enregistrée"));
+		    html.getElement('.input-save-query').set('disabled', true);
+		    html.getElement('.btn-delete-query').setStyle('display', '');
+		    html.getElement('.btn-save-query').setStyle('display', 'none');
+		}
 		else if (res == 'duplicate')
 		    alert(ch_t('arkeogis', "Une requête '%s' existe déjà sous ce nom",
 			       html.getElement('.input-save-query').get('value')));

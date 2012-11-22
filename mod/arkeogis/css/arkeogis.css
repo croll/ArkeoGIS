@@ -223,7 +223,7 @@ table.map-query td.validations .btn-display-sheet {
   float: right;
 }
 
-table.map-query .btn-reinit, table.map-query .btn-querydelete {
+table.map-query .btn-reinit, table.map-query {
  width: 100%;
 }
 

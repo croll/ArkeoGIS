@@ -95,11 +95,6 @@
 						 <button class='btn btn-reinit'>{t d='arkeogis' m="Réinitialiser la requête"}</button>
 						</td>
 					 </tr>
-					 <tr class="buttons">
-						<td colspan='2' class="querydelete">
-						 <button class='btn btn-querydelete'>{t d='arkeogis' m="Supprimer de l'archivage cette requête"}</button>
-						</td>
-					 </tr>
 				 </table>
 			</div>
 			<div id="map_sheet" class='sheetovermap' style='display: none'></div>
@@ -115,7 +110,8 @@
 		  <div class='query-header-title'>Récapitulatif de la requête : <span class='query_num'>1</span></div>
                   <div class='query-header-save'>
 			<input id='input-save-query' class='input-save-query' type='text' value='' placeholder='{t d='arkeogis' m='Nom de la requête'}'/>
-			<button id='btn-save-query' class='btn btn-save-query'>{t d='arkeogis' m='Archiver la requête'}</button>
+			<button id='btn-save-query' style='display: none' class='btn btn-save-query'>{t d='arkeogis' m='Archiver la requête'}</button>
+			<button id='btn-delete-query' style='display: none' class='btn btn-delete-query'>{t d='arkeogis' m='Désarchiver la requête'}</button>
                   </div>
 		  <div class='query-header-buttons'>
 			<button class='btn-success btn-print'>{t d='arkeogis' m='Imprimer'}</button>
