@@ -50,6 +50,13 @@ var PlusMinusMenu = new Class({
 	    'class': 'pmmenu-title',
 	    text: me.parent_item.model.text
 	});
+	var closebutton=new Element('div', {
+	    'class': 'pmmenu-close',
+	});
+	closebutton.addEvent('click', function(e) {
+	    me.close();
+	});
+	closebutton.inject(title);
 	title.inject(me.html_element);
 	var title_sub=new Element('div', {
 	    'class': 'pmmenu-title-sub'
@@ -88,6 +95,10 @@ var PlusMinusMenu = new Class({
 	if (this.html_element) {
 	    this.html_element.destroy();
 	    this.html_element=null;
+	}
+	if (this.parent_item.back) {
+	    this.parent_item.back.destroy();
+	    this.parent_item.back=null;
 	}
     },
 
@@ -140,6 +151,7 @@ var PlusMinusItem = new Class({
     },
     submenu: null,
     parent_menu: null,
+    back: null,
     selected: '',
     options: {
 	nominus: false,
@@ -188,7 +200,7 @@ var PlusMinusItem = new Class({
 		    if (me.submenu.isOpened()) {
 			me.submenu.close();
 		    } else {
- 			var back=new Element('div', {
+ 			me.back=new Element('div', {
 			    styles: {
 				position: 'absolute',
 				left: 0,
@@ -198,10 +210,13 @@ var PlusMinusItem = new Class({
 				'z-index': 1999
 			    }
 			});
-			back.inject($$('body')[0], 'top');
-			back.addEvent('click', function(e) {
+			me.back.inject($$('body')[0], 'top');
+			me.back.addEvent('click', function(e) {
 			    me.submenu.close();
-			    back.destroy();
+			    if (me.back) {
+				me.back.destroy();
+				me.back=null;
+			    }
 			});
 			
 			me.submenu.inject(to_html_elem);

@@ -265,6 +265,18 @@ table.map-query .btn-reinit, table.map-query .btn-querydelete {
  background-color: #eee;
 }
 
+.pmmenu-close {
+ position: absolute;
+ left: 1px;
+ top: 1px;
+ background-image: url("/mod/arkeogis/img/close-19.png");
+ background-position: 0 0; 
+ background-repeat: no-repeat;
+ width: 19px;
+ height: 19px;
+ cursor: pointer;
+}
+
 .pmmenu-root { 
  width: 187px;
  border: solid 1px #cccccc;
