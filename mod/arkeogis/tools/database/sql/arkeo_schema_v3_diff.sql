@@ -43,3 +43,22 @@ ALTER TABLE ONLY ark_siteperiod_landscape
 
 ALTER TABLE ONLY ark_siteperiod_landscape
     ADD CONSTRAINT ark_siteperiod_landscape_sl_site_period_id_fkey FOREIGN KEY (sl_site_period_id) REFERENCES ark_site_period(sp_id) ON DELETE CASCADE;
+
+CREATE TYPE ark_database_type AS ENUM (
+    'inventory',
+    'research'
+);
+
+CREATE TYPE ark_database_scale_resolution AS ENUM (
+    'site',
+    'watershed',
+    'micro-region',
+    'retion',
+    'country',
+    'region'
+);
+
+ALTER TABLE public.ark_database ADD COLUMN da_description_de TEXT;
+ALTER TABLE public.ark_database ADD COLUMN da_type ark_database_type;
+ALTER TABLE public.ark_database ADD COLUMN da_geographical_limit TEXT;
+ALTER TABLE public.ark_database ADD COLUMN da_scale_resolution ark_database_scale_resolution;

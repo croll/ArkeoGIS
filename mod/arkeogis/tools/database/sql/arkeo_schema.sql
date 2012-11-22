@@ -190,6 +190,19 @@ ALTER TABLE public.ark_city_ci_id_seq OWNER TO arkeogisadm;
 
 ALTER SEQUENCE ark_city_ci_id_seq OWNED BY ark_city.ci_id;
 
+CREATE TYPE ark_database_type AS ENUM (
+    'inventory',
+    'research'
+);
+
+CREATE TYPE ark_database_scale_resolution AS ENUM (
+    'site',
+    'watershed',
+    'micro-region',
+    'retion',
+    'country',
+    'region'
+);
 
 --
 -- Name: ark_database; Type: TABLE; Schema: public; Owner: arkeogisadm; Tablespace: 
@@ -199,7 +212,10 @@ CREATE TABLE ark_database (
     da_id integer NOT NULL,
     da_name character varying(100) NOT NULL,
     da_description text,
+    da_description_de text,
     da_owner_id integer,
+    da_type ark_database_type,
+    da_geographical_limit text,
     da_creation timestamp without time zone NOT NULL,
     da_modification timestamp without time zone
 );
