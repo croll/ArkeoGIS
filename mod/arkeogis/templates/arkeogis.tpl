@@ -62,6 +62,15 @@
 					 </tr>
 					*}
 
+					 <tr class="caracterisation_mode">
+						<td colspan='2'>
+						 <select id='caracterisation_mode'>
+						  <option value='AND'>Toutes les caractérisations :</option>
+						  <option value='OR'>Au moins une caractérisation :</option>
+						 </select>
+						</td>						
+					 </tr>
+
 					 <tr class="menu_realestate">
 						<td><div id='menu_realestate' style='position: relative'></div></td>
 						<td class='exceptionnel'><div><input type='checkbox' id='ex_realestate' value='1'/></div></td>

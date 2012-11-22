@@ -109,6 +109,10 @@ window.addEvent('domready', function() {
 	result.production_exceptional = $('ex_production').checked ? 1: 0;
 	result.landscape_exceptional = $('ex_landscape').checked ? 1 : 0;
 
+	// get selection of caracterisation mode
+	
+	result.caracterisation_mode = $('caracterisation_mode').get('value');
+
 	// get saved query
 	var option=$('select-savedqueries').getSelected();
 	result.saved_query={
@@ -256,6 +260,9 @@ window.addEvent('domready', function() {
 		$('ex_production').checked = res.production_exceptional == 1;
 		$('ex_landscape').checked = res.landscape_exceptional == 1;
 
+		$('caracterisation_mode').selectedIndex =
+		    res.caracterisation_mode ? res.caracterisation_mode == 'OR' ? 1 : 0 : 0;
+
 		select_savedqueries_inhib_selection_event=false;
 		//$('select-savedqueries').selectedIndex=idx;
 	    }
@@ -270,7 +277,7 @@ window.addEvent('domready', function() {
 		$('select-savedqueries').selectedIndex=0;
 	})
     });
-    [ 'ex_realestate', 'ex_furniture', 'ex_production', 'ex_landscape' ].each(function(m) {
+    [ 'ex_realestate', 'ex_furniture', 'ex_production', 'ex_landscape', 'caracterisation_mode' ].each(function(m) {
 	$(m).addEvent('change', function() {
 	    if (!select_savedqueries_inhib_selection_event)
 		$('select-savedqueries').selectedIndex=0;
@@ -298,6 +305,8 @@ window.addEvent('domready', function() {
 	$('ex_furniture').checked = false;
 	$('ex_production').checked = false;
 	$('ex_landscape').checked = false;
+
+	$('caracterisation_mode').selectedIndex = 0;
 
 	$('querys').set('html', '');
     });

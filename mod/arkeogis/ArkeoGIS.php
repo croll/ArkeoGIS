@@ -130,6 +130,9 @@ class ArkeoGIS {
       $args[]=$search['occupation_include'];
 		}
 
+		$andoror = isset($search['caracterisation_mode']) ? $search['caracterisation_mode'] == 'OR' ? 'OR' : 'AND' : 'AND';
+		$where.=' AND ( 1=1 '; // all
+		$where.=' '.$andoror.' ( 1=1 ';		
 		if (isset($search['production_include']) && count($search['production_include'])) {
 			$addtable['ark_siteperiod_production']=true;
 			$where.=' AND sp_production_id IN (?)';
@@ -146,7 +149,9 @@ class ArkeoGIS {
 			$addtable['ark_siteperiod_production']=true;
 			$where.=' AND sp_exceptional = 1';
 		}
+		$where.=')';
 
+		$where.=' '.$andoror.' ( 1=1 ';		
 		if (isset($search['furniture_include']) && count($search['furniture_include'])) {
 			$addtable['ark_siteperiod_furniture']=true;
 			$where.=' AND sf_furniture_id IN (?)';
@@ -163,7 +168,9 @@ class ArkeoGIS {
 			$addtable['ark_siteperiod_furniture']=true;
 			$where.=' AND sf_exceptional = 1';
 		}
+		$where.=')';
 
+		$where.=' '.$andoror.' ( 1=1 ';		
 		if (isset($search['landscape_include']) && count($search['landscape_include'])) {
 			$addtable['ark_siteperiod_landscape']=true;
 			$where.=' AND sl_landscape_id IN (?)';
@@ -180,7 +187,9 @@ class ArkeoGIS {
 			$addtable['ark_siteperiod_landscape']=true;
 			$where.=' AND sl_exceptional = 1';
 		}
+		$where.=')';
 
+		$where.=' '.$andoror.' ( 1=1 ';		
 		if (isset($search['realestate_include']) && count($search['realestate_include'])) {
 			$addtable['ark_siteperiod_realestate']=true;
 			$where.=' AND sr_realestate_id IN (?)';
@@ -197,6 +206,8 @@ class ArkeoGIS {
 			$addtable['ark_siteperiod_realestate']=true;
 			$where.=' AND sr_exceptional = 1';
 		}
+		$where.=')';
+		$where.=')';
 
 		if (isset($search['site_id'])) {
 			$where.=' AND si_id = ?';
