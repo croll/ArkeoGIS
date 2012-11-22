@@ -244,7 +244,8 @@ window.addEvent('domready', function() {
 		arkeo_menu.production.setSelection(res.production_include, res.production_exclude);
 		arkeo_menu.realestate.setSelection(res.realestate_include, res.realestate_exclude);
 		arkeo_menu.furniture.setSelection(res.furniture_include, res.furniture_exclude);
-		arkeo_menu.landscape.setSelection(res.landscape_include, res.landscape_exclude);
+		arkeo_menu.landscape.setSelection(res.landscape_include ? res.landscape_include : [],
+						  res.landscape_exclude ? res.landscape_exclude : []);
 
 		arkeo_menu.centroid.setSelection(res.centroid_include, []);
 		arkeo_menu.knowledge.setSelection(res.knowledge_include, []);
