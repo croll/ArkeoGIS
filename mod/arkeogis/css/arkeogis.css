@@ -146,8 +146,16 @@ html[xmlns] .clearfix {
 	border-top: 1px solid black;
 }
 
+table.map-query tr.menu_archives td {
+    padding-bottom: 7px;
+}
+
 table.map-query tr.caracterisation_mode td {
     padding-top: 10px;
+}
+
+table.map-query .btn-reinit {
+	font-size: 11px;
 }
 
 table.map-query select {
@@ -162,6 +170,7 @@ table.map-query select {
 table.map-query td { 
   padding-top: 2px;
   padding-bottom: 2px;
+  font-size: 11px;
 }
 
 
@@ -253,10 +262,19 @@ table.map-query .btn-reinit, table.map-query {
  padding-left: 25px;
 }
 
-.pmmenu-item:hover {
+.pmmenu-item:hover:not(.pmmenu-disabled) {
  background-color: #44adff;
  color: #fff;
  //font-weight: bold;
+}
+
+.pmmenu-disabled {
+ background-color: #fff;
+ color: #000;
+ font-weight: bold;
+ padding-top: 10px;
+ text-align: center;
+ cursor: default;
 }
 
 .pmmenu-sub {

@@ -12,8 +12,15 @@ window.addEvent('domready', function() {
     arkeo_menu={};
 
     arkeo_menu.db = new PlusMinusItem(ch_t('arkeogis', "Choix de la base"), null, null);
-    for (var i=0; i<menus.db.length; i++)
+    arkeo_menu.db.setSubMenu(new PlusMinusMenu());
+    var basecateg='';
+    for (var i=0; i<menus.db.length; i++) {
+	if (menus.db[i]['da_type'] != basecateg) {
+	    basecateg=menus.db[i]['da_type'];
+	    arkeo_menu.db.submenu.addItem(new PlusMinusItem(ch_t('arkeogis', basecateg), -1, null, { 'enabled': false}));
+	}
 	arkeo_menu.db.addJsonItem(menus.db[i]);
+    }
     arkeo_menu.db.inject($('menu_db'));
 
     arkeo_menu.period = new PlusMinusItem(ch_t('arkeogis', "Choix de la période"), null, null);

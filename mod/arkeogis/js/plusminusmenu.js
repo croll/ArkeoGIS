@@ -282,6 +282,7 @@ var PlusMinusItem = new Class({
 
     setSelected: function(selected, recurse) {
 	var me=this;
+	if (!me.options.enabled) return;
 	if (recurse && me.submenu) {
 	    me.submenu.content.each(function(el) {
 		el.setSelected(selected, true);

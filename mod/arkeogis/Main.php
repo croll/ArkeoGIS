@@ -157,7 +157,7 @@ class Main {
     
 		$menus=array();
 		
-		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path, 0 as enabled from ark_database order by id");
+		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path, da_type from ark_database order by da_type,da_name,id");
 		
 		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, (pe_name_fr || '\n' || pe_name_de) as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 		
