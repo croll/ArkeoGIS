@@ -11,6 +11,11 @@
 			"value" : "",
 			"class" : "import-db-description"
 		},
+		{	"type" : "textarea",
+			"name" : "description_de",
+			"value" : "",
+			"class" : "import-db-description"
+		},
 		{	"type" : "text",
 			"name" : "separator",
 			"value" : ";",

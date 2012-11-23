@@ -36,6 +36,7 @@ class DatabaseImport {
 		self::$_cache['period'] = array();
 		self::$_cache['realestate'] = array();
 		self::$_cache['furniture'] = array();
+		self::$_cache['landscape'] = array();
 		self::$_cache['production'] = array();
 		self::$_cache['siteperiod'] = array();
 		self::$_cache['specialperiod'] = array();
@@ -286,6 +287,7 @@ class DatabaseImport {
 				}
 			}
 
+			/*
 			# 20 : Depth
 			if (!empty($datas[20])) {
 				if (!preg_match("/^[0-9]*\.?[0-9]+$/", $datas[20]) || $datas[20] < 10) {
@@ -294,45 +296,60 @@ class DatabaseImport {
 					self::$_current['depth'] = $datas[20];
 				}
 			}
+			*/
 
-			# 21 : Realestate exceptional
-			self::_processExceptional('realestate', $datas[21]);
+			# 20 : Realestate exceptional
+			self::_processExceptional('realestate', $datas[20]);
 
-			# 22 : Furniture level 1
-			# 23 : Furniture level 2
-			# 24 : Furniture level 3
-			# 25 : Furniture level 4
-			if (empty($datas[22]) && (!empty($datas[23]) || !empty($datas[24]) || !empty($datas[25]))) {
+			# 21 : Furniture level 1
+			# 22 : Furniture level 2
+			# 23 : Furniture level 3
+			# 24 : Furniture level 4
+			if (empty($datas[21]) && (!empty($datas[22]) || !empty($datas[23]) || !empty($datas[24]))) {
 				self::_addError("Furniture level 1 not set but some other furniture fields are defined");	
 			} else {
-				if (!empty($datas[22]))
-					self::_processLtree($datas[22], $datas[23], $datas[24], $datas[25], 'furniture');
+				if (!empty($datas[21]))
+					self::_processLtree($datas[21], $datas[22], $datas[23], $datas[24], 'furniture');
 			}
 
-			# 26 : Furniture exceptional
-			self::_processExceptional('furniture', $datas[26]);
+			# 25 : Furniture exceptional
+			self::_processExceptional('furniture', $datas[25]);
 
-			# 27 : Production level 1
-			# 28 : Production level 2
-			# 29 : Production level 3
-			if (empty($datas[27]) && (!empty($datas[28]) || !empty($datas[29]))) {
+			# 26 : Production level 1
+			# 27 : Production level 2
+			# 28 : Production level 3
+			if (empty($datas[26]) && (!empty($datas[27]) || !empty($datas[28]))) {
 				self::_addError("Production level 1 not set but some other production fields are defined");	
 			} else {
-				if (!empty($datas[27]))
-					self::_processLtree($datas[27], $datas[28], $datas[29], NULL, 'production');
+				if (!empty($datas[26]))
+					self::_processLtree($datas[26], $datas[27], $datas[28], NULL, 'production');
 			}
 
-			# 30 : Production exceptional
-			self::_processExceptional('production', $datas[30]);
+			# 29 : Production exceptional
+			self::_processExceptional('production', $datas[29]);
 
-			# 31 : Biblio
-			self::$_current['biblio'] = (!empty($datas[31])) ? $datas[31] : NULL;
+			# 30 : Landscape 1
+			# 31 : Landscape 2
+			# 32 : Landscape 3
+			# 33 : Landscape 4
+			if (empty($datas[30]) && (!empty($datas[31]) || !empty($datas[32]) || !empty($datas[33]))) {
+				self::_addError("Landscape level 1 not set but some other landscape fields are defined");	
+			} else {
+				if (!empty($datas[30]))
+					self::_processLtree($datas[30], $datas[31], $datas[32], $datas[33], 'landscape');
+			}
 
-			#32 : Comments
-			self::$_current['comments'] = (!empty($datas[32])) ? $datas[32] : NULL;
+			# 34 : Landcape exceptional
+			self::_processExceptional('landscape', $datas[29]);
+
+			# 35 : Biblio
+			self::$_current['biblio'] = (!empty($datas[35])) ? $datas[35] : NULL;
+
+			#36 : Comments
+			self::$_current['comments'] = (!empty($datas[36])) ? $datas[36] : NULL;
 			
 			// OK we check if we have at leat one carac
-			if (!isset(self::$_current['realestate']) && !isset(self::$_current['furniture']) && !isset(self::$_current['production'])) {
+			if (!isset(self::$_current['realestate']) && !isset(self::$_current['furniture']) && !isset(self::$_current['production']) && !isset(self::$_current['landscape'])) {
 				self::_addError('No characteristic defined for this site');
 			}
 
@@ -405,13 +422,14 @@ class DatabaseImport {
 									throw new \Exception('Unable to get site id for this period');
 							} else
 								$siteId = self::$_current['siteId'];
-							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], self::$_current['period_isrange'], ((isset(self::$_current['depth'])) ?  self::$_current['depth'] : NULL),self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+						//	self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], self::$_current['period_isrange'], ((isset(self::$_current['depth'])) ?  self::$_current['depth'] : NULL),self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], self::$_current['period_isrange'], NULL, self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
 						} catch (\Exception $e) {
 							self::_addProcessingError($e->getMessage());
 							continue;
 						}
 					}
-					foreach(array('realestate', 'furniture', 'production') as $carac) {
+					foreach(array('realestate', 'furniture', 'production', 'landscape') as $carac) {
 						if (isset(self::$_current[$carac]) && !is_null(self::$_current[$carac])) {
 							try {
 								\mod\arkeogis\ArkeoGIS::addSitePeriodCharacteristic(self::$_cache['siteperiod'][$md5Period], $carac, self::$_current[$carac], ((isset(self::$_current[$carac.'_ex']) && self::$_current[$carac.'_ex']) ? 1 : 0));

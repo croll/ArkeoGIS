@@ -134,5 +134,13 @@
   "Date de modification de la fiche" : "Kartei Ver\u00e4nderungsdatum",
   "Fran\u00e7ais" : "Fran\u00e7ais",
   "Allemand" : "Allemand",
-  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites." : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites."
+  "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites." : "Seulement %d sites seront affich\u00e9 sur %d au total. Souhaitez-vous t\u00e9l\u00e9charger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites.",
+  "D\u00e9sarchiver la requ\u00eate" : "D\u00e9sarchiver la requ\u00eate",
+  "Description de la base FR" : "Description de la base FR",
+  "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) en langue fran\u00e7aise, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande" : "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) en langue fran\u00e7aise, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande",
+  "Description de la base DE" : "Description de la base DE",
+  "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) en langue allemande, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande" : "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) en langue allemande, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande",
+  "Mentions l\u00e9gales" : "Rechtlicher Vermerk",
+  "Paysage" : "Umwelt",
+  "Choix paysage" : "Wahl Umwelt"
 }

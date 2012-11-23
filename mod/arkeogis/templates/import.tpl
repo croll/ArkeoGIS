@@ -24,10 +24,17 @@
 			<fieldset>
 				<legend>{t d='arkeogis' m="Import d'une base"}</legend>
 				<div class="control-group">
-					<label class="control-label">{t d='arkeogis' m="Description de la base"}</label>
+					<label class="control-label">{t d='arkeogis' m="Description de la base FR"}</label>
 					<div class="controls">
 					{$dbUpload.description}
-					<p class="help-block">{t d='arkeogis' m="Merci de présenter en quelques lignes votre base de données (dans la champ de saisie ci-dessus) premièrement dans votre langue de travail puis dans une deuxième de ces deux langues (français ou allemand). Si vous ne pouvez traduire correctement cette présentation, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande"}</p>	
+					<p class="help-block">{t d='arkeogis' m="Merci de présenter en quelques lignes votre base de données (dans la champ de saisie ci-dessus) en langue française, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande"}</p>	
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Description de la base DE"}</label>
+					<div class="controls">
+					{$dbUpload.description_de}
+					<p class="help-block">{t d='arkeogis' m="Merci de présenter en quelques lignes votre base de données (dans la champ de saisie ci-dessus) en langue allemande, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande"}</p>	
 					</div>
 				</div>
 				<div class="control-group">
