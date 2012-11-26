@@ -19,7 +19,8 @@ var PlusMinusMenu = new Class({
 	item.addEvent('selection', function(e) {
 	    var counts={plus: 0, minus: 0, mixed: 0, empty: 0};
 	    me.content.each(function(el) {
-		if (el.selected == '') counts.empty++;
+		if (!el.options.enabled) { }
+		else if (el.selected == '') counts.empty++;
 		else if (el.selected == '.') counts.mixed++;
 		else if (el.selected == '+') counts.plus++;
 		else if (el.selected == '-') counts.minus++;
