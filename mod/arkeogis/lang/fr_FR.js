@@ -145,5 +145,7 @@
   "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) en langue allemande, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande" : "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) en langue allemande, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande",
   "Mentions l\u00e9gales" : "Mentions l\u00e9gales",
   "Paysage" : "Paysage",
-  "Choix paysage" : "Choix paysage"
+  "Choix paysage" : "Choix paysage",
+  "inventory" : "Inventaire",
+  "research" : "Recherche"
 }

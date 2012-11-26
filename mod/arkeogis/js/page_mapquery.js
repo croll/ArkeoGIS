@@ -22,6 +22,10 @@ window.addEvent('domready', function() {
 	arkeo_menu.db.addJsonItem(menus.db[i]);
     }
     arkeo_menu.db.inject($('menu_db'));
+    /* pour traduction
+       ch_t('arkeogis', 'inventory');
+       ch_t('arkeogis', 'research');
+    */
 
     arkeo_menu.period = new PlusMinusItem(ch_t('arkeogis', "Choix de la période"), null, null);
     for (var i=0; i<menus.period.length; i++)
