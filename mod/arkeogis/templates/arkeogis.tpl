@@ -120,7 +120,7 @@
                   <div class='query-header-save'>
 			<input id='input-save-query' class='input-save-query' type='text' value='' placeholder='{t d='arkeogis' m='Nom de la requête'}'/>
 			<button id='btn-save-query' style='display: none' class='btn btn-save-query'>{t d='arkeogis' m='Archiver la requête'}</button>
-			<button id='btn-delete-query' style='display: none' class='btn btn-delete-query'>{t d='arkeogis' m='Désarchiver la requête'}</button>
+			<button id='btn-delete-query' style='display: none' class='btn btn-delete-query'>{t d='arkeogis' m='Supprimer des archives'}</button>
                   </div>
 		  <div class='query-header-buttons'>
 			<button class='btn-success btn-print'>{t d='arkeogis' m='Imprimer'}</button>
