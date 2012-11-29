@@ -107,7 +107,7 @@ var Directory = new Class({
 				if (el !== '') {
 					var db= new Element('a',{href: '#', 'class': 'dblinks', html: el});
 					db.addEvent('click', function(e) {
-						e.preventDefault(); 
+						e.preventDefault();
 						mydir.getDesc(el);
 					});
 					res.adopt(db);
@@ -118,7 +118,7 @@ var Directory = new Class({
 	},
 	getDesc: function(dbname) {
 		new Request.JSON({
-			'url': '/ajax/call/arkeogis/getDbDesc',
+			'url': '/ajax/call/arkeogis/getDbInformations',
 			'onSuccess': function(resJSON) {
 				mydir.displayDesc(dbname,resJSON);
 			}

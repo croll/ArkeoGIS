@@ -4,7 +4,7 @@ namespace mod\arkeogis;
 
 class Ajax {
 
-	public static function getDbDesc($params) {
+	public static function getDbInformations($params) {
     		if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     		return nl2br(\core\Core::$db->fetchOne("Select da_description FROM ark_database WHERE da_name =?",array($params['dbname'])));
 	}

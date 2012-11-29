@@ -116,7 +116,7 @@
 	{* model used to fill the displayed querys *}
 	<div id='query-display' class='query-display' style='display: none'>
                 <div class='query-header'>
-		  <div class='query-header-title'>Récapitulatif de la requête : <span class='query_num'>1</span></div>
+		  <div class='query-header-title'>{t d='arkeogis' m="Récapitulatif de la requête"} : <span class='query_num'>1</span></div>
                   <div class='query-header-save'>
 			<input id='input-save-query' class='input-save-query' type='text' value='' placeholder='{t d='arkeogis' m='Nom de la requête'}'/>
 			<button id='btn-save-query' style='display: none' class='btn btn-save-query'>{t d='arkeogis' m='Archiver la requête'}</button>
