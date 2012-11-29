@@ -32,14 +32,16 @@ class Ajax {
     $columns.="array_agg((SELECT pe_name_$lang FROM ark_period WHERE pe_id=sp_period_end)) AS period_end_label, ";
     $columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id) order by ark_site_period.sp_id) as realestate, ";
     $columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id) order by ark_site_period.sp_id) as furniture, ";
-    $columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id) order by ark_site_period.sp_id) as production ";
+    $columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id) order by ark_site_period.sp_id) as production, ";
+    $columns.="array_agg((SELECT node_path FROM ark_landscape WHERE la_id=sl_landscape_id) order by ark_site_period.sp_id) as landscape ";
 
     $res = ArkeoGIS::search_sites($search, $columns, array(
 																													 'ark_database' => true,
 																													 'ark_site_period' => true,
 																													 'ark_siteperiod_production' => true,
 																													 'ark_siteperiod_furniture' => true,
-																													 'ark_siteperiod_realestate' => true
+																													 'ark_siteperiod_realestate' => true,
+																													 'ark_siteperiod_landscape' => true
 																													 ), 1500, 'ark_site.si_id, da_id', 'ark_site.si_id', true, false);
 		$total_count=$res['total_count'];
 		$sites=&$res['sites'];
@@ -51,6 +53,7 @@ class Ajax {
       $sites[$k]['realestate'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), ';');
       $sites[$k]['furniture'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), ';');
       $sites[$k]['production'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), ';');
+      $sites[$k]['landscape'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['landscape'], $strings['landscape'], '/'), ';');
 
       $period_start = explode(',', trim($row['period_start'], '{}'));
       $period_end = explode(',', trim($row['period_end'], '{}'));
@@ -68,6 +71,8 @@ class Ajax {
 				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Immobilier').": </b>$site[realestate]</div>";
 			} else if (!empty($site['furniture']) && !strstr($site['furniture'], 'NULL')) {
 				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Mobilier').": </b>$site[furniture]</div>";
+			} else if (!empty($site['landscape']) && !strstr($site['landscape'], 'NULL')) {
+				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Paysage').": </b>$site[landscape]</div>";
 			} else if (!empty($site['production']) && !strstr($site['production'], 'NULL')) {
 				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Production').": </b>$site[production]</div>";
 			}
@@ -86,12 +91,14 @@ class Ajax {
 		$columns.="(SELECT pe_name_fr||'/'||pe_name_de FROM ark_period WHERE pe_id=max(sp_period_end)) AS period_end, ";
 		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id) order by ark_site_period.sp_id) as realestate, ";
 		$columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id) order by ark_site_period.sp_id) as furniture, ";
-		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id) order by ark_site_period.sp_id) as production";
+		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id) order by ark_site_period.sp_id) as production,";
+		$columns.="array_agg((SELECT node_path FROM ark_landscape WHERE la_id=sl_landscape_id) order by ark_site_period.sp_id) as landscape";
     $res=ArkeoGIS::search_sites($search, $columns, array(
 																												 'ark_database' => true,
 																												 'ark_siteperiod_production' => true,
 																												 'ark_siteperiod_furniture' => true,
-																												 'ark_siteperiod_realestate' => true
+																												 'ark_siteperiod_realestate' => true,
+																												 'ark_siteperiod_landscape' => true
 																												 ), 1500, 'ark_site.si_id, da_id', 'ark_site.si_id', true, false);
 		$total_count=$res['total_count'];
 		$sites=&$res['sites'];
@@ -104,6 +111,7 @@ class Ajax {
       $sites[$k]['realestate'] = implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), '<br />');
       $sites[$k]['furniture'] = implode(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), '<br />');
       $sites[$k]['production'] = implode(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), '<br />');
+      $sites[$k]['landscape'] = implode(ArkeoGIS::node_path_array_to_str($row['landscape'], $strings['landscape'], '/'), '<br />');
     }
 
     return $res;
