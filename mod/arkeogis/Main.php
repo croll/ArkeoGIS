@@ -199,8 +199,26 @@ class Main {
 			$file = $form->getValue('dbfile');
 			$skipline = $form->getValue('skipline');
 			$lang = $form->getValue('select_lang');
-			$description = $form->getValue('description');
-			$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $description);
+      $fields = array();
+      $description = trim($form->getValue('description'));
+      if (!empty($description))
+        $fields['description'] = $description;
+      $description_de = trim($form->getValue('description_de'));
+      if (!empty($description_de))
+        $fields['description_de'] = $description_de;
+      $declared_modification = trim($form->getValue('declared_modification'));
+      if (!empty($declared_modification))
+        $fields['declared_modification'] = $declared_modification;
+      $type = $form->getValue('select_type');
+      if (!empty($type))
+        $fields['type'] = $type;
+      $scale_resolution = trim($form->getValue('select_scale_resolution'));
+      if (!empty($scale_resolution))
+        $fields['scale_resolution'] = $scale_resolution;
+      $geographical_limit = trim($form->getValue('geographical_limit'));
+      if (!empty($geographical_limit))
+        $fields['geographical_limit'] = $geographical_limit;
+      $result = \mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $fields);
 			unlink($file['tmp_name']);
 			$page = new \mod\webpage\Main();
 			$page->smarty->assign("result", $result);

@@ -54,6 +54,59 @@
 				"validate-integer"
 			]
 		},
+		{	"type" : "select",
+			"name" : "select_type",
+			"children" :
+			[
+				{ "type" : "option",
+					"value" : "inventory",
+					"label" : "Inventaire"
+				},
+				{ "type" : "option",
+					"value" : "research",
+					"label" : "Research"
+				}
+			]	
+		},
+		{	"type" : "select",
+			"name" : "select_scale_resolution",
+			"children" :
+			[
+				{ "type" : "option",
+					"value" : "site",
+					"label" : "Site"
+				},
+				{ "type" : "option",
+					"value" : "watershed",
+					"label" : "Bassin versant"
+				},
+				{ "type" : "option",
+					"value" : "microregion",
+					"label" : "Micro-région"
+				},
+				{ "type" : "option",
+					"value" : "region",
+					"label" : "Région"
+				},
+				{ "type" : "option",
+					"value" : "country",
+					"label" : "Country"
+				},
+				{ "type" : "option",
+					"value" : "europa",
+					"label" : "Europe"
+				}
+			]	
+		},
+		{	"type" : "text",
+			"name" : "declared_modification",
+			"value" : ""
+		},
+		{	"type" : "textarea",
+			"name" : "geographical_limit",
+			"value" : "",
+			"class" : "import-db-description"
+		},
 		{	"type" : "file",
 			"name" : "dbfile",
 			"validators" : 

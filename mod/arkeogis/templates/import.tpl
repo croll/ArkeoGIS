@@ -1,5 +1,10 @@
 {extends tplextends('arkeogis/layout')}
 
+{block name='webpage_head' append}
+  {js file="/mod/arkeogis/ext/MooDatePicker/js/MooDatePicker.js"}
+  {css file="/mod/arkeogis/ext/MooDatePicker/css/MooDatePicker.css"} 
+{/block}
+
 {block name='arkeogis_content'}
 
 	<script>
@@ -10,7 +15,14 @@
 				$('submit').set('disabled', true);
 			}
 		}
-	</script>
+    window.addEvent('domready', function() {
+	    var myMooDatePicker = new MooDatePicker(document.getElement('input[name=declared_modification]'), {
+	      onPick: function(date){
+	        this.element.set('value', date.format('%e/%m/%Y'));
+	      }
+	    });
+    });
+  </script>
 	{if !isset($result)}
 
 		{form mod="arkeogis" file="templates/dbUpload.json"}
@@ -23,6 +35,41 @@
 				
 			<fieldset>
 				<legend>{t d='arkeogis' m="Import d'une base"}</legend>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Type de base"}</label>
+					<div class="controls">
+						<select name="select_type">
+							<option value="inventory">{t d="arkeogis" m="Inventaire"}</option>
+							<option value="research">{t d="arkeogis" m="Recherche"}</option>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Dernière mise à jour"}</label>
+					<div class="controls">
+						{$dbUpload.declared_modification}
+					<p class="help-block">{t d='arkeogis' m="Date de la dernière mise à jour de la base ou du dernier export (base inventaire)"}</p>	
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Limite géographique d'emprise de la base"}</label>
+					<div class="controls">
+					{$dbUpload.geographical_limit}
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Échelle de résolution des points"}</label>
+					<div class="controls">
+						<select name="select_scale_resolution">
+							<option value="site">{t d="arkeogis" m="Site"}</option>
+							<option value="watershed">{t d="arkeogis" m="Bassin versant"}</option>
+							<option value="micro-region">{t d="arkeogis" m="Micro-région"}</option>
+							<option value="region">{t d="arkeogis" m="Région"}</option>
+							<option value="country">{t d="arkeogis" m="Pays"}</option>
+							<option value="europe">{t d="arkeogis" m="Europe"}</option>
+						</select>
+					</div>
+				</div>
 				<div class="control-group">
 					<label class="control-label">{t d='arkeogis' m="Description de la base FR"}</label>
 					<div class="controls">
