@@ -11,7 +11,8 @@ function display_sheet(data) {
 	    row.period_start+'<br />'+row.period_end,
 	    row.realestate,
 	    row.furniture,
-	    row.production	    
+	    row.production,
+	    row.landscape	    
 	]);
     }
 
@@ -30,7 +31,8 @@ function display_sheet(data) {
 	    ch_t('arkeogis', 'Période'),
 	    ch_t('arkeogis', 'Immobilier'),
 	    ch_t('arkeogis', 'Mobilier'),
-	    ch_t('arkeogis', 'Production')
+	    ch_t('arkeogis', 'Production'),
+	    ch_t('arkeogis', 'Paysage')
 	],
 	rows: data2
     });
