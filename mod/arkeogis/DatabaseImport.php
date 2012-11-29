@@ -15,7 +15,7 @@ class DatabaseImport {
 	private static $_lang; 
 	private static $_strings;
 
-	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $description='') {
+	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $fields='') {
 
 		self::$_lang = $lang;
 		$numProcessed = 0;
@@ -95,7 +95,7 @@ class DatabaseImport {
 			if (!isset($datas[1])) continue;
 
 			# 1 : Database
-			self::_processDatabaseName($datas[1], $description, $uid);
+			self::_processDatabaseName($datas[1], $fields, $uid);
 
 			# 0 : Site ID
 			if (!self::_processSiteId($datas[0])) {
@@ -461,7 +461,7 @@ class DatabaseImport {
 		return true;
 	}
 
-	private static function _processDatabaseName($dbName, $description, $ownerId) {
+	private static function _processDatabaseName($dbName, $fields, $ownerId) {
 		// Db name provided
 		if (!empty($dbName)) {
 			// we check if it matches previously stored db dbName
@@ -486,12 +486,12 @@ class DatabaseImport {
 			if (!empty($dbId)) {
 				self::$_database['id'] = $dbId;
 				self::$_database['name'] = $dbName;
-				if (!empty($description)) {
-					\mod\arkeogis\ArkeoGIS::updateDatabase($dbId, $description);
+				if (sizeof($fields) > 0) {
+					\mod\arkeogis\ArkeoGIS::updateDatabase($dbId, $fields);
 				}
 			} else {
 				try {
-					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName, $description, $ownerId);
+					self::$_database['id'] = \mod\arkeogis\ArkeoGIS::addDatabase($dbName, $fields, $ownerId);
 					self::$_database['name'] = $dbName;
 				} catch (\Exception $e) {
 					self::_addError("Unable to register database name $dbName: ".$e->getMessage());

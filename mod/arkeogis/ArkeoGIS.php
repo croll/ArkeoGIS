@@ -260,21 +260,32 @@ class ArkeoGIS {
 								 'sites' => \core\Core::$db->fetchAll($query, $args));
 	}
 
-
-
-
 	/* ************* */
 	/*    Database   */
 	/* ************* */
 
-	public static function addDatabase($dbName, $dbDescription=NULL, $owner_id=0) {
-		$args = array($dbName, $dbDescription, (int)$owner_id);
-		return \core\Core::$db->exec_returning('INSERT INTO "ark_database" ("da_name", "da_description", "da_owner_id", "da_creation", "da_modification") VALUES (?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)', $args, 'da_id');
+	public static function addDatabase($dbName, $fields, $owner_id=0) {
+		$q = 'INSERT INTO "ark_database" ("da_name", "da_owner_id", "da_creation", "da_modification",';
+		$args = array($dbName, $owner_id, 'now()', 'now()');
+		foreach($fields as $k => $v) {
+			$q .= " \"da_$k\",";
+			$args[] = $v;
+		}
+		$q = substr($q, 0, -1).') VALUES (';
+		$q .= str_repeat('?,', sizeof($args));
+		$q = substr($q, 0, -1).')';
+		return \core\Core::$db->exec_returning($q, $args, 'da_id');
 	}
 
-	public static function updateDatabase($dbId, $dbDescription) {
-		$args = array($dbDescription, $dbId);
-		\core\Core::$db->exec('UPDATE "ark_database" SET "da_description" = ? WHERE "da_id" = ?', $args);
+	public static function updateDatabase($dbId, $fields) {
+		$q = 'UPDATE "ark_database" SET da_modification = now(), ';
+		foreach($fields as $k => $v) {
+			$q .= " da_$k = ?,";
+			$args[] = $v;
+		}
+		$q = substr($q, 0, -1);
+		$args[] = $dbId;
+		\core\Core::$db->exec($q.' WHERE "da_id" = ?', $args);
 	}
 
 	public static function getDatabaseId($dbName) {

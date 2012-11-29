@@ -1,0 +1,110 @@
+/*
+ * !Datepicker
+ */
+
+/* !Container */
+.moodatepicker-container {
+	background-color:#FFF;
+	border:1px solid #A6A6A6;
+  
+	-moz-border-radius:   3px;
+	-ms-border-radius:    3px;
+	-o-border-radius:     3px;
+	-webkit-border-radius:3px;
+	border-radius:        3px;
+	
+	-moz-box-shadow:   0 0 4px rgba(0, 0, 0, .4);
+	-ms-box-shadow:    0 0 4px rgba(0, 0, 0, .4);
+	-o-box-shadow:     0 0 4px rgba(0, 0, 0, .4);
+	-webkit-box-shadow:0 0 4px rgba(0, 0, 0, .4);
+	box-shadow:        0 0 4px rgba(0, 0, 0, .4);
+	
+	display:none;
+	float:left;
+	font-size:12px;
+	padding:2px;
+	position:absolute;
+}
+
+/* !Header */
+.moodatepicker-container header {
+	position:relative;
+	height:20px;
+	padding:5px 0;
+}
+
+.moodatepicker-title {
+	font-size:12px;
+	font-weight:bold;
+	line-height:2em;
+	text-align:center;
+}
+
+/* !Navigation */
+.moodatepicker-header li { display:inline; }
+
+.moodatepicker-prev, .moodatepicker-next {
+	background:none;
+	border:0;
+	cursor:pointer;
+	overflow:hidden;
+	padding:0;
+	position:absolute;
+	left:5px;
+	top:2px;
+}
+.moodatepicker-prev span, .moodatepicker-next span {
+	display:block;
+	font-size:24px;
+	height:22px;
+	line-height:1.2em;
+	overflow:hidden;
+	width:22px;
+}
+
+.moodatepicker-next {
+	left:auto;
+	right:5px;
+}
+
+/* !Calendar */
+.moodatepicker-calendar {
+	border:0;
+	margin:0;
+}
+
+.moodatepicker-calendar th {
+	font-weight:normal;
+	text-align:center;
+	text-transform:none;
+	width:auto;
+}
+
+.moodatepicker-calendar td {
+	border:0;
+	padding:3px;
+	width:auto;
+}
+
+/* !Days */
+.moodatepicker-day {
+	border:1px solid #CCC;
+	background:none;
+	cursor:pointer;
+	
+	font-size:11px;
+	height:20px;
+	padding:0;
+	vertical-align:middle;
+	width:20px;
+}
+
+.moodatepicker-day:active, .moodatepicker-day.selected {
+	background:#999;
+	border-color:#999;
+	color:#FFF;
+}
+
+.moodatepicker-day.today {
+	border-style:dashed;
+}
