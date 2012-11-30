@@ -738,3 +738,10 @@ div.filtercontent .filter-minus {
 	width: 500px;
 	height: 160px;
 }
+
+.databaseInfos div {
+  margin: 10px 5px;
+}
+.databaseInfos span {
+  font-weight: bold;
+}

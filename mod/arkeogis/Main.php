@@ -199,26 +199,26 @@ class Main {
 			$file = $form->getValue('dbfile');
 			$skipline = $form->getValue('skipline');
 			$lang = $form->getValue('select_lang');
-      $fields = array();
+      $field = array();
       $description = trim($form->getValue('description'));
       if (!empty($description))
-        $fields['description'] = $description;
+		  	$field['description'] = $description;
       $description_de = trim($form->getValue('description_de'));
       if (!empty($description_de))
-        $fields['description_de'] = $description_de;
+        $field['description_de'] = $description_de;
       $declared_modification = trim($form->getValue('declared_modification'));
       if (!empty($declared_modification))
-        $fields['declared_modification'] = $declared_modification;
+        $field['declared_modification'] = $declared_modification;
       $type = $form->getValue('select_type');
       if (!empty($type))
-        $fields['type'] = $type;
+        $field['type'] = $type;
       $scale_resolution = trim($form->getValue('select_scale_resolution'));
       if (!empty($scale_resolution))
-        $fields['scale_resolution'] = $scale_resolution;
+        $field['scale_resolution'] = $scale_resolution;
       $geographical_limit = trim($form->getValue('geographical_limit'));
       if (!empty($geographical_limit))
-        $fields['geographical_limit'] = $geographical_limit;
-      $result = \mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $fields);
+        $field['geographical_limit'] = $geographical_limit;
+			$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $field);
 			unlink($file['tmp_name']);
 			$page = new \mod\webpage\Main();
 			$page->smarty->assign("result", $result);
@@ -256,14 +256,12 @@ class Main {
 		$columns.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end";
 		$columns.=", (SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id) as realestate";
 		$columns.=", (SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id) as furniture";
-		$columns.=", (SELECT node_path FROM ark_landscape WHERE la_id=sl_landscape_id) as landscape";
 		$columns.=", (SELECT node_path FROM ark_production WHERE pr_id=sp_production_id) as production";
 
 		$res=ArkeoGIS::search_sites($q, $columns, array(
                                   'ark_siteperiod_production' => true,
                                   'ark_siteperiod_furniture' => true,
                                   'ark_siteperiod_realestate' => true,
-                                  'ark_siteperiod_landscape' => true,
                                   'ark_city' => true,
                                   'ark_database' => true
                                 ),
@@ -283,7 +281,7 @@ class Main {
 		header("Content-Disposition: attachment; filename=\"export.csv\"");
 
     $fp = fopen('php://output', 'w');
-    fputcsv($fp, array('SITE_ID_SOURCE', 'BASE_SOURCE', 'NOM_SITE', 'NOM_COMMUNE_PRINCIPALE', 'CODE_COMMUNE', 'SYSTEME_PROJECTION', 'LONGITUDE_X ', 'LATITUDE_Y', 'LONGITUDE_X_BIS', 'LATITUDE_Y_BIS', 'ALTITUDE Z', 'CENTRE_COMMUNE', 'ETAT_CONNAISSANCES', 'OCCUPATION', 'DATATION_DEBUT_PLUS_FINE', 'DATATION_FIN_PLUS_FINE', 'IMMO_NIV1', 'IMMO_NIV2', 'IMMO_NIV3', 'IMMO_NIV4', 'PROFONDEUR_VESTIGES', 'IMMO_EXP', 'MOB_NIV1', 'MOB_NIV2', 'MOB_NIV3', 'MOB_NIV4', 'MOB_EXP', 'PROD_NIV1', 'PROD_NIV2', 'PROD_NIV3', 'PROD_EXP', 'LANDSCAPE_NIV1', 'LANDSCAPE_NIV2', 'LANDSCAPE_NIV3', 'LANDSCAPE_EXP', 'BIBLIOGRAPHIE', 'REMARQUES'), ";", '"');
+    fputcsv($fp, array('SITE_ID_SOURCE', 'BASE_SOURCE', 'NOM_SITE', 'NOM_COMMUNE_PRINCIPALE', 'CODE_COMMUNE', 'SYSTEME_PROJECTION', 'LONGITUDE_X ', 'LATITUDE_Y', 'LONGITUDE_X_BIS', 'LATITUDE_Y_BIS', 'ALTITUDE Z', 'CENTRE_COMMUNE', 'ETAT_CONNAISSANCES', 'OCCUPATION', 'DATATION_DEBUT_PLUS_FINE', 'DATATION_FIN_PLUS_FINE', 'IMMO_NIV1', 'IMMO_NIV2', 'IMMO_NIV3', 'IMMO_NIV4', 'PROFONDEUR_VESTIGES', 'IMMO_EXP', 'MOB_NIV1', 'MOB_NIV2', 'MOB_NIV3', 'MOB_NIV4', 'MOB_EXP', 'PROD_NIV1', 'PROD_NIV2', 'PROD_NIV3', 'PROD_EXP', 'BIBLIOGRAPHIE', 'REMARQUES'), ";", '"');
 		
     $latest_siid=-1;
     $latest_spid=-1;
@@ -296,7 +294,6 @@ class Main {
       $realestate=ArkeoGIS::node_path_to_array($row['realestate'], $strings['realestate']);
       $furniture=ArkeoGIS::node_path_to_array($row['furniture'], $strings['furniture']);
       $production=ArkeoGIS::node_path_to_array($row['production'], $strings['production']);
-      $landscape=ArkeoGIS::node_path_to_array($row['landscape'], $strings['landscape']);
       fputcsv($fp, array(
                 $row['si_code'],                                                                       // SITE_ID_SOURCE
                 $newsiid ? $row['da_name'] : '',                                                       // BASE_SOURCE
@@ -329,10 +326,6 @@ class Main {
                 isset($production[1]) ? $production[1] : '',                                           // PROD_NIV2
                 isset($production[2]) ? $production[2] : '',                                           // PROD_NIV3
                 $newspid ? $row['sp_exceptional'] : '',                                                // PROD_EXP
-                isset($landscape[0]) ? $landscape[0] : '',                                             // LANDSCAPE_NIV1
-                isset($landscape[1]) ? $landscape[1] : '',                                             // LANDSCAPE_NIV2
-                isset($landscape[2]) ? $landscape[2] : '',                                             // LANDSCAPE_NIV3
-                $newspid ? $row['sl_exceptional'] : '',                                                // LANDSCAPE_EXP
                 $newspid ? $row['sp_bibliography'] : '',                                               // BIBLIOGRAPHIE
                 $newspid ? $row['sp_comment'] : ''                                                     // REMARQUES
               ), ";", '"');
