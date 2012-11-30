@@ -65,8 +65,8 @@
 					 <tr class="caracterisation_mode">
 						<td colspan='2'>
 						 <select id='caracterisation_mode'>
-						  <option value='AND'>Toutes les caractérisations :</option>
 						  <option value='OR'>Au moins une caractérisation :</option>
+						  <option value='AND'>Toutes les caractérisations :</option>
 						 </select>
 						</td>						
 					 </tr>
