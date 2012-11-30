@@ -8,7 +8,8 @@ class Ajax {
     		if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     		$infos = \core\Core::$db->fetchAll("Select da_description AS description, da_description_de AS description_de, TO_CHAR(da_declared_modification, 'DD/MM/YYYY') AS declared_modification, da_type AS type, da_geographical_limit AS geographical_limit, da_scale_resolution AS scale_resolution FROM ark_database WHERE da_name =?",array($params['dbname']));
 	  	  $smarty = \mod\smarty\Main::newSmarty();
-				$smarty->assign(array('infos', 'currentLang'), array($infos[0], \mod\lang\Main::getCurrentLang()));
+				$smarty->assign('infos', $infos[0]);
+				$smarty->assign('currentLang', \mod\lang\Main::getCurrentLang());
 				return $smarty->fetch('arkeogis/databaseInfos');
 	}
 
