@@ -423,7 +423,7 @@ class DatabaseImport {
 							} else
 								$siteId = self::$_current['siteId'];
 						//	self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], self::$_current['period_isrange'], ((isset(self::$_current['depth'])) ?  self::$_current['depth'] : NULL),self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
-							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], self::$_current['period_isrange'], NULL, self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], (isset(self::$_current['period_isrange']) ? self::$_current['period_isrange'] : NULL), NULL, self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
 						} catch (\Exception $e) {
 							self::_addProcessingError($e->getMessage());
 							continue;

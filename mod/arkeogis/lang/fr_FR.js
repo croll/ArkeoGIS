@@ -147,5 +147,20 @@
   "Paysage" : "Paysage",
   "Choix paysage" : "Choix paysage",
   "inventory" : "Inventaire",
-  "research" : "Recherche"
+  "research" : "Recherche",
+  "R\u00e9capitulatif de la requ\u00eate" : "R\u00e9capitulatif de la requ\u00eate",
+  "Supprimer des archives" : "Supprimer des archives",
+  "Type de base" : "Type de base",
+  "Inventaire" : "Inventaire",
+  "Recherche" : "Recherche",
+  "\u00c9chelle de r\u00e9solution des points" : "\u00c9chelle de r\u00e9solution des points",
+  "Bassin versant" : "Bassin versant",
+  "Micro-r\u00e9gion" : "Micro-r\u00e9gion",
+  "R\u00e9gion" : "R\u00e9gion",
+  "Pays" : "Pays",
+  "Europe" : "Europe",
+  "Site" : "Site",
+  "Limite g\u00e9ographique d'emprise de la base" : "Limite g\u00e9ographique d'emprise de la base",
+  "Derni\u00e8re mise \u00e0 jour" : "Derni\u00e8re mise \u00e0 jour",
+  "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)" : "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)"
 }

@@ -317,7 +317,7 @@ class ArkeoGIS {
 			$q.= 'AND node_path <@ ? ';
 			$args[] = $parentPath;
 		}
-		error_log(sqltostr($q, $args));
+		//error_log(sqltostr($q, $args));
 		return \core\Core::$db->fetchAll($q, $args);
 	}
 

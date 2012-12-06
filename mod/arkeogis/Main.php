@@ -250,18 +250,20 @@ class Main {
 		$columns="ark_site.si_id, si_code, si_name, si_description, si_city_id, ST_AsGeoJSON(si_geom) as coords, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
 		$columns.=", ci_code, ci_name, ci_country, ci_geom"; // ark_city
 		$columns.=", da_name, da_description, da_creation, da_modification"; // ark_database
-    $columns.=", ark_site_period.sp_id, sp_knowledge_type, sp_comment, sp_bibliography"; // ark_site_period
-    $columns.=", sr_exceptional, sf_exceptional, sp_exceptional"; // exceptionals
+  		$columns.=", ark_site_period.sp_id, sp_knowledge_type, sp_comment, sp_bibliography"; // ark_site_period
+    		$columns.=", sr_exceptional, sf_exceptional, sp_exceptional, sl_exceptional"; // exceptionals
 		$columns.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start";
 		$columns.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end";
 		$columns.=", (SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id) as realestate";
 		$columns.=", (SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id) as furniture";
 		$columns.=", (SELECT node_path FROM ark_production WHERE pr_id=sp_production_id) as production";
+		$columns.=", (SELECT node_path FROM ark_landscape WHERE la_id=sl_landscape_id) as landscape";
 
 		$res=ArkeoGIS::search_sites($q, $columns, array(
                                   'ark_siteperiod_production' => true,
                                   'ark_siteperiod_furniture' => true,
                                   'ark_siteperiod_realestate' => true,
+                                  'ark_siteperiod_landscape' => true,
                                   'ark_city' => true,
                                   'ark_database' => true
                                 ),
@@ -281,7 +283,7 @@ class Main {
 		header("Content-Disposition: attachment; filename=\"export.csv\"");
 
     $fp = fopen('php://output', 'w');
-    fputcsv($fp, array('SITE_ID_SOURCE', 'BASE_SOURCE', 'NOM_SITE', 'NOM_COMMUNE_PRINCIPALE', 'CODE_COMMUNE', 'SYSTEME_PROJECTION', 'LONGITUDE_X ', 'LATITUDE_Y', 'LONGITUDE_X_BIS', 'LATITUDE_Y_BIS', 'ALTITUDE Z', 'CENTRE_COMMUNE', 'ETAT_CONNAISSANCES', 'OCCUPATION', 'DATATION_DEBUT_PLUS_FINE', 'DATATION_FIN_PLUS_FINE', 'IMMO_NIV1', 'IMMO_NIV2', 'IMMO_NIV3', 'IMMO_NIV4', 'PROFONDEUR_VESTIGES', 'IMMO_EXP', 'MOB_NIV1', 'MOB_NIV2', 'MOB_NIV3', 'MOB_NIV4', 'MOB_EXP', 'PROD_NIV1', 'PROD_NIV2', 'PROD_NIV3', 'PROD_EXP', 'BIBLIOGRAPHIE', 'REMARQUES'), ";", '"');
+    fputcsv($fp, array('SITE_ID_SOURCE', 'BASE_SOURCE', 'NOM_SITE', 'NOM_COMMUNE_PRINCIPALE', 'CODE_COMMUNE', 'SYSTEME_PROJECTION', 'LONGITUDE_X ', 'LATITUDE_Y', 'LONGITUDE_X_BIS', 'LATITUDE_Y_BIS', 'ALTITUDE Z', 'CENTRE_COMMUNE', 'ETAT_CONNAISSANCES', 'OCCUPATION', 'DATATION_DEBUT_PLUS_FINE', 'DATATION_FIN_PLUS_FINE', 'IMMO_NIV1', 'IMMO_NIV2', 'IMMO_NIV3', 'IMMO_NIV4', 'IMMO_EXP', 'MOB_NIV1', 'MOB_NIV2', 'MOB_NIV3', 'MOB_NIV4', 'MOB_EXP', 'PROD_NIV1', 'PROD_NIV2', 'PROD_NIV3', 'PROD_EXP', 'PAYS_NIV1', 'PAYS_NIV2', 'PAYS_NIV3', 'PAYS_NIV4', 'PAYS_EXP', 'BIBLIOGRAPHIE', 'REMARQUES'), ";", '"');
 		
     $latest_siid=-1;
     $latest_spid=-1;
@@ -294,6 +296,7 @@ class Main {
       $realestate=ArkeoGIS::node_path_to_array($row['realestate'], $strings['realestate']);
       $furniture=ArkeoGIS::node_path_to_array($row['furniture'], $strings['furniture']);
       $production=ArkeoGIS::node_path_to_array($row['production'], $strings['production']);
+      $landscape=ArkeoGIS::node_path_to_array($row['landscape'], $strings['landscape']);
       fputcsv($fp, array(
                 $row['si_code'],                                                                       // SITE_ID_SOURCE
                 $newsiid ? $row['da_name'] : '',                                                       // BASE_SOURCE
@@ -315,7 +318,7 @@ class Main {
                 isset($realestate[1]) ? $realestate[1] : '',                                           // IMMO_NIV2
                 isset($realestate[2]) ? $realestate[2] : '',                                           // IMMO_NIV3
                 isset($realestate[3]) ? $realestate[3] : '',                                           // IMMO_NIV4
-                '',                                                                                    // PROFONDEUR_VESTIGES
+                //'',                                                                                    // PROFONDEUR_VESTIGES
                 self::yesno($row['sr_exceptional']),                                                   // IMMO_EXP
                 isset($furniture[0]) ? $furniture[0] : '',                                             // MOB_NIV1
                 isset($furniture[1]) ? $furniture[1] : '',                                             // MOB_NIV2
@@ -326,6 +329,11 @@ class Main {
                 isset($production[1]) ? $production[1] : '',                                           // PROD_NIV2
                 isset($production[2]) ? $production[2] : '',                                           // PROD_NIV3
                 $newspid ? $row['sp_exceptional'] : '',                                                // PROD_EXP
+                isset($landscape[0]) ? $landscape[0] : '',                                           // LANDSCAPE_NIV1
+                isset($landscape[1]) ? $landscape[1] : '',                                           // LANDSCAPE_NIV2
+                isset($landscape[2]) ? $landscape[2] : '',                                           // LANDSCAPE_NIV3
+                isset($landscape[3]) ? $landscape[3] : '',                                           // LANDSCAPE_NIV3
+                $newspid ? $row['sl_exceptional'] : '',                                                // LANDSCAPE_EXP
                 $newspid ? $row['sp_bibliography'] : '',                                               // BIBLIOGRAPHIE
                 $newspid ? $row['sp_comment'] : ''                                                     // REMARQUES
               ), ";", '"');

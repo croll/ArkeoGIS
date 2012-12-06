@@ -144,5 +144,20 @@
   "Paysage" : "Umwelt",
   "Choix paysage" : "Wahl Umwelt",
   "inventory" : "Inventar",
-  "research" : "Forschung"
+  "research" : "Forschung",
+  "R\u00e9capitulatif de la requ\u00eate" : "Abfragezusammenfasssung",
+  "Supprimer des archives" : "Supprimer des archives",
+  "Type de base" : "Type de base",
+  "Inventaire" : "Inventaire",
+  "Recherche" : "Recherche",
+  "\u00c9chelle de r\u00e9solution des points" : "Massstab der Punkten",
+  "Bassin versant" : "Einzugsgebiet",
+  "Micro-r\u00e9gion" : "Mikroregion",
+  "R\u00e9gion" : "Region",
+  "Pays" : "Land",
+  "Europe" : "Europa",
+  "Site" : "Fundstelle",
+  "Limite g\u00e9ographique d'emprise de la base" : "Geographischer Umfang der Datenbank",
+  "Derni\u00e8re mise \u00e0 jour" : "Zeit der letzte Aktualisierung",
+  "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)" : "Zeit der letzte Aktualisierung der Datenbank, oder der letzten Export"
 }

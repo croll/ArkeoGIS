@@ -15,8 +15,8 @@ DROP TABLE public.ark_siteperiod_landscape;
 
 CREATE TABLE ark_siteperiod_landscape (
     sl_id integer NOT NULL,
-    sl_site_period_id integer NOT NULL,
-    sl_landscape_id integer NOT NULL,
+    sl_site_period_id INTEGER NOT NULL REFERENCES "ark_site_period" ON DELETE CASCADE,
+    sl_landscape_id integer NOT NULL "ark_landscape" ON DELETE CASCADE,
     sl_exceptional smallint DEFAULT 0
 );
 

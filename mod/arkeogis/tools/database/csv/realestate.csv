@@ -1,12 +1,12 @@
-"Habitat # Siedlung";"Indéterminé # Unbestimmt";"Non renseigné # nicht vorhanden ";
+"Habitat # Siedlung";"Indéterminé # Unbestimmt";"Non renseigné # Nicht dokumentiert ";
 ;;"Fosse # Grube";
 ;;"Fossé # Graben";
-;"Non renseigné # nicht vorhanden ";"Non déterminé # unbestimmbar";
+;"Non renseigné # Nicht dokumentiert ";"Non déterminé # Unbestimmbar";
 ;;"Camp militaire # Lager";
 ;;"Château  # Schloss";
 ;;"Ferme  # Bauernhof";
 ;;"Villa  # Villa";
-;;"Village hameau  # Dorf Weiler";
+;;"Village hameau  # Dorf, Weiler";
 ;"Fortifié # Befestigt";"Non déterminé # unbestimmbar";
 ;;"Camp militaire # Lager";
 ;;"Château  # Schloss";
@@ -37,10 +37,10 @@
 ;;"Ferme  # Bauernhof";
 ;;"Villa  # Villa";
 ;;"Village hameau  # Dorf Weiler";
-"Funéraire # Gräber";"Autres / Anderes";"Non renseigné # nicht vorhanden ";"Architecture de bois  # Holzarchitektur"
+"Funéraire # Gräber";"Autres # Anderes";"Non renseigné # Nicht dokumentiert ";"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
-;;;"Ustrinum / Ustrinum"
+;;;"Ustrinum # Ustrinum"
 ;;"Inhumation  # Leichengrab";"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
@@ -50,7 +50,7 @@
 ;;"Les deux  # Beides";"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
-;"Enclos Funéraire  # Grabschanze";"Non renseigné # nicht vorhanden ";"Tombe de grand module  # Grossgrab"
+;"Enclos Funéraire  # Grabschanze";"Non renseigné # Nicht dokumentiert ";"Tombe de grand module  # Grossgrab"
 ;;;"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
@@ -66,7 +66,7 @@
 ;;;"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
-;"Tombe plate isolée  # Einzelner Grab";"Non renseigné # nicht vorhanden ";"Architecture de bois  # Holzarchitektur"
+;"Tombe plate isolée  # Einzelner Grab";"Non renseigné # Nicht dokumentiert ";"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
 ;;"Inhumation  # Leichengrab";"Architecture de bois  # Holzarchitektur"
@@ -78,7 +78,7 @@
 ;;"Les deux  # Beides";"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
-;"Tumulus isolé  # Einzelner Tumulus";"Non renseigné # nicht vorhanden ";"Tombe de grand module  # Grossgrab"
+;"Tumulus isolé  # Einzelner Tumulus";"Non renseigné # Nicht dokumentiert ";"Tombe de grand module  # Grossgrab"
 ;;;"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
@@ -94,7 +94,7 @@
 ;;;"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
-;"Nécropole tumulaire  # Tumuli Nekropole";"Non renseigné # nicht vorhanden ";"Tombe de grand module  # Grossgrab"
+;"Nécropole tumulaire  # Tumuli Nekropole";"Non renseigné # Nicht dokumentiert ";"Tombe de grand module  # Grossgrab"
 ;;;"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
@@ -110,7 +110,7 @@
 ;;;"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
-;"Nécropole tombes plates  # Gräberfeld";"Non renseigné # nicht vorhanden ";"Architecture de bois  # Holzarchitektur"
+;"Nécropole tombes plates  # Gräberfeld";"Non renseigné # Nicht dokumentiert ";"Architecture de bois  # Holzarchitektur"
 ;;;"Architecture de pierre  # Steinarchitektur"
 ;;;"Enclos sépulcral  # Grabbezirk"
 ;;"Inhumation  # Leichengrab";"Architecture de bois  # Holzarchitektur"
@@ -137,107 +137,114 @@
 ;"Stèle # Stele";"Inscription # Inschrift";
 ;;"Non-inscrit # Ohne inschrift";
 ;;"Figuré # Figürlich";
-"Rituel # Kult";"Indéterminé # Unbestimmt";"Arme mutilée # Waffen verbogen";
+"Rituel # Kult";"Indéterminé # Unbestimmt";"Arme mutilée # verbogen Waffen ";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains # Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
-;"Fanum # Fanum";"Arme mutilée # Waffen verbogen";
+;;"Vases miniatures # Miniaturgefässe";
+;"Fanum # Fanum";"Arme mutilée # verbogen Waffen";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains # Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
-;"Puits # Brunnen";"Arme mutilée # Waffen verbogen";
+;;"Vases miniatures #  Miniaturgefässe";
+;"Puits # Brunnen";"Arme mutilée #  verbogen Waffen";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains # Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
-;"Source # Quelle";"Arme mutilée # Waffen verbogen";
+;;"Vases miniatures #  Miniaturgefässe";
+;"Source # Quelle";"Arme mutilée #  verbogen Waffen";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains # Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
-;"Grotte # Höhle";"Arme mutilée # Waffen verbogen";
+;;"Vases miniatures #  Miniaturgefässe";
+;"Grotte # Höhle";"Arme mutilée #  verbogen Waffen";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains # Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
-;"Dans l’habitat  # Im sieldungskontext";"Arme mutilée # Waffen verbogen";
+;;"Vases miniatures #  Miniaturgefässe";
+;"Dans l’habitat  # Im sieldungskontext";"Arme mutilée #  verbogen Waffen";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains # Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
-;"Isolé # Alleinstehend";"Arme mutilée # Waffen verbogen";
+;;"Vases miniatures # Miniaturgefässe";
+;"Isolé # Alleinstehend";"Arme mutilée # verbogen Waffen";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains # Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
-;"Abbaye  # Kloster";"Arme mutilée # Waffen verbogen";
+;;"Vases miniatures #  Miniaturgefässe";
+;"Abbaye # Kloster";"Arme mutilée # verbogen Waffen";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains # Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
-;"Eglise  # Kirche";"Arme mutilée # Waffen verbogen";
+;;"Vases miniatures #  Miniaturgefässe";
+;"Eglise  # Kirche";"Arme mutilée # verbogen Waffen";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains #Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
-;"Temple # Tempel";"Arme mutilée # Waffen verbogen";
+;;"Vases miniatures #  Miniaturgefässe";
+;"Temple # Tempel";"Arme mutilée # verbogen Waffen";
 ;;"Association de mobiliers # Fundzusammenhang";
-;;"Jetons # Jeton";
+;;"Jetons # Spielstein";
 ;;"Monnaies # Münzen";
-;;"Ossements humains # Menschknochen";
+;;"Ossements humains # Menschenknochen";
 ;;"Ossements animaux # Tierknochen";
 ;;"Rouelles # Radamulett";
 ;;"Statuette # Statuette";
-;;"Vases miniatures # Miniaturvasen";
+;;"Vases miniatures #  Miniaturgefässe";
 "Circulation # Verkehr";"Gué  # Furth";"Pente aménagée  # Steige";
 ;"Pont  # Brücke";"Pente aménagée  # Steige";
 ;"Voie # Wege";"Pente aménagée  # Steige";
 ;"Aménagement de berge  # Uferbefestigung";;
 ;"Borne  # Meilenstein";;
 ;"Quai  # Kai";;
-"Structure agraire # Agrar";"Indéterminé # Unbestimmt";;
-;"Champ bombé  # Wölbacker";;
-;"Crêtes de labours  # Crêtes de labours";;
-;"Enclos # Schanze";;
-;"Terrasse agricole  # Ackerterrasse";;
-;"Muret # Trennmauer";;
-;"Murger  # Steinrudel ";;
-;"Rideau de culture # Rideau de culture";;
+"Fente neolithique # Schlitzgrube ";"Non renseigné # Nicht dokumentiert";"Non renseigné # Nicht dokumentiert";
+;;"Extrasite # Ausserhalb einer Fundstelle";
+;;"Intrasite # In einer Fundstelle";
+;"Autres profils # Anderes Profil";"Non renseigné # Nicht dokumentiert";
+;;"Extrasite # Ausserhalb einer Fundstelle";
+;;"Intrasite # In einer Fundstelle";
+;"Profil en U # U-förmiges Profil";"Non renseigné # Nicht dokumentiert";
+;;"Extrasite # Ausserhalb einer Fundstelle";
+;;"Intrasite # In einer Fundstelle";
+;"Profil en V # V-förmiges Profil";"Non renseigné # Nicht dokumentiert";
+;;"Extrasite # Ausserhalb einer Fundstelle";
+;;"Intrasite # In einer Fundstelle";
+;"Profil en Y # Y-förmiges Profil";"Non renseigné # Nicht dokumentiert";
+;;"Extrasite # Ausserhalb einer Fundstelle";
+;;"Intrasite # In einer Fundstelle";
