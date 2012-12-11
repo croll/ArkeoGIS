@@ -72,7 +72,7 @@ class DatabaseImport {
 			}
 		}
 
-		\core\Core::$db->exec('BEGIN');
+		//\core\Core::$db->exec('BEGIN');
 
 		// Retrieve special periods
 
@@ -360,6 +360,7 @@ class DatabaseImport {
 					// Store site informations
 					try {
 						self::$_current['siteId'] = \mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_database['id'], ((isset(self::$_current['city_id'])) ? self::$_current['city_id'] : NULL), self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], trim($datas[3], '" '), trim($datas[4], '" '), $uid);
+						//echo "ADD SITE: ".self::$_current['siteId']."<br />";
 						self::$_stored[self::$_current['code']] = self::$_current;
 						$numProcessed += 1;
 					} catch (\Exception $e) {
@@ -370,18 +371,21 @@ class DatabaseImport {
 
 				// Store site period informations
 
-				$periods = array();
-				$multipleStart = false;
-				$multipleEnd = false;
+				//$periods = array();
+				//$period = array();
+				$period = array(null, null);
 				if (in_array(self::$_current['period']['start'], array_keys(self::$_cache['specialperiod'][$lang]))) {
-					$multipleStart = true;
-					//$periods['start'] = self::$_cache['specialperiod'][$lang][self::$_current['period']['start']];
+					//$multipleStart = true;
+					$period[0] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_cache['specialperiod'][$lang][self::$_current['period']['start']][0]);
 				}
 				if (in_array(self::$_current['period']['end'], array_keys(self::$_cache['specialperiod'][$lang]))) {
-					$multipleEnd = true;
-					//$periods['end'] = self::$_cache['specialperiod'][$lang][self::$_current['period']['end']];
+					//$multipleEnd = true;
+					$period[1] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_cache['specialperiod'][$lang][self::$_current['period']['end']][1]);
 				}
+				if (is_null($period[0])) $period[0] = self::$_current['period']['start'];
+				if (is_null($period[1])) $period[1] = self::$_current['period']['end'];
 
+				/*
 				// Multiple starting period and uniq ending period
 				if ($multipleStart && !$multipleEnd) {
 					foreach	(self::$_cache['specialperiod'][$lang][self::$_current['period']['start']] as $p) {
@@ -400,28 +404,31 @@ class DatabaseImport {
 						}
 					}
 				} else {
+				*/
 				// Uniq starting period and uniq ending period
-					$periods[] = array(self::$_current['period']['start'], self::$_current['period']['end']);
-				}
+					//$periods[] = array(self::$_current['period']['start'], self::$_current['period']['end']);
+				//}
 
-				foreach($periods as $period) {
+				//foreach($periods as $period) {
 
 					$md5Period = self::$_current['code'].$period[0].$period[1];
-					if (!isset(self::$_current['siteId']))
-						$existing = null;
-					else
-						$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod(self::$_current['siteId'], $period[0], $period[1]);
+					//echo self::$_current['name']."\n";
+					//print_r($period);
+					if (!isset(self::$_current['siteId'])) {
+						if (isset(self::$_stored[self::$_current['code']]))
+							$siteId = self::$_stored[self::$_current['code']]['siteId'];
+						else 
+							throw new \Exception('Unable to get site id for this period');
+					} else {
+						$siteId = self::$_current['siteId'];
+					}
+					if (!empty($siteId)) {
+						$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod($siteId, $period[0], $period[1]);
+					}
 					if (!empty($existing)) {
 						self::$_cache['siteperiod'][$md5Period] = $existing;
 					} else {
 						try {
-							if (empty(self::$_current['siteId'])) {
-								if (isset(self::$_stored[self::$_current['code']]))
-									$siteId = self::$_stored[self::$_current['code']]['siteId'];
-								else 
-									throw new \Exception('Unable to get site id for this period');
-							} else
-								$siteId = self::$_current['siteId'];
 						//	self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], self::$_current['period_isrange'], ((isset(self::$_current['depth'])) ?  self::$_current['depth'] : NULL),self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
 							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], (isset(self::$_current['period_isrange']) ? self::$_current['period_isrange'] : NULL), NULL, self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
 						} catch (\Exception $e) {
@@ -432,20 +439,22 @@ class DatabaseImport {
 					foreach(array('realestate', 'furniture', 'production', 'landscape') as $carac) {
 						if (isset(self::$_current[$carac]) && !is_null(self::$_current[$carac])) {
 							try {
+								//echo self::$_cache['siteperiod'][$md5Period]." -- $carac -- ".\mod\arkeogis\ArkeoGIS::getCharacteristicFromId($carac, self::$_current[$carac])."\n";
 								\mod\arkeogis\ArkeoGIS::addSitePeriodCharacteristic(self::$_cache['siteperiod'][$md5Period], $carac, self::$_current[$carac], ((isset(self::$_current[$carac.'_ex']) && self::$_current[$carac.'_ex']) ? 1 : 0));
 							} catch (\Exception $e) {
 								self::_addProcessingError($e->getMessage());
 							}
 						}
 					}
-
-				}
+					$existing = null;
+				//}
+				$siteId = null;
 
 
 			} // End of site treatment, next one.
 
 		}
-		\core\Core::$db->exec('COMMIT');
+		//\core\Core::$db->exec('COMMIT');
 		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => $numProcessed, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 //
