@@ -39,8 +39,8 @@
 					<label class="control-label">{t d='arkeogis' m="Type de base"}</label>
 					<div class="controls">
 						<select name="select_type">
-							<option value="inventory">{t d="arkeogis" m="Inventaire"}</option>
 							<option value="research">{t d="arkeogis" m="Recherche"}</option>
+							<option value="inventory">{t d="arkeogis" m="Inventaire"}</option>
 						</select>
 					</div>
 				</div>
@@ -52,9 +52,15 @@
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label">{t d='arkeogis' m="Limite géographique d'emprise de la base"}</label>
+					<label class="control-label">{t d='arkeogis' m="Limite géographique d'emprise de la base FR"}</label>
 					<div class="controls">
 					{$dbUpload.geographical_limit}
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">{t d='arkeogis' m="Limite géographique d'emprise de la base DE"}</label>
+					<div class="controls">
+					{$dbUpload.geographical_limit_de}
 					</div>
 				</div>
 				<div class="control-group">

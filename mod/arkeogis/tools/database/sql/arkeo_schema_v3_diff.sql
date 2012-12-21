@@ -61,5 +61,6 @@ CREATE TYPE ark_database_scale_resolution AS ENUM (
 ALTER TABLE public.ark_database ADD COLUMN da_description_de TEXT;
 ALTER TABLE public.ark_database ADD COLUMN da_type ark_database_type;
 ALTER TABLE public.ark_database ADD COLUMN da_geographical_limit TEXT;
+ALTER TABLE public.ark_database ADD COLUMN da_geographical_limit_de TEXT;
 ALTER TABLE public.ark_database ADD COLUMN da_scale_resolution ark_database_scale_resolution;
 ALTER TABLE public.ark_database ADD COLUMN da_declared_modification timestamp without time zone;

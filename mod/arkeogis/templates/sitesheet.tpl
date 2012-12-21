@@ -35,7 +35,8 @@
 
 	<div class="clearfix"></div>
 	
-		{foreach $infos.characteristics as $charac}
+		{foreach $infos.characteristics as $periodHash => $characteristics}
+		{foreach $characteristics as $charac}
 	
 		<div class="periodcharacs">
 
@@ -133,6 +134,7 @@
 			{/if}
 
 		</div>
+		{/foreach}
 		{/foreach}
 
 </div>

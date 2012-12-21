@@ -28,7 +28,7 @@ class ArkeoGIS {
 			return \core\Core::$db->exec_returning('INSERT INTO "ark_site_period" ("sp_site_id", "sp_period_start", "sp_period_end", "sp_period_isrange", "sp_depth", "sp_knowledge_type", "sp_comment", "sp_bibliography") VALUES (?,?,?,?,?,?,?,?) ', $args, 'sp_id');
 		} catch (\Exception $e) {
 			throw new \Exception('Unable to add site period: '.$e->getmessage());
-}
+		}
 	}
 
 	public static function addSitePeriodAditionalInfos($sitePeriodCode, $soil=NULL, $superfical=NULL, $analysis=NULL, $paleosol=NULL, $date_dendro=NULL, $date_14c=NULL) {
@@ -48,17 +48,17 @@ class ArkeoGIS {
 		if (!preg_match("/^[a-z]+$/", $carac))
 			throw new \Exception("Carateristic type invalid");
 		switch($carac) {
-			case 'realestate':
-				$prefix = 'sr';
+		case 'realestate':
+			$prefix = 'sr';
 			break;
-			case 'furniture':
-				$prefix = 'sf';
+		case 'furniture':
+			$prefix = 'sf';
 			break;
-			case 'landscape':
-				$prefix = 'sl';
+		case 'landscape':
+			$prefix = 'sl';
 			break;
-			case 'production':
-				$prefix = 'sp';
+		case 'production':
+			$prefix = 'sp';
 			break;
 		}
 		try {
@@ -70,10 +70,25 @@ class ArkeoGIS {
 	}
 
 
+	private static function fix_overlaped_periods(&$arr) {
+		if (in_array(35, $arr) && !in_array(40, $arr)) $arr[]=40; // Age du Bronze >> BRF >> BRF3/HAC1 + Age du Fer >> HAC >> BRF3/HAC1
+		if (in_array(40, $arr) && !in_array(35, $arr)) $arr[]=35; // Age du Fer >> HAC >> BRF3/HAC1 + Age du Bronze >> BRF >> BRF3/HAC1
+		if (in_array(47, $arr) && !in_array(49, $arr)) $arr[]=49; // Age du Fer >> HAC >> HAC2/HAD1 + Age du Fer >> HAD >> HAC2/HAD1
+		if (in_array(49, $arr) && !in_array(47, $arr)) $arr[]=47; // Age du Fer >> HAD >> HAC2/HAD1 + Age du Fer >> HAC >> HAC2/HAD1
+		if (in_array(47, $arr) && !in_array(49, $arr)) $arr[]=49; // Age du Fer >> HAC >> HAC2/HAD1 + Age du Fer >> HAD >> HAC2/HAD1
+		if (in_array(49, $arr) && !in_array(47, $arr)) $arr[]=47; // Age du Fer >> HAD >> HAC2/HAD1 + Age du Fer >> HAC >> HAC2/HAD1
+		if (in_array(59, $arr) && !in_array(62, $arr)) $arr[]=62; // Age du Fer >> HAD >> HAD3/LTA1 + Age du Fer >> LTA >> HAD3/LTA1
+		if (in_array(62, $arr) && !in_array(59, $arr)) $arr[]=59; // Age du Fer >> LTA >> HAD3/LTA1 + Age du Fer >> HAD >> HAD3/LTA1
+		if (in_array(83, $arr) && !in_array(85, $arr)) $arr[]=85; // Age du Fer >> LTC >> LTC2/LTD1 + Age du Fer >> LTD >> LTC2/LTD1
+		if (in_array(85, $arr) && !in_array(83, $arr)) $arr[]=83; // Age du Fer >> LTD >> LTC2/LTD1 + Age du Fer >> LTC >> LTC2/LTD1
+		if (in_array(102, $arr) && !in_array(104, $arr)) $arr[]=104; // Gallo-Romain >> Grandes invasions + Mérovingien >> Grandes invasions
+		if (in_array(104, $arr) && !in_array(102, $arr)) $arr[]=102; // Mérovingien >> Grandes invasions + Gallo-Romain >> Grandes invasions
+	}
+
 	public static function search_sites($search, $select, $addtable=array(), $limit=1500,
                                       $custom_groupby=false, $orderby='ark_site.si_id', $getcount=true, 
                                       $onlysprange=true
-  ) {
+																			) {
 		$addtable=array('ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
 										'ark_siteperiod_furniture' => isset($addtable['ark_siteperiod_furniture']) ? $addtable['ark_siteperiod_furniture'] : false,
 										'ark_siteperiod_landscape' => isset($addtable['ark_siteperiod_landscape']) ? $addtable['ark_siteperiod_landscape'] : false,
@@ -96,6 +111,7 @@ class ArkeoGIS {
 		}
 
 		if (isset($search['period_include']) && count($search['period_include'])) {
+			self::fix_overlaped_periods($search['period_include']);
       $where.=' AND (0=1 ';
 			foreach($search['period_include'] as $period) {
 				$where.=' OR sp_period_start <= ? AND sp_period_end >= ?';
@@ -106,6 +122,7 @@ class ArkeoGIS {
 		}
 
 		if (isset($search['period_exclude']) && count($search['period_exclude'])) {
+			self::fix_overlaped_periods($search['period_exclude']);
       $where.=' AND (sp_period_start IS NULL ';
 			foreach($search['period_exclude'] as $period) {
 				$where.=' OR NOT (sp_period_start <= ? AND sp_period_end >= ?)';
@@ -130,84 +147,94 @@ class ArkeoGIS {
       $args[]=$search['occupation_include'];
 		}
 
-		$andoror = isset($search['caracterisation_mode']) ? $search['caracterisation_mode'] == 'OR' ? 'OR' : 'AND' : 'AND';
-		$where.=' AND ( 1=1 '; // all
-		$where.=' '.$andoror.' ( 1=1 ';		
+		if (isset($search['caracterisation_mode']) && $search['caracterisation_mode'] == 'OR') {
+			$andoror="OR";
+		} else {
+			$andoror="AND";
+		}
+
+		$caracswhere=array();
+
+		$subwhere = '';
 		if (isset($search['production_include']) && count($search['production_include'])) {
 			$addtable['ark_siteperiod_production']=true;
-			$where.=' AND sp_production_id IN (?)';
+			$subwhere.='sp_production_id IN (?)';
 			$args[]=$search['production_include'];
 		}
 
 		if (isset($search['production_exclude']) && count($search['production_exclude'])) {
 			$addtable['ark_siteperiod_production']=true;
-			$where.=' AND (sp_production_id NOT IN (?) OR sp_production_id IS NULL)';
+			$subwhere.=($subwhere == '' ? '' : ' AND ').'(sp_production_id NOT IN (?) OR sp_production_id IS NULL)';
 			$args[]=$search['production_exclude'];
 		}
 
 		if (isset($search['production_exceptional']) && $search['production_exceptional'] == 1) {
 			$addtable['ark_siteperiod_production']=true;
-			$where.=' AND sp_exceptional = 1';
+			$subwhere.=($subwhere == '' ? '' : ' AND ').'sp_exceptional = 1';
 		}
-		$where.=')';
+		if ($subwhere != '') $caracswhere[]=$subwhere;
 
-		$where.=' '.$andoror.' ( 1=1 ';		
+		$subwhere = '';
 		if (isset($search['furniture_include']) && count($search['furniture_include'])) {
 			$addtable['ark_siteperiod_furniture']=true;
-			$where.=' AND sf_furniture_id IN (?)';
+			$subwhere.='sf_furniture_id IN (?)';
 			$args[]=$search['furniture_include'];
 		}
 
 		if (isset($search['furniture_exclude']) && count($search['furniture_exclude'])) {
 			$addtable['ark_siteperiod_furniture']=true;
-			$where.=' AND (sf_furniture_id NOT IN (?) OR sf_furniture_id IS NULL)';
+			$subwhere.=($subwhere == '' ? '' : ' AND ').'(sf_furniture_id NOT IN (?) OR sf_furniture_id IS NULL)';
 			$args[]=$search['furniture_exclude'];
 		}
 
 		if (isset($search['furniture_exceptional']) && $search['furniture_exceptional'] == 1) {
 			$addtable['ark_siteperiod_furniture']=true;
-			$where.=' AND sf_exceptional = 1';
+			$subwhere.=($subwhere == '' ? '' : ' AND ').'sf_exceptional = 1';
 		}
-		$where.=')';
+		if ($subwhere != '') $caracswhere[]=$subwhere;
 
-		$where.=' '.$andoror.' ( 1=1 ';		
+		$subwhere = '';
 		if (isset($search['landscape_include']) && count($search['landscape_include'])) {
 			$addtable['ark_siteperiod_landscape']=true;
-			$where.=' AND sl_landscape_id IN (?)';
+			$subwhere.='sl_landscape_id IN (?)';
 			$args[]=$search['landscape_include'];
 		}
 
 		if (isset($search['landscape_exclude']) && count($search['landscape_exclude'])) {
 			$addtable['ark_siteperiod_landscape']=true;
-			$where.=' AND (sl_landscape_id NOT IN (?) OR sl_landscape_id IS NULL)';
+			$subwhere.=($subwhere == '' ? '' : ' AND ').'(sl_landscape_id NOT IN (?) OR sl_landscape_id IS NULL)';
 			$args[]=$search['landscape_exclude'];
 		}
 
 		if (isset($search['landscape_exceptional']) && $search['landscape_exceptional'] == 1) {
 			$addtable['ark_siteperiod_landscape']=true;
-			$where.=' AND sl_exceptional = 1';
+			$subwhere.=($subwhere == '' ? '' : ' AND ').'sl_exceptional = 1';
 		}
-		$where.=')';
+		if ($subwhere != '') $caracswhere[]=$subwhere;
 
-		$where.=' '.$andoror.' ( 1=1 ';		
+		$subwhere = '';
 		if (isset($search['realestate_include']) && count($search['realestate_include'])) {
 			$addtable['ark_siteperiod_realestate']=true;
-			$where.=' AND sr_realestate_id IN (?)';
+			$subwhere.='sr_realestate_id IN (?)';
 			$args[]=$search['realestate_include'];
 		}
 
 		if (isset($search['realestate_exclude']) && count($search['realestate_exclude'])) {
 			$addtable['ark_siteperiod_realestate']=true;
-			$where.=' AND (sr_realestate_id NOT IN (?) OR sr_realestate_id IS NULL)';
+			$subwhere.=($subwhere == '' ? '' : ' AND ').'(sr_realestate_id NOT IN (?) OR sr_realestate_id IS NULL)';
 			$args[]=$search['realestate_exclude'];
 		}
 
 		if (isset($search['realestate_exceptional']) && $search['realestate_exceptional'] == 1) {
 			$addtable['ark_siteperiod_realestate']=true;
-			$where.=' AND sr_exceptional = 1';
+			$subwhere.=($subwhere == '' ? '' : ' AND ').'sr_exceptional = 1';
 		}
-		$where.=')';
-		$where.=')';
+		if ($subwhere != '') $caracswhere[]=$subwhere;
+
+		if (count($caracswhere) > 0)
+			$where.=" AND (".implode($caracswhere, " $andoror ").")";
+
+
 
 		if (isset($search['site_id'])) {
 			$where.=' AND si_id = ?';
@@ -254,8 +281,9 @@ class ArkeoGIS {
 		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.($groupby ? ' GROUP BY '.$groupby : '').($orderby ? ' ORDER BY '.$orderby : '').($limit ? ' LIMIT '.$limit : '');
 		$query_count='SELECT COUNT(DISTINCT(ark_site.si_id)) FROM '.$from.' WHERE '.$where;
 
-    //error_log(sqltostr($query, $args));
+    error_log(sqltostr($query, $args));
 
+		error_log(var_export(\core\Core::$db->fetchAll($query, $args), true));
 		return array('total_count' => $getcount ? \core\Core::$db->fetchOne($query_count, $args) : 'unwanted',
 								 'sites' => \core\Core::$db->fetchAll($query, $args));
 	}
@@ -309,8 +337,8 @@ class ArkeoGIS {
 		$args = array($label);
 
 		if (!is_null($level)) {
-			 $q.= 'AND nlevel(node_path) = ? ';
-			 $args[] = $level;
+			$q.= 'AND nlevel(node_path) = ? ';
+			$args[] = $level;
 		}
 
 		if (!is_null($parentPath)) { 
@@ -325,6 +353,10 @@ class ArkeoGIS {
 		return \core\Core::$db->fetchOne('SELECT "pe_id" FROM "ark_period" WHERE "node_path" = ?' , array($node_path));
 	}
 
+	public static function getPeriodNameFromPath($node_path) {
+		return \core\Core::$db->fetchOne('SELECT "pe_name_fr" FROM "ark_period" WHERE "node_path" = ?' , array($node_path));
+	}
+
 	public static function getCharacteristicIdFromPath($carac, $node_path) {
 		if (!preg_match("/^[a-z]+$/", $carac))
 			throw new \Exception("Carateristic type invalid");
@@ -335,6 +367,11 @@ class ArkeoGIS {
 			throw new \Exception($e->getMessage());
 		}
 		return $id;
+	}
+
+	public static function getCharacteristicFromId($carac, $id) {
+		$prefix = substr($carac, 0, 2);
+		return \core\Core::$db->fetchOne('SELECT "'.$prefix.'_name_fr" FROM "ark_'.$carac.'" WHERE "'.$prefix.'_id" = ?' , array((int)$id));
 	}
 
 	public static function node_path_to_str($node_path, &$strings, $sep) {
@@ -377,18 +414,18 @@ class ArkeoGIS {
 		$menus['furniture']=self::idtok(\core\Core::$db->fetchAll("select fu_id as id, fu_name_$lang as name from ark_furniture order by fu_id"));
 		$menus['landscape']=self::idtok(\core\Core::$db->fetchAll("select la_id as id, la_name_$lang as name from ark_landscape order by la_id"));
     $menus['knowledge']=array(
-      'unknown' => \mod\lang\Main::ch_t('arkeogis', "Non renseigné"),
-      'literature' => \mod\lang\Main::ch_t('arkeogis', "Littérature, prospecté"),
-      'surveyed' => \mod\lang\Main::ch_t('arkeogis', "Sondé"),
-      'excavated' => \mod\lang\Main::ch_t('arkeogis', "Fouillé")
-    );
+															'unknown' => \mod\lang\Main::ch_t('arkeogis', "Non renseigné"),
+															'literature' => \mod\lang\Main::ch_t('arkeogis', "Littérature, prospecté"),
+															'surveyed' => \mod\lang\Main::ch_t('arkeogis', "Sondé"),
+															'excavated' => \mod\lang\Main::ch_t('arkeogis', "Fouillé")
+															);
 
     $menus['occupation']=array(
-      'unknown' => \mod\lang\Main::ch_t('arkeogis', "Non renseigné"),
-      'uniq' => \mod\lang\Main::ch_t('arkeogis', "Unique"),
-      'continuous' => \mod\lang\Main::ch_t('arkeogis', "Continue"),
-      'multiple' => \mod\lang\Main::ch_t('arkeogis', "Multiple")
-    );
+															 'unknown' => \mod\lang\Main::ch_t('arkeogis', "Non renseigné"),
+															 'uniq' => \mod\lang\Main::ch_t('arkeogis', "Unique"),
+															 'continuous' => \mod\lang\Main::ch_t('arkeogis', "Continue"),
+															 'multiple' => \mod\lang\Main::ch_t('arkeogis', "Multiple")
+															 );
 
 		return $menus;
 	}
@@ -426,29 +463,37 @@ class ArkeoGIS {
 		$strings=ArkeoGIS::load_strings();
 		foreach(\core\Core::$db->fetchAll($query, array($siteId)) as $pInfos) {
 			$datas = array();
+			$caracs = array();
 
-			$datas['start'] = Arkeogis::node_path_to_array($pInfos['period_start_path'], $strings['period']);
-			$datas['end'] = Arkeogis::node_path_to_array($pInfos['period_end_path'], $strings['period']);
-			$datas['knowledge'] = $pInfos['knowledge'];
-			$datas['comment'] = $pInfos['comment'];
-			$datas['bibliography'] = $pInfos['bibliography'];
+			$periodHash = md5($pInfos['period_start_path'].$pInfos['period_end_path']);
+			if (!isset($siteInfos['characteristics'][$periodHash])) {
+				$datas['start'] = Arkeogis::node_path_to_array($pInfos['period_start_path'], $strings['period']);
+				$datas['end'] = Arkeogis::node_path_to_array($pInfos['period_end_path'], $strings['period']);
+				//$datas['end'] = $pInfos['period_end_path'];
+				//$datas['start'] =  $pInfos['period_start_path'];
+				$datas['knowledge'] = $pInfos['knowledge'];
+				$datas['comment'] = $pInfos['comment'];
+				$datas['bibliography'] = $pInfos['bibliography'];
+				$siteInfos['characteristics'][$periodHash]['datas'] = $datas;
+				unset($datas);
+			}
 			if (!empty($pInfos['realestate_path'])) {
-				$datas['realestate'] = Arkeogis::node_path_to_array($pInfos['realestate_path'], $strings['realestate']);
-				$datas['realestate_exp'] = $pInfos['sr_exceptional'];
+				$caracs['realestate'] = Arkeogis::node_path_to_array($pInfos['realestate_path'], $strings['realestate']);
+				$caracs['realestate_exp'] = $pInfos['sr_exceptional'];
 			}
 			if (!empty($pInfos['production_path'])) {
-				$datas['production'] = Arkeogis::node_path_to_array($pInfos['production_path'], $strings['production']);
-				$datas['production_exp'] = $pInfos['sp_exceptional'];
+				$caracs['production'] = Arkeogis::node_path_to_array($pInfos['production_path'], $strings['production']);
+				$caracs['production_exp'] = $pInfos['sp_exceptional'];
 			}
 			if (!empty($pInfos['furniture_path'])) {
-				$datas['furniture'] = Arkeogis::node_path_to_array($pInfos['furniture_path'], $strings['furniture']);
-				$datas['furniture_exp'] = $pInfos['sf_exceptional'];
+				$caracs['furniture'] = Arkeogis::node_path_to_array($pInfos['furniture_path'], $strings['furniture']);
+				$caracs['furniture_exp'] = $pInfos['sf_exceptional'];
 			}
 			if (!empty($pInfos['landscape_path'])) {
-				$datas['landscape'] = Arkeogis::node_path_to_array($pInfos['landscape_path'], $strings['landscape']);
-				$datas['landscape_exp'] = $pInfos['sl_exceptional'];
+				$caracs['landscape'] = Arkeogis::node_path_to_array($pInfos['landscape_path'], $strings['landscape']);
+				$caracs['landscape_exp'] = $pInfos['sl_exceptional'];
 			}
-			$siteInfos['characteristics'][] = $datas;
+			$siteInfos['characteristics'][$periodHash]['caracs'][] = $datas;
 		}
 		return $siteInfos;
 	}

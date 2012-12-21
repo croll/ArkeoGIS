@@ -1,3 +1,19 @@
+function sort_unique(arr) {
+    arr = arr.sort();
+    var ret = [arr[0]];
+    for (var i = 1; i < arr.length; i++) { // start loop at 1 as element 0 can never be a duplicate
+        if (arr[i-1] !== arr[i]) {
+            ret.push(arr[i]);
+        }
+    }
+    return ret;
+}
+
+function uniqcarac(carac) {
+    var caracs=sort_unique(carac.split('<br />'));
+    return caracs.join('<br />');
+}
+
 function display_sheet(data) {
     $('map_sheet').empty();
     var data2=[];
@@ -9,10 +25,10 @@ function display_sheet(data) {
 	    row.si_city_name,
 	    row.si_name,
 	    row.period_start+'<br />'+row.period_end,
-	    row.realestate,
-	    row.furniture,
-	    row.production,
-	    row.landscape	    
+	    uniqcarac(row.realestate),
+	    uniqcarac(row.furniture),
+	    uniqcarac(row.production),
+	    uniqcarac(row.landscape)
 	]);
     }
 

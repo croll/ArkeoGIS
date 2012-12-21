@@ -5,12 +5,12 @@ namespace mod\arkeogis;
 class Ajax {
 
 	public static function getDbInformations($params) {
-    		if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
-    		$infos = \core\Core::$db->fetchAll("Select da_description AS description, da_description_de AS description_de, TO_CHAR(da_declared_modification, 'DD/MM/YYYY') AS declared_modification, da_type AS type, da_geographical_limit AS geographical_limit, da_scale_resolution AS scale_resolution FROM ark_database WHERE da_name =?",array($params['dbname']));
-	  	  $smarty = \mod\smarty\Main::newSmarty();
-				$smarty->assign('infos', $infos[0]);
-				$smarty->assign('currentLang', \mod\lang\Main::getCurrentLang());
-				return $smarty->fetch('arkeogis/databaseInfos');
+		if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
+		$infos = \core\Core::$db->fetchAll("Select da_description AS description, da_description_de AS description_de, TO_CHAR(da_declared_modification, 'DD/MM/YYYY') AS declared_modification, da_type AS type, da_geographical_limit AS geographical_limit, da_geographical_limit_de AS geographical_limit_de, da_scale_resolution AS scale_resolution FROM ark_database WHERE da_name =?",array($params['dbname']));
+		$smarty = \mod\smarty\Main::newSmarty();
+		$smarty->assign('infos', $infos[0]);
+		$smarty->assign('currentLang', \mod\lang\Main::getCurrentLang());
+		return $smarty->fetch('arkeogis/databaseInfos');
 	}
 
 	private static function implode_unempty($ar, $sep) {
@@ -92,17 +92,10 @@ class Ajax {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     $columns="ark_site.si_id, da_name, si_city_name, si_name, ";
 		$columns.="(SELECT pe_name_fr||'/'||pe_name_de FROM ark_period WHERE pe_id=min(sp_period_start)) AS period_start, ";
-		$columns.="(SELECT pe_name_fr||'/'||pe_name_de FROM ark_period WHERE pe_id=max(sp_period_end)) AS period_end, ";
-		$columns.="array_agg((SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id) order by ark_site_period.sp_id) as realestate, ";
-		$columns.="array_agg((SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id) order by ark_site_period.sp_id) as furniture, ";
-		$columns.="array_agg((SELECT node_path FROM ark_production WHERE pr_id=sp_production_id) order by ark_site_period.sp_id) as production,";
-		$columns.="array_agg((SELECT node_path FROM ark_landscape WHERE la_id=sl_landscape_id) order by ark_site_period.sp_id) as landscape";
+		$columns.="(SELECT pe_name_fr||'/'||pe_name_de FROM ark_period WHERE pe_id=max(sp_period_end)) AS period_end ";
+
     $res=ArkeoGIS::search_sites($search, $columns, array(
-																												 'ark_database' => true,
-																												 'ark_siteperiod_production' => true,
-																												 'ark_siteperiod_furniture' => true,
-																												 'ark_siteperiod_realestate' => true,
-																												 'ark_siteperiod_landscape' => true
+																												 'ark_database' => true
 																												 ), 1500, 'ark_site.si_id, da_id', 'ark_site.si_id', true, false);
 		$total_count=$res['total_count'];
 		$sites=&$res['sites'];
@@ -112,10 +105,16 @@ class Ajax {
 			//\core\Core::log($row);
       //$sites[$k]['period_start'] = ArkeoGIS::node_path_to_str($row['period_start'], $strings['period'], '/');
       //$sites[$k]['period_end'] = ArkeoGIS::node_path_to_str($row['period_end'], $strings['period'], '/');
-      $sites[$k]['realestate'] = implode(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), '<br />');
-      $sites[$k]['furniture'] = implode(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), '<br />');
-      $sites[$k]['production'] = implode(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), '<br />');
-      $sites[$k]['landscape'] = implode(ArkeoGIS::node_path_array_to_str($row['landscape'], $strings['landscape'], '/'), '<br />');
+
+			$realestate=\core\Core::$db->fetchOne("SELECT array_agg(r1.node_path) FROM ark_site_period sp1 LEFT JOIN ark_siteperiod_realestate spr1 ON spr1.sr_site_period_id = sp1.sp_id LEFT JOIN ark_realestate r1 ON r1.re_id = spr1.sr_realestate_id WHERE sp1.sp_site_id = ?", array($row['si_id']));
+			$furniture=\core\Core::$db->fetchOne("SELECT array_agg(f1.node_path) FROM ark_site_period sp1 LEFT JOIN ark_siteperiod_furniture spf1 ON spf1.sf_site_period_id = sp1.sp_id LEFT JOIN ark_furniture f1 ON f1.fu_id = spf1.sf_furniture_id WHERE sp1.sp_site_id = ?", array($row['si_id']));
+			$production=\core\Core::$db->fetchOne("SELECT array_agg(p1.node_path) FROM ark_site_period sp1 LEFT JOIN ark_siteperiod_production spp1 ON spp1.sp_site_period_id = sp1.sp_id LEFT JOIN ark_production p1 ON p1.pr_id = spp1.sp_production_id WHERE sp1.sp_site_id = ?", array($row['si_id']));
+			$landscape=\core\Core::$db->fetchOne("SELECT array_agg(l1.node_path) FROM ark_site_period sp1 LEFT JOIN ark_siteperiod_landscape spl1 ON spl1.sl_site_period_id = sp1.sp_id LEFT JOIN ark_landscape l1 ON l1.la_id = spl1.sl_landscape_id WHERE sp1.sp_site_id = ?", array($row['si_id']));			
+
+      $sites[$k]['realestate'] = implode(ArkeoGIS::node_path_array_to_str($realestate, $strings['realestate'], '/'), '<br />');
+      $sites[$k]['furniture'] = implode(ArkeoGIS::node_path_array_to_str($furniture, $strings['furniture'], '/'), '<br />');
+      $sites[$k]['production'] = implode(ArkeoGIS::node_path_array_to_str($production, $strings['production'], '/'), '<br />');
+      $sites[$k]['landscape'] = implode(ArkeoGIS::node_path_array_to_str($landscape, $strings['landscape'], '/'), '<br />');
     }
 
     return $res;
@@ -158,6 +157,7 @@ class Ajax {
 	public static function showsitesheet($params) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
 		$siteInfos = ArkeoGIS::getSiteInfos($params['id']);
+		\core\Core::log($siteInfos);
     $smarty = \mod\smarty\Main::newSmarty();
 		$smarty->assign('infos', $siteInfos);
 		$title = (!empty($siteInfos['name'])) ? $siteInfos['name'] : 'ID: '.$siteInfos['code'];

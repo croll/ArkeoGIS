@@ -107,6 +107,11 @@
 			"value" : "",
 			"class" : "import-db-description"
 		},
+		{	"type" : "textarea",
+			"name" : "geographical_limit_de",
+			"value" : "",
+			"class" : "import-db-description"
+		},
 		{	"type" : "file",
 			"name" : "dbfile",
 			"validators" : 

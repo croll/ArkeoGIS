@@ -216,6 +216,7 @@ CREATE TABLE ark_database (
     da_owner_id integer,
     da_type ark_database_type,
     da_geographical_limit text,
+    da_geographical_limit_de text,
     da_creation timestamp without time zone NOT NULL,
     da_modification timestamp without time zone
 );

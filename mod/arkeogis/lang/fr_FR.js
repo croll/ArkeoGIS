@@ -12,7 +12,7 @@
   "Lignes \u00e0 ignorer" : "Lignes \u00e0 ignorer",
   "Nombre de ligne en d\u00e9but de fichier \u00e0 ne pas traiter" : "Nombre de ligne en d\u00e9but de fichier \u00e0 ne pas traiter",
   "Caract\u00e8re d'\u00e9chapement" : "Caract\u00e8re d'\u00e9chapement",
-  "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier" : "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier",
+  "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier" : "Langue utilis\u00e9e pour caract\u00e9riser les p\u00e9riodes\/mobilier\/immobilier\/production\/paysage",
   "Effectuer un autre import" : "Effectuer un autre import",
   "Selection" : "S\u00e9lection",
   "ALL" : "TOUS",
@@ -162,5 +162,7 @@
   "Site" : "Site",
   "Limite g\u00e9ographique d'emprise de la base" : "Limite g\u00e9ographique d'emprise de la base",
   "Derni\u00e8re mise \u00e0 jour" : "Derni\u00e8re mise \u00e0 jour",
-  "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)" : "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)"
+  "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)" : "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)",
+  "Limite g\u00e9ographique d'emprise de la base FR" : "Limite g\u00e9ographique d'emprise de la base FR",
+  "Limite g\u00e9ographique d'emprise de la base DE" : "Limite g\u00e9ographique d'emprise de la base DE"
 }

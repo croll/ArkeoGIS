@@ -46,9 +46,9 @@ class Main {
     $page = new \mod\webpage\Main();
     // get lang
     if(!isset($matches[1]) || $matches[1]== NULL) {
-	$tab="requetes";
+			$tab="requetes";
     } else {
-	$tab = $matches[1];
+			$tab = $matches[1];
     }
     $lang=\mod\lang\Main::getCurrentLang();
     $page->smarty->assign('tab', $tab);
@@ -71,30 +71,30 @@ class Main {
    
     if (!\mod\user\Main::userIsLoggedIn()) {
     	return false;
-     }
+		}
     // check for optionals parameters 
     if (isset($matches[1])) {	
-		$check=split('/', $matches[1]);
-		$params=array();
-		for ($i=0; $i <= count($check); $i++) {
-			if ($check[$i] != "") {
-				$iNext= $i+1;
-				$params[$check[$i]]= $check[$iNext];
-				$i++;
+			$check=split('/', $matches[1]);
+			$params=array();
+			for ($i=0; $i <= count($check); $i++) {
+				if ($check[$i] != "") {
+					$iNext= $i+1;
+					$params[$check[$i]]= $check[$iNext];
+					$i++;
+				}
 			}
-		}
-		if ($params["sort"]) {
-			$sort = $params["sort"];
-		}	
-		if ($params["maxrow"] && (int)$params["maxrow"]) {
-			$maxrow=$params["maxrow"];
-		}
-		if ($params["offset"] && (int)$params["offset"]) {
-			$offset=$params["offset"];
-		}
-		if ($params["filter"]) {
-			$filter=$params["filter"];
-		}
+			if ($params["sort"]) {
+				$sort = $params["sort"];
+			}	
+			if ($params["maxrow"] && (int)$params["maxrow"]) {
+				$maxrow=$params["maxrow"];
+			}
+			if ($params["offset"] && (int)$params["offset"]) {
+				$offset=$params["offset"];
+			}
+			if ($params["filter"]) {
+				$filter=$params["filter"];
+			}
     }	
     // set default list parameter 
     if (!isset($sort)) $sort="login_asc";		
@@ -106,21 +106,21 @@ class Main {
     $dbParams[]=1;
     $mid = "";
     if (isset($filter)) {
-	$filters = split('@', $filter);
-	for($i=0; $i<count($filters); $i++) {
-		//var_dump($filters);
-		$fd=split(':', $filters[$i]);
-		if ($fd[0] == 'login') {
-		 	$mid .=" AND u.login like ?";	
-			$dbParams[]=$fd[1];
-		} else if ($fd[0] == 'full_name') {
-		 	$mid .=" AND u.full_name like ?";	
-			$dbParams[]=$fd[1];
-		} else if ($fd[0] == 'email') {
-		 	$mid .=" AND u.email like ?";	
-			$dbParams[]=$fd[1];
-		}
-	}
+			$filters = split('@', $filter);
+			for($i=0; $i<count($filters); $i++) {
+				//var_dump($filters);
+				$fd=split(':', $filters[$i]);
+				if ($fd[0] == 'login') {
+					$mid .=" AND u.login like ?";	
+					$dbParams[]=$fd[1];
+				} else if ($fd[0] == 'full_name') {
+					$mid .=" AND u.full_name like ?";	
+					$dbParams[]=$fd[1];
+				} else if ($fd[0] == 'email') {
+					$mid .=" AND u.email like ?";	
+					$dbParams[]=$fd[1];
+				}
+			}
     }
     $dbParams[]=(int)$maxrow;
     $dbParams[]=(int)$offset;
@@ -130,8 +130,8 @@ class Main {
     $q .=" LIMIT ? OFFSET ?";
     $list = $db->fetchAll($q, $dbParams);
     for($i=0; $i<count($list); $i++) {
-		$list[$i]['groups'] = \mod\arkeogis\Tools::getUserGroups($list[$i]['uid']);
-		$list[$i]['databases'] = \mod\arkeogis\Tools::getUserDatabases($list[$i]['uid']);
+			$list[$i]['groups'] = \mod\arkeogis\Tools::getUserGroups($list[$i]['uid']);
+			$list[$i]['databases'] = \mod\arkeogis\Tools::getUserDatabases($list[$i]['uid']);
 
     }
     $quant=$db->fetchOne("SELECT count(u.uid) as quant from ch_user u where uid > ? ", array(1));
@@ -149,9 +149,9 @@ class Main {
     $page->smarty->assign('directory_mode', 'list');
     $page->setLayout('arkeogis/directory');
     $page->display();
-    }
+	}
     
-        private static function load_menus() {
+	private static function load_menus() {
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
     
@@ -180,51 +180,54 @@ class Main {
 
 	public static function hook_mod_arkeogis_import($hookname, $userdata, $urlmatches) {
 		if (\mod\user\Main::userHasRight('Manage personal database') || \mod\user\Main::userHasRight('Manage all databases')) {
-		$page = new \mod\webpage\Main();
-    $lang=\mod\lang\Main::getCurrentLang();
-    $page->smarty->assign('lang', $lang);
-		$page->setLayout('arkeogis/import');
-		$page->display();
+			$page = new \mod\webpage\Main();
+			$lang=\mod\lang\Main::getCurrentLang();
+			$page->smarty->assign('lang', $lang);
+			$page->setLayout('arkeogis/import');
+			$page->display();
 		} 
 	}
 
 	public static function hook_mod_arkeogis_import_submit($hookname, $userdata, $urlmatches) {
 		if (\mod\user\Main::userHasRight('Manage personal database') || \mod\user\Main::userHasRight('Manage all databases')) {
 
-		$params = array('mod' => 'arkeogis', 'file' => 'templates/dbUpload.json');
-		$form = new \mod\form\Form($params);
-		if ($form->validate()) {
-			$separator = $form->getValue('separator');
-			$enclosure = $form->getValue('enclosure');
-			$file = $form->getValue('dbfile');
-			$skipline = $form->getValue('skipline');
-			$lang = $form->getValue('select_lang');
-      $field = array();
-      $description = trim($form->getValue('description'));
-      if (!empty($description))
-		  	$field['description'] = $description;
-      $description_de = trim($form->getValue('description_de'));
-      if (!empty($description_de))
-        $field['description_de'] = $description_de;
-      $declared_modification = trim($form->getValue('declared_modification'));
-      if (!empty($declared_modification))
-        $field['declared_modification'] = $declared_modification;
-      $type = $form->getValue('select_type');
-      if (!empty($type))
-        $field['type'] = $type;
-      $scale_resolution = trim($form->getValue('select_scale_resolution'));
-      if (!empty($scale_resolution))
-        $field['scale_resolution'] = $scale_resolution;
-      $geographical_limit = trim($form->getValue('geographical_limit'));
-      if (!empty($geographical_limit))
-        $field['geographical_limit'] = $geographical_limit;
-			$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $field);
-			unlink($file['tmp_name']);
-			$page = new \mod\webpage\Main();
-			$page->smarty->assign("result", $result);
-		}
-		$page->setLayout('arkeogis/import');
-		$page->display();
+			$params = array('mod' => 'arkeogis', 'file' => 'templates/dbUpload.json');
+			$form = new \mod\form\Form($params);
+			if ($form->validate()) {
+				$separator = $form->getValue('separator');
+				$enclosure = $form->getValue('enclosure');
+				$file = $form->getValue('dbfile');
+				$skipline = $form->getValue('skipline');
+				$lang = $form->getValue('select_lang');
+				$field = array();
+				$description = trim($form->getValue('description'));
+				if (!empty($description))
+					$field['description'] = $description;
+				$description_de = trim($form->getValue('description_de'));
+				if (!empty($description_de))
+					$field['description_de'] = $description_de;
+				$declared_modification = trim($form->getValue('declared_modification'));
+				if (!empty($declared_modification))
+					$field['declared_modification'] = $declared_modification;
+				$type = $form->getValue('select_type');
+				if (!empty($type))
+					$field['type'] = $type;
+				$scale_resolution = trim($form->getValue('select_scale_resolution'));
+				if (!empty($scale_resolution))
+					$field['scale_resolution'] = $scale_resolution;
+				$geographical_limit = trim($form->getValue('geographical_limit'));
+				if (!empty($geographical_limit))
+					$field['geographical_limit'] = $geographical_limit;
+				$geographical_limit_de = trim($form->getValue('geographical_limit_de'));
+				if (!empty($geographical_limit_de))
+					$field['geographical_limit_de'] = $geographical_limit_de;
+				$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $field);
+				unlink($file['tmp_name']);
+				$page = new \mod\webpage\Main();
+				$page->smarty->assign("result", $result);
+			}
+			$page->setLayout('arkeogis/import');
+			$page->display();
 		}
 	}
 
@@ -247,33 +250,23 @@ class Main {
 
 		$q=json_decode(urldecode($urlmatches[1]), true);
 		
-		$columns="ark_site.si_id, si_code, si_name, si_description, si_city_id, ST_AsGeoJSON(si_geom) as coords, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
-		$columns.=", ci_code, ci_name, ci_country, ci_geom"; // ark_city
+		$columns="ark_site.si_id, si_code, si_name, si_description, si_city_name, si_city_code, ST_AsGeoJSON(si_geom) as coords, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
 		$columns.=", da_name, da_description, da_creation, da_modification"; // ark_database
-  		$columns.=", ark_site_period.sp_id, sp_knowledge_type, sp_comment, sp_bibliography"; // ark_site_period
-    		$columns.=", sr_exceptional, sf_exceptional, sp_exceptional, sl_exceptional"; // exceptionals
+		$columns.=", ark_site_period.sp_id, sp_knowledge_type, sp_comment, sp_bibliography"; // ark_site_period
 		$columns.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start";
 		$columns.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end";
-		$columns.=", (SELECT node_path FROM ark_realestate WHERE re_id=sr_realestate_id) as realestate";
-		$columns.=", (SELECT node_path FROM ark_furniture WHERE fu_id=sf_furniture_id) as furniture";
-		$columns.=", (SELECT node_path FROM ark_production WHERE pr_id=sp_production_id) as production";
-		$columns.=", (SELECT node_path FROM ark_landscape WHERE la_id=sl_landscape_id) as landscape";
 
 		$res=ArkeoGIS::search_sites($q, $columns, array(
-                                  'ark_siteperiod_production' => true,
-                                  'ark_siteperiod_furniture' => true,
-                                  'ark_siteperiod_realestate' => true,
-                                  'ark_siteperiod_landscape' => true,
-                                  'ark_city' => true,
-                                  'ark_database' => true
-                                ),
+																										'ark_city' => false,
+																										'ark_database' => true
+																										),
 																false, // limit
-                                '', // group_by,
+                                'ark_site.si_id, ark_site_period.sp_id, da_id', // group_by,
                                 '',
 																'ark_site.si_code, ark_site.si_id, ark_site_period.sp_id', // orderby
                                 false, // getcount
                                 false  // onlysprange
-    );
+																);
 		
 		$strings=ArkeoGIS::load_strings();
 		
@@ -288,57 +281,73 @@ class Main {
     $latest_siid=-1;
     $latest_spid=-1;
 		foreach($res['sites'] as $row) {
-      $newsiid=($latest_siid != $row['si_id']);
-      $newspid=($latest_spid != $row['sp_id']);
       $coords=json_decode($row['coords']);
       $period_start=ArkeoGIS::node_path_to_array($row['period_start'], $strings['period']);
       $period_end=ArkeoGIS::node_path_to_array($row['period_end'], $strings['period']);
-      $realestate=ArkeoGIS::node_path_to_array($row['realestate'], $strings['realestate']);
-      $furniture=ArkeoGIS::node_path_to_array($row['furniture'], $strings['furniture']);
-      $production=ArkeoGIS::node_path_to_array($row['production'], $strings['production']);
-      $landscape=ArkeoGIS::node_path_to_array($row['landscape'], $strings['landscape']);
-      fputcsv($fp, array(
-                $row['si_code'],                                                                       // SITE_ID_SOURCE
-                $newsiid ? $row['da_name'] : '',                                                       // BASE_SOURCE
-                $newsiid ? $row['si_name'] : '',                                                       // NOM_SITE
-                $newsiid ? $row['ci_name'] : '',                                                       // NOM_COMMUNE_PRINCIPALE
-                $newsiid ? $row['ci_code'] : '',                                                       // CODE_COMMUNE
-                $newsiid ? 'WGS84' : '',                                                               // SYSTEME_PROJECTION
-                $newsiid ? $coords->coordinates[0] : '',                                               // LONGITUDE_X
-                $newsiid ? $coords->coordinates[1] : '',                                               // LATITUDE_Y
-                '',                                                                                    // LONGITUDE_X_BIS
-                '',                                                                                    // LATITUDE_Y_BIS
-                $newsiid ? ($coords->coordinates[2] == -999 ? '' : $coords->coordinates[2]) : '',      // ALTITUDE Z
-                $newsiid ? $row['si_centroid'] : '',                                                   // CENTRE_COMMUNE
-                $newsiid && $row['sp_knowledge_type'] ? $strings['knowledge'][$row['sp_knowledge_type']] : '', // ETAT_CONNAISSANCES
-                $newsiid ? $strings['occupation'][$row['si_occupation']] : '',                         // OCCUPATION
-                $newspid ? (count($period_start) ? $period_start[count($period_start)-1] : '') : '',   // DATATION_DEBUT_PLUS_FINE
-                $newspid ? (count($period_end) ? $period_end[count($period_end)-1] : '') : '',         // DATATION_FIN_PLUS_FINE
-                isset($realestate[0]) ? $realestate[0] : '',                                           // IMMO_NIV1
-                isset($realestate[1]) ? $realestate[1] : '',                                           // IMMO_NIV2
-                isset($realestate[2]) ? $realestate[2] : '',                                           // IMMO_NIV3
-                isset($realestate[3]) ? $realestate[3] : '',                                           // IMMO_NIV4
-                //'',                                                                                    // PROFONDEUR_VESTIGES
-                self::yesno($row['sr_exceptional']),                                                   // IMMO_EXP
-                isset($furniture[0]) ? $furniture[0] : '',                                             // MOB_NIV1
-                isset($furniture[1]) ? $furniture[1] : '',                                             // MOB_NIV2
-                isset($furniture[2]) ? $furniture[2] : '',                                             // MOB_NIV3
-                isset($furniture[3]) ? $furniture[3] : '',                                             // MOB_NIV4
-                self::yesno($row['sf_exceptional']),                                                   // MOB_EXP
-                isset($production[0]) ? $production[0] : '',                                           // PROD_NIV1
-                isset($production[1]) ? $production[1] : '',                                           // PROD_NIV2
-                isset($production[2]) ? $production[2] : '',                                           // PROD_NIV3
-                $newspid ? $row['sp_exceptional'] : '',                                                // PROD_EXP
-                isset($landscape[0]) ? $landscape[0] : '',                                           // LANDSCAPE_NIV1
-                isset($landscape[1]) ? $landscape[1] : '',                                           // LANDSCAPE_NIV2
-                isset($landscape[2]) ? $landscape[2] : '',                                           // LANDSCAPE_NIV3
-                isset($landscape[3]) ? $landscape[3] : '',                                           // LANDSCAPE_NIV3
-                $newspid ? $row['sl_exceptional'] : '',                                                // LANDSCAPE_EXP
-                $newspid ? $row['sp_bibliography'] : '',                                               // BIBLIOGRAPHIE
-                $newspid ? $row['sp_comment'] : ''                                                     // REMARQUES
-              ), ";", '"');
-      $latest_siid=$row['si_id'];
-      $latest_spid=$row['sp_id'];
+
+			$realestates=\core\Core::$db->fetchAll("SELECT r1.node_path, spr1.sr_exceptional as exceptional FROM ark_siteperiod_realestate spr1 LEFT JOIN ark_realestate r1 ON r1.re_id = spr1.sr_realestate_id WHERE spr1.sr_site_period_id = ?", array($row['sp_id']));
+			$furnitures=\core\Core::$db->fetchAll("SELECT f1.node_path, spf1.sf_exceptional as exceptional FROM ark_siteperiod_furniture spf1 LEFT JOIN ark_furniture f1 ON f1.fu_id = spf1.sf_furniture_id WHERE spf1.sf_site_period_id = ?", array($row['sp_id']));
+			$productions=\core\Core::$db->fetchAll("SELECT p1.node_path, spp1.sp_exceptional as exceptional FROM ark_siteperiod_production spp1 LEFT JOIN ark_production p1 ON p1.pr_id = spp1.sp_production_id WHERE spp1.sp_site_period_id = ?", array($row['sp_id']));
+			$landscapes=\core\Core::$db->fetchAll("SELECT l1.node_path, spl1.sl_exceptional as exceptional FROM ark_siteperiod_landscape spl1 LEFT JOIN ark_landscape l1 ON l1.la_id = spl1.sl_landscape_id WHERE spl1.sl_site_period_id = ?", array($row['sp_id']));
+
+			do {
+				$newsiid=($latest_siid != $row['si_id']);
+				$newspid=($latest_spid != $row['sp_id']);
+
+				$realestate=array_shift($realestates);
+				$furniture=array_shift($furnitures);
+				$production=array_shift($productions);
+				$landscape=array_shift($landscapes);
+				
+				$realestate_astr = ArkeoGIS::node_path_to_array($realestate['node_path'], $strings['realestate']);
+				$furniture_astr = ArkeoGIS::node_path_to_array($furniture['node_path'], $strings['furniture']);
+				$production_astr = ArkeoGIS::node_path_to_array($production['node_path'], $strings['production']);
+				$landscape_astr = ArkeoGIS::node_path_to_array($landscape['node_path'], $strings['landscape']);
+
+
+				fputcsv($fp, array(
+													 $row['si_code'],                                                                       // SITE_ID_SOURCE
+													 $newsiid ? $row['da_name'] : '',                                                       // BASE_SOURCE
+													 $newsiid ? $row['si_name'] : '',                                                       // NOM_SITE
+													 $newsiid ? $row['si_city_name'] : '',                                                       // NOM_COMMUNE_PRINCIPALE
+													 $newsiid ? $row['si_city_code'] : '',                                                       // CODE_COMMUNE
+													 $newsiid ? 'WGS84' : '',                                                               // SYSTEME_PROJECTION
+													 $newsiid ? $coords->coordinates[0] : '',                                               // LONGITUDE_X
+													 $newsiid ? $coords->coordinates[1] : '',                                               // LATITUDE_Y
+													 '',                                                                                    // LONGITUDE_X_BIS
+													 '',                                                                                    // LATITUDE_Y_BIS
+													 $newsiid ? ($coords->coordinates[2] == -999 ? '' : $coords->coordinates[2]) : '',      // ALTITUDE Z
+													 $newsiid ? $row['si_centroid'] : '',                                                   // CENTRE_COMMUNE
+													 $newsiid && $row['sp_knowledge_type'] ? $strings['knowledge'][$row['sp_knowledge_type']] : '', // ETAT_CONNAISSANCES
+													 $newsiid ? $strings['occupation'][$row['si_occupation']] : '',                         // OCCUPATION
+													 $newspid ? (count($period_start) ? $period_start[count($period_start)-1] : '') : '',   // DATATION_DEBUT_PLUS_FINE
+													 $newspid ? (count($period_end) ? $period_end[count($period_end)-1] : '') : '',         // DATATION_FIN_PLUS_FINE
+													 isset($realestate_astr[0]) ? $realestate_astr[0] : '',                                           // IMMO_NIV1
+													 isset($realestate_astr[1]) ? $realestate_astr[1] : '',                                           // IMMO_NIV2
+													 isset($realestate_astr[2]) ? $realestate_astr[2] : '',                                           // IMMO_NIV3
+													 isset($realestate_astr[3]) ? $realestate_astr[3] : '',                                           // IMMO_NIV4
+													 //'',                                                                                  // PROFONDEUR_VESTIGES
+													 isset($realestate_astr[0]) ? self::yesno($realestate['exceptional']) : '',                                                   // IMMO_EXP
+													 isset($furniture_astr[0]) ? $furniture_astr[0] : '',                                             // MOB_NIV1
+													 isset($furniture_astr[1]) ? $furniture_astr[1] : '',                                             // MOB_NIV2
+													 isset($furniture_astr[2]) ? $furniture_astr[2] : '',                                             // MOB_NIV3
+													 isset($furniture_astr[3]) ? $furniture_astr[3] : '',                                             // MOB_NIV4
+													 isset($furniture_astr[0]) ? self::yesno($furniture['exceptional']) : '',                                                   // MOB_EXP
+													 isset($production_astr[0]) ? $production_astr[0] : '',                                           // PROD_NIV1
+													 isset($production_astr[1]) ? $production_astr[1] : '',                                           // PROD_NIV2
+													 isset($production_astr[2]) ? $production_astr[2] : '',                                           // PROD_NIV3
+													 isset($production_astr[0]) ? self::yesno($production['exceptional']) : '',                                   // PROD_EXP
+													 isset($landscape_astr[0]) ? $landscape_astr[0] : '',                                             // LANDSCAPE_NIV1
+													 isset($landscape_astr[1]) ? $landscape_astr[1] : '',                                             // LANDSCAPE_NIV2
+													 isset($landscape_astr[2]) ? $landscape_astr[2] : '',                                             // LANDSCAPE_NIV3
+													 isset($landscape_astr[3]) ? $landscape_astr[3] : '',                                   // LANDSCAPE_NIV3
+													 isset($landscape_astr[0]) ? self::yesno($landscape['exceptional']) : '',                                           // LANDSCAPE_EXP
+													 $newspid ? $row['sp_bibliography'] : '',                                               // BIBLIOGRAPHIE
+													 $newspid ? $row['sp_comment'] : ''                                                     // REMARQUES
+													 ), ";", '"');
+				$latest_siid=$row['si_id'];
+				$latest_spid=$row['sp_id'];
+			} while (count($realestates) || count($furnitures) || count($productions) || count($landscapes));
 		}
 		    
   }

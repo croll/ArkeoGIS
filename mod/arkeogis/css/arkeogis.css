@@ -154,6 +154,21 @@ table.map-query tr.caracterisation_mode td {
     padding-top: 10px;
 }
 
+#caracterisation_mode {
+  background-color: #0069d6;
+  font-weight: bold;
+  color: #fff;
+  padding: 3px 0px 3px 20px;
+  height: 23px;
+}
+
+#caracterisation_mode option {
+  color: #555;
+  background-color: #fff;
+  padding: 3px 0px 3px 20px;
+  font-weight: normal;
+}
+
 table.map-query .btn-reinit {
 	font-size: 11px;
 }

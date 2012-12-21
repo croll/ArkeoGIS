@@ -24,9 +24,15 @@
 	{/if}
 	</div>
 
-	{if $infos.geographical_limit}
+	{if $infos.geographical_limit && $currentLang == 'fr_FR'}
 	<div>
 	<span>{t d='arkeogis' m="Limite géographique d'emprise de la base"}:</span> {$infos.geographical_limit|nl2br}
+	</div>
+	{/if}
+
+	{if $infos.geographical_limit_de && $currentLang == 'de_DE'}
+	<div>
+	<span>{t d='arkeogis' m="Limite géographique d'emprise de la base"}:</span> {$infos.geographical_limit_de|nl2br}
 	</div>
 	{/if}
 
