@@ -431,6 +431,7 @@ class ArkeoGIS {
 	}
 
 	public static function getSiteInfos($siteId) {
+		$strings=ArkeoGIS::load_strings();
 		$siteInfos = array();
 		$query = "SELECT si_name AS name, si_code AS code, ST_AsGeoJSON(si_geom) AS geom, si_centroid AS centroid, si_occupation AS occupation, to_char(si_creation, 'dd/mm/yyyy') AS creation, to_char(si_modification, 'dd/mm/yyyy') AS modification, si_city_name AS city_name, si_city_code AS city_code, uid AS author FROM ark_site AS si ";
 		$query .= "LEFT JOIN ch_user AS us ON si.si_author_id=us.uid ";
@@ -451,50 +452,44 @@ class ArkeoGIS {
 		$siteInfos['modification'] = $infos[0]['modification'];
 		$siteInfos['city']['name'] = $infos[0]['city_name'];
 		$siteInfos['city']['code'] = $infos[0]['city_code'];
-		// Get site periods and caracteristics
-		$query = "SELECT re.node_path AS realestate_path, fu.node_path AS furniture_path, la.node_path AS landscape_path, pr.node_path AS production_path, sr_exceptional, sf_exceptional, sl_exceptional, sp_exceptional, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start_path, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end_path, sp_period_isrange AS isrange, sp_knowledge_type AS knowledge, sp_comment AS comment, sp_bibliography AS bibliography ";
-		$query .= "FROM ark_site_period AS sp ";
-		$query .= "LEFT JOIN ark_siteperiod_realestate AS sr ON sp.sp_id=sr.sr_site_period_id LEFT JOIN ark_realestate AS re ON sr.sr_realestate_id=re.re_id ";
-		$query .= "LEFT JOIN ark_siteperiod_furniture AS sf ON sp.sp_id=sf.sf_site_period_id LEFT JOIN ark_furniture AS fu ON sf.sf_furniture_id=fu.fu_id ";
-		$query .= "LEFT JOIN ark_siteperiod_landscape AS sl ON sp.sp_id=sl.sl_site_period_id LEFT JOIN ark_landscape AS la ON sl.sl_landscape_id=la.la_id ";
-		$query .= "LEFT JOIN ark_siteperiod_production AS spp ON sp.sp_id=spp.sp_site_period_id LEFT JOIN ark_production AS pr ON spp.sp_production_id=pr.pr_id ";
-		$query .= "WHERE sp_site_id=?";
-		// Get caracteristics for each period
-		$strings=ArkeoGIS::load_strings();
+		// Get site periods
+		$query = "SELECT sp_id AS id, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start_path, (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end_path, sp_period_isrange AS isrange, sp_knowledge_type AS knowledge, sp_comment AS comment, sp_bibliography AS bibliography FROM ark_site_period WHERE sp_site_id = ?";
+		$datas = array();
+		$caracs = array('realestate' => array(), 'production' => array(), 'furniture' => array(), 'landscape' => array());
 		foreach(\core\Core::$db->fetchAll($query, array($siteId)) as $pInfos) {
-			$datas = array();
-			$caracs = array();
-
 			$periodHash = md5($pInfos['period_start_path'].$pInfos['period_end_path']);
 			if (!isset($siteInfos['characteristics'][$periodHash])) {
 				$datas['start'] = Arkeogis::node_path_to_array($pInfos['period_start_path'], $strings['period']);
 				$datas['end'] = Arkeogis::node_path_to_array($pInfos['period_end_path'], $strings['period']);
-				//$datas['end'] = $pInfos['period_end_path'];
-				//$datas['start'] =  $pInfos['period_start_path'];
 				$datas['knowledge'] = $pInfos['knowledge'];
 				$datas['comment'] = $pInfos['comment'];
 				$datas['bibliography'] = $pInfos['bibliography'];
 				$siteInfos['characteristics'][$periodHash]['datas'] = $datas;
 				unset($datas);
 			}
-			if (!empty($pInfos['realestate_path'])) {
-				$caracs['realestate'] = Arkeogis::node_path_to_array($pInfos['realestate_path'], $strings['realestate']);
-				$caracs['realestate_exp'] = $pInfos['sr_exceptional'];
+			$i = sizeof($periodHash);
+			// Realestate
+			$q = "SELECT node_path, sr_exceptional FROM ark_siteperiod_realestate LEFT JOIN ark_realestate ON ark_siteperiod_realestate.sr_realestate_id=ark_realestate.re_id WHERE ark_siteperiod_realestate.sr_site_period_id = ?";
+			foreach(\core\Core::$db->fetchAll($q, array($pInfos['id'])) as $carac) {
+				$siteInfos['characteristics'][$periodHash]['caracs'][$i]['realestate'][] = array(Arkeogis::node_path_to_array($carac['node_path'], $strings['realestate']), $carac['sr_exceptional']);
 			}
-			if (!empty($pInfos['production_path'])) {
-				$caracs['production'] = Arkeogis::node_path_to_array($pInfos['production_path'], $strings['production']);
-				$caracs['production_exp'] = $pInfos['sp_exceptional'];
+			// Production
+			$q = "SELECT node_path, sp_exceptional FROM ark_siteperiod_production LEFT JOIN ark_production ON ark_siteperiod_production.sp_production_id=ark_production.pr_id WHERE ark_siteperiod_production.sp_site_period_id = ?";
+			foreach(\core\Core::$db->fetchAll($q, array($pInfos['id'])) as $carac) {
+				$siteInfos['characteristics'][$periodHash]['caracs'][$i]['production'][] = array(Arkeogis::node_path_to_array($carac['node_path'], $strings['production']), $carac['sp_exceptional']);
 			}
-			if (!empty($pInfos['furniture_path'])) {
-				$caracs['furniture'] = Arkeogis::node_path_to_array($pInfos['furniture_path'], $strings['furniture']);
-				$caracs['furniture_exp'] = $pInfos['sf_exceptional'];
+			// Furniture 
+			$q = "SELECT node_path, sf_exceptional FROM ark_siteperiod_furniture LEFT JOIN ark_furniture ON ark_siteperiod_furniture.sf_furniture_id=ark_furniture.fu_id WHERE ark_siteperiod_furniture.sf_site_period_id = ?";
+			foreach(\core\Core::$db->fetchAll($q, array($pInfos['id'])) as $carac) {
+				$siteInfos['characteristics'][$periodHash]['caracs'][$i]['furniture'][] = array(Arkeogis::node_path_to_array($carac['node_path'], $strings['furniture']), $carac['sf_exceptional']);
 			}
-			if (!empty($pInfos['landscape_path'])) {
-				$caracs['landscape'] = Arkeogis::node_path_to_array($pInfos['landscape_path'], $strings['landscape']);
-				$caracs['landscape_exp'] = $pInfos['sl_exceptional'];
+			// Landscape 
+			$q = "SELECT node_path, sl_exceptional FROM ark_siteperiod_landscape LEFT JOIN ark_landscape ON ark_siteperiod_landscape.sl_landscape_id=ark_landscape.la_id WHERE ark_siteperiod_landscape.sl_site_period_id = ?";
+			foreach(\core\Core::$db->fetchAll($q, array($pInfos['id'])) as $carac) {
+				$siteInfos['characteristics'][$periodHash]['caracs'][$i]['landscape'][] = array(Arkeogis::node_path_to_array($carac['node_path'], $strings['landscape']), $carac['sl_exceptional']);
 			}
-			$siteInfos['characteristics'][$periodHash]['caracs'][] = $datas;
 		}
+	//	\core\Core::log($siteInfos);
 		return $siteInfos;
 	}
 

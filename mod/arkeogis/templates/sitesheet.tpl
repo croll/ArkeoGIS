@@ -35,20 +35,19 @@
 
 	<div class="clearfix"></div>
 	
-		{foreach $infos.characteristics as $periodHash => $characteristics}
-		{foreach $characteristics as $charac}
+		{foreach $infos.characteristics as $periodHash => $periodCharacteristics}
 	
 		<div class="periodcharacs">
 
-			{if isset($charac.knowledge) && !empty($charac.knowledge)}
+			{if isset($periodCharacteristics.datas.knowledge) && !empty($periodCharacteristics.datas.knowledge)}
 			<div class="title">{t d='arkeogis' m='Etat des connaissances'}: 
-				{if ($charac.knowledge == 'unknown')}
+				{if ($periodCharacteristics.datas.knowledge == 'unknown')}
 					{t d='arkeogis' m='Inconnue'}
-				{else if ($charac.knowledge == 'literature')}
+				{else if ($periodCharacteristics.datas.knowledge == 'literature')}
 					{t d='arkeogis' m='Littérature / Prospection'}
-				{else if ($charac.knowledge == 'surveyed')}
+				{else if ($periodCharacteristics.datas.knowledge == 'surveyed')}
 					{t d='arkeogis' m='Sondé'}
-				{else if ($charac.knowledge == 'excavated')}
+				{else if ($periodCharacteristics.datas.knowledge == 'excavated')}
 					{t d='arkeogis' m='Fouillé'}
 				{/if}
 			</div>
@@ -58,7 +57,7 @@
 
 			<div class="periodstart">
 				<div class="lib">{t d='arkeogis' m='Début'}: </div>
-				{foreach $charac.start as $name}
+				{foreach $periodCharacteristics.datas.start as $name}
 					<div class="period">{$name}</div>
 					{if !$name@last}
 						<div class="sep">&gt;</div>
@@ -69,7 +68,7 @@
 
 			<div class="periodend">
 				<div class="lib">{t d='arkeogis' m='Fin'}: </div>
-				{foreach $charac.end as $name}
+				{foreach $periodCharacteristics.datas.end as $name}
 					<div class="period">{$name}</div>
 					{if !$name@last}
 						<div class="sep">&gt;</div>
@@ -78,49 +77,73 @@
 				<div class="clearfix"></div>
 			</div>
 
-			{if isset($charac.realestate)}
-				<div class="title {if (isset($charac.realestate_exp) && $charac.realestate_exp)}exceptional{/if}">{t d='arkeogis' m='Immobilier'}</div>
-				<div class="blockcharac">
-					{foreach $charac.realestate as $name}
-						<div class="charac">{$name}</div>
-						{if !$name@last}
-							<div class="sep">&gt;</div>
-						{/if}
-					{/foreach}
-					<div class="clearfix"></div>
-				</div>
+			{foreach $periodCharacteristics.caracs as $characteristics}
+			{foreach $characteristics as $type=>$carac}
+
+			{if $type == 'realestate' && sizeof($carac) > 0}
+				<div class="title">{t d='arkeogis' m='Immobilier'}</div>
+				{foreach $carac as $realestate}
+					<div class="blockcharac{if $realestate[1]} exceptional{/if}">
+						{foreach $realestate[0] as $name}
+							<div class="charac">{$name}</div>
+							{if !$name@last}
+								<div class="sep">&gt;</div>
+							{/if}
+						{/foreach}
+						<div class="clearfix"></div>
+					</div>
+				{/foreach}
 			{/if}
 
-			{if isset($charac.furniture)}
-				<div class="title {if (isset($charac.furniture_exp) && $charac.furniture_exp)}exceptional{/if}">{t d='arkeogis' m='Mobilier'}</div>
-				<div class="blockcharac">
-					{foreach $charac.furniture as $name}
-						<div class="charac">{$name}</div>
-						{if !$name@last}
-							<div class="sep">&gt;</div>
-						{/if}
-					{/foreach}
-					<div class="clearfix"></div>
-				</div>
+			{if $type == 'furniture' && sizeof($carac) > 0}
+				<div class="title">{t d='arkeogis' m='Mobilier'}</div>
+				{foreach $carac as $furniture}
+					<div class="blockcharac{if $furniture[1]} exceptional{/if}">
+						{foreach $furniture[0] as $name}
+							<div class="charac">{$name}</div>
+							{if !$name@last}
+								<div class="sep">&gt;</div>
+							{/if}
+						{/foreach}
+						<div class="clearfix"></div>
+					</div>
+				{/foreach}
 			{/if}
 
-			{if isset($charac.production)}
-				<div class="title {if (isset($charac.production_exp) && $charac.production_exp)}exceptional{/if}">{t d='arkeogis' m='Production'}</div>
-				<div class="blockcharac">
-					{foreach $charac.production as $name}
-						<div class="charac">{$name}</div>
-						{if !$name@last}
-							<div class="sep">&gt;</div>
-						{/if}
-					{/foreach}
-					<div class="clearfix"></div>
-				</div>
+			{if $type == 'production' && sizeof($carac) > 0}
+				<div class="title">{t d='arkeogis' m='Production'}</div>
+				{foreach $carac as $production}
+					<div class="blockcharac{if $production[1]} exceptional{/if}">
+						{foreach $production[0] as $name}
+							<div class="charac">{$name}</div>
+							{if !$name@last}
+								<div class="sep">&gt;</div>
+							{/if}
+						{/foreach}
+						<div class="clearfix"></div>
+					</div>
+				{/foreach}
 			{/if}
 
-			{if isset($charac.comment)}
+			{if $type == 'landscape' && sizeof($carac) > 0}
+				<div class="title">{t d='arkeogis' m='Paysage'}</div>
+				{foreach $carac as $landscape}
+					<div class="blockcharac{if $landscape[1]} exceptional{/if}">
+						{foreach $landscape[0] as $name}
+							<div class="charac">{$name}</div>
+							{if !$name@last}
+								<div class="sep">&gt;</div>
+							{/if}
+						{/foreach}
+						<div class="clearfix"></div>
+					</div>
+				{/foreach}
+			{/if}
+
+			{if sizeof($carac.comment) > 0}
 				<div class="title">{t d='arkeogis' m='Commentaires'}</div>
 				<div class="blockcharac">
-					<div class="charac">{$charac.comment|nl2br}</div>
+					<div class="charac">{$carac.comment|nl2br}</div>
 					<div class="clearfix"></div>
 				</div>
 			{/if}
@@ -133,8 +156,9 @@
 				</div>
 			{/if}
 
+		{/foreach}
+		{/foreach}
 		</div>
-		{/foreach}
-		{/foreach}
+	{/foreach}
 
 </div>
