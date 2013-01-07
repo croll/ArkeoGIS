@@ -272,7 +272,7 @@ window.addEvent('domready', function() {
 		$('ex_landscape').checked = res.landscape_exceptional == 1;
 
 		$('caracterisation_mode').selectedIndex =
-		    res.caracterisation_mode ? res.caracterisation_mode == 'OR' ? 1 : 0 : 0;
+		    res.caracterisation_mode ? res.caracterisation_mode == 'OR' ? 0 : 1 : 0;
 
 		select_savedqueries_inhib_selection_event=false;
 		//$('select-savedqueries').selectedIndex=idx;
