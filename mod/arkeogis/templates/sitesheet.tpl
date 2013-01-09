@@ -1,24 +1,22 @@
 <div id="sitesheet">
 
-	<div class="datesauthor">{t d='arkeogis' m='Date de création de la fiche'} : {$infos.creation}{if ($infos.creation != $infos.modification)} | {t d='arkeogis' m='Date de modification de la fiche'} : {$infos.modification} {/if} | Auteur : {if !empty($infos.author)}{$infos.author}{else}ArkeoGIS{/if}</div>
+	<div class="datesauthor">{t d='arkeogis' m='Date de création de la fiche'} : {$infos.creation}{if ($infos.creation != $infos.modification)}  |  {t d='arkeogis' m='Date de modification de la fiche'} : {$infos.modification} {/if}  |  {t d='arkeogis' m='Base'} : {$infos.database}  |  {t d='arkeogis' m='Auteur'} : {if !empty($infos.author)}{$infos.author}{else}ArkeoGIS{/if}</div>
 
 	<div class="geoinfos">
 		{if $infos.city.name}
-		<div>{t d='arkeogis' m='Nom de la commune'} : {$infos.city.name}</div>
+		<div>{t d='arkeogis' m='Nom de la commune'} : {$infos.city.name}  {if $infos.city.code} &nbsp;&nbsp; {t d='arkeogis' m='Code commune'} : {$infos.city.code}{/if}</div>
 		{/if}
-		{if $infos.city.code}
-		<div>{t d='arkeogis' m='Code commune'} : {$infos.city.code}</div>
-		{/if}
-		<div>{t d='arkeogis' m='Coordonnées'} : {$infos.geom[0]} {$infos.geom[1]} </div>
+		
+		<div>{t d='arkeogis' m='Coordonnées'} : {t d='arkeogis' m='Long'} : {$infos.geom[0]} &nbsp;&nbsp; {t d='arkeogis' m='Lat'} : {$infos.geom[1]}
 		{if ($infos.geom[2] != -999)} 
-			<div>{t d='arkeogis' m='Altitude'} : {$infos.geom[2]}</div>
+		  &nbsp;&nbsp;{t d='arkeogis' m='Altitude'} : {$infos.geom[2]}
 		{/if}
+		</div>
 	</div>
 
-	{if ($infos.centroid == 1)}
-		<div class="bluebackground">{t d='arkeogis' m='Centroïde de la commune'}</div>
-		<div class="floatleft">{t d='arkeogis' m='Oui'}</div>
-	{/if}
+	<div class="bluebackground">{t d='arkeogis' m='Centroïde de la commune'}</div>
+	<div class="floatleft">{if ($infos.centroid == 1)}{t d='arkeogis' m='Oui'}{else}{t d='arkeogis' m='Non'}{/if}</div>
+	
 
 	<div class="bluebackground">{t d='arkeogis' m='Occupation du site'}</div>
 	<div class="floatleft">
@@ -41,6 +39,7 @@
 
 			{if isset($periodCharacteristics.datas.knowledge) && !empty($periodCharacteristics.datas.knowledge)}
 			<div class="title">{t d='arkeogis' m='Etat des connaissances'}: 
+				<span style="text-transform: uppercase">
 				{if ($periodCharacteristics.datas.knowledge == 'unknown')}
 					{t d='arkeogis' m='Inconnue'}
 				{else if ($periodCharacteristics.datas.knowledge == 'literature')}
@@ -50,6 +49,7 @@
 				{else if ($periodCharacteristics.datas.knowledge == 'excavated')}
 					{t d='arkeogis' m='Fouillé'}
 				{/if}
+				</span>
 			</div>
 			{/if}
 
@@ -140,23 +140,23 @@
 				{/foreach}
 			{/if}
 
-			{if sizeof($carac.comment) > 0}
-				<div class="title">{t d='arkeogis' m='Commentaires'}</div>
-				<div class="blockcharac">
-					<div class="charac">{$carac.comment|nl2br}</div>
-					<div class="clearfix"></div>
-				</div>
-			{/if}
-
-			{if isset($charac.bibliography)}
-				<div class="title">{t d='arkeogis' m='Bibliographie'}</div>
-				<div class="blockcharac">
-					<div class="charac">{$charac.bibliography|nl2br}</div>
-					<div class="clearfix"></div>
-				</div>
-			{/if}
-
 		{/foreach}
+
+		{if sizeof($periodCharacteristics.datas.comment) > 0}
+			<div class="title">{t d='arkeogis' m='Commentaires'}</div>
+			<div class="blockcharac">
+				<div class="charac">{$periodCharacteristics.datas.comment|nl2br}</div>
+				<div class="clearfix"></div>
+			</div>
+		{/if}
+
+		{if isset($periodCharacteristics.datas.bibliography)}
+			<div class="title">{t d='arkeogis' m='Bibliographie'}</div>
+			<div class="blockcharac">
+				<div class="charac">{$periodCharacteristics.datas.bibliography|nl2br}</div>
+				<div class="clearfix"></div>
+			</div>
+		{/if}
 		{/foreach}
 		</div>
 	{/foreach}

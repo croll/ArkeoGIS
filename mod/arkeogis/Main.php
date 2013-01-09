@@ -317,7 +317,7 @@ class Main {
 													 '',                                                                                    // LONGITUDE_X_BIS
 													 '',                                                                                    // LATITUDE_Y_BIS
 													 $newsiid ? ($coords->coordinates[2] == -999 ? '' : $coords->coordinates[2]) : '',      // ALTITUDE Z
-													 $newsiid ? $row['si_centroid'] : '',                                                   // CENTRE_COMMUNE
+													 $newsiid ? self::yesno($row['si_centroid']) : '',                                                   // CENTRE_COMMUNE
 													 $newsiid && $row['sp_knowledge_type'] ? $strings['knowledge'][$row['sp_knowledge_type']] : '', // ETAT_CONNAISSANCES
 													 $newsiid ? $strings['occupation'][$row['si_occupation']] : '',                         // OCCUPATION
 													 $newspid ? (count($period_start) ? $period_start[count($period_start)-1] : '') : '',   // DATATION_DEBUT_PLUS_FINE

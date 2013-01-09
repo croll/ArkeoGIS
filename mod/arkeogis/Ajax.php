@@ -16,7 +16,7 @@ class Ajax {
 	private static function implode_unempty($ar, $sep) {
 		$res='';
 		foreach($ar as $v) {
-			if (!empty($v))
+			if (!empty($v) &&  !strstr($res, $v.$sep))
 				$res.=$v.$sep;
 		}
 		return substr($res, 0, -strlen($sep));
@@ -54,10 +54,10 @@ class Ajax {
 		$strings=ArkeoGIS::load_strings();
     foreach($sites as $k => $row) {
 			//\core\Core::log($row);
-      $sites[$k]['realestate'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), ';');
-      $sites[$k]['furniture'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), ';');
-      $sites[$k]['production'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), ';');
-      $sites[$k]['landscape'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['landscape'], $strings['landscape'], '/'), ';');
+      $sites[$k]['realestate'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['realestate'], $strings['realestate'], '/'), ' -- ');
+      $sites[$k]['furniture'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['furniture'], $strings['furniture'], '/'), ' -- ');
+      $sites[$k]['production'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['production'], $strings['production'], '/'), ' -- ');
+      $sites[$k]['landscape'] = self::implode_unempty(ArkeoGIS::node_path_array_to_str($row['landscape'], $strings['landscape'], '/'), ' -- ');
 
       $period_start = explode(',', trim($row['period_start'], '{}'));
       $period_end = explode(',', trim($row['period_end'], '{}'));
@@ -72,13 +72,16 @@ class Ajax {
 			$content = "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Base de donnée').": </b>$site[da_name]</div>";
 			$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Période').': </b>'.$site["period_start_label"]." - ".$site["period_end_label"]."</div>";
 			if (!empty($site['realestate']) && !strstr($site['realestate'], 'NULL')) {
-				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Immobilier').": </b>$site[realestate]</div>";
-			} else if (!empty($site['furniture']) && !strstr($site['furniture'], 'NULL')) {
-				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Mobilier').": </b>$site[furniture]</div>";
-			} else if (!empty($site['landscape']) && !strstr($site['landscape'], 'NULL')) {
-				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Paysage').": </b>$site[landscape]</div>";
-			} else if (!empty($site['production']) && !strstr($site['production'], 'NULL')) {
-				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Production').": </b>$site[production]</div>";
+				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Immobilier').": </b><br />$site[realestate]</div>";
+			}
+			if (!empty($site['furniture']) && !strstr($site['furniture'], 'NULL')) {
+				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Mobilier').": </b><br />$site[furniture]</div>";
+			}
+			if (!empty($site['landscape']) && !strstr($site['landscape'], 'NULL')) {
+				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Paysage').": </b><br />$site[landscape]</div>";
+			}
+			if (!empty($site['production']) && !strstr($site['production'], 'NULL')) {
+				$content .= "<div><b>".\mod\lang\Main::ch_t('arkeogis', 'Production').": </b><br />$site[production]</div>";
 			}
 			$popupParams = array('title' => $title, 'content' => $content);
 			$shapes = array('circle', 'square', 'triangle', 'diamond', 'parallelogram', 'trianglerectangle', 'rectangle', 'trianglerectangleinverted');

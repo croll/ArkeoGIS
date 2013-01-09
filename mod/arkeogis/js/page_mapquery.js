@@ -184,7 +184,7 @@ window.addEvent('domready', function() {
 						if (infoWindow)
 							infoWindow.close();
 						infoWindow = new google.maps.InfoWindow({
-							 content: marker.popup.title+marker.popup.content
+							 content: '<div style="width:500px">'+marker.popup.title+marker.popup.content+'</div>'
 						});
 						infoWindow.open(map, m);
 					});

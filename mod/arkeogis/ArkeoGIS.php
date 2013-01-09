@@ -433,8 +433,9 @@ class ArkeoGIS {
 	public static function getSiteInfos($siteId) {
 		$strings=ArkeoGIS::load_strings();
 		$siteInfos = array();
-		$query = "SELECT si_name AS name, si_code AS code, ST_AsGeoJSON(si_geom) AS geom, si_centroid AS centroid, si_occupation AS occupation, to_char(si_creation, 'dd/mm/yyyy') AS creation, to_char(si_modification, 'dd/mm/yyyy') AS modification, si_city_name AS city_name, si_city_code AS city_code, uid AS author FROM ark_site AS si ";
+		$query = "SELECT si_name AS name, si_code AS code, ST_AsGeoJSON(si_geom) AS geom, si_centroid AS centroid, si_occupation AS occupation, to_char(si_creation, 'dd/mm/yyyy') AS creation, to_char(si_modification, 'dd/mm/yyyy') AS modification, si_city_name AS city_name, si_city_code AS city_code, uid AS author, da_name AS dbname FROM ark_site AS si ";
 		$query .= "LEFT JOIN ch_user AS us ON si.si_author_id=us.uid ";
+		$query .= "LEFT JOIN ark_database AS da ON si.si_database_id=da.da_id ";
 		$query .= "WHERE si.si_id=?";
     $infos = \core\Core::$db->fetchAll($query, array($siteId));
 		if (sizeof($infos) > 1) {
@@ -442,6 +443,7 @@ class ArkeoGIS {
 		} else if (sizeof($infos) < 1)
 			return NULL;
 		$geom = json_decode($infos[0]['geom']);
+		$siteInfos['database'] = $infos[0]['dbname'];
 		$siteInfos['name'] = $infos[0]['name'];
 		$siteInfos['code'] = $infos[0]['code'];
 		$siteInfos['author'] = \mod\user\Main::getUserFullNameById($infos[0]['author']);

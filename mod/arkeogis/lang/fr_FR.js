@@ -51,8 +51,8 @@
   "User" : "User",
   "Manage users" : "Manage users",
   "Add user" : "Add user",
-  "French" : "French",
-  "Deutsch" : "Deutsch",
+  "French" : "Fran\u00e7ais",
+  "Deutsch" : "Allemand",
   "Logout" : "D\u00e9connexion",
   "Recherche cartographique" : "Recherche cartographique",
   "Login" : "Identification",
@@ -164,5 +164,12 @@
   "Derni\u00e8re mise \u00e0 jour" : "Derni\u00e8re mise \u00e0 jour",
   "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)" : "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)",
   "Limite g\u00e9ographique d'emprise de la base FR" : "Limite g\u00e9ographique d'emprise de la base FR",
-  "Limite g\u00e9ographique d'emprise de la base DE" : "Limite g\u00e9ographique d'emprise de la base DE"
+  "Limite g\u00e9ographique d'emprise de la base DE" : "Limite g\u00e9ographique d'emprise de la base DE",
+  "Base" : "Base",
+  "Auteur" : "Auteur",
+  "Non" : "Non",
+  "Au moins une caract\u00e9risation" : "Au moins une caract\u00e9risation",
+  "Toutes les caract\u00e9risations" : "Toutes les caract\u00e9risations",
+  "Long" : "Long",
+  "Lat" : "Lat"
 }
