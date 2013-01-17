@@ -162,11 +162,11 @@
   "Date de la derni\u00e8re mise \u00e0 jour de la base ou du dernier export (base inventaire)" : "Zeit der letzte Aktualisierung der Datenbank, oder der letzten Export",
   "Limite g\u00e9ographique d'emprise de la base FR" : "Geographischer Umfang der Datenbank FR",
   "Limite g\u00e9ographique d'emprise de la base DE" : "Geographischer Umfang der Datenbank DE",
-  "Base" : "Base",
-  "Auteur" : "Auteur",
-  "Non" : "Non",
-  "Au moins une caract\u00e9risation" : "Au moins une caract\u00e9risation",
-  "Toutes les caract\u00e9risations" : "Toutes les caract\u00e9risations",
-  "Long" : "Long",
-  "Lat" : "Lat"
+  "Base" : "Datenbank",
+  "Auteur" : "Verfasser",
+  "Non" : "Nein",
+  "Au moins une caract\u00e9risation" : "Mindestens eine Kennzeichnung",
+  "Toutes les caract\u00e9risations" : "Alle Kennzeichungen",
+  "Long" : "L\u00e4ngengrad",
+  "Lat" : "Breitengrad"
 }
