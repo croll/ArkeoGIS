@@ -32,7 +32,12 @@ window.addEvent('domready', function() {
 	arkeo_menu.period.addJsonItem(menus.period[i]);
     arkeo_menu.period.inject($('menu_period'));
 
-    arkeo_menu.area = new PlusMinusItem(ch_t('arkeogis', "Choix de l'aire de recherche"), null, null);
+    arkeo_menu.area = new PlusMinusItem(ch_t('arkeogis', "Choix de l'aire de recherche"), null, new PlusMinusMenu([
+	new PlusMinusItem(ch_t('arkeogis', 'Toute la carte'), 'all', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', 'Réctangle de sélection'), 'rect', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', 'Disque de sélection'), 'disc', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', 'Coordonnées de sélection'), 'coord', null, { nominus: true })
+    ]));
     arkeo_menu.area.inject($('menu_area'));
 
     arkeo_menu.production = new PlusMinusItem(ch_t('arkeogis', "Choix production"), null, null);
