@@ -55,6 +55,10 @@
 						<td colspan='2'><div id='menu_period' style='position: relative'></div></td>
 					 </tr>
 
+					 <tr class="menu_area">
+						<td colspan='2'><div id='menu_area' style='position: relative'></div></td>
+					 </tr>
+
 					{*
 					 <tr class="title_caracterisation">
 						<td></td>
