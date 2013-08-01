@@ -140,7 +140,7 @@
   "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) en langue fran\u00e7aise, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande" : "Beschreiben sie bitte hier in ein paar Zeilen ihre Datenbank (im obigen Eingabefeld) in Franz\u00f6sischer Sprache. Wenn Sie beim \u00fcbersetzen hilfe  brauchen, benutzen Sie den ArkeoGIS Kontaktformular und geben sir \u00dcbersetzungshilfe als Betreff.",
   "Description de la base DE" : "Beschreibung der Datenbank DE",
   "Merci de pr\u00e9senter en quelques lignes votre base de donn\u00e9es (dans la champ de saisie ci-dessus) en langue allemande, nous pouvons assurer cette traduction pour vous. Merci d'utiliser le formulaire de contact d'ArkeoGIS (sujet : demande de traduction) pour faire votre demande" : "Beschreiben sie bitte hier in ein paar Zeilen ihre Datenbank (im obigen Eingabefeld) in Deutscher Sprache. Wenn Sie beim \u00fcbersetzen hilfe  brauchen, benutzen Sie den ArkeoGIS Kontaktformular und geben sir \u00dcbersetzungshilfe als Betreff.",
-  "Mentions l\u00e9gales" : "Rechtlicher Vermerk",
+  "Mentions l\u00e9gales" : "Impressum",
   "Paysage" : "Umwelt",
   "Choix paysage" : "Umwelt ausw\u00e4hlen",
   "inventory" : "Inventar",
