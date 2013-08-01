@@ -97,6 +97,19 @@
 						<td class="fleche_exceptionnels"></td>
 					 </tr>
 
+					 <tr class="menu_txtsearch">
+					   <td>
+					     <div id='menu_txtsearch' style='position: relative'>
+					       <input type='text' name='txtsearch' value=''/>
+					     </div>
+					   </td>
+					   <td>
+					       <select name='txtsearch_options'>
+						 <option value='all'>tous</option>
+					       </select>
+					   </td>
+					 </tr>
+
 					 <tr class="buttons">
 						<td colspan='2' class="validations">
 						 <button id='btn-show-the-map' class='btn-success btn-display-map'>{t d='arkeogis' m="Afficher<br/>la carte"}</button>
