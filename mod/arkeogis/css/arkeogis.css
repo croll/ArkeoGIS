@@ -424,7 +424,15 @@ border-bottom-left-radius: 3px;
  background-repeat: no-repeat;
 }
 
-.pmmenu-popup {
+.pmmenu-havehelp {
+ top: 2px;
+ right: 2px;
+ background-image: url("/mod/cssjs/ext/twitter-bootstrap/img/glyphicons-halflings.png");
+ background-position: -456px -72px;
+ background-repeat: no-repeat;
+}
+
+.pmmenu-popup, .pmmenu-help {
  position: absolute;
  z-index: 2000;
  top: 0;
@@ -439,6 +447,9 @@ border-bottom-left-radius: 3px;
  box-shadow: 1px 1px 12px #555;
 }
 
+.pmmenu-help-content { 
+ border: solid 1px #cccccc;
+}
 
 /* plusminusmenu of knowledge, centroid, occupation */
 .troistrucs .pmmenu-root {

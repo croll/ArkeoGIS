@@ -30,16 +30,26 @@ window.addEvent('domready', function() {
     */
 
     var submenus={ };
-    var submenus_a=[];
+    var pmmenu = new PlusMinusMenu();
     for (var i=0; i<menus.db.length; i++) {
 	if (!(submenus[menus.db[i]['da_type']] in submenus)) {
-	    submenus[menus.db[i]['da_type']] = new PlusMinusItem(ch_t('arkeogis', menus.db[i]['da_type']), null, null, { });	    
-	    submenus_a.push(submenus[menus.db[i]['da_type']]);
+	    var folder_item = new PlusMinusItem(ch_t('arkeogis', menus.db[i]['da_type']), null, null, { });
+	    folder_item.setSubMenu(new PlusMinusMenu());
+	    submenus[menus.db[i]['da_type']] = folder_item;
+	    pmmenu.addItem(folder_item);
 	}
-	submenus[menus.db[i]['da_type']].addJsonItem(menus.db[i]);
+	//submenus[menus.db[i]['da_type']].addJsonItem(menus.db[i]);
+	var item=new PlusMinusItem(menus.db[i].name, menus.db[i].id, null, {});
+	var helpcontent ='<p><b>' + ch_t('arkeogis', "Base type") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_type']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Scale resolution points") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_scale_resolution']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Geographical Limit") + '</b> : ' + ch_t('arkeogis', menus.db[i]['geographical_limit']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Last update") + '</b> : ' + menus.db[i]['da_modification'] + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Description") + '</b> : ' + menus.db[i]['description'] + '</p>';
+	item.setHelp(new PlusMinusHelp(helpcontent, {}));
+	submenus[menus.db[i]['da_type']].submenu.addItem(item);
     }
 
-    arkeo_menu.db = new PlusMinusItem(ch_t('arkeogis', "Choix de la base"), null, new PlusMinusMenu(submenus_a));
+    arkeo_menu.db = new PlusMinusItem(ch_t('arkeogis', "Choix de la base"), null, pmmenu);
     arkeo_menu.db.inject($('menu_db'));
 
 
