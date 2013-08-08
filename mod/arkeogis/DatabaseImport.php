@@ -60,7 +60,7 @@ class DatabaseImport {
 			if (is_file("$moduleDir/$filepath") && is_readable("$moduleDir/$filepath")) {
 				$filepath = "$moduleDir/$filepath";
 			} else {
-				throw new \Exception("File does not exist or is not readable");
+				throw new \Exception("File does not exist or is not readable: \"$filepath\"");
 			}
 		}
 
