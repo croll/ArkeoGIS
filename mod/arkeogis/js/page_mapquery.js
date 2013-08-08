@@ -27,11 +27,11 @@ window.addEvent('domready', function() {
 	}
 	//submenus[menus.db[i]['da_type']].addJsonItem(menus.db[i]);
 	var item=new PlusMinusItem(menus.db[i].name, menus.db[i].id, null, {});
-	var helpcontent ='<p><b>' + ch_t('arkeogis', "Base type") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_type']) + '</p>';
-	helpcontent+='<p><b>' + ch_t('arkeogis', "Scale resolution points") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_scale_resolution']) + '</p>';
-	helpcontent+='<p><b>' + ch_t('arkeogis', "Geographical Limit") + '</b> : ' + ch_t('arkeogis', menus.db[i]['geographical_limit']) + '</p>';
-	helpcontent+='<p><b>' + ch_t('arkeogis', "Last update") + '</b> : ' + menus.db[i]['da_modification'] + '</p>';
-	helpcontent+='<p><b>' + ch_t('arkeogis', "Description") + '</b> : ' + menus.db[i]['description'] + '</p>';
+	var helpcontent ='<p><b>' + ch_t('arkeogis', "Type de base") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_type']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Échelle de résolution des points") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_scale_resolution']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Limite géographique d'emprise de la base") + '</b> : ' + ch_t('arkeogis', menus.db[i]['geographical_limit']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Dernière mise à jour") + '</b> : ' + menus.db[i]['da_modification'] + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Description de la base") + '</b> : ' + menus.db[i]['description'] + '</p>';
 	item.setHelp(new PlusMinusHelp(helpcontent, {}));
 	submenus[menus.db[i]['da_type']].submenu.addItem(item);
     }
