@@ -14,11 +14,12 @@ class DatabaseImport {
 	private static $_csvDatas = array(); 
 	private static $_lang; 
 	private static $_strings;
+	private static $_nbSites = 0;
+	private static $temporalBounds = array('start' => null, 'end' => null);
 
 	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $fields='') {
 
 		self::$_lang = $lang;
-		$numProcessed = 0;
 
 		self::$_strings['Yes']['fr'] = 'oui';
 		self::$_strings['Yes']['de'] = 'ja';
@@ -115,8 +116,8 @@ class DatabaseImport {
 
 				// If this site code already registered as error we do not process it
 				if (isset(self::$_siteErrors[self::$_current['code']])) {
-						self::_addError("Site with same id already registered as error, skipping.");
-						continue;
+					self::_addError("Site with same id already registered as error, skipping.");
+					continue;
 				}
 
 				# 2 : Site name
@@ -125,13 +126,13 @@ class DatabaseImport {
 				foreach (array(2,3,4,5) as $k) {
 					if(!self::_checkDifference($k, $datas[$k])) {
 						switch($k) {
-						case 2:
+							case 2:
 							$dataType = "Site name";
 							break;
-						case 3:
+							case 3:
 							$dataType = "City name";
 							break;
-						case 4:
+							case 4:
 							$dataType = "City code";
 							break;
 						}
@@ -220,7 +221,7 @@ class DatabaseImport {
 					}
 					// Geom
 					# 5 EPSG
-						self::$_current['geom'] = (is_array($coords) && !empty($coords['x']) && !empty($coords['y'])) ? "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : -999).")', 4326)" : NULL;
+					self::$_current['geom'] = (is_array($coords) && !empty($coords['x']) && !empty($coords['y'])) ? "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : -999).")', 4326)" : NULL;
 				}
 				
 			} // End of first time site processing
@@ -253,7 +254,8 @@ class DatabaseImport {
 			# 15 : Period end
 			// We have starting and ending period
 			if (!empty($datas[14]) && !empty($datas[15])) {
-					self::$_current['period'] = self::_processPeriod($datas[14], $datas[15]);
+				self::$_current['period'] = self::_processPeriod($datas[14], $datas[15]);
+				self::setTemporalBounds();
 			// We do not have starting and ending period
 			} else {
 				// It's the first time we process this site: error
@@ -360,9 +362,8 @@ class DatabaseImport {
 					// Store site informations
 					try {
 						self::$_current['siteId'] = \mod\arkeogis\ArkeoGIS::addSite(self::$_current['code'], self::$_current['name'], self::$_database['id'], ((isset(self::$_current['city_id'])) ? self::$_current['city_id'] : NULL), self::$_current['geom'], self::$_current['centroid'], self::$_current['occupation'], trim($datas[3], '" '), trim($datas[4], '" '), $uid);
-						//echo "ADD SITE: ".self::$_current['siteId']."<br />";
+						self::$_nbSites += 1;
 						self::$_stored[self::$_current['code']] = self::$_current;
-						$numProcessed += 1;
 					} catch (\Exception $e) {
 						self::_addProcessingError($e->getMessage());
 						continue;
@@ -385,69 +386,40 @@ class DatabaseImport {
 				if (is_null($period[0])) $period[0] = self::$_current['period']['start'];
 				if (is_null($period[1])) $period[1] = self::$_current['period']['end'];
 
-				/*
-				// Multiple starting period and uniq ending period
-				if ($multipleStart && !$multipleEnd) {
-					foreach	(self::$_cache['specialperiod'][$lang][self::$_current['period']['start']] as $p) {
-						$periods[] = array(\mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($p), self::$_current['period']['end']);
-					}
-				// Uniq starting period and multiple ending period
-				} else if (!$multipleStart && $multipleEnd) {
-					foreach	(self::$_cache['specialperiod'][$lang][self::$_current['period']['end']] as $p) {
-						$periods[] = array(self::$_current['period']['start'], \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($p));
-					}
-				// Multiple starting period and multiple ending period
-				} else if ($multipleStart && $multipleEnd) {
-					foreach	(self::$_cache['specialperiod'][$lang][self::$_current['period']['start']] as $ps) {
-						foreach	(self::$_cache['specialperiod'][$lang][self::$_current['period']['end']] as $pe) {
-							$periods[] = array(\mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($ps), \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($pe));
-						}
-					}
-				} else {
-				*/
-				// Uniq starting period and uniq ending period
-					//$periods[] = array(self::$_current['period']['start'], self::$_current['period']['end']);
-				//}
-
-				//foreach($periods as $period) {
-
-					$md5Period = self::$_current['code'].$period[0].$period[1];
+				$md5Period = self::$_current['code'].$period[0].$period[1];
 					//echo self::$_current['name']."\n";
 					//print_r($period);
-					if (!isset(self::$_current['siteId'])) {
-						if (isset(self::$_stored[self::$_current['code']]))
-							$siteId = self::$_stored[self::$_current['code']]['siteId'];
-						else 
-							throw new \Exception('Unable to get site id for this period');
-					} else {
-						$siteId = self::$_current['siteId'];
+				if (!isset(self::$_current['siteId'])) {
+					if (isset(self::$_stored[self::$_current['code']]))
+						$siteId = self::$_stored[self::$_current['code']]['siteId'];
+					else 
+						throw new \Exception('Unable to get site id for this period');
+				} else {
+					$siteId = self::$_current['siteId'];
+				}
+				if (!empty($siteId)) {
+					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod($siteId, $period[0], $period[1]);
+				}
+				if (!empty($existing)) {
+					self::$_cache['siteperiod'][$md5Period] = $existing;
+				} else {
+					try {
+						self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], (isset(self::$_current['period_isrange']) ? self::$_current['period_isrange'] : NULL), NULL, self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+					} catch (\Exception $e) {
+						self::_addProcessingError($e->getMessage());
+						continue;
 					}
-					if (!empty($siteId)) {
-						$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod($siteId, $period[0], $period[1]);
-					}
-					if (!empty($existing)) {
-						self::$_cache['siteperiod'][$md5Period] = $existing;
-					} else {
+				}
+				foreach(array('realestate', 'furniture', 'production', 'landscape') as $carac) {
+					if (isset(self::$_current[$carac]) && !is_null(self::$_current[$carac])) {
 						try {
-						//	self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], self::$_current['period_isrange'], ((isset(self::$_current['depth'])) ?  self::$_current['depth'] : NULL),self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
-							self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], (isset(self::$_current['period_isrange']) ? self::$_current['period_isrange'] : NULL), NULL, self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+							\mod\arkeogis\ArkeoGIS::addSitePeriodCharacteristic(self::$_cache['siteperiod'][$md5Period], $carac, self::$_current[$carac], ((isset(self::$_current[$carac.'_ex']) && self::$_current[$carac.'_ex']) ? 1 : 0));
 						} catch (\Exception $e) {
 							self::_addProcessingError($e->getMessage());
-							continue;
 						}
 					}
-					foreach(array('realestate', 'furniture', 'production', 'landscape') as $carac) {
-						if (isset(self::$_current[$carac]) && !is_null(self::$_current[$carac])) {
-							try {
-								//echo self::$_cache['siteperiod'][$md5Period]." -- $carac -- ".\mod\arkeogis\ArkeoGIS::getCharacteristicFromId($carac, self::$_current[$carac])."\n";
-								\mod\arkeogis\ArkeoGIS::addSitePeriodCharacteristic(self::$_cache['siteperiod'][$md5Period], $carac, self::$_current[$carac], ((isset(self::$_current[$carac.'_ex']) && self::$_current[$carac.'_ex']) ? 1 : 0));
-							} catch (\Exception $e) {
-								self::_addProcessingError($e->getMessage());
-							}
-						}
-					}
-					$existing = null;
-				//}
+				}
+				$existing = null;
 				$siteId = null;
 
 
@@ -455,7 +427,7 @@ class DatabaseImport {
 
 		}
 		//\core\Core::$db->exec('COMMIT');
-		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => $numProcessed, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
+		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => self::$_nbSites, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 //
 	private static function _processSiteId($siteCode) {
@@ -523,21 +495,21 @@ class DatabaseImport {
 		// For new entry
 		switch($num) {
 			case 2:
-				$dataType = "name";
-				break;
+			$dataType = "name";
+			break;
 			case 3:
-				$dataType = "city_name";
-				break;
+			$dataType = "city_name";
+			break;
 			case 4:
-				$dataType = "city_code";
-				break;
+			$dataType = "city_code";
+			break;
 			case 5:
-				$dataType = "epsg";
-				break;
+			$dataType = "epsg";
+			break;
 		}
 		// Store current value
-			if (!isset(self::$_current[$dataType]))
-				self::$_current[$dataType] = $value;
+		if (!isset(self::$_current[$dataType]))
+			self::$_current[$dataType] = $value;
 		// Compare
 		if (isset(self::$_stored[self::$_current['code']][$dataType])) {
 			if (self::$_stored[self::$_current['code']][$dataType] != $value)
@@ -657,5 +629,24 @@ class DatabaseImport {
 		}
 	}
 
-}
+	public static function setTemporalBounds() {
+		if (!isset(self::$_current) || !isset(self::$_current['period'])) {
+			return;
+		}
+		if (self::$temporalBounds['start'] == null && self::$temporalBounds['end'] == null && !empty(self::$_current['period']['start']) && !empty(self::$_current['period']['end'])) {
+			$temporalBounds['start'] = self::$_current['period']['start'];
+			$temporalBounds['end'] = self::$_current['period']['end'];
+			return;
+		}
+		$tocheck['start'] = explode('.', $_current['period']['start'];
+		$tocheck['end'] = explode('.', $_current['period']['end'];
+		$tb['start'] = explode('.', $_temporalBounds['start'])
+		$tb['end'] = explode('.', $_temporalBounds['end'])
+		print_r($tockeck);
+		print_r($tb);
+		die();
 
+
+	}
+
+}

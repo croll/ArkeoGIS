@@ -221,6 +221,8 @@ class Main {
 				$geographical_limit_de = trim($form->getValue('geographical_limit_de'));
 				if (!empty($geographical_limit_de))
 					$field['geographical_limit_de'] = $geographical_limit_de;
+				if (!empty($issn))
+					$field['issn'] = $issn;
 				$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $field);
 				unlink($file['tmp_name']);
 				$page = new \mod\webpage\Main();
