@@ -257,7 +257,7 @@ CREATE TABLE ark_database_log (
     dl_id integer NOT NULL,
     dl_database_id integer NOT NULL,
     dl_user_id integer NOT NULL,
-    dl_date date,
+    dl_date timestamp,
     dl_csv_file character varying(100)
 );
 
