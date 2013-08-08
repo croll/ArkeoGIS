@@ -15,7 +15,7 @@ class DatabaseImport {
 	private static $_lang; 
 	private static $_strings;
 	private static $_nbSites = 0;
-	private static $temporalBounds = array('start' => null, 'end' => null);
+	private static $_temporalBounds = array('start' => null, 'end' => null);
 
 	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $fields='') {
 
@@ -34,7 +34,8 @@ class DatabaseImport {
 		$occupation['de'] = array('unbestimmt', 'einzelphase', 'durchgehend', 'mehrphasig');
 		$epsgCodes['wgs84'] = 4326;
 
-		self::$_cache['period'] = array();
+		self::$_cache['period_start'] = array();
+		self::$_cache['period_end'] = array();
 		self::$_cache['realestate'] = array();
 		self::$_cache['furniture'] = array();
 		self::$_cache['landscape'] = array();
@@ -222,6 +223,8 @@ class DatabaseImport {
 					// Geom
 					# 5 EPSG
 					self::$_current['geom'] = (is_array($coords) && !empty($coords['x']) && !empty($coords['y'])) ? "ST_GeomFromText('POINT($coords[x] $coords[y] ".((!is_null($datas[10]) && $datas[10] != '') ? $datas[10] : -999).")', 4326)" : NULL;
+				} else {
+					self::$_current['geom'] = 'NULL';
 				}
 				
 			} // End of first time site processing
@@ -255,7 +258,6 @@ class DatabaseImport {
 			// We have starting and ending period
 			if (!empty($datas[14]) && !empty($datas[15])) {
 				self::$_current['period'] = self::_processPeriod($datas[14], $datas[15]);
-				self::setTemporalBounds();
 			// We do not have starting and ending period
 			} else {
 				// It's the first time we process this site: error
@@ -371,24 +373,7 @@ class DatabaseImport {
 				}
 
 				// Store site period informations
-
-				//$periods = array();
-				//$period = array();
-				$period = array(null, null);
-				if (in_array(self::$_current['period']['start'], array_keys(self::$_cache['specialperiod'][$lang]))) {
-					//$multipleStart = true;
-					$period[0] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_cache['specialperiod'][$lang][self::$_current['period']['start']][0]);
-				}
-				if (in_array(self::$_current['period']['end'], array_keys(self::$_cache['specialperiod'][$lang]))) {
-					//$multipleEnd = true;
-					$period[1] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_cache['specialperiod'][$lang][self::$_current['period']['end']][1]);
-				}
-				if (is_null($period[0])) $period[0] = self::$_current['period']['start'];
-				if (is_null($period[1])) $period[1] = self::$_current['period']['end'];
-
-				$md5Period = self::$_current['code'].$period[0].$period[1];
-					//echo self::$_current['name']."\n";
-					//print_r($period);
+				$md5Period = self::$_current['code'].self::$_current['period']['start'].'-'.self::$_current['period']['end'];
 				if (!isset(self::$_current['siteId'])) {
 					if (isset(self::$_stored[self::$_current['code']]))
 						$siteId = self::$_stored[self::$_current['code']]['siteId'];
@@ -398,13 +383,13 @@ class DatabaseImport {
 					$siteId = self::$_current['siteId'];
 				}
 				if (!empty($siteId)) {
-					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod($siteId, $period[0], $period[1]);
+					$existing = \mod\arkeogis\ArkeoGIS::getSitePeriod($siteId, self::$_current['period']['start'], self::$_current['period']['end']);
 				}
 				if (!empty($existing)) {
 					self::$_cache['siteperiod'][$md5Period] = $existing;
 				} else {
 					try {
-						self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, $period[0], $period[1], (isset(self::$_current['period_isrange']) ? self::$_current['period_isrange'] : NULL), NULL, self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
+						self::$_cache['siteperiod'][$md5Period] = \mod\arkeogis\ArkeoGIS::addSitePeriod($siteId, self::$_current['period']['start'], self::$_current['period']['end'], (isset(self::$_current['period_isrange']) ? self::$_current['period_isrange'] : NULL), NULL, self::$_current['knowledge'], self::$_current['comments'], self::$_current['biblio']);
 					} catch (\Exception $e) {
 						self::_addProcessingError($e->getMessage());
 						continue;
@@ -519,12 +504,13 @@ class DatabaseImport {
 	}
 
 	private static function _processPeriod($start, $end) {
-		// Special period start
-		if (in_array($start, array_keys(self::$_cache['specialperiod'][self::$_lang]))) {
-			self::$_cache['period'][$start] = $start;
-		} else {
-		// Normal period start
-			if (!isset(self::$_cache['period'][$start])) {
+		if (!isset(self::$_cache['period_start'][$start])) {
+			echo "$start -- $end \n";
+			// Special period start
+			if (in_array($start, array_keys(self::$_cache['specialperiod'][self::$_lang]))) {
+				self::$_cache['period_start'][$start] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_cache['specialperiod'][self::$_lang][$start][0]);
+			} else {
+			// Normal period start
 				$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($start, 'period', NULL, NULL, self::$_lang);
 				if (sizeof($resPath) > 1) {
 					self::_addError("Multiple results found for period ($start)");
@@ -533,15 +519,17 @@ class DatabaseImport {
 					self::_addError("No matching starting period found ($start)");
 					return;
 				}
-				self::$_cache['period'][$start] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
+				self::$_cache['period_start'][$start] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
 			}
+			self::setTemporalBounds(self::$_cache['period_start'][$start]['path'], 'start');
 		}
-		// Special period end
-		if (in_array($end, array_keys(self::$_cache['specialperiod'][self::$_lang]))) {
-			self::$_cache['period'][$end] = $end;
-		} else {
-		// Normal period end
-			if (!isset(self::$_cache['period'][$end])) {
+		if (!isset(self::$_cache['period_end'][$end])) {
+			echo "$start -- $end \n";
+			// Special period end
+			if (in_array($end, array_keys(self::$_cache['specialperiod'][self::$_lang]))) {
+				self::$_cache['period_end'][$end] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_cache['specialperiod'][self::$_lang][$end][1]);
+			} else {
+				// Normal period end
 				$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($end, 'period', NULL, NULL, self::$_lang);
 				if (sizeof($resPath) > 1) {
 					self::_addError("Multiple results found for period ($end)");
@@ -550,10 +538,11 @@ class DatabaseImport {
 					self::_addError("No matching ending period found ($end)");
 					return;
 				}
-				self::$_cache['period'][$end] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
+				self::$_cache['period_end'][$end] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
 			}
+			self::setTemporalBounds(self::$_cache['period_end'][$end]['path'], 'end');
 		}
-		return array('start' => self::$_cache['period'][$start], 'end' => self::$_cache['period'][$end]);
+		return array('start' => self::$_cache['period_start'][$start], 'end' => self::$_cache['period_end'][$end]);
 	}
 
 	private static function _processLtree($lvl1, $lvl2, $lvl3, $lvl4, $type) {
@@ -629,24 +618,12 @@ class DatabaseImport {
 		}
 	}
 
-	public static function setTemporalBounds() {
-		if (!isset(self::$_current) || !isset(self::$_current['period'])) {
+	public static function setTemporalBounds($tocheck, $type) {
+		if (self::$_temporalBounds[$type] == null) {
+			self::$_temporalBounds[$type] = $tocheck;
 			return;
 		}
-		if (self::$temporalBounds['start'] == null && self::$temporalBounds['end'] == null && !empty(self::$_current['period']['start']) && !empty(self::$_current['period']['end'])) {
-			$temporalBounds['start'] = self::$_current['period']['start'];
-			$temporalBounds['end'] = self::$_current['period']['end'];
-			return;
-		}
-		$tocheck['start'] = explode('.', $_current['period']['start'];
-		$tocheck['end'] = explode('.', $_current['period']['end'];
-		$tb['start'] = explode('.', $_temporalBounds['start'])
-		$tb['end'] = explode('.', $_temporalBounds['end'])
-		print_r($tockeck);
-		print_r($tb);
-		die();
-
-
+		$actual = self::$_temporalBounds[$type];
 	}
 
 }
