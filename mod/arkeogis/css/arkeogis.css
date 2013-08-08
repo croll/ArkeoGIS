@@ -427,8 +427,7 @@ border-bottom-left-radius: 3px;
 .pmmenu-havehelp {
  top: 2px;
  right: 2px;
- background-image: url("/mod/cssjs/ext/twitter-bootstrap/img/glyphicons-halflings.png");
- background-position: -456px -72px;
+ background-image: url("/mod/arkeogis/img/plusminus_help.png");
  background-repeat: no-repeat;
 }
 
@@ -449,6 +448,15 @@ border-bottom-left-radius: 3px;
 
 .pmmenu-help-content { 
  border: solid 1px #cccccc;
+ width: 226px;
+ padding: 3px;
+}
+
+.pmmenu-help-content p { 
+ font-size: 7px;
+ font-size: 10px;
+ line-height: 12px;
+ margin: 0 0 4px;
 }
 
 /* plusminusmenu of knowledge, centroid, occupation */
