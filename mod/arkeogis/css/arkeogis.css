@@ -335,7 +335,7 @@ border-bottom-left-radius: 3px;
  padding-left: 24px;
 }
 
-#menu_db .pmmenu-root, #menu_period .pmmenu-root {
+#menu_db .pmmenu-root, #menu_period .pmmenu-root, #menu_area .pmmenu-root {
 	width: 216px;
 }
 

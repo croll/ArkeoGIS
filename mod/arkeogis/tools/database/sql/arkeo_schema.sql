@@ -11,6 +11,7 @@ SET client_min_messages = warning;
 SET search_path = public, pg_catalog;
 
 ALTER TABLE ONLY public.ch_config DROP CONSTRAINT ch_config_id_user_fkey;
+ALTER TABLE ONLY public.ark_database_log DROP CONSTRAINT ark_database_log_dl_database_id_fkey;
 ALTER TABLE ONLY public.ark_siteperiod_realestate DROP CONSTRAINT ark_siteperiod_realestate_sr_site_period_id_fkey;
 ALTER TABLE ONLY public.ark_siteperiod_realestate DROP CONSTRAINT ark_siteperiod_realestate_sr_realestate_id_fkey;
 ALTER TABLE ONLY public.ark_siteperiod_production DROP CONSTRAINT ark_siteperiod_production_sp_site_period_id_fkey;
@@ -217,6 +218,10 @@ CREATE TABLE ark_database (
     da_type ark_database_type,
     da_geographical_limit text,
     da_geographical_limit_de text,
+    da_issn character varying(30),
+    da_lines integer,
+    da_period_start integer,
+    da_period_end integer,
     da_creation timestamp without time zone NOT NULL,
     da_modification timestamp without time zone
 );
@@ -243,6 +248,21 @@ ALTER TABLE public.ark_database_da_id_seq OWNER TO arkeogisadm;
 --
 
 ALTER SEQUENCE ark_database_da_id_seq OWNED BY ark_database.da_id;
+
+--
+-- Name: ark_furniture; Type: TABLE; Schema: public; Owner: arkeogisadm; Tablespace: 
+--
+
+CREATE TABLE ark_database_log (
+    dl_id integer NOT NULL,
+    dl_database_id integer NOT NULL,
+    dl_user_id integer NOT NULL,
+    dl_date timestamp,
+    dl_csv_file character varying(100)
+);
+
+
+ALTER TABLE public.ark_database_log OWNER TO arkeogisadm;
 
 --
 -- Name: ark_site_occupation_type; Type: TYPE; Schema: public; Owner: captainhook
@@ -1061,6 +1081,12 @@ ALTER TABLE ONLY ark_database
 ALTER TABLE ONLY ark_database
     ADD CONSTRAINT ark_database_pkey PRIMARY KEY (da_id);
 
+--
+-- Name: ark_database_log_pkey; Type: CONSTRAINT; Schema: public; Owner: arkeogisadm; Tablespace: 
+--
+
+ALTER TABLE ONLY ark_database_log
+    ADD CONSTRAINT ark_database_log_pkey PRIMARY KEY (dl_id);
 
 --
 -- Name: ark_furniture_pkey; Type: CONSTRAINT; Schema: public; Owner: arkeogisadm; Tablespace: 
@@ -1623,6 +1649,14 @@ ALTER TABLE ONLY ark_siteperiod_realestate
 
 ALTER TABLE ONLY ch_config
     ADD CONSTRAINT ch_config_id_user_fkey FOREIGN KEY (id_user) REFERENCES ch_user(uid) ON DELETE CASCADE;
+
+
+--
+-- Name: ark_database_log_dl_database_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: arkeogisadm
+--
+
+ALTER TABLE ONLY ark_database_log
+    ADD CONSTRAINT ark_database_log_dl_database_id_fkey FOREIGN KEY (dl_database_id) REFERENCES ark_database(da_id) ON DELETE CASCADE;
 
 
 --
