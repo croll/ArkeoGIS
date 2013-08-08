@@ -224,12 +224,13 @@ var PlusMinusItem = new Class({
 		    }
 		});
 	    } else {
+	    }
+	}
+
 		me.html_element.addEvent('mouseenter', function() {
 		    me.parent_menu.close_submenus();
 		    me.submenu.inject(to_html_elem);
 		});
-	    }
-	}
 	
 	if (me.parent_menu) {
 	    me.html_element.addEvent('click', function() {
