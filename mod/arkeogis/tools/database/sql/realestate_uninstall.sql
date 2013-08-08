@@ -1,3 +1,4 @@
+ALTER TABLE ONLY ark_siteperiod_realestate DROP CONSTRAINT ark_siteperiod_realestate_sr_realestate_id_fkey;
 DROP INDEX IF EXISTS "idx_ark_realestate_node_path_btree_idx";
 DROP INDEX IF EXISTS "idx_ark_realestate_node_path_gist_idx";
 DROP FUNCTION IF EXISTS get_calculated_re_node_path(integer);
