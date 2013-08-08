@@ -221,7 +221,7 @@ window.addEvent('domready', function() {
 	    'onSuccess': function(res) {
 			hideSpinner();
 		if ((res.sites.length < res.total_count)
-		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous plutôt télécharger la liste au format csv ?", res.sites.length, res.total_count))
+		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous plutôt télécharger la liste au format csv ?", res.sites.length, parseInt(res.total_count)))
 		   ) {
 
 		    // download as csv
