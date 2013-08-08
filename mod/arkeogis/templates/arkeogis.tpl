@@ -55,6 +55,10 @@
 						<td colspan='2'><div id='menu_period' style='position: relative'></div></td>
 					 </tr>
 
+					 <tr class="menu_area">
+						<td colspan='2'><div id='menu_area' style='position: relative'></div></td>
+					 </tr>
+
 					{*
 					 <tr class="title_caracterisation">
 						<td></td>
@@ -91,6 +95,19 @@
 					 <tr class="title_exceptionnels">
 						<td class="text_exceptionnels">{t d='arkeogis' m="Sites exceptionnels"}</td>
 						<td class="fleche_exceptionnels"></td>
+					 </tr>
+
+					 <tr class="menu_txtsearch">
+					   <td>
+					     <div id='menu_txtsearch' style='position: relative'>
+					       <input type='text' name='txtsearch' value=''/>
+					     </div>
+					   </td>
+					   <td>
+					       <select name='txtsearch_options'>
+						 <option value='all'>tous</option>
+					       </select>
+					   </td>
 					 </tr>
 
 					 <tr class="buttons">
