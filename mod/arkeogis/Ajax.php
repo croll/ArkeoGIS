@@ -46,7 +46,7 @@ class Ajax {
 																													 'ark_siteperiod_furniture' => true,
 																													 'ark_siteperiod_realestate' => true,
 																													 'ark_siteperiod_landscape' => true
-																													 ), 1500, 'ark_site.si_id, da_id', 'ark_site.si_id', true, false);
+																													 ), 100000, 'ark_site.si_id, da_id', 'ark_site.si_id', true, false);
 		$total_count=$res['total_count'];
 		$sites=&$res['sites'];
 		$sites=&$res['sites'];
