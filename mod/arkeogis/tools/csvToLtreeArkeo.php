@@ -50,7 +50,7 @@ function csvToLtree($filepath, $separator, $charset, $lf, $skipline=NULL) {
 					$os = $k-1;
 					$currentParentId = ((isset($level[$os]) ? $level[$os] : $currentId));
 				}
-				$outp .= "($currentId, $currentParentId, '".$name_fr."', '".$name_de."', '".$desc."'),";
+				$outp .= "($currentId, $currentParentId, '".pg_escape_string($name_fr)."', '".pg_escape_string($name_de)."', '".pg_escape_string($desc)."'),";
 			}
 		}
 	}
@@ -66,14 +66,22 @@ function _readline($prompt = '') {
   return rtrim(fgets(STDIN), "\n");
 }
 
-$tableName=strtolower(_readline("Table name which will be created ? "));
+$tableName=strtolower(_readline("Table name which will be created ? (don't put the 'ark_' prefix !) "));
 if (trim($tableName) == '') {
 	echo "No table name defined, exiting.\n";
 	exit;
 }
-$deductedTablePrefix = substr($tableName, 0, 2);
-$readTablePrefix=strtolower(_readline("table prefix (default: $deductedTablePrefix) ? "));
-$tablePrefix = ($readTablePrefix) ? $readTablePrefix : $deductedTablePrefix;
+
+$deductedTableKeyPrefix = substr($tableName, 0, 2);
+$deductedTableNamePrefix = 'ark_';
+
+$readTableKeyPrefix=strtolower(_readline("table key prefix (default: $deductedTableKeyPrefix) ? "));
+$tableKeyPrefix = ($readTableKeyPrefix) ? $readTableKeyPrefix : $deductedTableKeyPrefix;
+$tableSitePeriodKeyPrefix = 's'.substr($tableKeyPrefix, 0, 1);
+
+$readTableNamePrefix=strtolower(_readline("table name prefix (default: $deductedTableNamePrefix) ? "));
+$tableNamePrefix = ($readTableNamePrefix) ? $readTableNamePrefix : $deductedTableNamePrefix;
+
 $fileName=_readline("Name of csv file to parse ? ");
 $deductedFilePrefix = 'output';
 $readFilePrefix=_readline("Prefix of produced sql files (default is 'output' and will produce output_install.sql and output_uninstall.sql) ");
@@ -87,30 +95,30 @@ try {
 }
 
 $install = <<< INSTALL
-CREATE TABLE ${tableName}(${tablePrefix}_id integer PRIMARY KEY, ${tablePrefix}_parentid integer, ${tablePrefix}_name_fr varchar(100), ${tablePrefix}_name_de varchar(100), ${tablePrefix}_desc varchar(100), node_path ltree);
-CREATE UNIQUE INDEX idx_${tableName}_node_path_btree_idx ON ${tableName} USING btree(node_path);
-CREATE INDEX idx_${tableName}_node_path_gist_idx ON ${tableName} USING gist(node_path);
+CREATE TABLE ${tableNamePrefix}${tableName}(${tableKeyPrefix}_id integer PRIMARY KEY, ${tableKeyPrefix}_parentid integer, ${tableKeyPrefix}_name_fr varchar(100), ${tableKeyPrefix}_name_de varchar(100), ${tableKeyPrefix}_desc varchar(100), node_path ltree);
+CREATE UNIQUE INDEX idx_${tableNamePrefix}${tableName}_node_path_btree_idx ON ${tableNamePrefix}${tableName} USING btree(node_path);
+CREATE INDEX idx_${tableNamePrefix}${tableName}_node_path_gist_idx ON ${tableNamePrefix}${tableName} USING gist(node_path);
 
-CREATE OR REPLACE FUNCTION get_calculated_${tablePrefix}_node_path(param_${tablePrefix}_id integer)
+CREATE OR REPLACE FUNCTION get_calculated_${tableKeyPrefix}_node_path(param_${tableKeyPrefix}_id integer)
  RETURNS ltree AS
 $$
-SELECT CASE WHEN p.${tablePrefix}_parentid IS NULL THEN p.${tablePrefix}_id::text::ltree
- ELSE get_calculated_${tablePrefix}_node_path(p.${tablePrefix}_parentid) || p.${tablePrefix}_id::text END
-  FROM ${tableName} As p
-  WHERE p.${tablePrefix}_id = $1;
+SELECT CASE WHEN p.${tableKeyPrefix}_parentid IS NULL THEN p.${tableKeyPrefix}_id::text::ltree
+ ELSE get_calculated_${tableKeyPrefix}_node_path(p.${tableKeyPrefix}_parentid) || p.${tableKeyPrefix}_id::text END
+  FROM ${tableNamePrefix}${tableName} As p
+  WHERE p.${tableKeyPrefix}_id = $1;
 $$
   LANGUAGE sql;
 
-CREATE OR REPLACE FUNCTION trig_update_${tablePrefix}_node_path() RETURNS trigger AS
+CREATE OR REPLACE FUNCTION trig_update_${tableKeyPrefix}_node_path() RETURNS trigger AS
 $$
 BEGIN
   IF TG_OP = 'UPDATE' THEN
-        IF (COALESCE(OLD.${tablePrefix}_parentid,0) != COALESCE(NEW.${tablePrefix}_parentid,0)  OR  NEW.${tablePrefix}_id != OLD.${tablePrefix}_id) THEN
-            UPDATE ${tableName} SET node_path = get_calculated_${tablePrefix}_node_path(${tablePrefix}_id) 
-                WHERE OLD.node_path  @> ${tableName}.node_path;
+        IF (COALESCE(OLD.${tableKeyPrefix}_parentid,0) != COALESCE(NEW.${tableKeyPrefix}_parentid,0)  OR  NEW.${tableKeyPrefix}_id != OLD.${tableKeyPrefix}_id) THEN
+            UPDATE ${tableNamePrefix}${tableName} SET node_path = get_calculated_${tableKeyPrefix}_node_path(${tableKeyPrefix}_id) 
+                WHERE OLD.node_path  @> ${tableNamePrefix}${tableName}.node_path;
         END IF;
   ELSIF TG_OP = 'INSERT' THEN
-        UPDATE ${tableName} SET node_path = get_calculated_${tablePrefix}_node_path(NEW.${tablePrefix}_id) WHERE ${tableName}.${tablePrefix}_id = NEW.${tablePrefix}_id;
+        UPDATE ${tableNamePrefix}${tableName} SET node_path = get_calculated_${tableKeyPrefix}_node_path(NEW.${tableKeyPrefix}_id) WHERE ${tableNamePrefix}${tableName}.${tableKeyPrefix}_id = NEW.${tableKeyPrefix}_id;
   END IF;
   
   RETURN NEW;
@@ -118,22 +126,29 @@ END
 $$
 LANGUAGE 'plpgsql' VOLATILE;
 
-CREATE TRIGGER trig01_update_${tablePrefix}_node_path AFTER INSERT OR UPDATE 
-   ON ${tableName} FOR EACH ROW
-   EXECUTE PROCEDURE trig_update_${tablePrefix}_node_path();
+CREATE TRIGGER trig01_update_${tableKeyPrefix}_node_path AFTER INSERT OR UPDATE 
+   ON ${tableNamePrefix}${tableName} FOR EACH ROW
+   EXECUTE PROCEDURE trig_update_${tableKeyPrefix}_node_path();
 
-INSERT INTO ${tableName} (${tablePrefix}_id, ${tablePrefix}_parentid, ${tablePrefix}_name_fr, ${tablePrefix}_name_de, ${tablePrefix}_desc )
+INSERT INTO ${tableNamePrefix}${tableName} (${tableKeyPrefix}_id, ${tableKeyPrefix}_parentid, ${tableKeyPrefix}_name_fr, ${tableKeyPrefix}_name_de, ${tableKeyPrefix}_desc )
 	VALUES
 	$installContent;
+
+ALTER TABLE ONLY ${tableNamePrefix}siteperiod_${tableName}
+    ADD CONSTRAINT ${tableNamePrefix}siteperiod_${tableName}_${tableSitePeriodKeyPrefix}_${tableName}_id_fkey FOREIGN KEY (${tableSitePeriodKeyPrefix}_${tableName}_id) REFERENCES ${tableNamePrefix}${tableName}(${tableKeyPrefix}_id) ON DELETE CASCADE;
+
+
+
 INSTALL;
 
 $uninstall = <<< UNINSTALL
-DROP INDEX IF EXISTS "idx_${tableName}_node_path_btree_idx";
-DROP INDEX IF EXISTS "idx_${tableName}_node_path_gist_idx";
-DROP FUNCTION IF EXISTS get_calculated_${tablePrefix}_node_path(integer);
-DROP TRIGGER trig01_update_${tablePrefix}_node_path ON ${tableName};
-DROP FUNCTION IF EXISTS trig_update_${tablePrefix}_node_path();
-DROP TABLE IF EXISTS "${tableName}";
+ALTER TABLE ONLY ${tableNamePrefix}siteperiod_${tableName} DROP CONSTRAINT ${tableNamePrefix}siteperiod_${tableName}_${tableSitePeriodKeyPrefix}_${tableName}_id_fkey;
+DROP INDEX IF EXISTS "idx_${tableNamePrefix}${tableName}_node_path_btree_idx";
+DROP INDEX IF EXISTS "idx_${tableNamePrefix}${tableName}_node_path_gist_idx";
+DROP FUNCTION IF EXISTS get_calculated_${tableKeyPrefix}_node_path(integer);
+DROP TRIGGER trig01_update_${tableKeyPrefix}_node_path ON ${tableNamePrefix}${tableName};
+DROP FUNCTION IF EXISTS trig_update_${tableKeyPrefix}_node_path();
+DROP TABLE IF EXISTS "${tableNamePrefix}${tableName}";
 UNINSTALL;
 	
 $fpinstall = fopen($filePrefix.'_install.sql', 'w+');
