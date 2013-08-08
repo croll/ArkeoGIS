@@ -11,21 +11,34 @@ window.addEvent('domready', function() {
     /* initialization of plusminus menus */
     arkeo_menu={};
 
-    arkeo_menu.db = new PlusMinusItem(ch_t('arkeogis', "Choix de la base"), null, null);
-    arkeo_menu.db.setSubMenu(new PlusMinusMenu());
-    var basecateg='';
-    for (var i=0; i<menus.db.length; i++) {
-	if (menus.db[i]['da_type'] != basecateg) {
-	    basecateg=menus.db[i]['da_type'];
-	    arkeo_menu.db.submenu.addItem(new PlusMinusItem(ch_t('arkeogis', basecateg), -1, null, { 'enabled': false}));
-	}
-	arkeo_menu.db.addJsonItem(menus.db[i]);
-    }
-    arkeo_menu.db.inject($('menu_db'));
     /* pour traduction
        ch_t('arkeogis', 'inventory');
        ch_t('arkeogis', 'research');
     */
+
+    var submenus={ };
+    var pmmenu = new PlusMinusMenu();
+    for (var i=0; i<menus.db.length; i++) {
+	if (!(submenus[menus.db[i]['da_type']] in submenus)) {
+	    var folder_item = new PlusMinusItem(ch_t('arkeogis', menus.db[i]['da_type']), null, null, { });
+	    folder_item.setSubMenu(new PlusMinusMenu());
+	    submenus[menus.db[i]['da_type']] = folder_item;
+	    pmmenu.addItem(folder_item);
+	}
+	//submenus[menus.db[i]['da_type']].addJsonItem(menus.db[i]);
+	var item=new PlusMinusItem(menus.db[i].name, menus.db[i].id, null, {});
+	var helpcontent ='<p><b>' + ch_t('arkeogis', "Type de base") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_type']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Échelle de résolution des points") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_scale_resolution']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Limite géographique d'emprise de la base") + '</b> : ' + ch_t('arkeogis', menus.db[i]['geographical_limit']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Dernière mise à jour") + '</b> : ' + menus.db[i]['da_modification'] + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Description de la base") + '</b> : ' + menus.db[i]['description'] + '</p>';
+	item.setHelp(new PlusMinusHelp(helpcontent, {}));
+	submenus[menus.db[i]['da_type']].submenu.addItem(item);
+    }
+
+    arkeo_menu.db = new PlusMinusItem(ch_t('arkeogis', "Choix de la base"), null, pmmenu);
+    arkeo_menu.db.inject($('menu_db'));
+
 
     arkeo_menu.period = new PlusMinusItem(ch_t('arkeogis', "Choix de la période"), null, null);
     for (var i=0; i<menus.period.length; i++)

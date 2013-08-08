@@ -424,7 +424,14 @@ border-bottom-left-radius: 3px;
  background-repeat: no-repeat;
 }
 
-.pmmenu-popup {
+.pmmenu-havehelp {
+ top: 2px;
+ right: 2px;
+ background-image: url("/mod/arkeogis/img/plusminus_help.png");
+ background-repeat: no-repeat;
+}
+
+.pmmenu-popup, .pmmenu-help {
  position: absolute;
  z-index: 2000;
  top: 0;
@@ -439,6 +446,18 @@ border-bottom-left-radius: 3px;
  box-shadow: 1px 1px 12px #555;
 }
 
+.pmmenu-help-content { 
+ border: solid 1px #cccccc;
+ width: 226px;
+ padding: 3px;
+}
+
+.pmmenu-help-content p { 
+ font-size: 7px;
+ font-size: 10px;
+ line-height: 12px;
+ margin: 0 0 4px;
+}
 
 /* plusminusmenu of knowledge, centroid, occupation */
 .troistrucs .pmmenu-root {

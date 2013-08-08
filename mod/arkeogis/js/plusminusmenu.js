@@ -151,6 +151,7 @@ var PlusMinusItem = new Class({
 	value: ''
     },
     submenu: null,
+    help: null,
     parent_menu: null,
     back: null,
     selected: '',
@@ -171,9 +172,16 @@ var PlusMinusItem = new Class({
 	if (submenu) submenu.parent_item=this;
     },
 
+    setHelp: function(help) {
+	this.help=help;
+	if (help) help.parent_item=this;
+    },
+
     close_submenu: function() {
-	if (!this.submenu) return;
-	this.submenu.close();
+	if (this.submenu)
+	    this.submenu.close();
+	if (this.help)
+	    this.help.close();
     },
 
     inject: function(to_html_elem) {
@@ -223,13 +231,19 @@ var PlusMinusItem = new Class({
 			me.submenu.inject(to_html_elem);
 		    }
 		});
-	    } else {
-		me.html_element.addEvent('mouseenter', function() {
-		    me.parent_menu.close_submenus();
-		    me.submenu.inject(to_html_elem);
-		});
 	    }
 	}
+
+	if (me.help) {
+	    sub.addClass('pmmenu-havehelp');
+	}
+
+
+	me.html_element.addEvent('mouseenter', function() {
+	    if (me.parent_menu) me.parent_menu.close_submenus();
+	    if (me.submenu && me.parent_menu) me.submenu.inject(to_html_elem);
+	    if (me.help) me.help.inject(to_html_elem);
+	});
 	
 	if (me.parent_menu) {
 	    me.html_element.addEvent('click', function() {
@@ -345,4 +359,65 @@ var PlusMinusItem = new Class({
 	    alert("id not found: "+jsitem.id);
 	}
     }
+});
+
+var PlusMinusHelp = new Class({
+    Implements: [Events, Options],
+
+    html_element: null,
+    htmlcontent: '',
+    parent_item: null,
+    options: {
+    },
+    
+    initialize: function(htmlcontent, options) {
+	this.setOptions(options);
+	this.htmlcontent = htmlcontent;
+    },
+    
+    inject: function(to_html_elem) {
+	var me=this;
+	me.html_element=new Element('div', {
+	    'class': 'pmmenu-help',
+	});
+	me.html_element.inject($$('body')[0]);
+	
+	me.html_element.setStyles({
+	    left: (me.parent_item.parent_menu ? me.html_element.getStyle('left').toInt() : 0)
+		+ to_html_elem.getPosition().x
+		+ 'px',
+	    top: to_html_elem.getPosition().y+'px'
+	});
+
+	var title=new Element('div', {
+	    'class': 'pmmenu-title',
+	    text: me.parent_item.model.text
+	});
+	var closebutton=new Element('div', {
+	    'class': 'pmmenu-close',
+	});
+	closebutton.addEvent('click', function(e) {
+	    me.close();
+	});
+	closebutton.inject(title);
+	title.inject(me.html_element);
+	var title_sub=new Element('div', {
+	    'class': 'pmmenu-title-sub'
+	});
+	title_sub.inject(title);
+	
+	var content=new Element('div', {
+	    'class': 'pmmenu-help-content',
+	    'html': me.htmlcontent
+	});
+	content.inject(me.html_element);
+    },
+
+    close: function() {
+	if (this.html_element) {
+	    this.html_element.destroy();
+	    this.html_element=null;
+	}
+    }
+
 });
