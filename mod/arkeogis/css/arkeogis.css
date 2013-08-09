@@ -446,9 +446,13 @@ border-bottom-left-radius: 3px;
  box-shadow: 1px 1px 12px #555;
 }
 
-.pmmenu-help-content { 
+.pmmenu-help .pmmenu-title { 
+ width: 507px;
+}
+
+.pmmenu-help-content {
  border: solid 1px #cccccc;
- width: 226px;
+ width: 526px;
  padding: 3px;
 }
 
