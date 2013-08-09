@@ -19,7 +19,7 @@ window.addEvent('domready', function() {
     var submenus={ };
     var pmmenu = new PlusMinusMenu();
     for (var i=0; i<menus.db.length; i++) {
-	if (!(submenus[menus.db[i]['da_type']] in submenus)) {
+	if (!(menus.db[i]['da_type'] in submenus)) {
 	    var folder_item = new PlusMinusItem(ch_t('arkeogis', menus.db[i]['da_type']), null, null, { });
 	    folder_item.setSubMenu(new PlusMinusMenu());
 	    submenus[menus.db[i]['da_type']] = folder_item;
