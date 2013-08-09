@@ -668,11 +668,12 @@ class DatabaseImport {
 	}
 
 	private static function _postProcess($filepath, $nbLines, $uid) {
+		print_r(self::$_temporalBounds);
 		$filename = md5(file_get_contents($filepath));
 		if (!rename($filepath, dirname(__FILE__).'/files/import/'.$filename)) {
 			throw new \Exception("Unable to move \"$filepath\".");
 		}
-		\mod\arkeogis\ArkeoGIS::updateDatabase(self::$_database['id'], array('lines' => $nbLines, 'sites' => self::$_nbSites, 'period_start' => self::$_temporalBounds['start'], 'period_end' => self::$_temporalBounds['end']));
+		\mod\arkeogis\ArkeoGIS::updateDatabase(self::$_database['id'], array('lines' => $nbLines, 'sites' => self::$_nbSites, 'period_start' => \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_temporalBounds['start']), 'period_end' => \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_temporalBounds['end'])));
 		\mod\arkeogis\ArkeoGIS::deleteLastCsv(self::$_database['id'], $filename);
 		\mod\arkeogis\ArkeoGIS::writeDatabaseLog(self::$_database['id'], $uid, $filename);
 	}
