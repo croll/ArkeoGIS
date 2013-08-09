@@ -27,10 +27,16 @@ window.addEvent('domready', function() {
 	}
 	//submenus[menus.db[i]['da_type']].addJsonItem(menus.db[i]);
 	var item=new PlusMinusItem(menus.db[i].name, menus.db[i].id, null, {});
-	var helpcontent ='<p><b>' + ch_t('arkeogis', "Type de base") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_type']) + '</p>';
-	helpcontent+='<p><b>' + ch_t('arkeogis', "Échelle de résolution des points") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_scale_resolution']) + '</p>';
-	helpcontent+='<p><b>' + ch_t('arkeogis', "Limite géographique d'emprise de la base") + '</b> : ' + ch_t('arkeogis', menus.db[i]['geographical_limit']) + '</p>';
+	var helpcontent = '';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Nom de l'Auteur") + '</b> : ' + menus.db[i]['fulll_name'] + '</p>';
 	helpcontent+='<p><b>' + ch_t('arkeogis', "Dernière mise à jour") + '</b> : ' + menus.db[i]['da_modification'] + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Numéro ISSN") + '</b> : ' + menus.db[i]['da_issn'] + '</p>';
+	//helpcontent+='<p><b>' + ch_t('arkeogis', "Type de base") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_type']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Échelle de résolution des points") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_scale_resolution']) + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Nombre de sites") + '</b> : ' + menus.db[i]['da_sites'] + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Nombre de lignes") + '</b> : ' + menus.db[i]['da_lignes'] + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Limites chronologique") + '</b> : ' + menus.db[i]['da_period_start'] + ' - ' + menus.db[i]['da_period_end'] + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Limite géographique d'emprise de la base") + '</b> : ' + ch_t('arkeogis', menus.db[i]['geographical_limit']) + '</p>';
 	helpcontent+='<p><b>' + ch_t('arkeogis', "Description de la base") + '</b> : ' + menus.db[i]['description'] + '</p>';
 	item.setHelp(new PlusMinusHelp(helpcontent, {}));
 	submenus[menus.db[i]['da_type']].submenu.addItem(item);
