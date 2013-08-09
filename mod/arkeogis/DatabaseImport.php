@@ -668,7 +668,6 @@ class DatabaseImport {
 	}
 
 	private static function _postProcess($filepath, $nbLines, $uid) {
-		print_r(self::$_temporalBounds);
 		$filename = md5(file_get_contents($filepath));
 		if (!rename($filepath, dirname(__FILE__).'/files/import/'.$filename)) {
 			throw new \Exception("Unable to move \"$filepath\".");
