@@ -22,7 +22,7 @@ class Tools {
 		if (sizeof($res) > 1) {
 			throw new \Exception("More than one city found.");
 		}
-		return $res[0];
+		return (isset($res[0])) ? $res[0] : null;
 	}
 
 	public static function getSquareCentroid($x0, $y0, $x1, $y1) {

@@ -222,6 +222,8 @@ class Main {
 				$geographical_limit_de = trim($form->getValue('geographical_limit_de'));
 				if (!empty($geographical_limit_de))
 					$field['geographical_limit_de'] = $geographical_limit_de;
+				if (!empty($issn))
+					$field['issn'] = $issn;
 				if ($file['error']) {
 					$errs=array(1=>"The uploaded file exceeds the upload_max_filesize directive in php.ini",
 											2=>"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
@@ -234,8 +236,7 @@ class Main {
 					self::display_html_error(\mod\lang\Main::ch_t('arkeogis', "Une erreur est survenue lors de l'envoi du fichier : ").$err);
 					return;
 				}
-				$result =	\mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $field);
-				unlink($file['tmp_name']);
+				$result = \mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $field);
 				$page = new \mod\webpage\Main();
 				$page->smarty->assign("result", $result);
 			}

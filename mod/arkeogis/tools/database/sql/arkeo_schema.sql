@@ -253,16 +253,22 @@ ALTER SEQUENCE ark_database_da_id_seq OWNED BY ark_database.da_id;
 -- Name: ark_furniture; Type: TABLE; Schema: public; Owner: arkeogisadm; Tablespace: 
 --
 
+CREATE SEQUENCE ark_database_log_dl_id_seq;
+
 CREATE TABLE ark_database_log (
-    dl_id integer NOT NULL,
+    dl_id integer NOT NULL  default nextval('ark_database_log_dl_id_seq'),
     dl_database_id integer NOT NULL,
     dl_user_id integer NOT NULL,
     dl_date timestamp,
     dl_csv_file character varying(100)
 );
 
+ALTER SEQUENCE  ark_database_log_dl_id_seq owned by ark_database_log.dl_id; 
 
-ALTER TABLE public.ark_database_log OWNER TO arkeogisadm;
+ALTER TABLE ONLY ark_database_log
+    ADD CONSTRAINT ark_database_log_dl_database_id_fkey FOREIGN KEY (dl_database_id) REFERENCES ark_database(da_id) ON DELETE CASCADE;
+
+ALTER TABLE public.ark_database_log OWNER TO captainhook;
 
 --
 -- Name: ark_site_occupation_type; Type: TYPE; Schema: public; Owner: captainhook
@@ -960,7 +966,6 @@ ALTER TABLE ONLY ark_city ALTER COLUMN ci_id SET DEFAULT nextval('ark_city_ci_id
 ALTER TABLE ONLY ark_database ALTER COLUMN da_id SET DEFAULT nextval('ark_database_da_id_seq'::regclass);
 
 
---
 -- Name: id; Type: DEFAULT; Schema: public; Owner: arkeogisadm
 --
 
@@ -1080,13 +1085,6 @@ ALTER TABLE ONLY ark_database
 
 ALTER TABLE ONLY ark_database
     ADD CONSTRAINT ark_database_pkey PRIMARY KEY (da_id);
-
---
--- Name: ark_database_log_pkey; Type: CONSTRAINT; Schema: public; Owner: arkeogisadm; Tablespace: 
---
-
-ALTER TABLE ONLY ark_database_log
-    ADD CONSTRAINT ark_database_log_pkey PRIMARY KEY (dl_id);
 
 --
 -- Name: ark_furniture_pkey; Type: CONSTRAINT; Schema: public; Owner: arkeogisadm; Tablespace: 
