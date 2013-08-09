@@ -29,7 +29,7 @@ window.addEvent('domready', function() {
 	var item=new PlusMinusItem(menus.db[i].name, menus.db[i].id, null, {});
 	var helpcontent = '';
 	helpcontent+='<p><b>' + ch_t('arkeogis', "Nom de l'Auteur") + '</b> : ' + menus.db[i]['fulll_name'] + '</p>';
-	helpcontent+='<p><b>' + ch_t('arkeogis', "Dernière mise à jour") + '</b> : ' + menus.db[i]['da_modification'] + '</p>';
+	helpcontent+='<p><b>' + ch_t('arkeogis', "Dernière mise à jour") + '</b> : ' + menus.db[i]['da_declared_modification'] + '</p>';
 	helpcontent+='<p><b>' + ch_t('arkeogis', "Numéro ISSN") + '</b> : ' + menus.db[i]['da_issn'] + '</p>';
 	//helpcontent+='<p><b>' + ch_t('arkeogis', "Type de base") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_type']) + '</p>';
 	helpcontent+='<p><b>' + ch_t('arkeogis', "Échelle de résolution des points") + '</b> : ' + ch_t('arkeogis', menus.db[i]['da_scale_resolution']) + '</p>';
