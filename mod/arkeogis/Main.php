@@ -237,7 +237,6 @@ class Main {
 					return;
 				}
 				$result = \mod\arkeogis\DatabaseImport::importCsv($file['tmp_name'], $separator, $enclosure, $skipline, $lang, $field);
-				unlink($file['tmp_name']);
 				$page = new \mod\webpage\Main();
 				$page->smarty->assign("result", $result);
 			}

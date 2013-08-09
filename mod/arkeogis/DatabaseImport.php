@@ -15,7 +15,7 @@ class DatabaseImport {
 	private static $_lang; 
 	private static $_strings;
 	private static $_nbSites = 0;
-	private static $_temporalBounds = array('start' => null, 'end' => null);
+	private static $_temporalBounds = array('start' => '1', 'end' => '1');
 
 	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $fields='') {
 
@@ -412,7 +412,9 @@ class DatabaseImport {
 
 		}
 		//\core\Core::$db->exec('COMMIT');
-		return array("total" => (self::$_lineNumber-$skipline-1), "processed" => self::$_nbSites, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
+		$nbLines = self::$_lineNumber-$skipline-1;
+		self::_postProcess($filepath, $nbLines, $uid);
+		return array("total" => $nbLines, "processed" => self::$_nbSites, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 //
 	private static function _processSiteId($siteCode) {
@@ -505,10 +507,10 @@ class DatabaseImport {
 
 	private static function _processPeriod($start, $end) {
 		if (!isset(self::$_cache['period_start'][$start])) {
-			echo "$start -- $end \n";
 			// Special period start
 			if (in_array($start, array_keys(self::$_cache['specialperiod'][self::$_lang]))) {
 				self::$_cache['period_start'][$start] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_cache['specialperiod'][self::$_lang][$start][0]);
+				$path = self::$_cache['specialperiod'][self::$_lang][$start][0];
 			} else {
 			// Normal period start
 				$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($start, 'period', NULL, NULL, self::$_lang);
@@ -520,14 +522,15 @@ class DatabaseImport {
 					return;
 				}
 				self::$_cache['period_start'][$start] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
+				$path = $resPath[0]['node_path'];
 			}
-			self::setTemporalBounds(self::$_cache['period_start'][$start]['path'], 'start');
+			self::_setTemporalBounds($path, 'start');
 		}
 		if (!isset(self::$_cache['period_end'][$end])) {
-			echo "$start -- $end \n";
 			// Special period end
 			if (in_array($end, array_keys(self::$_cache['specialperiod'][self::$_lang]))) {
 				self::$_cache['period_end'][$end] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_cache['specialperiod'][self::$_lang][$end][1]);
+				$path = self::$_cache['specialperiod'][self::$_lang][$start][0];
 			} else {
 				// Normal period end
 				$resPath = \mod\arkeogis\ArkeoGIS::getUniquePathFromLabel($end, 'period', NULL, NULL, self::$_lang);
@@ -539,8 +542,9 @@ class DatabaseImport {
 					return;
 				}
 				self::$_cache['period_end'][$end] = \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath($resPath[0]['node_path']);
+				$path = $resPath[0]['node_path'];
 			}
-			self::setTemporalBounds(self::$_cache['period_end'][$end]['path'], 'end');
+			self::_setTemporalBounds($path, 'end');
 		}
 		return array('start' => self::$_cache['period_start'][$start], 'end' => self::$_cache['period_end'][$end]);
 	}
@@ -591,6 +595,7 @@ class DatabaseImport {
 	}
 
 	private static function _addError($msg) {
+		if (!isset(self::$_current['code'])) self::$_current['code'] = 'NO_CODE';
 		$num = (!isset(self::$_siteErrors[self::$_current['code']]) || (!isset(self::$_siteErrors[self::$_current['code']][self::$_lineNumber]))) ? 0 : $num = sizeof(self::$_siteErrors[self::$_current['code']][self::$_lineNumber])+1;
 		self::$_siteErrors[self::$_current['code']][self::$_lineNumber]['csvDatas'] = self::$_csvDatas;
 		self::$_siteErrors[self::$_current['code']][self::$_lineNumber]['msg'][] = $msg;
@@ -618,12 +623,58 @@ class DatabaseImport {
 		}
 	}
 
-	public static function setTemporalBounds($tocheck, $type) {
-		if (self::$_temporalBounds[$type] == null) {
-			self::$_temporalBounds[$type] = $tocheck;
+	private static function _setTemporalBounds($period, $type) {
+		/* if ($type == 'end')
+			echo "$type -- Actual: ".self::$_temporalBounds[$type]." To check: $period => "; */
+		if (self::$_temporalBounds[$type] == 1) {
+			self::$_temporalBounds[$type] = $period;
 			return;
 		}
-		$actual = self::$_temporalBounds[$type];
+		$actual = preg_split('/\./', self::$_temporalBounds[$type]);
+		$tocheck = preg_split('/\./', $period);
+		$slice = null;
+		// If period == 'Intederminé' => exit
+		if ($tocheck[0] == 1) {
+			// echo "\n";
+			return;
+		}
+		// Starting period
+		if ($type == 'start') {
+			for($i=0;$i<sizeof($actual);$i++) {
+				if (isset($tocheck[$i])) {
+					if ($actual[$i] > $tocheck[$i]) {
+						self::$_temporalBounds[$type] = $period;
+						continue;
+					} else if ($actual[$i] < $tocheck[$i]) {
+						continue;
+					}
+				}
+			}
+		// Ending period
+		} else if ($type == 'end') {
+			for($i=0;$i<sizeof($actual);$i++) {
+				if (isset($tocheck[$i])) {
+					if ($actual[$i] < $tocheck[$i]) {
+						self::$_temporalBounds[$type] = $period;
+						continue;
+
+					} else if ($actual[$i] > $tocheck[$i]) {
+						continue;
+					}
+				}
+			}
+		}
+		// echo self::$_temporalBounds[$type]."\n";
+	}
+
+	private static function _postProcess($filepath, $nbLines, $uid) {
+		$filename = md5(file_get_contents($filepath));
+		if (!rename($filepath, dirname(__FILE__).'/files/import/'.$filename)) {
+			throw new \Exception("Unable to move \"$filepath\".");
+		}
+		\mod\arkeogis\ArkeoGIS::updateDatabase(self::$_database['id'], array('lines' => $nbLines, 'sites' => self::$_nbSites, 'period_start' => self::$_temporalBounds['start'], 'period_end' => self::$_temporalBounds['end']));
+		\mod\arkeogis\ArkeoGIS::deleteLastCsv(self::$_database['id'], $filename);
+		\mod\arkeogis\ArkeoGIS::writeDatabaseLog(self::$_database['id'], $uid, $filename);
 	}
 
 }

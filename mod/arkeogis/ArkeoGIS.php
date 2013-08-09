@@ -325,6 +325,23 @@ class ArkeoGIS {
 		return (is_int($uid)) ? true : false;
 	}
 
+	public static function deleteLastCsv($dbId, $newFile) {
+		$filename = \core\Core::$db->fetchOne('SELECT "dl_csv_file" FROM "ark_database_log" WHERE "dl_database_id" = ? ORDER BY dl_id DESC  LIMIT 1 OFFSET 0', (array)$dbId);
+		if ($filename) {
+			if ($filename != $newFile) {
+				if (!unlink(dirname(__FILE__).'/files/import/'.$filename)) {
+					throw new \Exception("Unable to remove \"$filename\".");
+				}
+			}
+			\core\Core::$db->exec('UPDATE "ark_database_log" SET dl_csv_file = NULL WHERE dl_database_id = ?', (array)$dbId);
+		}
+	}
+
+	public static function writeDatabaseLog($dbId, $uid, $csvFile) {
+		$q = 'INSERT INTO "ark_database_log" ("dl_database_id", "dl_user_id", "dl_date", "dl_csv_file") VALUES (?,?,now(),?)';
+		return \core\Core::$db->exec($q, array($dbId, $uid, $csvFile));
+	}
+
 	/* ************* */
 	/*    Common   */
 	/* ************* */
