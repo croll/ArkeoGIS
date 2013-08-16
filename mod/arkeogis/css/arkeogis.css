@@ -447,20 +447,32 @@ border-bottom-left-radius: 3px;
 }
 
 .pmmenu-help .pmmenu-title { 
- width: 507px;
+ width: 607px;
 }
 
 .pmmenu-help-content {
  border: solid 1px #cccccc;
- width: 526px;
+ width: 626px;
  padding: 3px;
 }
 
-.pmmenu-help-content p { 
+.pmmenu-help-content table { 
+ width: 100%;
+}
+.pmmenu-help-content td { 
  font-size: 7px;
  font-size: 10px;
  line-height: 12px;
- margin: 0 0 4px;
+ padding: 4px;
+ width: 33%;
+}
+
+.pmmenu-help-content td.onecol { 
+ 
+}
+
+.pmmenu-help-content td.treecol { 
+ text-align: center;
 }
 
 /* plusminusmenu of knowledge, centroid, occupation */
