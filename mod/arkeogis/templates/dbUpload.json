@@ -23,6 +23,10 @@
 			[ 
 				"required"
 			]
+		},	
+		{	"type" : "text",
+			"name" : "issn",
+			"value" : ""
 		},
 		{	"type" : "text",
 			"name" : "enclosure",

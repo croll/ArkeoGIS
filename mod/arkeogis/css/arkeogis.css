@@ -794,3 +794,27 @@ div.filtercontent .filter-minus {
 .databaseInfos span {
   font-weight: bold;
 }
+
+
+/* Import */
+.import .help-block {
+  font-size: 11px;
+}
+.import #block-left {
+  width: 50%;
+  float: left;
+}
+
+.import #block-right {
+  width: 50%;
+  float: left;
+}
+
+.import textarea {
+  width: 400px;
+}
+
+.import .form-actions {
+  text-align: center;
+}
+                             

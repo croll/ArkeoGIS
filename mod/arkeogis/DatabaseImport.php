@@ -74,7 +74,7 @@ class DatabaseImport {
 			}
 		}
 
-		//\core\Core::$db->exec('BEGIN');
+		\core\Core::$db->exec('BEGIN');
 
 		// Retrieve special periods
 
@@ -411,7 +411,7 @@ class DatabaseImport {
 			} // End of site treatment, next one.
 
 		}
-		//\core\Core::$db->exec('COMMIT');
+		\core\Core::$db->exec('COMMIT');
 		$nbLines = self::$_lineNumber-$skipline-1;
 		self::_postProcess($filepath, $nbLines, $uid);
 		return array("total" => $nbLines, "processed" => self::$_nbSites, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
