@@ -145,4 +145,10 @@ window.addEvent('domready', function() {
 	});
 
 	browserWarning.check();
+
+	$('navbar').getElements('a').each(function(el) {
+		if (el.get('href') == window.location.pathname || el.get('altlink') == window.location.pathname) {
+			el.getParent('li').addClass('active');
+		}
+	});
 });
