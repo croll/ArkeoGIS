@@ -152,7 +152,7 @@ window.addEvent('domready', function() {
 		}
 	});
 
-    if ($('userlogged').value == 1) {
+    if ($('userlogged') && $('userlogged').value == 1) {
 
         var tracker = new IdleTracker({
             idleTime: 10,
