@@ -186,7 +186,8 @@
   "Coordonn\u00e9es de s\u00e9lection" : "Coordonn\u00e9es de s\u00e9lection",
   "Une erreur est survenue lors de l'envoi du fichier : " : "Une erreur est survenue lors de l'envoi du fichier : ",
   "login_top_txt" : "Bien que visant \u00e0 une libre mise en commun des donn\u00e9es arch\u00e9ologiques et g\u00e9ographiques, ArkeoGIS met \u00e0 disposition des donn\u00e9es sensibles qui pourraient conduire \u00e0 un pillage de gisements arch\u00e9ologiques. C'est pourquoi l'acc\u00e8s aux donn\u00e9es n'est possible qu'apr\u00e8s identification.",
-  "Le %s sont consultables %d bases de donn\u00e9es %d sites" : "Le %s sont consultables %d bases de donn\u00e9es %d sites",
+  "Le %s sont consultables %d bases de donn\u00e9es %d sites" : "Le %s sont consultables<br \/>%d bases de donn\u00e9es<br \/>%d sites",
   "login_bottom_txt" : " Pour obtenir un identifiant et un mot de passe, merci de prendre <a href='\/contact'>contact<\/a>",
-  "login_bottom2_txt" : "<a href='http:\/\/demo.arkeogis.org\/'>Une version de d\u00e9monstration est accessible ici.<\/a>"
+  "login_bottom2_txt" : "<a href='http:\/\/demo.arkeogis.org\/'>Une version de d\u00e9monstration est accessible ici.<\/a>",
+  "Vous semblez inactif, vous allez \u00eatre d\u00e9conect\u00e9" : "Vous semblez inactif, vous allez \u00eatre d\u00e9conect\u00e9"
 }

@@ -17,7 +17,7 @@
 
 		<div class="hero-unit" style='padding-left: 20px; padding-right: 20px'>
 			<img src="mod/arkeogis/img/logo.png" alt="ArkeoGIS" style="margin: -30px 0 20px 15px"/>
-                        <div class="login-toptxt">
+                        <div class="login-toptxt" style="text-align: justify">
                              {t d='arkeogis' m='login_top_txt'}
                         </div>
 			<fieldset style='padding-left: 40px;
@@ -37,7 +37,9 @@
 
                                 <div style="width: 300px; margin-top: 20px">
                                         <div class='login-stats'
-                                        style='float: left; width: 200px'>
+                                        style='float: left; width:
+                                        200px; text-align: right;
+                                        background-color: white'>
                                              {assign var="stats" value=\mod\arkeogis\ArkeoGIS::getStats()}
                                              {t d='arkeogis' m='Le %s sont consultables %d bases de données %d sites' p=[$stats.date, $stats.count_db, $stats.count_site]}
                                         </div>
@@ -51,10 +53,11 @@
                                 </div>
 
                         <div class='login-bottomtxt'
-                                style="margin-top: 10px">
+                                style="margin-top: 10px; text-align: justify">
                                 {t d='arkeogis' m='login_bottom_txt'}
                         </div>
-                        <div class='login-bottomtxt2' style="margin-top: 10px">
+                        <br />
+                        <div class='login-bottomtxt2' style="margin-top: 10px text-align: justify">
                                 {t d='arkeogis' m='login_bottom2_txt'}
                         </div>
 

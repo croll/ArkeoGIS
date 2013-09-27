@@ -172,7 +172,7 @@
   "Num\u00e9ro ISSN" : "Num\u00e9ro ISSN",
   "Index" : "Index",
   "login_top_txt" : "Obwohl das Ziel von ArkeoGIS einen Freien Zugang der arch\u00e4ologischen und geographischen Daten ist, sind diese Informationen zum Teil sensibel und k\u00f6nnten zur Pl\u00fcnderung von arch\u00e4ologischen Fundstellen leiten. Deswegen sind die Daten nur nach Anmeldung zugreifbar.",
-  "Le %s sont consultables %d bases de donn\u00e9es %d sites" : "Le %s sont consultables %d bases de donn\u00e9es %d sites",
+  "Le %s sont consultables %d bases de donn\u00e9es %d sites" : "am %s sind<br \/>%d Datenbanken zugreifbar,<br \/>die xxxx Fundstellen entsprechen",
   "login_bottom_txt" : "Um Benutzernamen und Passwort zu bekommen, <a href='\/contact'>melden<\/a> Sie sich bitte an.",
   "Nom de l'Auteur" : "Nom de l'Auteur",
   "Nombre de sites" : "Nombre de sites",
@@ -185,5 +185,6 @@
   "Disque de s\u00e9lection" : "Disque de s\u00e9lection",
   "Coordonn\u00e9es de s\u00e9lection" : "Coordonn\u00e9es de s\u00e9lection",
   "Une erreur est survenue lors de l'envoi du fichier : " : "Une erreur est survenue lors de l'envoi du fichier : ",
-  "login_bottom2_txt" : "<a href='http:\/\/demo.arkeogis.org\/'>Eine Demo-Version finden Sie hier.<\/a>"
+  "login_bottom2_txt" : "<a href='http:\/\/demo.arkeogis.org\/'>Eine Demo-Version finden Sie hier.<\/a>",
+  "Vous semblez inactif, vous allez \u00eatre d\u00e9conect\u00e9" : "Vous semblez inactif, vous allez \u00eatre d\u00e9conect\u00e9"
 }
