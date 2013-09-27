@@ -11,6 +11,7 @@
 	{js file="/mod/cssjs/js/chfilter.js"}
 	{js file="/mod/cssjs/js/chmypaginate.js"}
 	{js file="/mod/page/js/page.js"}
+	{js file="/mod/arkeogis/js/IdleTracker.js"}
 	{js file="/mod/arkeogis/js/public.js"}
 	{css file="/mod/cssjs/ext/twitter-bootstrap/css/bootstrap.css"}
 	{css file="/mod/arkeogis/css/bootstrap-arkeo.css"}
@@ -42,6 +43,21 @@
 {block name='webpage_body'}
 	<div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 950px;"{/if}>
 
+        <!-- hack idle -->
+        <input type='hidden' id='userlogged' value='{\mod\user\Main::userIsLoggedIn()}'/>
+        <div id='idlemsg' style='display: none; position: fixed; left:
+        0; top: 0; right: 0; bottom: 0; width: 100%; height: 100%;
+        z-index: 999999; background: white; text-align: center;
+        vertical-align: middle;'>
+          <div style='position: absolute; top: 50%; bottom: 50%;
+        width: 100%; text-align: center; font-size: 24px'>
+	    <img src="mod/arkeogis/img/logo.png" alt="ArkeoGIS"/>
+            <br /><br /><br />
+            <div>{t d='arkeogis' m="Vous semblez inactif, vous allez être déconecté"}</div>
+            <br /><br />
+            <div id='idlecount'></div></div>
+          </div>
+
 		<div id="top_of_page">
 			<div id="arkeologo">
 			</div>
@@ -57,7 +73,7 @@
 		<div class="navbar" id="navbar">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="btn btn-navbar" data-toggle="collapse" 
+					<a class="btn btn-navbar" data-toggle="collapse"
             					<span class="icon-bar"></span>
             					<span class="icon-bar"></span>
             					<span class="icon-bar"></span>
@@ -72,7 +88,7 @@
 						<ul class="nav pull-right">
 							<li class="dropdown" id="li4" onclick="$('li4').toggleClass('open');">
               							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/mod/arkeogis/img/settings.png" /><b class="caret"></b></a>
-              							<ul id="tools" class="dropdown-menu">	
+              							<ul id="tools" class="dropdown-menu">
 								<li><a href="/databases/"><i class="icon-list glyph-white"></i>  {t d='arkeogis' m='Index'}</a></li>
 								<li><a href="/directory/"><i class="icon-book glyph-white"></i> {t d='arkeogis' m='Directory'}</a></li>
               							{if \mod\user\Main::userhasRight('Manage personal database') || \mod\user\Main::userhasRight('Manage all databases')}
@@ -88,7 +104,7 @@
 									{block name='page_menu' }
 										<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  {t d='page' m='Manage pages'}</a></li>
 										<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  {t d='page' m='Add page'}</a></li>
-									{/block}	
+									{/block}
 								{/if}
               							</ul>
             						</li>

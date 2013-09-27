@@ -17,14 +17,14 @@ var Example = new Class({
 			if (item.hasClass('active')) {
 				var tar = item.getChildren('a').get('href')[0];
 			}
-			this.setPage(options, item);	
+			this.setPage(options, item);
 		}.bind(this));
 	},
 	setPage: function(options,item) {
 		var tar = item.getChildren('a').get('data-update')[0];
 		item.addEvent('click', function(e) {
 			e.stop();
-			myex.setActive(options, item, tar);	
+			myex.setActive(options, item, tar);
 		});
 		if ($(tar).hasClass('selected')) {
 			$(tar).slide('in');
@@ -68,7 +68,7 @@ var Manual = new Class({
 		var st= $(options.updateElement).getChildren('li').each( function(item, index) {
 			if (item.hasClass('active')) {
 				var tar = item.getChildren('a').get('href')[0];
-				this.display(options, mypage, tar);	
+				this.display(options, mypage, tar);
 			}
 			this.setPage(options,item, mypage);
 		}.bind(this));
@@ -151,4 +151,30 @@ window.addEvent('domready', function() {
 			el.getParent('li').addClass('active');
 		}
 	});
+
+    if ($('userlogged').value == 1) {
+
+        var tracker = new IdleTracker({
+            idleTime: 10,
+            onIdle: function() {
+                $('idlemsg').setStyles({display: '', 'opacity': 0});
+                $('idlemsg').morph({'opacity': 1});
+                window.hackidle=10;
+                idlelogoutupdate();
+            },
+            onIdleReturn: function() {
+                delete(window.hackidle);
+                $('idlemsg').setStyles({display: 'none', 'opacity': 1});
+            }
+        });
+    }
+
 });
+
+function idlelogoutupdate() {
+    if (window.hackidle !== undefined) {
+        setTimeout("idlelogoutupdate()", 1000);
+        $('idlecount').innerHTML=--window.hackidle;
+        if (window.hackidle == 0) window.location.href='/logout';
+    }
+}
