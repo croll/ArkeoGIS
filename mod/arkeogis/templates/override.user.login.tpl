@@ -15,15 +15,16 @@
   {if $displayForm}
 		{form mod="user" file="templates/loginForm.json"}
 
-		<div class="hero-unit">
-			<img src="mod/arkeogis/img/logo.png" alt="ArkeoGIS" style="margin: -30px 0 20px -20px"/>
-			<fieldset>
+		<div class="hero-unit" style='padding-left: 20px; padding-right: 20px'>
+			<img src="mod/arkeogis/img/logo.png" alt="ArkeoGIS" style="margin: -30px 0 20px 15px"/>
+                        <div class="login-toptxt">
+                             {t d='arkeogis' m='login_top_txt'}
+                        </div>
+			<fieldset style='padding-left: 40px;
+			margin-top: 20px'>
 				{if isset($login_failed)}
 					<div class="alert alert-error">{t d='user' m="Identification invalide"}</div>
 				{/if}
-                                <div class="login-toptxt">
-                                {t d='arkeogis' m='login_top_txt'}
-                                </div>
 				<div>
 					<div style="margin-top:5px">
 						{$loginForm.login}
@@ -32,21 +33,28 @@
 						{$loginForm.password}
 					</div>
 				</div>
-                                <div>
-                                        <div class='login-stats'>
+			</fieldset>
+
+                                <div style="width: 300px; margin-top: 20px">
+                                        <div class='login-stats'
+                                        style='float: left; width: 200px'>
                                              {assign var="stats" value=\mod\arkeogis\ArkeoGIS::getStats()}
                                              {t d='arkeogis' m='Le %s sont consultables %d bases de données %d sites' p=[$stats.date, $stats.count_db, $stats.count_site]}
                                         </div>
-                                        <div style="margin-top:5px">
+                                        <div style="float: right;
+                                        width: 95px; margin-top:10px;
+                                        text-align: right">
 					     <input type="submit" value="{t d='user' m="Connexion"}" class="btn btn-primary"?>
 				        </div>
-                                </div>
-			</fieldset>
 
-                        <div class='login-bottomtxt'>
+                                        <div style="clear: both;"></div>
+                                </div>
+
+                        <div class='login-bottomtxt'
+                                style="margin-top: 10px">
                                 {t d='arkeogis' m='login_bottom_txt'}
                         </div>
-                        <div class='login-bottomtxt2'>
+                        <div class='login-bottomtxt2' style="margin-top: 10px">
                                 {t d='arkeogis' m='login_bottom2_txt'}
                         </div>
 
