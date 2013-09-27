@@ -21,6 +21,9 @@
 				{if isset($login_failed)}
 					<div class="alert alert-error">{t d='user' m="Identification invalide"}</div>
 				{/if}
+                                <div class="login-toptxt">
+                                {t d='arkeogis' m='login_top_txt'}
+                                </div>
 				<div>
 					<div style="margin-top:5px">
 						{$loginForm.login}
@@ -29,14 +32,22 @@
 						{$loginForm.password}
 					</div>
 				</div>
-				<div style="margin-top:5px">
-					<input type="submit" value="{t d='user' m="Connexion"}" class="btn btn-primary"?>
-				</div>
+                                <div>
+                                        <div class='login-stats'>
+                                             {assign var="stats" value=\mod\arkeogis\ArkeoGIS::getStats()}
+                                             {t d='arkeogis' m='Le %s sont consultables %d bases de données %d sites' p=[$stats.date, $stats.count_db, $stats.count_site]}
+                                        </div>
+                                        <div style="margin-top:5px">
+					     <input type="submit" value="{t d='user' m="Connexion"}" class="btn btn-primary"?>
+				        </div>
+                                </div>
 			</fieldset>
 
-                        <div class='login-stats'>
-                             {assign var="stats" value=\mod\arkeogis\ArkeoGIS::getStats()}
-                             {t m='Le %s sont consultables %d bases de données %d sites' p=[$stats.date, $stats.count_db, $stats.count_site]}
+                        <div class='login-bottomtxt'>
+                                {t d='arkeogis' m='login_bottom_txt'}
+                        </div>
+                        <div class='login-bottomtxt2'>
+                                {t d='arkeogis' m='login_bottom2_txt'}
                         </div>
 
 		</div>

@@ -168,5 +168,22 @@
   "Au moins une caract\u00e9risation" : "Mindestens eine Kennzeichnung",
   "Toutes les caract\u00e9risations" : "Alle Kennzeichungen",
   "Long" : "L\u00e4ngengrad",
-  "Lat" : "Breitengrad"
+  "Lat" : "Breitengrad",
+  "Num\u00e9ro ISSN" : "Num\u00e9ro ISSN",
+  "Index" : "Index",
+  "login_top_txt" : "Obwohl das Ziel von ArkeoGIS einen Freien Zugang der arch\u00e4ologischen und geographischen Daten ist, sind diese Informationen zum Teil sensibel und k\u00f6nnten zur Pl\u00fcnderung von arch\u00e4ologischen Fundstellen leiten. Deswegen sind die Daten nur nach Anmeldung zugreifbar.",
+  "Le %s sont consultables %d bases de donn\u00e9es %d sites" : "Le %s sont consultables %d bases de donn\u00e9es %d sites",
+  "login_bottom_txt" : "Um Benutzernamen und Passwort zu bekommen, <a href='\/contact'>melden<\/a> Sie sich bitte an.",
+  "Nom de l'Auteur" : "Nom de l'Auteur",
+  "Nombre de sites" : "Nombre de sites",
+  "Nombre de lignes" : "Nombre de lignes",
+  "Limites chronologique" : "Limites chronologique",
+  "Choix de l'aire de recherche" : "Choix de l'aire de recherche",
+  "Aire de recherche" : "Aire de recherche",
+  "Toute la carte" : "Toute la carte",
+  "R\u00e9ctangle de s\u00e9lection" : "R\u00e9ctangle de s\u00e9lection",
+  "Disque de s\u00e9lection" : "Disque de s\u00e9lection",
+  "Coordonn\u00e9es de s\u00e9lection" : "Coordonn\u00e9es de s\u00e9lection",
+  "Une erreur est survenue lors de l'envoi du fichier : " : "Une erreur est survenue lors de l'envoi du fichier : ",
+  "login_bottom2_txt" : "<a href='http:\/\/demo.arkeogis.org\/'>Eine Demo-Version finden Sie hier.<\/a>"
 }

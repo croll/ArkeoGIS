@@ -171,5 +171,22 @@
   "Au moins une caract\u00e9risation" : "Au moins une caract\u00e9risation",
   "Toutes les caract\u00e9risations" : "Toutes les caract\u00e9risations",
   "Long" : "Long",
-  "Lat" : "Lat"
+  "Lat" : "Lat",
+  "Num\u00e9ro ISSN" : "Num\u00e9ro ISSN",
+  "Index" : "Index",
+  "Nom de l'Auteur" : "Nom de l'Auteur",
+  "Nombre de sites" : "Nombre de sites",
+  "Nombre de lignes" : "Nombre de lignes",
+  "Limites chronologique" : "Limites chronologique",
+  "Choix de l'aire de recherche" : "Choix de l'aire de recherche",
+  "Aire de recherche" : "Aire de recherche",
+  "Toute la carte" : "Toute la carte",
+  "R\u00e9ctangle de s\u00e9lection" : "R\u00e9ctangle de s\u00e9lection",
+  "Disque de s\u00e9lection" : "Disque de s\u00e9lection",
+  "Coordonn\u00e9es de s\u00e9lection" : "Coordonn\u00e9es de s\u00e9lection",
+  "Une erreur est survenue lors de l'envoi du fichier : " : "Une erreur est survenue lors de l'envoi du fichier : ",
+  "login_top_txt" : "Bien que visant \u00e0 une libre mise en commun des donn\u00e9es arch\u00e9ologiques et g\u00e9ographiques, ArkeoGIS met \u00e0 disposition des donn\u00e9es sensibles qui pourraient conduire \u00e0 un pillage de gisements arch\u00e9ologiques. C'est pourquoi l'acc\u00e8s aux donn\u00e9es n'est possible qu'apr\u00e8s identification.",
+  "Le %s sont consultables %d bases de donn\u00e9es %d sites" : "Le %s sont consultables %d bases de donn\u00e9es %d sites",
+  "login_bottom_txt" : " Pour obtenir un identifiant et un mot de passe, merci de prendre <a href='\/contact'>contact<\/a>",
+  "login_bottom2_txt" : "<a href='http:\/\/demo.arkeogis.org\/'>Une version de d\u00e9monstration est accessible ici.<\/a>"
 }
