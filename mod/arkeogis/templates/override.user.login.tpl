@@ -20,7 +20,7 @@
 			<fieldset>
 				{if isset($login_failed)}
 					<div class="alert alert-error">{t d='user' m="Identification invalide"}</div>
-				{/if}	
+				{/if}
 				<div>
 					<div style="margin-top:5px">
 						{$loginForm.login}
@@ -33,6 +33,12 @@
 					<input type="submit" value="{t d='user' m="Connexion"}" class="btn btn-primary"?>
 				</div>
 			</fieldset>
+
+                        <div class='login-stats'>
+                             {assign var="stats" value=\mod\arkeogis\ArkeoGIS::getStats()}
+                             {t m='Le %s sont consultables %d bases de données %d sites' p=[$stats.date, $stats.count_db, $stats.count_site]}
+                        </div>
+
 		</div>
 		<script>
 		window.addEvent('domready', function(){
@@ -58,6 +64,6 @@
 			{l s='Vous êtes déjà identifié, redirection...'}
 			</div>
 		{/if}
-	{/if}	
+	{/if}
 	</div>
 {/block}

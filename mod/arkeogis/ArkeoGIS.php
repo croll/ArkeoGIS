@@ -86,7 +86,7 @@ class ArkeoGIS {
 	}
 
 	public static function search_sites($search, $select, $addtable=array(), $limit=1500,
-                                      $custom_groupby=false, $orderby='ark_site.si_id', $getcount=true, 
+                                      $custom_groupby=false, $orderby='ark_site.si_id', $getcount=true,
                                       $onlysprange=true
 																			) {
 		$addtable=array('ark_siteperiod_production' => isset($addtable['ark_siteperiod_production']) ? $addtable['ark_siteperiod_production'] : false,
@@ -239,13 +239,13 @@ class ArkeoGIS {
 		if (isset($search['site_id'])) {
 			$where.=' AND si_id = ?';
 			$args[]=$search['site_id'];
-		}	
+		}
 
 		if (isset($search['site_code'])) {
 			$where.=' AND si_code = ?';
 			$args[]=$search['site_code'];
-		}	
-		
+		}
+
 		if (isset($search['database_id'])) {
 			$addtable['ark_database']=true;
 			$where.=' AND da_id = ?';
@@ -277,7 +277,7 @@ class ArkeoGIS {
 		}
 
 		if ($custom_groupby !== false) $groupby=$custom_groupby;
-		
+
 		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.($groupby ? ' GROUP BY '.$groupby : '').($orderby ? ' ORDER BY '.$orderby : '').($limit ? ' LIMIT '.$limit : '');
 		$query_count='SELECT COUNT(DISTINCT(ark_site.si_id)) FROM '.$from.' WHERE '.$where;
 
@@ -358,7 +358,7 @@ class ArkeoGIS {
 			$args[] = $level;
 		}
 
-		if (!is_null($parentPath)) { 
+		if (!is_null($parentPath)) {
 			$q.= 'AND node_path <@ ? ';
 			$args[] = $parentPath;
 		}
@@ -421,13 +421,13 @@ class ArkeoGIS {
 	public static function load_strings() {
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
-    
+
 		$menus=array();
-		
+
 		$menus['db']=self::idtok(\core\Core::$db->fetchAll("select da_id as id, da_name as name from ark_database order by da_id"));
 		$menus['period']=self::idtok(\core\Core::$db->fetchAll("select pe_id as id, pe_name_$lang as name from ark_period order by pe_id"));
 		$menus['production']=self::idtok(\core\Core::$db->fetchAll("select pr_id as id, pr_name_$lang as name from ark_production order by pr_id"));
-		$menus['realestate']=self::idtok(\core\Core::$db->fetchAll("select re_id as id, re_name_$lang as name from ark_realestate order by re_id"));		
+		$menus['realestate']=self::idtok(\core\Core::$db->fetchAll("select re_id as id, re_name_$lang as name from ark_realestate order by re_id"));
 		$menus['furniture']=self::idtok(\core\Core::$db->fetchAll("select fu_id as id, fu_name_$lang as name from ark_furniture order by fu_id"));
 		$menus['landscape']=self::idtok(\core\Core::$db->fetchAll("select la_id as id, la_name_$lang as name from ark_landscape order by la_id"));
     $menus['knowledge']=array(
@@ -496,12 +496,12 @@ class ArkeoGIS {
 			foreach(\core\Core::$db->fetchAll($q, array($pInfos['id'])) as $carac) {
 				$siteInfos['characteristics'][$periodHash]['caracs'][$i]['production'][] = array(Arkeogis::node_path_to_array($carac['node_path'], $strings['production']), $carac['sp_exceptional']);
 			}
-			// Furniture 
+			// Furniture
 			$q = "SELECT node_path, sf_exceptional FROM ark_siteperiod_furniture LEFT JOIN ark_furniture ON ark_siteperiod_furniture.sf_furniture_id=ark_furniture.fu_id WHERE ark_siteperiod_furniture.sf_site_period_id = ?";
 			foreach(\core\Core::$db->fetchAll($q, array($pInfos['id'])) as $carac) {
 				$siteInfos['characteristics'][$periodHash]['caracs'][$i]['furniture'][] = array(Arkeogis::node_path_to_array($carac['node_path'], $strings['furniture']), $carac['sf_exceptional']);
 			}
-			// Landscape 
+			// Landscape
 			$q = "SELECT node_path, sl_exceptional FROM ark_siteperiod_landscape LEFT JOIN ark_landscape ON ark_siteperiod_landscape.sl_landscape_id=ark_landscape.la_id WHERE ark_siteperiod_landscape.sl_site_period_id = ?";
 			foreach(\core\Core::$db->fetchAll($q, array($pInfos['id'])) as $carac) {
 				$siteInfos['characteristics'][$periodHash]['caracs'][$i]['landscape'][] = array(Arkeogis::node_path_to_array($carac['node_path'], $strings['landscape']), $carac['sl_exceptional']);
@@ -514,7 +514,7 @@ class ArkeoGIS {
 	/* ************* */
 	/*      Map      */
 	/* ************* */
-	
+
 	public static function getMarker($siteId, $shape, $geometry, $knowledge, $period, $exceptional, $centroid, $popupParams) {
 
 		$colors[1]   = '#cbcbcb';
@@ -529,7 +529,7 @@ class ArkeoGIS {
 
 		$params['geometry'] = $geometry;
 
-		if (strstr($knowledge, 'excavated')) 
+		if (strstr($knowledge, 'excavated'))
 			$iconParams['size'] = array(25, 25);
 		else if (strstr($knowledge, 'surveyed'))
 			$iconParams['size'] = array(20, 20);
@@ -547,7 +547,7 @@ class ArkeoGIS {
 
 		$tmp = trim($period, '{}');
 		// todo multiple period
-		$tmp = preg_split("/,/",$tmp); 
+		$tmp = preg_split("/,/",$tmp);
 		$tmp = $tmp[0];
 		$tmp = preg_split('/\./', $tmp);
 		$num = array_shift($tmp);
@@ -562,7 +562,16 @@ class ArkeoGIS {
 		$marker->setPopupParams($popupParams);
 		return $marker->get();
 	}
-  
+
+  public static function getStats() {
+    $res=array();
+    $q = "select count(*) from ark_database";
+    $res['count_db']=\core\Core::$db->fetchOne($q, array());
+    $q = "select count(*) from ark_site";
+    $res['count_site']=\core\Core::$db->fetchOne($q, array());
+    $res['date']=strftime('%x');
+    return $res;
+  }
 
 }
 
