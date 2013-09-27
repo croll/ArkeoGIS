@@ -202,6 +202,7 @@ class Main {
 				$lang = $form->getValue('select_lang');
 				$field = array();
 				$description = trim($form->getValue('description'));
+				$issn = trim($form->getValue('issn'));
 				if (!empty($description))
 					$field['description'] = $description;
 				$description_de = trim($form->getValue('description_de'));

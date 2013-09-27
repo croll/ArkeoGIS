@@ -23,17 +23,17 @@
 		<div id="arkeologo">
 		</div>
 	</div>
-	<div class="navbar">
+	<div class="navbar" id="navbar">
 		<div class="navbar-inner">
 			<div class="container">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             				<span class="icon-bar"></span>
             				<span class="icon-bar"></span>
             				<span class="icon-bar"></span>
-          			</a>
+          				</a>
 				<div class="nav-collapse collapse">
 					<ul class="nav nav-pills nav-stacked">
-						<li><a href="/">{t d='arkeogis' m='Accueil'}</a></li>
+						<li><a href="/" altlink='/public'>{t d='arkeogis' m='Accueil'}</a></li>
 						<li><a href="/page/{\mod\page\Main::getTranslated('partenaires', $lang)}">{t d='arkeogis' m='Partenaires'}</a></li>
 						<li><a href="/page/{\mod\page\Main::getTranslated('historique', $lang)}">{t d='arkeogis' m='Historique'}</a></li>
 						<li><a href="/page/{\mod\page\Main::getTranslated('documentation', $lang)}">{t d='arkeogis' m='Documents'}</a></li>
