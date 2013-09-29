@@ -53,7 +53,7 @@
         width: 100%; text-align: center; font-size: 24px'>
 	    <img src="/mod/arkeogis/img/logo.png" alt="ArkeoGIS"/>
             <br /><br /><br />
-            <div>{t d='arkeogis' m="Vous semblez inactif, vous allez être déconecté"}</div>
+            <div>{t d='arkeogis' m="Vous semblez inactif, vous allez être déconnecté"}</div>
             <br /><br />
             <div id='idlecount'></div></div>
           </div>
