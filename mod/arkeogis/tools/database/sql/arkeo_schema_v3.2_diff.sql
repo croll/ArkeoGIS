@@ -14,9 +14,11 @@ CREATE TABLE ark_database_log (
     dl_csv_file character varying(100)
 );
 
-ALTER SEQUENCE  ark_database_log_dl_id_seq owned by ark_database_log.dl_id; 
+ALTER SEQUENCE  ark_database_log_dl_id_seq owned by ark_database_log.dl_id;
 
 ALTER TABLE ONLY ark_database_log
     ADD CONSTRAINT ark_database_log_dl_database_id_fkey FOREIGN KEY (dl_database_id) REFERENCES ark_database(da_id) ON DELETE CASCADE;
 
 ALTER TABLE public.ark_database_log OWNER TO captainhook;
+
+CREATE TABLE "ark_userinfos" ("uid" int NOT NULL, "structure" varchar(255));

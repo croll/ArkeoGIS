@@ -155,11 +155,11 @@ window.addEvent('domready', function() {
     if ($('userlogged') && $('userlogged').value == 1) {
 
         var tracker = new IdleTracker({
-            idleTime: 10,
+            idleTime: 15*60,
             onIdle: function() {
                 $('idlemsg').setStyles({display: '', 'opacity': 0});
                 $('idlemsg').morph({'opacity': 1});
-                window.hackidle=10;
+                window.hackidle=61;
                 idlelogoutupdate();
             },
             onIdleReturn: function() {

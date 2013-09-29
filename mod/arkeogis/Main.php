@@ -67,13 +67,32 @@ class Main {
     $page->display();
   }
 
+  public static function hook_mod_user_create_post($hookname, $userdata, $uid) {
+    \core\Core::$db->query('INSERT INTO "ark_userinfos" ("uid", "structure") VALUES (?, ?)', array((int)$uid, $_REQUEST['structure']));
+  }
+
+  public static function hook_mod_user_update_post($hookname, $userdata, $uid) {
+    \core\Core::$db->query('UPDATE "ark_userinfos" SET "structure"=? WHERE "uid"=?', array($_REQUEST['structure'], (int)$uid));
+  }
+
+  public static function hook_mod_user_delete_pre($hookname, $userdata, $uid) {
+    \core\Core::$db->query('DELETE FROM "ark_userinfos" WHERE "uid"=?', array((int)$uid));
+  }
+
+  public static function hook_mod_user_getUserInfos_post($hookname, $userdata, &$user) {
+		$result = \core\Core::$db->query('SELECT * FROM "ark_userinfos" WHERE "uid"=?',
+																	array((int)$user['uid']));
+    $infos=$result->fetchRow();
+    $user['mod']['arkeogis'] = $infos;
+  }
+
   public static function hook_mod_arkeogis_directory($hookname, $userdata, $matches) {
-   
+
     if (!\mod\user\Main::userIsLoggedIn()) {
     	return false;
 		}
-    // check for optionals parameters 
-    if (isset($matches[1])) {	
+    // check for optionals parameters
+    if (isset($matches[1])) {
 			$check=split('/', $matches[1]);
 			$params=array();
 			for ($i=0; $i <= count($check); $i++) {
@@ -85,7 +104,7 @@ class Main {
 			}
 			if ($params["sort"]) {
 				$sort = $params["sort"];
-			}	
+			}
 			if ($params["maxrow"] && (int)$params["maxrow"]) {
 				$maxrow=$params["maxrow"];
 			}
@@ -95,14 +114,14 @@ class Main {
 			if ($params["filter"]) {
 				$filter=$params["filter"];
 			}
-    }	
-    // set default list parameter 
-    if (!isset($sort)) $sort="login_asc";		
-    if (!isset($maxrow)) $maxrow= 10;		
+    }
+    // set default list parameter
+    if (!isset($sort)) $sort="login_asc";
+    if (!isset($maxrow)) $maxrow= 10;
     if (!isset($offset)) $offset= 0;
-    		
+
     $db=\core\Core::$db;
-    $dbPParams=array(); 
+    $dbPParams=array();
     $dbParams[]=1;
     $mid = "";
     if (isset($filter)) {
@@ -111,20 +130,20 @@ class Main {
 				//var_dump($filters);
 				$fd=split(':', $filters[$i]);
 				if ($fd[0] == 'login') {
-					$mid .=" AND u.login like ?";	
+					$mid .=" AND u.login like ?";
 					$dbParams[]=$fd[1];
 				} else if ($fd[0] == 'full_name') {
-					$mid .=" AND u.full_name like ?";	
+					$mid .=" AND u.full_name like ?";
 					$dbParams[]=$fd[1];
 				} else if ($fd[0] == 'email') {
-					$mid .=" AND u.email like ?";	
+					$mid .=" AND u.email like ?";
 					$dbParams[]=$fd[1];
 				}
 			}
     }
     $dbParams[]=(int)$maxrow;
     $dbParams[]=(int)$offset;
-    $q='SELECT "uid", "login", "full_name", "email" FROM "ch_user" u WHERE u.uid > ?';	
+    $q='SELECT "uid", "login", "full_name", "email" FROM "ch_user" u WHERE u.uid > ?';
     $q .= $mid;
     $q .= \mod\arkeogis\Tools::order_by($sort);
     $q .=" LIMIT ? OFFSET ?";
@@ -145,37 +164,37 @@ class Main {
     $page->smarty->assign('offset', $offset);
     $page->smarty->assign('maxrow', $maxrow);
     $page->smarty->assign('quant', $quant);
-    
+
     $page->smarty->assign('directory_mode', 'list');
     $page->setLayout('arkeogis/directory');
     $page->display();
 	}
-    
+
 	private static function load_menus() {
     $lang=\mod\lang\Main::getCurrentLang();
     $lang=substr($lang, 0, 2);
 		$dalang=$lang == 'fr' ? '' : '_'.$lang;
-    
+
 		$menus=array();
-		
+
 		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path, da_type, da_scale_resolution, da_description$dalang as description, da_geographical_limit$dalang as geographical_limit, da_declared_modification, full_name, da_sites, da_lines, da_issn, da_period_start, da_period_end FROM ark_database LEFT JOIN ch_user ON da_owner_id=uid ORDER BY da_type,da_name,id");
-		
+
 		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, (pe_name_fr || '\n' || pe_name_de) as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 
 		$menus['production']=\core\Core::$db->fetchAll("select pr_id as id, pr_parentid as parentid, pr_name_$lang as name, node_path from ark_production order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
-		
+
 		$menus['realestate']=\core\Core::$db->fetchAll("select re_id as id, re_parentid as parentid, re_name_$lang as name, node_path from ark_realestate order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
-		
+
 		$menus['furniture']=\core\Core::$db->fetchAll("select fu_id as id, fu_parentid as parentid, fu_name_$lang as name, node_path from ark_furniture order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 
 		$menus['landscape']=\core\Core::$db->fetchAll("select la_id as id, la_parentid as parentid, la_name_$lang as name, node_path from ark_landscape order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 
 		return $menus;
 	}
-  
+
   public static function hook_mod_arkeogis_pmmenus($hookname, $userdata) {
 		\mod\user\Main::redirectIfNotLoggedIn();
-    
+
 		echo "menus=".json_encode(self::load_menus());
 	}
 
@@ -186,7 +205,7 @@ class Main {
 			$page->smarty->assign('lang', $lang);
 			$page->setLayout('arkeogis/import');
 			$page->display();
-		} 
+		}
 	}
 
 	public static function hook_mod_arkeogis_import_submit($hookname, $userdata, $urlmatches) {
@@ -264,7 +283,7 @@ class Main {
       return self::display_html_error(\mod\lang\Main::ch_t('arkeogis', "Vous n'avez pas la permission de télécharger au format csv"));
 
 		$q=json_decode(urldecode($urlmatches[1]), true);
-		
+
 		$columns="ark_site.si_id, si_code, si_name, si_description, si_city_name, si_city_code, ST_AsGeoJSON(si_geom) as coords, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
 		$columns.=", da_name, da_description, da_creation, da_modification"; // ark_database
 		$columns.=", ark_site_period.sp_id, sp_knowledge_type, sp_comment, sp_bibliography"; // ark_site_period
@@ -282,9 +301,9 @@ class Main {
                                 false, // getcount
                                 false  // onlysprange
 																);
-		
+
 		$strings=ArkeoGIS::load_strings();
-		
+
 		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date dans le passé
 		header("Content-Type: text/csv");
@@ -292,7 +311,7 @@ class Main {
 
     $fp = fopen('php://output', 'w');
     fputcsv($fp, array('SITE_ID_SOURCE', 'BASE_SOURCE', 'NOM_SITE', 'NOM_COMMUNE_PRINCIPALE', 'CODE_COMMUNE', 'SYSTEME_PROJECTION', 'LONGITUDE_X ', 'LATITUDE_Y', 'LONGITUDE_X_BIS', 'LATITUDE_Y_BIS', 'ALTITUDE Z', 'CENTRE_COMMUNE', 'ETAT_CONNAISSANCES', 'OCCUPATION', 'DATATION_DEBUT_PLUS_FINE', 'DATATION_FIN_PLUS_FINE', 'IMMO_NIV1', 'IMMO_NIV2', 'IMMO_NIV3', 'IMMO_NIV4', 'IMMO_EXP', 'MOB_NIV1', 'MOB_NIV2', 'MOB_NIV3', 'MOB_NIV4', 'MOB_EXP', 'PROD_NIV1', 'PROD_NIV2', 'PROD_NIV3', 'PROD_EXP', 'PAYS_NIV1', 'PAYS_NIV2', 'PAYS_NIV3', 'PAYS_NIV4', 'PAYS_EXP', 'BIBLIOGRAPHIE', 'REMARQUES'), ";", '"');
-		
+
     $latest_siid=-1;
     $latest_spid=-1;
 		foreach($res['sites'] as $row) {
@@ -313,7 +332,7 @@ class Main {
 				$furniture=array_shift($furnitures);
 				$production=array_shift($productions);
 				$landscape=array_shift($landscapes);
-				
+
 				$realestate_astr = ArkeoGIS::node_path_to_array($realestate['node_path'], $strings['realestate']);
 				$furniture_astr = ArkeoGIS::node_path_to_array($furniture['node_path'], $strings['furniture']);
 				$production_astr = ArkeoGIS::node_path_to_array($production['node_path'], $strings['production']);
@@ -364,7 +383,7 @@ class Main {
 				$latest_spid=$row['sp_id'];
 			} while (count($realestates) || count($furnitures) || count($productions) || count($landscapes));
 		}
-		    
+
   }
 
 	public static function yesno($val) {
