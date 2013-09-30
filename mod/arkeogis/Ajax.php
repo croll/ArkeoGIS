@@ -112,7 +112,7 @@ class Ajax {
 			$realestate=\core\Core::$db->fetchOne("SELECT array_agg(r1.node_path) FROM ark_site_period sp1 LEFT JOIN ark_siteperiod_realestate spr1 ON spr1.sr_site_period_id = sp1.sp_id LEFT JOIN ark_realestate r1 ON r1.re_id = spr1.sr_realestate_id WHERE sp1.sp_site_id = ?", array($row['si_id']));
 			$furniture=\core\Core::$db->fetchOne("SELECT array_agg(f1.node_path) FROM ark_site_period sp1 LEFT JOIN ark_siteperiod_furniture spf1 ON spf1.sf_site_period_id = sp1.sp_id LEFT JOIN ark_furniture f1 ON f1.fu_id = spf1.sf_furniture_id WHERE sp1.sp_site_id = ?", array($row['si_id']));
 			$production=\core\Core::$db->fetchOne("SELECT array_agg(p1.node_path) FROM ark_site_period sp1 LEFT JOIN ark_siteperiod_production spp1 ON spp1.sp_site_period_id = sp1.sp_id LEFT JOIN ark_production p1 ON p1.pr_id = spp1.sp_production_id WHERE sp1.sp_site_id = ?", array($row['si_id']));
-			$landscape=\core\Core::$db->fetchOne("SELECT array_agg(l1.node_path) FROM ark_site_period sp1 LEFT JOIN ark_siteperiod_landscape spl1 ON spl1.sl_site_period_id = sp1.sp_id LEFT JOIN ark_landscape l1 ON l1.la_id = spl1.sl_landscape_id WHERE sp1.sp_site_id = ?", array($row['si_id']));			
+			$landscape=\core\Core::$db->fetchOne("SELECT array_agg(l1.node_path) FROM ark_site_period sp1 LEFT JOIN ark_siteperiod_landscape spl1 ON spl1.sl_site_period_id = sp1.sp_id LEFT JOIN ark_landscape l1 ON l1.la_id = spl1.sl_landscape_id WHERE sp1.sp_site_id = ?", array($row['si_id']));
 
       $sites[$k]['realestate'] = implode(ArkeoGIS::node_path_array_to_str($realestate, $strings['realestate'], '/'), '<br />');
       $sites[$k]['furniture'] = implode(ArkeoGIS::node_path_array_to_str($furniture, $strings['furniture'], '/'), '<br />');
@@ -123,7 +123,7 @@ class Ajax {
     return $res;
   }
 
-  
+
   public static function saveQuery($params) {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
     $uid = \mod\user\Main::getUserId($_SESSION['login']);
@@ -165,4 +165,47 @@ class Ajax {
 		$title = (!empty($siteInfos['name'])) ? $siteInfos['name'] : 'ID: '.$siteInfos['code'];
 		return array('title' => $title, 'content' => $smarty->fetch('arkeogis/sitesheet'));
 	}
+
+  public static function directory($params) {
+    if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
+
+    $pagination = false;
+    if ( isset($_REQUEST["page"]) ) {
+      $pagination = true;
+      $page = intval($_REQUEST["page"]);
+      $perpage = intval($_REQUEST["perpage"]);
+    }
+
+    // this variables Omnigrid will send only if serverSort option is true
+    $sorton = isset($_REQUEST["sorton"]) ? $_REQUEST["sorton"] : '';
+    $sortby = isset($_REQUEST["sortby"]) ? $_REQUEST["sortby"] : '';
+
+    if (!in_array($sorton, array('login','full_name','email','structure','databases','groups'))) $sorton='login';
+    if (!in_array($sortby, array('ASC', 'DESC'))) $sortby='ASC';
+
+    $n = ( $page -1 ) * $perpage;
+
+    $q='SELECT count(u.uid) FROM "ch_user" u
+        LEFT JOIN ark_userinfos ui ON u.uid=ui.uid';
+    $total = \core\Core::$db->fetchOne($q, []);
+
+    $limit = "";
+
+    if ( $pagination )
+      $limit = "OFFSET $n LIMIT $perpage";
+
+    $q='SELECT "u"."uid", "login", "full_name", "email", "structure",
+        array_to_string(ARRAY(select d.da_name FROM ark_database d WHERE d.da_owner_id = u.uid ORDER BY d.da_name), \', \') as databases,
+        array_to_string(ARRAY(select g.name FROM ch_user_group ug LEFT JOIN ch_group g ON g.gid=ug.gid WHERE ug.uid=u.uid), \', \') as groups
+        FROM "ch_user" u
+        LEFT JOIN ark_userinfos ui ON u.uid=ui.uid ORDER BY '.$sorton.' '.$sortby.' '.$limit;
+
+    $ret = \core\Core::$db->fetchAll($q, []);
+
+    $ret = array("page"=>$page, "total"=>$total, "data"=>$ret);
+
+    return $ret;
+	}
+
+
 }

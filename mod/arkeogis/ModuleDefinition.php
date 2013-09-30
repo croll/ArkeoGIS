@@ -18,23 +18,23 @@ class ModuleDefinition extends \core\ModuleDefinition {
 		\mod\regroute\Main::registerRoute($this->id, '#^/public$#', 'mod_arkeogis_public');
 		\mod\regroute\Main::registerRoute($this->id, '#^/exemple/$#', 'mod_arkeogis_exemple');
 		\mod\regroute\Main::registerRoute($this->id, '#^/manuel/([a-z0-9/-_:@\#]+)?$#', 'mod_arkeogis_manuel');
-		\mod\regroute\Main::registerRoute($this->id, '#^/directory/([a-z0-9/_:@]+)?$#', 'mod_arkeogis_directory');
+		\mod\regroute\Main::registerRoute($this->id, '#^/directory/$#', 'mod_arkeogis_directory');
 		\mod\regroute\Main::registerRoute($this->id, '#^/pmmenus$#', 'mod_arkeogis_pmmenus');
 		\mod\regroute\Main::registerRoute($this->id, '#^/import/?$#', 'mod_arkeogis_import');
 		\mod\regroute\Main::registerRoute($this->id, '#^/import/submit/?$#', 'mod_arkeogis_import_submit');
 		\mod\regroute\Main::registerRoute($this->id, '#^/print_sheet$#', 'mod_arkeogis_print_sheet');
 		\mod\regroute\Main::registerRoute($this->id, '#^/export_sheet/(.*)$#', 'mod_arkeogis_export_sheet');
-		/* create ArkeoGIS groups 
-		Admin (loup+croll staff) 
+		/* create ArkeoGIS groups
+		Admin (loup+croll staff)
 		Chercheur (un chercheur peut upload sa base et exporter)
 		Etudiant (il ne peut pas upload une base ni exporter)
 		*/
 		/* set Rights */
 		/*
-		\mod\user\Main::addRight("Manage personal database", "User can create , Import , delete and Export it's own personnal database");			
-		\mod\user\Main::addRight("View databases", "User can view maps and database");			
+		\mod\user\Main::addRight("Manage personal database", "User can create , Import , delete and Export it's own personnal database");
+		\mod\user\Main::addRight("View databases", "User can view maps and database");
 		\mod\user\Main::addRight("Manage all databases", "User can manage all databases (Warning:Restricted to admin group)");
-	
+
 		\mod\user\Main::addGroup('Chercheur', 1);
 		\mod\user\Main::renameGroup('Registered', 'Etudiant');
 		// assign rights tio groups
