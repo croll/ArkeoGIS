@@ -22,3 +22,4 @@ ALTER TABLE ONLY ark_database_log
 ALTER TABLE public.ark_database_log OWNER TO captainhook;
 
 CREATE TABLE "ark_userinfos" ("uid" int NOT NULL, "structure" varchar(255));
+ALTER TABLE public.ark_userinfos OWNER TO captainhook;
