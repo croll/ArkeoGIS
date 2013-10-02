@@ -47,13 +47,13 @@
                                         header: ch_t('arkeogis', "Email"),
                                         dataIndex: "email",
                                         dataType: "string",
-                                        width: 230
+                                        width: 250
                                  },
                                  {
                                         header: ch_t('arkeogis', "Groups"),
                                         dataIndex: "groups",
                                         dataType: "string",
-                                        width: 120
+                                        width: 100
                                  },
                                  {
                                         header: ch_t('arkeogis', 'Databases'),
@@ -64,10 +64,11 @@
                          ],
                          width: 1199,
                          //height: 0,
-                         perPageOptions: [10,25,50,1000000],
+                         perPageOptions: [10,25,50,"all"],
                          perPage: 10,
                          page: 1,
                          pagination: true,
+                         paginationPosition: 'top',
                          url: '/ajax/call/arkeogis/directory',
                	         serverSort: true,
 	                 showHeader: true,
