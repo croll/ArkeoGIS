@@ -39,9 +39,21 @@ html[xmlns] .clearfix {
 	margin-right: 5px;
 }
 
+/*
+ * omnigrid
+ */
+.omnigrid div.pDiv input {
+        height: 10px !important;
+        top: -5px !important;
+}
+
+.omnigrid div.pDiv select {
+        height: 21px !important;
+        top: -5px !important;
+}
 
 /*
- * Map 
+ * Map
  */
 
 #top_of_page {
@@ -80,7 +92,7 @@ html[xmlns] .clearfix {
 }
 
 
-#content #onglet { 
+#content #onglet {
   position: absolute;
   background: #fff;
   z-index: 10;
@@ -101,7 +113,7 @@ html[xmlns] .clearfix {
 	margin: 7px 0 0 5px;
 }
 
-#content #onglet:hover { 
+#content #onglet:hover {
  background-color: #eee;
 }
 
@@ -119,10 +131,10 @@ html[xmlns] .clearfix {
   box-shadow: 1px 1px 12px #555;
 }
 
-#content #map_canvas { 
+#content #map_canvas {
 	position: absolute;
-	height: 500px; 
-	width: 100%; 
+	height: 500px;
+	width: 100%;
 	border:1px solid #ccc;
 }
 
@@ -130,9 +142,9 @@ html[xmlns] .clearfix {
 	max-width: none;
 }
 
-#mapCanvas label { 
-	width: auto; 
-	display:inline; 
+#mapCanvas label {
+	width: auto;
+	display:inline;
 }
 
 #footer {
@@ -182,29 +194,29 @@ table.map-query select {
     max-width: 273px;
 }
 
-table.map-query td { 
+table.map-query td {
   padding-top: 2px;
   padding-bottom: 2px;
   font-size: 11px;
 }
 
 
-table.map-query tr.buttons td { 
+table.map-query tr.buttons td {
  padding-top: 15px;
 }
 
-table.map-query tr.menu_archives select { 
+table.map-query tr.menu_archives select {
  width: 100%;
  max-width: 273px;
 }
 
-tr.title_caracterisation td { 
+tr.title_caracterisation td {
   padding-top: 15px;
   padding-left: 5px;
   font-weight: bold;
 }
 
-tr.title_exceptionnels td { 
+tr.title_exceptionnels td {
   padding: 0px 5px 2px 5px;
 	color: #555;
 }
@@ -214,7 +226,7 @@ tr.title_exceptionnels td.text_exceptionnels {
 	text-align:right;
 }
 
-tr.title_exceptionnels td.fleche_exceptionnels { 
+tr.title_exceptionnels td.fleche_exceptionnels {
   background: url("/mod/arkeogis/img/fleche-site-exceptionnels.png");
   background-repeat: no-repeat;
   background-position: 2px 8px;
@@ -300,7 +312,7 @@ table.map-query .btn-reinit, table.map-query {
  height: 14px;
 }
 
-.pmmenu-title { 
+.pmmenu-title {
  position: relative;
  padding: 2px 0 2px 25px;
  width: 207px;
@@ -316,14 +328,14 @@ table.map-query .btn-reinit, table.map-query {
  left: 1px;
  top: 1px;
  background-image: url("/mod/arkeogis/img/close-19.png");
- background-position: 0 0; 
+ background-position: 0 0;
  background-repeat: no-repeat;
  width: 19px;
  height: 19px;
  cursor: pointer;
 }
 
-.pmmenu-root { 
+.pmmenu-root {
  width: 187px;
  border: solid 1px #cccccc;
 -webkit-border-top-left-radius: 3px;
@@ -339,7 +351,7 @@ border-bottom-left-radius: 3px;
 	width: 216px;
 }
 
-.pmmenu-tools { 
+.pmmenu-tools {
  width: 207px;
  padding: 2px 0 0 25px;
  height: 22px;
@@ -368,7 +380,7 @@ border-bottom-left-radius: 3px;
  background-color: #666666;
 }
 
-.pmmenu-title-sub { 
+.pmmenu-title-sub {
  position: absolute;
  right: 2px;
  top: 3px;
@@ -446,7 +458,7 @@ border-bottom-left-radius: 3px;
  box-shadow: 1px 1px 12px #555;
 }
 
-.pmmenu-help .pmmenu-title { 
+.pmmenu-help .pmmenu-title {
  width: 607px;
 }
 
@@ -456,21 +468,21 @@ border-bottom-left-radius: 3px;
  padding: 3px;
 }
 
-.pmmenu-help-content table { 
+.pmmenu-help-content table {
  width: 100%;
 }
-.pmmenu-help-content td { 
+.pmmenu-help-content td {
  font-size: 11px;
  line-height: 12px;
  padding: 4px;
  width: 33%;
 }
 
-.pmmenu-help-content td.onecol { 
- 
+.pmmenu-help-content td.onecol {
+
 }
 
-.pmmenu-help-content td.treecol { 
+.pmmenu-help-content td.treecol {
  text-align: center;
 }
 
@@ -507,7 +519,7 @@ border-bottom-left-radius: 3px;
 
 
 /* multiselect of knowledge, centroid, occupation */
-.menu-centroconnoccup-button { 
+.menu-centroconnoccup-button {
  background: #62cffc;
  cursor: pointer;
  font-size: 10px;
@@ -535,7 +547,7 @@ border-bottom-left-radius: 3px;
  background: #44adff;
  cursor: pointer;
 }
-.menu-centroconnoccup-content .selected { 
+.menu-centroconnoccup-content .selected {
  background: #0069d6;
 }
 
@@ -543,7 +555,7 @@ border-bottom-left-radius: 3px;
  * query-display
  */
 
-div.query-filter { 
+div.query-filter {
  width: 100%;
 }
 
@@ -567,11 +579,11 @@ div.filtercontent .filter-minus {
   background: no-repeat url("/mod/arkeogis/img/plusminus_checkbox-minus.png");
 }
 
-.query-display { 
+.query-display {
   padding-top: 20px;
 }
 
-.query-display .query-header { 
+.query-display .query-header {
   padding-left: 5px;
   padding-right: 5px;
   position: relative;
@@ -627,7 +639,7 @@ div.filtercontent .filter-minus {
   margin-bottom: 0;
 }
 
-.query-display .query-filters-border { 
+.query-display .query-filters-border {
   padding-top: 5px;
   padding-bottom: 5px;
   padding-right: 5px;
@@ -641,17 +653,17 @@ div.filtercontent .filter-minus {
   background-position: 10px 8px;
 }
 
-.query-display .query-filters { 
+.query-display .query-filters {
   border: solid 1px #ccc;
   background: #eee;
 }
 
-.query-display .query-filter .filtername { 
+.query-display .query-filter .filtername {
   font-weight: bold;
   padding-left: 5px;
 }
 
-.icon-fleche-bas { 
+.icon-fleche-bas {
   width: 8px;
   height: 4px;
   background: url("/mod/arkeogis/img/fleche-bas.png");
@@ -659,10 +671,10 @@ div.filtercontent .filter-minus {
   vertical-align: middle;
 }
 
-#map_sheet { 
+#map_sheet {
 }
 
-.sheetovermap { 
+.sheetovermap {
   position: absolute;
   left: 8px;
   height: 501px;
@@ -671,7 +683,7 @@ div.filtercontent .filter-minus {
   overflow-y: scroll;
 }
 
-.sheetovermap table { 
+.sheetovermap table {
   width: 1170px;
 }
 
@@ -688,7 +700,7 @@ div.filtercontent .filter-minus {
   display: none;
 }
 
-.sheetprint { 
+.sheetprint {
 }
 
 #sitesheet .datesauthor {
@@ -817,4 +829,3 @@ div.filtercontent .filter-minus {
 .import .form-actions {
   text-align: center;
 }
-                             
