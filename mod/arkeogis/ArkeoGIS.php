@@ -346,7 +346,7 @@ class ArkeoGIS {
 		$l = \mod\lang\Main::getCurrentLang();
     		$lang = ($l == 'fr_fr') ? 'fr' : 'de';
   		$langext = ($l == 'fr_fr') ? '' : '_de';
-		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, u.full_name as author, da_type as type, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_start) as period_start, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_end) as period_end, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit'.$langext.' FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid WHERE da_id = ?';
+		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description'.$langext.' as description, u.full_name as author, da_type as type, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_start) as period_start, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_end) as period_end, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit'.$langext.' FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid WHERE da_id = ?';
 		return \core\Core::$db->exec($q, array($dbId));
 	}
 
