@@ -1,6 +1,5 @@
 <div id="sitesheet">
-
-	<div class="datesauthor">{t d='arkeogis' m='Date de création de la fiche'} : {$infos.creation}{if ($infos.creation != $infos.modification)}  |  {t d='arkeogis' m='Date de modification de la fiche'} : {$infos.modification} {/if}  |  {t d='arkeogis' m='Base'} : {$infos.database}  |  {t d='arkeogis' m='Auteur'} : {if !empty($infos.author)}{$infos.author}{else}ArkeoGIS{/if}</div>
+	<div class="datesauthor">{t d='arkeogis' m='Date de création de la fiche'} : {$infos.creation}{if ($infos.creation != $infos.modification)}  |  {t d='arkeogis' m='Date de modification de la fiche'} : {$infos.modification} {/if}  |  {t d='arkeogis' m='Base'} : {$infos.database}  |  {t d='arkeogis' m='Identifiant'} : {$infos.code}  |  {t d='arkeogis' m='Auteur'} : {if !empty($infos.author)}{$infos.author}{else}ArkeoGIS{/if}</div>
 
 	<div class="geoinfos">
 		{if $infos.city.name}

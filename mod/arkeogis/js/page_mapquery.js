@@ -31,7 +31,8 @@ window.addEvent('domready', function() {
 	helpcontent+='<table>';
 	helpcontent+='<tr>';
 	helpcontent+='<td class="treecol"><b>' + ch_t('arkeogis', "Nom de l'Auteur") + '</b> :<br />' + menus.db[i]['full_name'] + '</td>';
-	helpcontent+='<td class="treecol"><b>' + ch_t('arkeogis', "Dernière mise à jour") + '</b> :<br />' + new Date(menus.db[i]['da_declared_modification'].substring(0,10)).toLocaleDateString() + '</td>';
+	if (menus.db[i]['da_declared_modification'])
+		helpcontent+='<td class="treecol"><b>' + ch_t('arkeogis', "Dernière mise à jour") + '</b> :<br />' + new Date(menus.db[i]['da_declared_modification'].substring(0,10)).toLocaleDateString() + '</td>';
 	helpcontent+='<td class="treecol"><b>' + ch_t('arkeogis', "Numéro ISSN") + '</b> :<br />' + menus.db[i]['da_issn'] + '</td>';
 	helpcontent+='</tr><tr>';
 	helpcontent+='<td class="treecol"><b>' + ch_t('arkeogis', "Échelle de résolution des points") + '</b> :<br />' + ch_t('arkeogis', menus.db[i]['da_scale_resolution']) + '</td>';
