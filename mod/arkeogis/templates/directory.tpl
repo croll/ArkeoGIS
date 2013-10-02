@@ -64,7 +64,7 @@
                          ],
                          width: 1199,
                          //height: 0,
-                         perPageOptions: [10,25,50,"all"],
+                         perPageOptions: [10,25,50,ch_t('arkeogis', 'all')],
                          perPage: 10,
                          page: 1,
                          pagination: true,
