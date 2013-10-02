@@ -319,4 +319,16 @@ class Main {
 		return $val ? \mod\lang\Main::ch_t('arkeogis', 'oui') : \mod\lang\Main::ch_t('arkeogis', 'non');
 	}
 
+
+	  public static function hook_mod_arkeogis_databases($hookname, $userdata, $matches) {
+	echo "ici";
+
+	    if (!\mod\user\Main::userIsLoggedIn()) {
+	    	return false;
+	}
+	    $page = new \mod\webpage\Main();
+	    $page->setLayout('arkeogis/databases');
+	    $page->display();
+	}
+
 }
