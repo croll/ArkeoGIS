@@ -91,8 +91,11 @@
 
                 rp=$$('select.rp')[0];
                 n=new Element("span", {
-                      TEXT: ch_t('arkeogis',"Number of lines per page :")+' ',
+                      TEXT: ch_t('arkeogis', "Number of lines per page :")+' ',
                       class: 'blah',
+                      styles: { 'position': 'relative',
+                         'top': '-3px',
+                      }
                 });
                 rp.grab(n, 'before');
 
@@ -106,9 +109,9 @@
 
                 rp=$$('span.pPageStat')[0];
                 n=new Element("span", {
-                      TEXT: ' '+ch_t('arkeogis',"Users"),
+                      TEXT: ' '+ch_t('arkeogis', "Users"),
                       styles: { 'position': 'relative',
-                         'top': '5px',
+                         'top': '2px',
                       },
                       class: 'blah'
                 });

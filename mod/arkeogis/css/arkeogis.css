@@ -44,13 +44,13 @@ html[xmlns] .clearfix {
  */
 .omnigrid div.pDiv input {
         height: 10px !important;
-        top: -5px !important;
+        top: -3px !important;
         width: 30px;
 }
 
 .omnigrid div.pDiv select {
         height: 21px !important;
-        top: -5px !important;
+        top: -3px !important;
         width: 50px;
 }
 
@@ -62,6 +62,9 @@ html[xmlns] .clearfix {
         color: black;
 }
 
+.omnigrid div.pDiv .pPageStat, .omnigrid div.pDiv .pcontrol {
+        top: 2px !important;
+}
 
 /*
  * Map
