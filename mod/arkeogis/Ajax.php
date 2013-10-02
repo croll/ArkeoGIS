@@ -229,7 +229,7 @@ class Ajax {
     if ($sorton == 'declared_modification_str') $sorton = 'declared_modification';
     if ($sorton == 'published_str') $sorton = 'published';
     error_log($sorton);
-    if (!in_array($sorton, array('issn','name','author','type','declared_modification', 'lines', 'sites', 'period_start', 'period_end', 'scale_resolution', 'status'))) $sorton='issn';
+    if (!in_array($sorton, array('issn','name','author','type','declared_modification', 'lines', 'sites', 'period_start', 'period_end', 'scale_resolution', 'status', 'description'))) $sorton='issn';
     if (!in_array($sortby, array('ASC', 'DESC'))) $sortby='ASC';
     $n = ( $page -1 ) * $perpage;
 
@@ -237,6 +237,8 @@ class Ajax {
     $total = \core\Core::$db->fetchOne($q, []);
 
     $limit = "";
+
+    $scaleTranslations = array('site' => 'Site', 'watershed' => 'Bassin versant', 'micro-region' => 'Micro-région', 'region' => 'Région', 'country' => 'Pays', 'europe' => 'Europe');
 
     if ( $pagination )
       $limit = "OFFSET $n LIMIT $perpage";
@@ -247,7 +249,7 @@ class Ajax {
     $outp = array();
     foreach($ret as $r) {
         $r['type'] = \mod\lang\Main::ch_t('arkeogis', $r['type']);
-        $r['scale_resolution'] = \mod\lang\Main::ch_t('arkeogis', $r['scale_resolution']);
+        $r['scale_resolution'] = \mod\lang\Main::ch_t('arkeogis', $scaleTranslations[$r['scale_resolution']]);
         $r['published_str'] = ($r['published'] == 't') ? '<img src="/mod/arkeogis/img/status-ok.png" alt="" />' : '<img src="/mod/arkeogis/img/status-pending.png" alt="" />';;
         array_push($outp, $r);
     }
