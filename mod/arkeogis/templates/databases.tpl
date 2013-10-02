@@ -35,7 +35,7 @@
                                         header: ch_t('arkeogis', "Database"),
                                         dataIndex: "name",
                                         dataType: "string",
-                                        width: 150
+                                        width: 130
                                  },
                                  {
                                         header: ch_t('arkeogis', "Author"),
@@ -95,33 +95,22 @@
                                         header: ch_t('arkeogis', 'description'),
                                         dataIndex: "description",
                                         dataType: "string",
-                                        width: 150 
+                                        width: 250 
                                  },
-                                 {
-                                        header: ch_t('arkeogis', ''),
+                                 {                                 
+                                        header: '&nbsp;',
                                         dataIndex: "status",
                                         dataType: "string",
-                                        width: 30 
-                                 },
-                                 {
-                                        header: ch_t('arkeogis', ''),
-                                        dataIndex: "edit",
-                                        dataType: "string",
-                                        width: 30 
-                                 },
-                                 {
-                                        header: ch_t('arkeogis', ''),
-                                        dataIndex: "delete",
-                                        dataType: "string",
-                                        width: 30 
-                                 },
+                                        width: 24 
+                                 }
                          ],
                          width: 1199,
                          //height: 0,
-                         perPageOptions: [10,25,50,1000000],
+                         perPageOptions: [15,25,50,ch_t('arkeogis', 'all')],
                          perPage: 10,
                          page: 1,
                          pagination: true,
+                         paginationPosition: 'top',
                          url: '/ajax/call/arkeogis/databases',
                	         serverSort: true,
 	                 showHeader: true,
@@ -138,6 +127,9 @@
 	                autoSectionToggle:false,
 	                */
                 });
+                        datagrid.addEvent('click', function(evt) {
+                            alert(evt.target.getDataByRow(evt.row).id);
+                        });
 	});
 
 </script>{/literal}

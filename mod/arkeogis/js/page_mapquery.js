@@ -571,13 +571,14 @@ function show_menu(show) {
 		}
 }
 
-function show_sheet(siteId) {
+function show_sheet(id, type) {
+	var func =(!type || type == 'site') ? 'showsitesheet' : 'showdatabasesheet';
 	modalWin = new Modal.Base(document.body, {
-		header: "Fiche site",
-		body: "Chargement..."
+		header: ch_t(''),
+		body: ch_t('Loading')
 	});
 	new Request.JSON({
-		'url': '/ajax/call/arkeogis/showsitesheet',
+		'url': '/ajax/call/arkeogis/'+func,
 			onRequest: function() {
 			},
 		onSuccess: function(res) {
@@ -586,7 +587,7 @@ function show_sheet(siteId) {
 		onFailure: function() {
 			modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
 		}
-	}).post({id: siteId});
+	}).post({id: id});
 }
 
 function clearMarkers() {

@@ -3,6 +3,7 @@ ALTER TABLE public.ark_database ADD COLUMN da_lines INTEGER;
 ALTER TABLE public.ark_database ADD COLUMN da_sites INTEGER;
 ALTER TABLE public.ark_database ADD COLUMN da_period_start INTEGER;
 ALTER TABLE public.ark_database ADD COLUMN da_period_end INTEGER;
+ALTER TABLE public.ark_database ADD COLUMN da_published BOOLEAN DEFAULT true;
 
 CREATE SEQUENCE ark_database_log_dl_id_seq;
 
