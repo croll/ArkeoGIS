@@ -208,4 +208,45 @@ class Ajax {
 	}
 
 
+  public static function databases($params) {
+    if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
+
+    $l = \mod\lang\Main::getCurrentLang();
+    $lang = ($l == 'fr_fr') ? 'fr' : 'de';
+    $langext = ($l == 'fr_fr') ? '' : '_de';
+
+    $pagination = false;
+    if ( isset($_REQUEST["page"]) ) {
+      $pagination = true;
+      $page = intval($_REQUEST["page"]);
+      $perpage = intval($_REQUEST["perpage"]);
+    }
+
+    // this variables Omnigrid will send only if serverSort option is true
+    $sorton = isset($_REQUEST["sorton"]) ? $_REQUEST["sorton"] : '';
+    $sortby = isset($_REQUEST["sortby"]) ? $_REQUEST["sortby"] : '';
+
+    if (!in_array($sorton, array('login','full_name','email','structure','databases','groups'))) $sorton='login';
+    if (!in_array($sortby, array('ASC', 'DESC'))) $sortby='ASC';
+
+    $n = ( $page -1 ) * $perpage;
+
+    $q='SELECT count(u.uid) FROM "ch_user" u
+        LEFT JOIN ark_userinfos ui ON u.uid=ui.uid';
+    $total = \core\Core::$db->fetchOne($q, []);
+
+    $limit = "";
+
+    if ( $pagination )
+      $limit = "OFFSET $n LIMIT $perpage";
+
+    $q='SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, u.full_name as author, da_type as type, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_start) as period_start, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_end) as period_end, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit'.$langext.' FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid ORDER BY '.$sorton.' '.$sortby.' '.$limit;
+
+    $ret = \core\Core::$db->fetchAll($q, []);
+
+    $ret = array("page"=>$page, "total"=>$total, "data"=>$ret);
+
+    return $ret;
+  }
+
 }

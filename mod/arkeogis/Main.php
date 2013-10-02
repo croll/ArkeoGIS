@@ -321,7 +321,6 @@ class Main {
 
 
 	  public static function hook_mod_arkeogis_databases($hookname, $userdata, $matches) {
-	echo "ici";
 
 	    if (!\mod\user\Main::userIsLoggedIn()) {
 	    	return false;
