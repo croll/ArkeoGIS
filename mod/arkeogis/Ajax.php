@@ -230,8 +230,7 @@ class Ajax {
     if (!in_array($sortby, array('ASC', 'DESC'))) $sortby='ASC';
     $n = ( $page -1 ) * $perpage;
 
-    $q='SELECT count(u.uid) FROM "ch_user" u
-        LEFT JOIN ark_userinfos ui ON u.uid=ui.uid';
+    $q='SELECT count(1) FROM "ark_database"';
     $total = \core\Core::$db->fetchOne($q, []);
 
     $limit = "";

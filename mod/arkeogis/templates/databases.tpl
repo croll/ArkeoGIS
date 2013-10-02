@@ -83,7 +83,7 @@
                                         header: ch_t('arkeogis', 'Scale'),
                                         dataIndex: "scale_resolution",
                                         dataType: "string",
-                                        width: 50
+                                        width: 80
                                  },
                                  {
                                         header: ch_t('arkeogis', 'Geographical limit'),
@@ -95,7 +95,7 @@
                                         header: ch_t('arkeogis', 'description'),
                                         dataIndex: "description",
                                         dataType: "string",
-                                        width: 250 
+                                        width: 220 
                                  },
                                  {                                 
                                         header: '&nbsp;',
