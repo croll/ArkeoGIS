@@ -72,7 +72,10 @@ class Main {
   }
 
   public static function hook_mod_user_update_post($hookname, $userdata, $uid) {
-    \core\Core::$db->query('UPDATE "ark_userinfos" SET "structure"=? WHERE "uid"=?', array($_REQUEST['structure'], (int)$uid));
+    if (\core\Core::$db->fetchOne('SELECT COUNT(*) FROM "ark_userinfos" WHERE "uid" = ?', array((int)$uid)) > 0)
+      \core\Core::$db->query('UPDATE "ark_userinfos" SET "structure"=? WHERE "uid"=?', array($_REQUEST['structure'], (int)$uid));
+    else
+      \core\Core::$db->query('INSERT INTO "ark_userinfos" ("uid", "structure") VALUES (?, ?)', array((int)$uid, $_REQUEST['structure']));
   }
 
   public static function hook_mod_user_delete_pre($hookname, $userdata, $uid) {
