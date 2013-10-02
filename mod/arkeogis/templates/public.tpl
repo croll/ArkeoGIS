@@ -112,7 +112,7 @@
 				<div class="container">
 					<div class="nav-collapse">
 						<ul class="nav pull-right">
-							<li style="margin:11px 12px 0px 0px;font-weight: bold;color : #999; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);">ArkeoGIS 2012</li>
+							<li style="margin:11px 12px 0px 0px;font-weight: bold;color : #999; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);">ArkeoGIS {$smarty.now|date_format:"%Y"}</li>
 							<li><a href="/page/mentions_legales">{t d='arkeogis' m='Mentions légales'}</a></li>
 							<li><a href="/contact">{t d='arkeogis' m='Contact'}</a></li>
 						</ul>
