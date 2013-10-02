@@ -22,3 +22,6 @@ ALTER TABLE ONLY ark_database_log
 ALTER TABLE public.ark_database_log OWNER TO captainhook;
 
 CREATE TABLE "ark_userinfos" ("uid" int NOT NULL, "structure" varchar(255));
+
+INSERT INTO ch_regroute (regexp, hook, flags) VALUES ('#^/databases/?$#', 'mod_arkeogis_databases', 1);
+INSERT INTO ch_hook (name, mid, callback, position) VALUES ('mod_arkeogis_databases', 40, '\mod\arkeogis\Main::hook_mod_arkeogis_databases',0);
