@@ -51,7 +51,7 @@
                                  },
                                  {
                                         header: ch_t('arkeogis', "Last update"),
-                                        dataIndex: "declared_modification",
+                                        dataIndex: "declared_modification_str",
                                         dataType: "string",
                                         width: 80
                                  },
@@ -99,7 +99,7 @@
                                  },
                                  {                                 
                                         header: '&nbsp;',
-                                        dataIndex: "status",
+                                        dataIndex: "published_str",
                                         dataType: "string",
                                         width: 24 
                                  }

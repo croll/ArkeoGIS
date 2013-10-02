@@ -212,8 +212,8 @@ class Ajax {
     if (!\mod\user\Main::userIsLoggedIn()) return "not logged";
 
     $l = \mod\lang\Main::getCurrentLang();
-    $lang = ($l == 'fr_fr') ? 'fr' : 'de';
-    $langext = ($l == 'fr_fr') ? '' : '_de';
+    $lang = ($l == 'fr_FR') ? 'fr' : 'de';
+    $langext = ($l == 'fr_FR') ? '' : '_de';
 
     $pagination = false;
     if ( isset($_REQUEST["page"]) ) {
@@ -226,7 +226,10 @@ class Ajax {
     $sorton = isset($_REQUEST["sorton"]) ? $_REQUEST["sorton"] : '';
     $sortby = isset($_REQUEST["sortby"]) ? $_REQUEST["sortby"] : '';
 
-    if (!in_array($sorton, array('full_name','email','structure','databases','groups'))) $sorton='issn';
+    if ($sorton == 'declared_modification_str') $sorton = 'declared_modification';
+    if ($sorton == 'published_str') $sorton = 'published';
+    error_log($sorton);
+    if (!in_array($sorton, array('issn','name','author','type','declared_modification', 'lines', 'sites', 'period_start', 'period_end', 'scale_resolution', 'status'))) $sorton='issn';
     if (!in_array($sortby, array('ASC', 'DESC'))) $sortby='ASC';
     $n = ( $page -1 ) * $perpage;
 
@@ -238,14 +241,14 @@ class Ajax {
     if ( $pagination )
       $limit = "OFFSET $n LIMIT $perpage";
 
-    $q='SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, u.full_name as author, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification, da_lines as lines, da_sites as sites, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_start) as period_start, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_end) as period_end, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit'.$langext.', da_published as published FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid ORDER BY '.$sorton.' '.$sortby.' '.$limit;
+    $q='SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, u.full_name as author, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_start) as period_start, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_end) as period_end, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit'.$langext.', da_published as published FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid ORDER BY '.$sorton.' '.$sortby.' '.$limit;
 
     $ret = \core\Core::$db->fetchAll($q, []);
     $outp = array();
     foreach($ret as $r) {
         $r['type'] = \mod\lang\Main::ch_t('arkeogis', $r['type']);
-        $r['scale'] = \mod\lang\Main::ch_t('arkeogis', $r['scale']);
-        $r['status'] = ($r['published'] == 't') ? '<img src="/mod/arkeogis/img/status-ok.png" alt="" />' : '<img src="/mod/arkeogis/img/status-pending.png" alt="" />';;
+        $r['scale_resolution'] = \mod\lang\Main::ch_t('arkeogis', $r['scale_resolution']);
+        $r['published_str'] = ($r['published'] == 't') ? '<img src="/mod/arkeogis/img/status-ok.png" alt="" />' : '<img src="/mod/arkeogis/img/status-pending.png" alt="" />';;
         array_push($outp, $r);
     }
 
