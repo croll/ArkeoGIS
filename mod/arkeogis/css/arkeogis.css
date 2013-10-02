@@ -45,15 +45,21 @@ html[xmlns] .clearfix {
 .omnigrid div.pDiv input {
         height: 10px !important;
         top: -5px !important;
+        width: 30px;
 }
 
 .omnigrid div.pDiv select {
         height: 21px !important;
         top: -5px !important;
+        width: 50px;
 }
 
 .omnigrid div.pReload  {
         display: none;
+}
+
+.omnigrid div.blah  {
+        color: black;
 }
 
 

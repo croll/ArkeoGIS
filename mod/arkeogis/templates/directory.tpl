@@ -64,7 +64,7 @@
                          ],
                          width: 1199,
                          //height: 0,
-                         perPageOptions: [10,25,50,ch_t('arkeogis', 'all')],
+                         perPageOptions: [15,25,50,ch_t('arkeogis', 'all')],
                          perPage: 10,
                          page: 1,
                          pagination: true,
@@ -85,6 +85,36 @@
 	                autoSectionToggle:false,
 	                */
                 });
+
+                var rp;
+                var n;
+
+                rp=$$('select.rp')[0];
+                n=new Element("span", {
+                      TEXT: ch_t('arkeogis',"Number of lines per page :")+' ',
+                      class: 'blah',
+                });
+                rp.grab(n, 'before');
+
+                rp=$$('input.cpage')[0];
+                n=new Element("div", {
+                      class: 'blah',
+                      styles: { 'display': 'inline' },
+                      TEXT: ch_t('arkeogis', "Page :")+' '
+                });
+                rp.grab(n, 'before');
+
+                rp=$$('span.pPageStat')[0];
+                n=new Element("span", {
+                      TEXT: ' '+ch_t('arkeogis',"Users"),
+                      styles: { 'position': 'relative',
+                         'top': '5px',
+                      },
+                      class: 'blah'
+                });
+                rp.grab(n, 'after');
+
+
 	});
 
 </script>{/literal}
