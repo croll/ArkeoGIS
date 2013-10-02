@@ -35,25 +35,31 @@
                                         header: ch_t('arkeogis', "Full Name"),
                                         dataIndex: "full_name",
                                         dataType: "string",
-                                        width: 180
+                                        width: 166
+                                 },
+                                 {
+                                        header: ch_t('arkeogis', "Structure"),
+                                        dataIndex: "structure",
+                                        dataType: "string",
+                                        width: 150
                                  },
                                  {
                                         header: ch_t('arkeogis', "Email"),
                                         dataIndex: "email",
                                         dataType: "string",
-                                        width: 280
+                                        width: 230
                                  },
                                  {
                                         header: ch_t('arkeogis', "Groups"),
                                         dataIndex: "groups",
                                         dataType: "string",
-                                        width: 150
+                                        width: 120
                                  },
                                  {
                                         header: ch_t('arkeogis', 'Databases'),
                                         dataIndex: "databases",
                                         dataType: "string",
-                                        width: 432
+                                        width: 375
                                  }
                          ],
                          width: 1199,
