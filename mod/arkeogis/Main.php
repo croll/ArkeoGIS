@@ -90,12 +90,15 @@ class Main {
   }
 
   public static function hook_mod_arkeogis_directory($hookname, $userdata, $matches) {
-
+    global $lang;
     if (!\mod\user\Main::userIsLoggedIn()) {
     	return false;
 		}
     $page = new \mod\webpage\Main();
     $page->setLayout('arkeogis/directory');
+    // get lang
+    $lang=\mod\lang\Main::getCurrentLang();
+    $page->smarty->assign('lang', $lang);
     $page->display();
 	}
 
