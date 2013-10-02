@@ -52,6 +52,11 @@ html[xmlns] .clearfix {
         top: -5px !important;
 }
 
+.omnigrid div.pReload  {
+        display: none;
+}
+
+
 /*
  * Map
  */
