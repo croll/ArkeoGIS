@@ -8,7 +8,9 @@
 	{css file="/mod/cssjs/ext/omnigrid/Themes/default/omnigrid.css"}
 {/block}
 
+
 {block name='arkeogis_content'}
+<h2 style="margin-bottom: 10px">{t d='arkeogis' m="Directory"}</h2>
 <div class="directory-list">
 	{block name='directory_list'}
 

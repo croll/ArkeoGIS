@@ -9,6 +9,7 @@
 {/block}
 
 {block name='arkeogis_content'}
+<h2 style="margin-bottom: 10px">{t d='arkeogis' m="Index of databases"}</h2>
 <div class="directory-list">
 	{block name='directory_list'}
 
@@ -130,6 +131,38 @@
                         datagrid.addEvent('click', function(evt) {
                             alert(evt.target.getDataByRow(evt.row).id);
                         });
+
+                var rp;
+                var n;
+
+                rp=$$('select.rp')[0];
+                n=new Element("span", {
+                      TEXT: ch_t('arkeogis', "Number of lines per page :")+' ',
+                      class: 'blah',
+                      styles: { 'position': 'relative',
+                         'top': '-3px',
+                      }
+                });
+                rp.grab(n, 'before');
+
+                rp=$$('input.cpage')[0];
+                n=new Element("div", {
+                      class: 'blah',
+                      styles: { 'display': 'inline' },
+                      TEXT: ch_t('arkeogis', "Databases :")+' '
+                });
+                rp.grab(n, 'before');
+
+                rp=$$('span.pPageStat')[0];
+                n=new Element("span", {
+                      TEXT: ' '+ch_t('arkeogis', "Databases"),
+                      styles: { 'position': 'relative',
+                         'top': '2px',
+                      },
+                      class: 'blah'
+                });
+                rp.grab(n, 'after');
+
 	});
 
 </script>{/literal}
