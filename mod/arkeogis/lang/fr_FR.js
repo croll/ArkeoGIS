@@ -9,7 +9,6 @@
   "Allemand" : "Allemand",
   "Altitude" : "Altitude",
   "Archiver la requ\u00eate" : "Archiver la requ\u00eate",
-  "ArkeoGIS Directory list" : "Annuaire ArkeoGIS",
   "Au moins une caract\u00e9risation" : "Au moins une caract\u00e9risation",
   "Aucun r\u00e9sultat" : "Aucun r\u00e9sultat",
   "Auteur" : "Auteur",

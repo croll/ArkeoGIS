@@ -412,8 +412,8 @@ class DatabaseImport {
 
 		}
 		\core\Core::$db->exec('COMMIT');
-		$nbLines = self::$_lineNumber-$skipline-1;
-		self::_postProcess($filepath, $nbLines-self::$_siteErrors, $uid);
+		$nbLines = self::$_lineNumber-$skipline;
+		self::_postProcess($filepath, $nbLines-sizeof(self::$_siteErrors), $uid);
 		return array("total" => $nbLines, "processed" => self::$_nbSites, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 //
