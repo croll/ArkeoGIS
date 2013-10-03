@@ -87,7 +87,7 @@
                                  },
                                  {
                                         header: ch_t('arkeogis', 'Geographical limit'),
-                                        dataIndex: "geo_limit",
+                                        dataIndex: "geographical_limit",
                                         dataType: "string",
                                         width: 120 
                                  },
