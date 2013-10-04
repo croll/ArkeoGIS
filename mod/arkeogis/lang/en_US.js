@@ -1,11 +1,11 @@
 {
   "(exceptionals only)" : "(exceptionals only)",
   "ALL" : "ALL",
-  "Accueil" : "Accueil",
+  "Accueil" : "Home",
   "Afficher<br\/>la carte" : "Afficher<br\/>la carte",
   "Afficher<br\/>le tableur" : "Afficher<br\/>le tableur",
   "Aire de recherche" : false,
-  "Allemand" : "Allemand",
+  "Allemand" : "Deutsch",
   "Altitude" : "Altitude",
   "Archiver la requ\u00eate" : "Archiver la requ\u00eate",
   "ArkeoGIS Directory list" : "ArkeoGIS Directory list",
