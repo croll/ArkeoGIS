@@ -25,7 +25,7 @@
   "Cartes" : "Karten",
   "Centroid" : "Genauigk",
   "Centro\u00efde de la commune" : "Genauigk",
-  "Choix de l'aire de recherche" : "Choix de l'aire de recherche",
+  "Choix de l'aire de recherche" : "Bestimmung der Suchzone",
   "Choix de la base" : "Datenbank ausw\u00e4hlen",
   "Choix de la p\u00e9riode" : "Zeit ausw\u00e4hlen",
   "Choix immobilier" : "Befunde ausw\u00e4hlen",
