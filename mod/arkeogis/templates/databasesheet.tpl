@@ -3,10 +3,10 @@
 
 	<div class="geoinfos">
 		{if $infos.issn}
-		<div>{t d='arkeogis' m='Numéro ISSN'} : {$infos.issn}</div>
+		<div style="margin-bottom:10px">{t d='arkeogis' m='Numéro ISSN'} : {$infos.issn}</div>
 		{/if}
 		
-		<div style="margin-top:10px">{t d='arkeogis' m='Type de base'} : {$infos.type}</div>
+		<div>{t d='arkeogis' m='Type de base'} : {$infos.type}</div>
 	</div>
 
 	<div class="bluebackground">{t d='arkeogis' m='Nombre de sites'}</div>
