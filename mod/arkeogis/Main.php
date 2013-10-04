@@ -341,7 +341,6 @@ class Main {
 	     $file = \mod\arkeogis\ArkeoGIS::getLastImportFile($dbId);
 	     if (!$file) return false;
 	   	$name = \core\Tools::removeAccents(\mod\arkeogis\ArkeoGIS::getDatabaseName($dbId));
-	   	\core\Core::log($name);
 	     	header("Cache-Control: no-cache, must-revalidate");
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		header("Content-Type: text/csv");
