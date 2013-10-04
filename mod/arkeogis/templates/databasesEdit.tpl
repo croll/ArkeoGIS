@@ -1,5 +1,4 @@
 <form id="databaseEditForm">
-{$infos|print_r}
 <table class="databaseedit">
 		<tr>
 			<td>
