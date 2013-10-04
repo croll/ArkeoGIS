@@ -51,7 +51,7 @@
 		</div>
 		{/if}
 
-		{if $infos.scale}
+		{if $infos.scale_resolution}
 		<div class="title">{t d='arkeogis' m='Echelle'}</div>
 		<div class="blockcharac">
 			<div class="charac">{$infos.scale_resolution}</div>
