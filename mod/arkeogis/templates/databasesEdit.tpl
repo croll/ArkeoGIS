@@ -1,4 +1,4 @@
-<form id="databaseEditForm">
+<form id="databaseEditForm" style="margin:0!important">
 <table class="databaseedit">
 		<tr>
 			<td>
@@ -6,7 +6,6 @@
 					<label class="control-label">{t d='arkeogis' m="Dernière mise à jour"}</label>
 					<div class="controls">
 						<input name="declared_modification" id="declared_modification" type="text" value="{$infos.declared_modification_str}" readonly />
-						<p class="help-block">{t d='arkeogis' m="Date de la dernière mise à jour de la base ou du dernier export (base inventaire)"}</p>	
 					</div>
 				</div>
 			</td>
@@ -16,7 +15,6 @@
 					<div class="controls">
 						<input name="issn" type="text" value="{$infos.issn}"></div>
 					</div>
-					<p class="help-block">&nbsp;</p>
 				</div>
 			</td>
 		</tr>
@@ -48,8 +46,6 @@
 				</div>	
 			</td>
 		</tr>
-		<tr>
-			<td colspan="2"><hr /></td>
 		</tr>
 		<tr>
 			<td>
