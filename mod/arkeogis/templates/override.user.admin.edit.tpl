@@ -24,7 +24,9 @@
 			<div class="clearfix"><label for="full_name"><span>{t d='user' m='User full name'}:</span></label><input class="xlarge" title="full_name" type="text" name="full_name" value="{$user.full_name}" ></div>
 			<div class="clearfix"><label for="structure"><span>{t d='arkeogis' m='Structure'}:</span></label><input class="xlarge" title="structure" type="text" name="structure" value="{$user.mod.arkeogis.structure}" ></div>
 			<div class="clearfix"><label for="email"><span>{t d='user' m='User email'}:</span></label><input class="xlarge" title="email" type="text" name="email" value="{$user.email}" ></div>
-			<div class="clearfix"><label for="password"><span>{t d='user' m='User password'}:</span>{t d='user' m='(caractères autorisés lettres minuscules et majuscules, chiffres, _ et ! )'}</label><input class="xlarge" title="password" type="text" name="password" value="" ></div>
+			<div class="clearfix"><label
+			for="password"><span>{t d='user' m='User password'}:</span> {t d='user' m='(caractères autorisés lettres minuscules et majuscules, chiffres, _ et !)'}
+                        <div style='font-size: 9px'>{t d='user' m='(Les mots de passe forts contiennent de 7 à 16 caractères, ne comportent pas de mots ni de noms courants, et associent majuscules, minuscules, chiffres et symboles (_ .).'}</div></label><input class="xlarge" title="password" type="text" name="password" value="" ></div>
 			<div class="clearfix"><label for="pass2"><span>{t d='user' m='Repeat password'}:</span></label><input class="xlarge" title="pass2" type="text" name="pass2" value="" ></div>
 			<div class="clearfix"><label for="active"><span>{t d='user' m='User is active'}:</span><input onclick="var c=this.get('value'); if (c==0) this.set('value', 1); else this.set('value', 0);" class="checkbox" title="active" type="checkbox" name="active" {if $user.status == 1} checked ="checked" {/if} value="{$user.status}" ></label></div>
 
