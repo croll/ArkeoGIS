@@ -315,6 +315,9 @@ class Ajax {
      if (isset($dbParams['published'])) {
        $dbParams['published'] = ($dbParams['published'] == 0) ? 'f' : 't'; 
      } 
+     if (!\mod\user\Main::userBelongsToGroup('Admin')) {
+        unset($dbParams['published']);
+     }
      \mod\arkeogis\ArkeoGIS::updateDatabase((int)$params['id'], $dbParams);
      return true;
   }
