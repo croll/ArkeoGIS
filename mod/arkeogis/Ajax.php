@@ -248,7 +248,9 @@ class Ajax {
     $outp = array();
     foreach($ret as $r) {
         $r['type'] = \mod\lang\Main::ch_t('arkeogis', $r['type']);
-        $r['scale_resolution'] = \mod\lang\Main::ch_t('arkeogis', $scaleTranslations[$r['scale_resolution']]);
+        if (isset($scaleTranslations[$r['scale_resolution']])) {
+          $r['scale_resolution'] = \mod\lang\Main::ch_t('arkeogis', $scaleTranslations[$r['scale_resolution']]);
+        }
         $r['published_str'] = ($r['published'] == 't') ? '<img src="/mod/arkeogis/img/status-ok.png" alt="" />' : '<img src="/mod/arkeogis/img/status-pending.png" alt="" />';;
         array_push($outp, $r);
     }
@@ -264,7 +266,9 @@ class Ajax {
     $databaseInfos = array();
     $ret = ArkeoGIS::getDatabaseInfos((int)$params['id']);
     $ret[0]['type'] = \mod\lang\Main::ch_t('arkeogis', $ret[0]['type']);
-    $ret[0]['scale_resolution'] = \mod\lang\Main::ch_t('arkeogis', $scaleTranslations[$ret[0]['scale_resolution']]);
+    if (isset($scaleTranslations[$ret[0]['scale_resolution']])) {
+      $ret[0]['scale_resolution'] = \mod\lang\Main::ch_t('arkeogis', $scaleTranslations[$ret[0]['scale_resolution']]);
+    }
     $smarty = \mod\smarty\Main::newSmarty();
     $smarty->assign('infos', $ret[0]);
     $response = array('title' => $ret[0]['name'], 'content' => $smarty->fetch('arkeogis/databasesheet'), 'footer' => '');
@@ -274,23 +278,45 @@ class Ajax {
     if (\mod\user\Main::userBelongsToGroup('Admin')) {
         $response['footer'] .= '<input type="button" class="btn btn-danger" value="'.\mod\lang\Main::ch_t('arkeogis', 'Supprimer').'" onclick="if(confirm(\''.\mod\lang\Main::ch_t('arkeogis', 'Êtes vous sûr de vouloir supprimer cette base ?').'\')) {deleteDatabase('.$ret[0]['id'].');}" />';
     }
+    $response['footer'] .= '<input type="button" class="btn" value="'.\mod\lang\Main::ch_t('arkeogis', 'Fermer').'" onclick="modalWin.hide()" />';
     return $response;
   }
 
   public static function showEditDatabase($params) {
-     if (!\mod\user\Main::userIsLoggedIn() || !\mod\user\Main::userBelongsToGroup('Admin') || !\mod\arkeogis\ArkeoGIS::isDatabaseOwner((int)$params['id'], \mod\user\Main::getUserId($_SESSION['login'])) || !$params['id']) {
+     if (!\mod\user\Main::userIsLoggedIn() || (!\mod\user\Main::userBelongsToGroup('Admin') && !\mod\arkeogis\ArkeoGIS::isDatabaseOwner((int)$params['id'], \mod\user\Main::getUserId($_SESSION['login'])) || !$params['id'])) {
         return false;
      }
      $scaleTranslations = array('site' => 'Site', 'watershed' => 'Bassin versant', 'micro-region' => 'Micro-région', 'region' => 'Région', 'country' => 'Pays', 'europe' => 'Europe');
      $databaseInfos = array();
-     $ret = ArkeoGIS::getDatabaseInfos((int)$params['id']);
-     $ret[0]['type'] = \mod\lang\Main::ch_t('arkeogis', $ret[0]['type']);
-     $ret[0]['scale_resolution'] = \mod\lang\Main::ch_t('arkeogis', $scaleTranslations[$ret[0]['scale_resolution']]);
+     $ret = ArkeoGIS::getFullDatabaseInfos((int)$params['id']);
      $smarty = \mod\smarty\Main::newSmarty();
+     $ret[0]['published'] = ($ret[0]['published']) ? 1 : 0;
      $smarty->assign('infos', $ret[0]);
-     $response = array('title' => $ret[0]['name'], 'content' => $smarty->fetch('arkeogis/datatabasesEdit'));
-     $response['footer'] .= '<input type="button" class="btn btn-primary" value="'.\mod\lang\Main::ch_t('arkeogis', 'Modifier').'" onclick="editDatabase('.$ret[0]['id'].')" />';
+     $response = array('title' => \mod\lang\Main::ch_t('arkeogis', 'Edition of the base').' '.$ret[0]['name'], 'content' => $smarty->fetch('arkeogis/databasesEdit'));
+     $response['footer'] = '<input type="button" class="btn btn-primary" value="'.\mod\lang\Main::ch_t('arkeogis', 'Modifier').'" onclick="editDatabase('.$ret[0]['id'].')" />';
+     $response['footer'] .= '<input type="button" class="btn" value="'.\mod\lang\Main::ch_t('arkeogis', 'Fermer').'" onclick="modalWin.hide()" />';
      return $response;
+  }
+
+  public static function editDatabase($params) {
+     if (!\mod\user\Main::userIsLoggedIn() || (!\mod\user\Main::userBelongsToGroup('Admin') && !\mod\arkeogis\ArkeoGIS::isDatabaseOwner((int)$params['id'], \mod\user\Main::getUserId($_SESSION['login'])) || !$params['id'])) {
+        return false;
+     }
+     $acceptedParams = array('declared_modification', 'issn', 'scale_resolution', 'type', 'geographical_limit', 'geographical_limit_de', 'description', 'description_de', 'published');
+     $dbParans = array();
+     while(list($k, $v) = each($params)) {
+       if (in_array($k, $acceptedParams)) {
+          $dbParams[$k] = \core\Tools::cleanString($v);
+       }
+     }
+     if (isset($dbParams['declared_modification']) && empty($dbParams['declared_modification'])) {
+        unset($dbParams['declared_modification']);
+     }
+     if (isset($dbParams['published'])) {
+       $dbParams['published'] = ($dbParams['published'] == 0) ? 'f' : 't'; 
+     } 
+     \mod\arkeogis\ArkeoGIS::updateDatabase((int)$params['id'], $dbParams);
+     return true;
   }
 
   public static function deleteDatabase($params) {

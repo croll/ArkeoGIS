@@ -1,15 +1,18 @@
 {extends tplextends('arkeogis/layout')}
 {block name='webpage_head' append}
+    {js file="/mod/arkeogis/ext/MooDatePicker/js/MooDatePicker.js"}
+    {css file="/mod/arkeogis/ext/MooDatePicker/css/MooDatePicker.css"} 
     {css file="/mod/cssjs/css/Modal.css"}
-	{css file="/mod/cssjs/css/message.css"}
-	{js file="/mod/cssjs/js/messageclass.js"}
-	{js file="/mod/cssjs/js/message.js"}
-	{js file="/mod/cssjs/js/Modal.js"}
-        {js file="/mod/cssjs/ext/omnigrid/Source/omnigrid.js"}
-	{css file="/mod/cssjs/ext/omnigrid/Themes/default/omnigrid.css"}
+    {css file="/mod/cssjs/css/message.css"}
+    {js file="/mod/cssjs/js/messageclass.js"}
+    {js file="/mod/cssjs/js/message.js"}
+    {js file="/mod/cssjs/js/Modal.js"}
+    {js file="/mod/cssjs/ext/omnigrid/Source/omnigrid.js"}
+    {css file="/mod/cssjs/ext/omnigrid/Themes/default/omnigrid.css"}
 {/block}
 
 {block name='arkeogis_content'}
+
 <h2 style="margin-bottom: 10px">{t d='arkeogis' m="Index of databases"}</h2>
 <div class="directory-list">
 	{block name='directory_list'}
@@ -170,7 +173,16 @@
                     new Request.JSON({
                          'url': '/ajax/call/arkeogis/showEditDatabase',
                          onSuccess: function(res) {
+                            if ($('databaseEditForm')) {
+                                $('databaseEditForm').reset();
+                                $('databaseEditForm').destroy();
+                            }
                             modalWin.setTitle(res.title).setBody(res.content).setFooter(res.footer);
+                            var myMooDatePicker = new MooDatePicker(document.getElement('input[name=declared_modification]'), {
+                                onPick: function(date){
+                                     this.element.set('value', date.format('%e/%m/%Y'));
+                                 }
+                            });
                          },
                          onFailure: function() {
                             modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
@@ -179,16 +191,23 @@
              }
 
               function editDatabase(id) {
-                    new Request.JSON({
+                  var values = $('databaseEditForm').toQueryString().parseQueryString();
+                  values.id = id;
+                  new Request.JSON({
                          'url': '/ajax/call/arkeogis/editDatabase',
                          onSuccess: function(res) {
-                            modalWin.hide();
-                            CaptainHook.Message.show(ch_t('arkeogis', 'Database informations updated.'));
+                          if (res == true) {
+                                datagrid.refresh();
+                                modalWin.hide();
+                                CaptainHook.Message.show(ch_t('arkeogis', 'Database informations updated.'));
+                            } else {
+                                CaptainHook.Message.show(ch_t('arkeogis', 'Error updating database informations.'));
+                            }
                          },
                          onFailure: function() {
                             modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
                          }
-                    }).post({id: id});
+                    }).post(values);
              } 
 
               function deleteDatabase(id) {
@@ -196,7 +215,7 @@
                          'url': '/ajax/call/arkeogis/deleteDatabase',
                          onSuccess: function(res) {
                             if (res == true) {
-                                datagrid.deleteRow(datagrid.getSelectedIndices()[0]);
+                                datagrid.refresh();
                                 modalWin.hide();
                                 CaptainHook.Message.show(ch_t('arkeogis', 'Database deleted.'));
                             } else {

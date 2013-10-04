@@ -342,7 +342,7 @@ class ArkeoGIS {
 		return \core\Core::$db->exec($q, array($dbId, $uid, $csvFile));
 	}
 
-	public static function getDatabaseInfos($dbId, $l) {
+	public static function getDatabaseInfos($dbId) {
 		$l = \mod\lang\Main::getCurrentLang();
     		$lang = ($l == 'fr_FR') ? 'fr' : 'de';
   		$langext = ($l == 'fr_FR') ? '' : '_de';
@@ -350,6 +350,12 @@ class ArkeoGIS {
 		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description'.$langext.' as description, u.full_name as author, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_start) as period_start, (SELECT pe_name_'.$lang.' FROM ark_period WHERE pe_id = da_period_end) as period_end, da_scale_resolution as scale_resolution, da_geographical_limit'.$langext.' as geographical_limit, da_published as published FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid WHERE da_id = ?';
 		return \core\Core::$db->fetchAll($q, array($dbId));
 	}
+
+	public static function getFullDatabaseInfos($dbId) {
+		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, da_description_de as description_de, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit, da_geographical_limit_de as geographical_limit_de, da_published as published FROM ark_database WHERE da_id = ?';
+		return \core\Core::$db->fetchAll($q, array($dbId));
+	}     
+
 
 	public static function deleteDatabase($databaseId) {
 		\core\Core::$db->exec('DELETE FROM "ark_database" WHERE  da_id =?', array((int)$databaseId));

@@ -822,24 +822,36 @@ div.filtercontent .filter-minus {
 }
 
 
-/* Import */
-.import .help-block {
+/* Import and database edit */
+.import .help-block, .databaseedit .help-block{
   font-size: 11px;
 }
-.import #block-left {
-  width: 50%;
-  float: left;
-}
 
-.import #block-right {
-  width: 50%;
-  float: left;
-}
-
-.import textarea {
+.import textarea, .databaseedit textarea {
   width: 400px;
 }
 
-.import .form-actions {
+.import .form-actions, .databaseedit .form-actions {
   text-align: center;
+}
+
+.databaseedit {
+  margin-left: 5px;
+}
+
+.databaseedit .control-label {
+  font-weight: bold;
+}
+
+/* Modal */
+
+.modal-box {
+    max-width: 880px !important;
+}
+.modal-body {
+    max-height: 900px !important;
+}
+
+.modal-footer {
+  text-align: center !important;
 }

@@ -185,7 +185,8 @@ function show_sheet(id, type) {
 	var func =(!type || type == 'site') ? 'showsitesheet' : 'showdatabasesheet';
 	modalWin = new Modal.Base(document.body, {
 		header: ch_t(''),
-		body: ch_t('Loading')
+		body: ch_t('Loading'),
+		limitHeight: false
 	});
 	new Request.JSON({
 		'url': '/ajax/call/arkeogis/'+func,
