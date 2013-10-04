@@ -1,5 +1,5 @@
 <div id="sitesheet">
-	<div class="datesauthor"> {t d='arkeogis' m='Auteur'} : {$infos.author}  | {t d='arkeogis' m='Date de dernière mise à jour'} : {$infos.declared_modification_str} </div>
+	<div class="datesauthor"> {t d='arkeogis' m='Auteur'} : {$infos.author}  {if $infos.declared_modification_str}| {t d='arkeogis' m='Date de dernière mise à jour'} : {$infos.declared_modification_str}{/if} </div>
 
 	<div class="geoinfos">
 		{if $infos.issn}
