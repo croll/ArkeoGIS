@@ -41,6 +41,7 @@
 {/block}
 
 {block name='webpage_body'}
+       {$lang=\mod\lang\Main::getCurrentLang()}
 	<div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 950px;"{/if}>
 
         <!-- hack idle -->
