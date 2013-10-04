@@ -1,5 +1,6 @@
 {extends tplextends('arkeogis/layout')}
 {block name='webpage_head' append}
+    {css file="/mod/cssjs/css/Modal.css"}
 	{css file="/mod/cssjs/css/message.css"}
 	{js file="/mod/cssjs/js/messageclass.js"}
 	{js file="/mod/cssjs/js/message.js"}
@@ -129,7 +130,7 @@
 	                */
                 });
                         datagrid.addEvent('click', function(evt) {
-                            alert(evt.target.getDataByRow(evt.row).id);
+                            show_sheet(evt.target.getDataByRow(evt.row).id, 'database');
                         });
 
                 var rp;
@@ -149,7 +150,7 @@
                 n=new Element("div", {
                       class: 'blah',
                       styles: { 'display': 'inline' },
-                      TEXT: ch_t('arkeogis', "Databases :")+' '
+                      TEXT: ch_t('arkeogis', "Page :")+' '
                 });
                 rp.grab(n, 'before');
 
@@ -164,6 +165,50 @@
                 rp.grab(n, 'after');
 
 	});
+
+              function showEditDatabase(id) {
+                    new Request.JSON({
+                         'url': '/ajax/call/arkeogis/showEditDatabase',
+                         onSuccess: function(res) {
+                            modalWin.setTitle(res.title).setBody(res.content).setFooter(res.footer);
+                         },
+                         onFailure: function() {
+                            modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
+                         }
+                    }).post({id: id});
+             }
+
+              function editDatabase(id) {
+                    new Request.JSON({
+                         'url': '/ajax/call/arkeogis/editDatabase',
+                         onSuccess: function(res) {
+                            modalWin.hide();
+                            CaptainHook.Message.show(ch_t('arkeogis', 'Database informations updated.'));
+                         },
+                         onFailure: function() {
+                            modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
+                         }
+                    }).post({id: id});
+             } 
+
+              function deleteDatabase(id) {
+                    new Request.JSON({
+                         'url': '/ajax/call/arkeogis/deleteDatabase',
+                         onSuccess: function(res) {
+                            if (res == true) {
+                                datagrid.deleteRow(datagrid.getSelectedIndices()[0]);
+                                modalWin.hide();
+                                CaptainHook.Message.show(ch_t('arkeogis', 'Database deleted.'));
+                            } else {
+                                CaptainHook.Message.show(ch_t('arkeogis', 'Error deleting database.'));
+                            }
+                         },
+                         onFailure: function() {
+                            modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
+                         }
+                    }).post({id: id});
+             }
+
 
 </script>{/literal}
 {/block}
