@@ -207,7 +207,7 @@ class Main {
     }
   }
 
-  public static function hook_mod_arkeogis_export_sheet($hookname, $userdata, $urlmatches) {
+    public static function hook_mod_arkeogis_export_sheet($hookname, $userdata, $urlmatches) {
     if (!\mod\user\Main::userIsLoggedIn())
 			return self::hook_mod_arkeogis_public($hookname, $userdata);
 
@@ -333,4 +333,21 @@ class Main {
 	    $page->display();
 	}
 
+	  public static function mod_arkeogis_get_imported_file($hookname, $userdata, $matches) {
+	     $dbId = (int)$matches[1];
+	      if (!\mod\user\Main::userIsLoggedIn() || (!\mod\user\Main::userBelongsToGroup('Admin') && !\mod\arkeogis\ArkeoGIS::isDatabaseOwner($dbId, \mod\user\Main::getUserId($_SESSION['login'])) || !$dbId)) {
+	        return false;
+	     }
+	     $file = \mod\arkeogis\ArkeoGIS::getLastImportFile($dbId);
+	     if (!$file) return false;
+	   	$name = \core\Tools::removeAccents(\mod\arkeogis\ArkeoGIS::getDatabaseName($dbId));
+	   	\core\Core::log($name);
+	     	header("Cache-Control: no-cache, must-revalidate");
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+		header("Content-Type: text/csv");
+		header("Content-Disposition: attachment; filename=\"$name.csv\"");
+		\core\Core::log(dirname(__FILE__).'/files/import/'.$file);
+    		$fp = fopen('php://output', 'w');
+    		echo file_get_contents(dirname(__FILE__).'/files/import/'.$file);
+	  }
 }

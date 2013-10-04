@@ -320,6 +320,10 @@ class ArkeoGIS {
 		return \core\Core::$db->fetchOne('SELECT "da_id" FROM "ark_database" WHERE "da_name" = ?', (array)$dbName);
 	}
 
+	public static function getDatabaseName($dbId) {
+		return \core\Core::$db->fetchOne('SELECT "da_name" FROM "ark_database" WHERE "da_id" = ?', (array)$dbId);
+	}
+
 	public static function isDatabaseOwner($dbId, $userId) {
 		$uid = \core\Core::$db->fetchOne('SELECT "da_owner_id" FROM "ark_database" WHERE "da_id" = ? AND "da_owner_id" = ?', array($dbId, (int)$userId));
 		return (is_int($uid)) ? true : false;
@@ -357,8 +361,12 @@ class ArkeoGIS {
 	}     
 
 
-	public static function deleteDatabase($databaseId) {
-		\core\Core::$db->exec('DELETE FROM "ark_database" WHERE  da_id =?', array((int)$databaseId));
+	public static function deleteDatabase($dbId) {
+		\core\Core::$db->exec('DELETE FROM "ark_database" WHERE  da_id =?', array((int)$dbId));
+	}
+
+	public static function getLastImportFile($dbId) {
+		return \core\Core::$db->fetchOne('SELECT dl_csv_file FROM ark_database_log WHERE dl_database_id = ?', array((int)$dbId));
 	}
 
 	/* ************* */

@@ -228,6 +228,10 @@
                     }).post({id: id});
              }
 
+             function downloadLastImport(id) {
+                window.location.href='/get_imported_file/'+id;
+             }
+
 
 </script>{/literal}
 {/block}
