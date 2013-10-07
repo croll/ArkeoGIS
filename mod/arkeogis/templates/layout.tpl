@@ -59,13 +59,13 @@
             <div id='idlecount'></div></div>
           </div>
 
-		<div id="top_of_page">
-			<div id="arkeologo">
+		<div id="top_of_page" class="clearfix">
+			<div id="arkeologo" onclick="top.document.location.href='/'">
 			</div>
 			<div id="arkeospinner">
 				<img id="arkeospinnerimg" src="/mod/arkeogis/img/spinner.gif">
 			</div>
-			<div id="infos">
+			<div id="user_infos">
 				{\mod\user\Main::getUserFullName($smarty.session.login)}
 			</div>
 			<div class="clearfix"></div>
@@ -116,7 +116,7 @@
                 							<li><a  onclick="ch_setlang('de_DE');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}{if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
               							</ul>
             						</li>
-            						<li><a href="/logout">{t d='user' m='Logout'}</a></li>
+            						<li style="margin-right: -20px"><a href="/logout">{t d='user' m='Logout'}</a></li>
             						<li><a></a></li>
 						</ul>
 					</div>

@@ -13,7 +13,6 @@
 }
 
 .clearfix {
- /*	display: inline-block; */
 }
 
 html[xmlns] .clearfix {
@@ -74,6 +73,7 @@ html[xmlns] .clearfix {
 	height: 90px;
 	width: 100%;
 }
+
 #arkeogis_container .navbar .navbar-inner .container, #footer .navbar .navbar .container {
 	width: 100%;
 }
@@ -84,6 +84,7 @@ html[xmlns] .clearfix {
 	height: 56px;
 	margin: 22px 0 0 30px;
 	background-image: url("/mod/arkeogis/img/logo.png");
+       cursor: pointer;
 }
 
 #arkeospinner {
@@ -91,6 +92,16 @@ html[xmlns] .clearfix {
 	width: 56px;
 	height: 56px;
 	float: left;
+}
+
+
+#top_of_page #user_infos {
+   float: right;
+   width: 200px;
+   text-align: right;
+   padding: 65px 0 0 0;
+   margin-right:10px;
+   font-weight: bold;
 }
 
 #arkeospinnerimg {

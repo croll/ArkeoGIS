@@ -345,7 +345,6 @@ class Main {
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		header("Content-Type: text/csv");
 		header("Content-Disposition: attachment; filename=\"$name.csv\"");
-		\core\Core::log(dirname(__FILE__).'/files/import/'.$file);
     		$fp = fopen('php://output', 'w');
     		echo file_get_contents(dirname(__FILE__).'/files/import/'.$file);
 	  }
