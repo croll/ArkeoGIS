@@ -25,5 +25,8 @@ ALTER TABLE public.ark_database_log OWNER TO captainhook;
 CREATE TABLE "ark_userinfos" ("uid" int NOT NULL, "structure" varchar(255));
 ALTER TABLE public.ark_userinfos OWNER TO captainhook;
 
-INSERT INTO ch_regroute (regexp, hook, flags) VALUES ('#^/databases/?$#', 'mod_arkeogis_databases', 1);
-INSERT INTO ch_hook (name, mid, callback, position) VALUES ('mod_arkeogis_databases', 40, '\mod\arkeogis\Main::hook_mod_arkeogis_databases',0);
+INSERT INTO ch_regroute (id_module, regexp, hook, flags) VALUES ((SELECT mid FROM ch_module WHERE name='arkeogis'), '#^/databases/?$#', 'mod_arkeogis_databases', 1);
+INSERT INTO ch_hook (name, mid, callback, position) VALUES ('mod_arkeogis_databases', (SELECT mid FROM ch_module WHERE name='arkeogis'), '\mod\arkeogis\Main::hook_mod_arkeogis_databases',0);
+
+INSERT INTO ch_regroute (id_module, regexp, hook, flags) VALUES ((SELECT mid FROM ch_module WHERE name='arkeogis'), '#^/get_imported_file/([0-9]+)$#', 'mod_arkeogis_get_imported_file', 1);
+INSERT INTO ch_hook (name, mid, callback, position) VALUES ('mod_arkeogis_get_imported_file', (SELECT mid FROM ch_module WHERE name='arkeogis'), '\mod\arkeogis\Main::mod_arkeogis_get_imported_file',0);

@@ -5,7 +5,7 @@ namespace mod\arkeogis;
 class Main {
 
   public static function hook_mod_arkeogis_index($hookname, $userdata) {
-    if (\mod\user\Main::userIsLoggedIn()) {;
+    if (\mod\user\Main::userIsLoggedIn()) {
       $page = new \mod\webpage\Main();
       // get lang
       $lang=\mod\lang\Main::getCurrentLang();
@@ -13,6 +13,8 @@ class Main {
       $page->smarty->assign('canexport',
                             \mod\user\Main::userBelongsToGroup('Admin')
                             || \mod\user\Main::userBelongsToGroup('Chercheur'));
+      $infos = \mod\arkeogis\ArkeoGIS::getNumBasesAndSites();
+      $page->smarty->assign('infos', $infos);
       $page->setLayout('arkeogis/arkeogis');
       $page->display();
     } else {
@@ -27,6 +29,8 @@ class Main {
     $lang=\mod\lang\Main::getCurrentLang();
     $sysname = \mod\page\Main::getTranslated('accueil', $lang);
     $present = \mod\page\Main::getPageBySysname($sysname);
+    $infos = \mod\arkeogis\ArkeoGIS::getNumBasesAndSites();
+    $page->smarty->assign('infos', $infos);
     $page->smarty->assign('lang', $lang);
     $page->smarty->assign('present', $present);
     $page->setLayout('arkeogis/public');
@@ -51,6 +55,8 @@ class Main {
 			$tab = $matches[1];
     }
     $lang=\mod\lang\Main::getCurrentLang();
+    $infos = \mod\arkeogis\ArkeoGIS::getNumBasesAndSites();
+    $page->smarty->assign('infos', $infos);
     $page->smarty->assign('tab', $tab);
     $page->smarty->assign('lang', $lang);
     $page->setLayout('arkeogis/manuel');
@@ -109,7 +115,7 @@ class Main {
 
 		$menus=array();
 
-		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path, da_type, da_scale_resolution, da_description$dalang as description, da_geographical_limit$dalang as geographical_limit, da_declared_modification, full_name, da_sites, da_lines, da_issn, da_period_start, da_period_end FROM ark_database LEFT JOIN ch_user ON da_owner_id=uid ORDER BY da_type,da_name,id");
+		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path, da_type, da_scale_resolution, da_description$dalang as description, da_geographical_limit$dalang as geographical_limit, da_declared_modification, full_name, da_sites, da_lines, da_issn, da_period_start, da_period_end FROM ark_database LEFT JOIN ch_user ON da_owner_id=uid WHERE da_published = true ORDER BY da_type,da_name,id");
 
 		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, (pe_name_fr || '\n' || pe_name_de) as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 
@@ -207,7 +213,7 @@ class Main {
     }
   }
 
-  public static function hook_mod_arkeogis_export_sheet($hookname, $userdata, $urlmatches) {
+    public static function hook_mod_arkeogis_export_sheet($hookname, $userdata, $urlmatches) {
     if (!\mod\user\Main::userIsLoggedIn())
 			return self::hook_mod_arkeogis_public($hookname, $userdata);
 
@@ -333,4 +339,19 @@ class Main {
 	    $page->display();
 	}
 
+	  public static function mod_arkeogis_get_imported_file($hookname, $userdata, $matches) {
+	     $dbId = (int)$matches[1];
+	      if (!\mod\user\Main::userIsLoggedIn() || (!\mod\user\Main::userBelongsToGroup('Admin') && !\mod\arkeogis\ArkeoGIS::isDatabaseOwner($dbId, \mod\user\Main::getUserId($_SESSION['login'])) || !$dbId)) {
+	        return false;
+	     }
+	     $file = \mod\arkeogis\ArkeoGIS::getLastImportFile($dbId);
+	     if (!$file) return false;
+	   	$name = \core\Tools::removeAccents(\mod\arkeogis\ArkeoGIS::getDatabaseName($dbId));
+	     	header("Cache-Control: no-cache, must-revalidate");
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+		header("Content-Type: text/csv");
+		header("Content-Disposition: attachment; filename=\"$name.csv\"");
+    		$fp = fopen('php://output', 'w');
+    		echo file_get_contents(dirname(__FILE__).'/files/import/'.$file);
+	  }
 }

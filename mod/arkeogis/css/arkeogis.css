@@ -13,7 +13,6 @@
 }
 
 .clearfix {
- /*	display: inline-block; */
 }
 
 html[xmlns] .clearfix {
@@ -138,6 +137,7 @@ li.ui-tab span.text {
 	height: 90px;
 	width: 100%;
 }
+
 #arkeogis_container .navbar .navbar-inner .container, #footer .navbar .navbar .container {
 	width: 100%;
 }
@@ -148,6 +148,7 @@ li.ui-tab span.text {
 	height: 56px;
 	margin: 22px 0 0 30px;
 	background-image: url("/mod/arkeogis/img/logo.png");
+       cursor: pointer;
 }
 
 #arkeospinner {
@@ -155,6 +156,16 @@ li.ui-tab span.text {
 	width: 56px;
 	height: 56px;
 	float: left;
+}
+
+
+#top_of_page #user_infos {
+   float: right;
+   width: 400px;
+   text-align: right;
+   padding: 5px 0 0 0;
+   margin: 23px 0 20px 0;
+   font-size: 11px;
 }
 
 #arkeospinnerimg {
@@ -888,24 +899,36 @@ div.filtercontent .filter-minus {
 }
 
 
-/* Import */
-.import .help-block {
+/* Import and database edit */
+.import .help-block, .databaseedit .help-block{
   font-size: 11px;
 }
-.import #block-left {
-  width: 50%;
-  float: left;
-}
 
-.import #block-right {
-  width: 50%;
-  float: left;
-}
-
-.import textarea {
+.import textarea, .databaseedit textarea {
   width: 400px;
 }
 
-.import .form-actions {
+.import .form-actions, .databaseedit .form-actions {
   text-align: center;
+}
+
+.databaseedit {
+  margin-left: 5px;
+}
+
+.databaseedit .control-label {
+  font-weight: bold;
+}
+
+/* Modal */
+
+.modal-box {
+    max-width: 880px !important;
+}
+.modal-body {
+    max-height: 900px !important;
+}
+
+.modal-footer {
+  text-align: center !important;
 }

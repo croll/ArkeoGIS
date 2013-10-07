@@ -19,9 +19,17 @@
 
 {block name='webpage_body'}
 <div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 950px;"{/if}>
-	<div id="top_of_page">
-		<div id="arkeologo">
+	<div id="top_of_page" class="clearfix">
+		<div id="arkeologo" onclick="top.document.location.href='/'">
 		</div>
+		{if \mod\user\Main::userIsLoggedIn()}
+		<div id="user_infos">
+			{t d='arkeogis' m='Le'} {$smarty.now|date_format:"%d/%m/%Y "} {\mod\user\Main::getUserFullName($smarty.session.login)} {t d='arkeogis' m='peut consulter'}<br />
+			{$infos.nbBases} {t d='arkeogis' m='bases de données'}<br />
+			{$infos.nbSites} {t d='arkeogis' m='sites'}
+		</div>
+		{/if}
+		<div class="clearfix"></div>
 	</div>
 	<div class="navbar" id="navbar">
 		<div class="navbar-inner">
@@ -50,48 +58,43 @@
 							
 					</ul>
 					<ul class="nav pull-right">
-						
-						{if \mod\user\Main::userhasRight('Manage page') }
-						<li class="dropdown" id="li1" onclick="$('li1').toggleClass('open');">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='page' m='Page'}<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								{block name='page_menu' }
-									<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  {t d='page' m='List'}</a></li>
-									<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  {t d='page' m='Add'}</a></li>
-								{/block}
-							</ul>
-						</li>
-						{/if}
-						{if \mod\user\Main::userhasRight('Manage rights') }
-						<li class="dropdown" id="li2"  onclick="$('li2').toggleClass('open');">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">{t d='user' m="User"}<b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								{block name='user_menu' }
-									<li><a class="top-btn" href="/user/"><i class="icon-th-list glyph-white"></i>  {t d='user' m='Manage users'}</a></li>
-									<li><a class="top-btn" href="/useredit/0"><i class="icon-user glyph-white"></i>  {t d='user' m='Add user'}</a></li>
-								{/block}
-							</ul>
-						</li>
-						{/if}
-						<li class="dropdown" id="li3"  onclick="$('li3').toggleClass('open');">
-       							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
-       							<ul id="switchlang" class="dropdown-menu">
-
-								{if isset($page_name) }
-         							<li><a  onclick="ch_setlang('fr_FR', '/page/{\mod\page\Main::getTranslated($page_name, 'fr_FR')}');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
-               							<li><a  onclick="ch_setlang('de_DE', '/page/{\mod\page\Main::getTranslated($page_name, 'de_DE')}');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
-								{else}
-								<li><a  onclick="ch_setlang('fr_FR', '{$smarty.server.REQUEST_URI}');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}    {if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
-               							<li><a  onclick="ch_setlang('de_DE', '{$smarty.server.REQUEST_URI}');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}    {if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
-	
+            						{if \mod\user\Main::userIsLoggedIn()}
+							<li class="dropdown" id="li4" onclick="$('li4').toggleClass('open');">
+              							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/mod/arkeogis/img/settings.png" /><b class="caret"></b></a>
+              							<ul id="tools" class="dropdown-menu">	
+								<li><a href="/databases/">{t d='arkeogis' m='Index'}</a></li>
+								<li><a href="/directory/">{t d='arkeogis' m='Directory'}</a></li>
+              							{if \mod\user\Main::userhasRight('Manage personal database') || \mod\user\Main::userhasRight('Manage all databases')}
+									<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
 								{/if}
-       							</ul>
-       						</li>
-						{if \mod\user\Main::userIsLoggedIn()}
-           						<li><a href="/logout">{t d='arkeogis' m='Logout'}</a></li>
-						{else}
-           						<li><a href="/login">{t d='arkeogis' m='Login'}</a></li>
+								{if \mod\user\Main::userhasRight('Manage rights') }
+									{block name='user_menu' }
+										<li><a class="top-btn" href="/user/"><i class="icon-th-list glyph-white"></i>{t d='user' m='Manage users'}</a></li>
+										<li><a class="top-btn" href="/useredit/0"><i class="icon-user glyph-white"></i>{t d='user' m='Add user'}</a></li>
+									{/block}
+									{/if}
+									{if \mod\user\Main::userhasRight('Manage page') }
+									{block name='page_menu' }
+										<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  {t d='page' m='Manage pages'}</a></li>
+										<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  {t d='page' m='Add page'}</a></li>
+									{/block}	
+								{/if}
+              							</ul>
 						{/if}
+            						</li>
+							<li class="dropdown" id="li3" onclick="$('li3').toggleClass('open');">
+              							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="flag {$lang}"></i><b class="caret"></b></a>
+              							<ul id="switchlang" class="dropdown-menu">
+                							<li><a  onclick="ch_setlang('fr_FR');" href="#"><i class="flag fr_FR"></i>{t d='lang' m='French'}{if $lang == "fr_FR"}<i class="icon-ok"></i>{/if}</a></li>
+                							<li><a  onclick="ch_setlang('de_DE');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}{if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
+              							</ul>
+            						</li>
+            						{if \mod\user\Main::userIsLoggedIn()}
+            						           	<li style="margin-right: -20px"><a href="/logout">{t d='user' m='Logout'}</a></li>
+						{else}
+           							<li style="margin-right: -20px"><a href="/login">{t d='arkeogis' m='Login'}</a></li>
+						{/if}
+            						<li><a></a></li>
        		        		</ul>
 				</div>
 			</div>

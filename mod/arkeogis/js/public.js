@@ -178,3 +178,29 @@ function idlelogoutupdate() {
         if (window.hackidle == 0) window.location.href='/logout';
     }
 }
+
+
+var modalWin;
+function show_sheet(id, type) {
+	var func =(!type || type == 'site') ? 'showsitesheet' : 'showdatabasesheet';
+	modalWin = new Modal.Base(document.body, {
+		header: ch_t(''),
+		body: ch_t('Loading'),
+		limitHeight: false
+	});
+	new Request.JSON({
+		'url': '/ajax/call/arkeogis/'+func,
+			onRequest: function() {
+			},
+		onSuccess: function(res) {
+			modalWin.setTitle(res.title).setBody(res.content);
+			if (res.footer && res.footer != '') {
+				modalWin.setFooter(res.footer);
+			}
+			modalWin.show();
+		},
+		onFailure: function() {
+			modalWin.setTitle("Erreur").setBody("Aucun contenu, réessayez plus tard.").show();
+		}
+	}).post({id: id});
+}

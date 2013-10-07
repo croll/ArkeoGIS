@@ -59,14 +59,16 @@
             <div id='idlecount'></div></div>
           </div>
 
-		<div id="top_of_page">
-			<div id="arkeologo">
+		<div id="top_of_page" class="clearfix">
+			<div id="arkeologo" onclick="top.document.location.href='/'">
 			</div>
 			<div id="arkeospinner">
 				<img id="arkeospinnerimg" src="/mod/arkeogis/img/spinner.gif">
 			</div>
-			<div id="infos">
-				{\mod\user\Main::getUserFullName($smarty.session.login)}
+			<div id="user_infos">
+				{t d='arkeogis' m='Le'} {$smarty.now|date_format:"%d/%m/%Y "} {\mod\user\Main::getUserFullName($smarty.session.login)} {t d='arkeogis' m='peut consulter'}<br />
+				{$infos.nbBases} {t d='arkeogis' m='bases de données'}<br />
+				{$infos.nbSites} {t d='arkeogis' m='sites'}
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -84,7 +86,6 @@
 							<li><a href="/public">{t d='arkeogis' m='Accueil'}</a></li>
 							<li><a href="/">{t d='arkeogis' m='Carte'}</a></li>
 							<li><a href="/manuel/" target="_blank">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
-
 						</ul>
 						<ul class="nav pull-right">
 							<li class="dropdown" id="li4" onclick="$('li4').toggleClass('open');">
@@ -116,7 +117,7 @@
                 							<li><a  onclick="ch_setlang('de_DE');" href="#"><i class="flag de_DE"></i>{t d='lang' m='Deutsch'}{if $lang == "de_DE"}<i class="icon-ok"></i>{/if}</a></li>
               							</ul>
             						</li>
-            						<li><a href="/logout">{t d='user' m='Logout'}</a></li>
+            						<li style="margin-right: -20px"><a href="/logout">{t d='user' m='Logout'}</a></li>
             						<li><a></a></li>
 						</ul>
 					</div>
