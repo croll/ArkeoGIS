@@ -369,6 +369,16 @@ class ArkeoGIS {
 		return \core\Core::$db->fetchOne('SELECT dl_csv_file FROM ark_database_log WHERE dl_database_id = ?', array((int)$dbId));
 	}
 
+	public static function getNumBasesAndSites() {
+		$where = '';
+		if (!\mod\user\Main::userBelongsToGroup('Admin')) {
+     			$where = " WHERE da_published = 't'";
+     		}
+   		$nbBases = \core\Core::$db->fetchOne('SELECT COUNT(*) FROM "ark_database"'.$where);
+		$nbSites = \core\Core::$db->fetchOne('SELECT COUNT(*) FROM ark_site s LEFT JOIN ark_database d ON d.da_id=s.si_database_id '.$where);
+		return array('nbBases' => $nbBases, 'nbSites' => $nbSites);
+	}
+
 	/* ************* */
 	/*    Common   */
 	/* ************* */

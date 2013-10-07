@@ -24,7 +24,9 @@
 		</div>
 		{if \mod\user\Main::userIsLoggedIn()}
 		<div id="user_infos">
-			{\mod\user\Main::getUserFullName($smarty.session.login)}
+			{t d='arkeogis' m='Le'} {$smarty.now|date_format:"%d/%m/%Y "} {\mod\user\Main::getUserFullName($smarty.session.login)} {t d='arkeogis' m='peut consulter'}<br />
+			{$infos.nbBases} {t d='arkeogis' m='bases de données'}<br />
+			{$infos.nbSites} {t d='arkeogis' m='sites'}
 		</div>
 		{/if}
 		<div class="clearfix"></div>

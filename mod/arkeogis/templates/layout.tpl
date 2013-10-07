@@ -66,7 +66,9 @@
 				<img id="arkeospinnerimg" src="/mod/arkeogis/img/spinner.gif">
 			</div>
 			<div id="user_infos">
-				{\mod\user\Main::getUserFullName($smarty.session.login)}
+				{t d='arkeogis' m='Le'} {$smarty.now|date_format:"%d/%m/%Y "} {\mod\user\Main::getUserFullName($smarty.session.login)} {t d='arkeogis' m='peut consulter'}<br />
+				{$infos.nbBases} {t d='arkeogis' m='bases de données'}<br />
+				{$infos.nbSites} {t d='arkeogis' m='sites'}
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -84,7 +86,6 @@
 							<li><a href="/public">{t d='arkeogis' m='Accueil'}</a></li>
 							<li><a href="/">{t d='arkeogis' m='Carte'}</a></li>
 							<li><a href="/manuel/" target="_blank">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
-
 						</ul>
 						<ul class="nav pull-right">
 							<li class="dropdown" id="li4" onclick="$('li4').toggleClass('open');">

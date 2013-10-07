@@ -97,11 +97,11 @@ html[xmlns] .clearfix {
 
 #top_of_page #user_infos {
    float: right;
-   width: 200px;
+   width: 400px;
    text-align: right;
-   padding: 65px 0 0 0;
-   margin-right:10px;
-   font-weight: bold;
+   padding: 5px 0 0 0;
+   margin: 23px 0 20px 0;
+   font-size: 11px;
 }
 
 #arkeospinnerimg {
