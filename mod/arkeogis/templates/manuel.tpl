@@ -13,6 +13,7 @@
 		<li class="tab {if $tab eq 'mobiliers'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('mobiliers', $lang)}">{t d='arkeogis' m='Mobilier'}</a></li>
 		<li class="tab {if $tab eq 'productions'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('productions', $lang)}">{t d='arkeogis' m='Production'}</a></li>
 		<li class="tab {if $tab eq 'paysage'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('paysage', $lang)}">{t d='arkeogis' m='Paysage'}</a></li>
+		<li class="tab {if $tab eq 'index_et_annuaire'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('index_et_annuaire', $lang)}">{t d='arkeogis' m='Index et annuaire'}</a></li>
 		<li class="tab {if $tab eq 'faq'}active{/if}"><a class="primary" href="{\mod\page\Main::getTranslated('faq', $lang)}">{t d='arkeogis' m='FAQ'}</a></li>
 	</ul>
 	<div id="content" class="clearfix"></div>
