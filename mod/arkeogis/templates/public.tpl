@@ -19,7 +19,7 @@
 
 {block name='webpage_body'}
 <div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 950px;"{/if}>
-	<div id="top_of_page" class="clearfix">
+	<div id="top_of_page">
 		<div id="arkeologo" onclick="top.document.location.href='/'">
 		</div>
 		{if \mod\user\Main::userIsLoggedIn()}
@@ -31,6 +31,7 @@
 		{/if}
 		<div class="clearfix"></div>
 	</div>
+	<div class="clearfix"></div>
 	<div class="navbar" id="navbar">
 		<div class="navbar-inner">
 			<div class="container">

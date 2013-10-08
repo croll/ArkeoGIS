@@ -3,6 +3,26 @@
 		<tr>
 			<td>
 				<div class="control-group">
+				<label class="control-label">{t d='arkeogis' m="Nom de la base"}</label>
+					<div class="controls">
+						<input name="name" type="text" value="{$infos.name}" />
+					</div>
+				</div>
+			</td>
+			<td>
+				{if \mod\user\Main::userBelongsToGroup('Admin')}
+				<div class="control-group">
+				<label class="control-label">{t d='arkeogis' m="Base attribuée à"}</label>
+					<div class="controls">
+						<input name="author" id="author" type="text" value="{$infos.author}" onclick="this.value = ''" />
+					</div>
+				</div>
+				{/if}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="control-group">
 					<label class="control-label">{t d='arkeogis' m="Dernière mise à jour"}</label>
 					<div class="controls">
 						<input name="declared_modification" id="declared_modification" type="text" value="{$infos.declared_modification_str}" readonly />
@@ -72,7 +92,6 @@
 					<label class="control-label">{t d='arkeogis' m="Description de la base FR"}</label>
 					<div class="controls">
 						<textarea name="description" style="height: 120px">{$infos.description}</textarea>
-						<p class="help-block">{t d='arkeogis' m="Merci de présenter en quelques lignes votre base de données (dans la champ de saisie ci-dessus) en langue française."}</p>	
 					</div>
 				</div>
 			</td>
@@ -81,7 +100,6 @@
 					<label class="control-label">{t d='arkeogis' m="Description de la base DE"}</label>
 					<div class="controls">
 						<textarea name="description_de" style="height: 120px">{$infos.description_de}</textarea>
-						<p class="help-block">{t d='arkeogis' m="Merci de présenter en quelques lignes votre base de données (dans la champ de saisie ci-dessus) en langue allemande."}</p>	
 					</div>
 				</div>
 			</td>

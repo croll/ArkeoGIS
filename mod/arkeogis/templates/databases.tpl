@@ -2,6 +2,7 @@
 {block name='webpage_head' append}
     {js file="/mod/arkeogis/ext/MooDatePicker/js/MooDatePicker.js"}
     {css file="/mod/arkeogis/ext/MooDatePicker/css/MooDatePicker.css"} 
+    {css file="/mod/cssjs/ext/meioautocomplete/meioautocomplete.css"}
     {css file="/mod/cssjs/css/Modal.css"}
     {css file="/mod/cssjs/css/message.css"}
     {js file="/mod/cssjs/js/messageclass.js"}
@@ -9,6 +10,7 @@
     {js file="/mod/cssjs/js/Modal.js"}
     {js file="/mod/cssjs/ext/omnigrid/Source/omnigrid.js"}
     {css file="/mod/cssjs/ext/omnigrid/Themes/default/omnigrid.css"}
+    {js file="/mod/cssjs/ext/meioautocomplete/meioautocomplete.js"}
 {/block}
 
 {block name='arkeogis_content'}
@@ -182,6 +184,11 @@
                                 onPick: function(date){
                                      this.element.set('value', date.format('%e/%m/%Y'));
                                  }
+                            });
+                            var myAutocomplete = new Meio.Autocomplete($('author'), '/ajax/call/user/getUserListSimple', {
+                                    onNoItemToList: function(elements){
+                                        elements.field.node.highlight('#ff5858');
+                                    }
                             });
                          },
                          onFailure: function() {

@@ -59,7 +59,7 @@
             <div id='idlecount'></div></div>
           </div>
 
-		<div id="top_of_page" class="clearfix">
+		<div id="top_of_page">
 			<div id="arkeologo" onclick="top.document.location.href='/'">
 			</div>
 			<div id="arkeospinner">
@@ -72,6 +72,7 @@
 			</div>
 			<div class="clearfix"></div>
 		</div>
+		<div class="clearfix"></div>
 
 		<div class="navbar" id="navbar">
 			<div class="navbar-inner">

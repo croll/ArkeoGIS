@@ -356,10 +356,9 @@ class ArkeoGIS {
 	}
 
 	public static function getFullDatabaseInfos($dbId) {
-		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, da_description_de as description_de, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit, da_geographical_limit_de as geographical_limit_de, da_published as published FROM ark_database WHERE da_id = ?';
+		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, da_description_de as description_de, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit, da_geographical_limit_de as geographical_limit_de, da_published as published, da_owner_id as owner_id, u.full_name as author FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid WHERE da_id = ?';
 		return \core\Core::$db->fetchAll($q, array($dbId));
 	}     
-
 
 	public static function deleteDatabase($dbId) {
 		\core\Core::$db->exec('DELETE FROM "ark_database" WHERE  da_id =?', array((int)$dbId));

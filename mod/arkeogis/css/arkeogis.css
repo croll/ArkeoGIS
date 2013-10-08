@@ -94,7 +94,6 @@ html[xmlns] .clearfix {
 	float: left;
 }
 
-
 #top_of_page #user_infos {
    float: right;
    width: 400px;
@@ -834,6 +833,11 @@ div.filtercontent .filter-minus {
 
 
 /* Import and database edit */
+
+.databaseedit td:nth-child(2) {
+  padding-left:10px;
+}
+
 .import .help-block, .databaseedit .help-block{
   font-size: 11px;
 }
@@ -865,4 +869,15 @@ div.filtercontent .filter-minus {
 
 .modal-footer {
   text-align: center !important;
+}
+
+/* Autocomplete */
+
+.ma-container .ma-hover{
+  color: #000 !important;
+  background-color: #d9edf7 !important;
+}
+
+.ma-selected{
+  background-color: inherit !important;
 }

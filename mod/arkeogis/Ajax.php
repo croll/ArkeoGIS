@@ -308,7 +308,7 @@ class Ajax {
      if (!\mod\user\Main::userIsLoggedIn() || (!\mod\user\Main::userBelongsToGroup('Admin') && !\mod\arkeogis\ArkeoGIS::isDatabaseOwner((int)$params['id'], \mod\user\Main::getUserId($_SESSION['login'])) || !$params['id'])) {
         return false;
      }
-     $acceptedParams = array('declared_modification', 'issn', 'scale_resolution', 'type', 'geographical_limit', 'geographical_limit_de', 'description', 'description_de', 'published');
+     $acceptedParams = array('name', 'declared_modification', 'issn', 'scale_resolution', 'type', 'geographical_limit', 'geographical_limit_de', 'description', 'description_de', 'published');
      $dbParans = array();
      while(list($k, $v) = each($params)) {
        if (in_array($k, $acceptedParams)) {
@@ -324,6 +324,12 @@ class Ajax {
      if (!\mod\user\Main::userBelongsToGroup('Admin')) {
         unset($dbParams['published']);
      }
+
+      $owner_id = \core\Core::$db->fetchOne('SELECT uid FROM "ch_user" WHERE full_name = ?', array($params['author']));
+      if ($owner_id) {
+          $dbParams['owner_id'] = $owner_id;
+      }
+
      \mod\arkeogis\ArkeoGIS::updateDatabase((int)$params['id'], $dbParams);
      return true;
   }
@@ -335,6 +341,5 @@ class Ajax {
      \mod\arkeogis\ArkeoGIS::deleteDatabase($params['id']);
      return true;
   }
-
 
 }
