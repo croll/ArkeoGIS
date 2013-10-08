@@ -69,7 +69,7 @@ html[xmlns] .clearfix {
  * UI.tabs
  */
 #querys {
-    padding-top: 15px;
+    padding-top: 5px;
 }
 #querys .ui-tabs-panels {
         height: auto !important;
@@ -643,6 +643,11 @@ border-bottom-left-radius: 3px;
 /*
  * query-display
  */
+
+div.querys-header-title {
+  padding-top: 10px;
+  font-weight: bold;
+}
 
 div.query-filter {
  width: 100%;
