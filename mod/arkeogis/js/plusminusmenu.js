@@ -33,13 +33,19 @@ var PlusMinusMenu = new Class({
 	});
     },
 
+    addEventOnLeafs: function(a, b) {
+        this.content.each(function(el) {
+            el.addEventOnLeafs(a,b);
+        });
+    },
+
     inject: function(to_html_elem) {
 	var me=this;
 	me.html_element=new Element('div', {
 	    'class': 'pmmenu-popup'
 	});
 	me.html_element.inject($$('body')[0]);
-	
+
 	me.html_element.setStyles({
 	    left: (me.parent_item.parent_menu ? me.html_element.getStyle('left').toInt() : 0)
 		+ to_html_elem.getPosition().x
@@ -63,7 +69,7 @@ var PlusMinusMenu = new Class({
 	    'class': 'pmmenu-title-sub'
 	});
 	title_sub.inject(title);
-	
+
 	var tools=new Element('div', {
 	    'class': 'pmmenu-tools',
 	    text: ch_t('arkeogis', "Selection")
@@ -115,7 +121,7 @@ var PlusMinusMenu = new Class({
 	    item.close_submenu();
 	});
     },
-    
+
     isOpened: function() {
 	return this.html_element ? true : false;
     },
@@ -190,6 +196,14 @@ var PlusMinusItem = new Class({
 	    this.help.close();
     },
 
+    addEventOnLeafs: function(a, b) {
+        if (this.submenu) {
+            this.submenu.addEventOnLeafs(a, b);
+        } else {
+            this.addEvent(a,b);
+        }
+    },
+
     inject: function(to_html_elem) {
 	var me=this;
 	me.html_element=new Element('div', {
@@ -233,7 +247,7 @@ var PlusMinusItem = new Class({
 				me.back=null;
 			    }
 			});
-			
+
 			me.submenu.inject(to_html_elem);
 		    }
 		});
@@ -250,7 +264,7 @@ var PlusMinusItem = new Class({
 	    if (me.submenu && me.parent_menu) me.submenu.inject(to_html_elem);
 	    if (me.help) me.help.inject(to_html_elem);
 	});
-	
+
 	if (me.parent_menu) {
 	    me.html_element.addEvent('click', function() {
 		if (me.selected == '+') {
@@ -264,7 +278,7 @@ var PlusMinusItem = new Class({
 	}
 	me.drawSelection();
     },
-    
+
     drawSelection: function() {
 	var me=this;
 	if (!me.html_element) return;
@@ -375,19 +389,22 @@ var PlusMinusHelp = new Class({
     parent_item: null,
     options: {
     },
-    
+
     initialize: function(htmlcontent, options) {
 	this.setOptions(options);
 	this.htmlcontent = htmlcontent;
     },
-    
+
+    addEventOnLeafs: function(a, b) {
+    },
+
     inject: function(to_html_elem) {
 	var me=this;
 	me.html_element=new Element('div', {
 	    'class': 'pmmenu-help',
 	});
 	me.html_element.inject($$('body')[0]);
-	
+
 	me.html_element.setStyles({
 	    left: (me.parent_item.parent_menu ? me.html_element.getStyle('left').toInt() : 0)
 		+ to_html_elem.getPosition().x
@@ -411,7 +428,7 @@ var PlusMinusHelp = new Class({
 	    'class': 'pmmenu-title-sub'
 	});
 	title_sub.inject(title);
-	
+
 	var content=new Element('div', {
 	    'class': 'pmmenu-help-content',
 	    'html': me.htmlcontent
