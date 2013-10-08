@@ -103,7 +103,7 @@
 					 <tr class="menu_txtsearch">
 					   <td>
 					     <div id='menu_txtsearch' style='position: relative'>
-					       <input type='text' name='txtsearch' value='' placeholder='{t d="arkeogis" m="Saisir la recherche"}'/>
+					       <input type='text' id='txtsearch' name='txtsearch' value='' placeholder='{t d="arkeogis" m="Saisir la recherche"}'/>
 					     </div>
 					   </td>
 					   <td>
