@@ -6,6 +6,9 @@
 	{js file="/mod/cssjs/js/messageclass.js"}
 	{js file="/mod/cssjs/js/message.js"}
 	{js file="/pmmenus"}
+        <script>UI={}</script>
+	{js file="/mod/cssjs/ext/mootools_ui_tabs/UI.Tabs.js"}
+	{css file="/mod/cssjs/ext/mootools_ui_tabs/tabs.css"}
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/sheet.js"}
 	{js file="/mod/arkeogis/js/page_mapquery.js"}
@@ -72,7 +75,7 @@
 						  <option value='OR'>{t d='arkeogis' m="Au moins une caractérisation"} :</option>
 						  <option value='AND'>{t d='arkeogis' m="Toutes les caractérisations"} :</option>
 						 </select>
-						</td>						
+						</td>
 					 </tr>
 
 					 <tr class="menu_realestate">
@@ -100,7 +103,7 @@
 					 <tr class="menu_txtsearch">
 					   <td>
 					     <div id='menu_txtsearch' style='position: relative'>
-					       <input type='text' name='txtsearch' value='' placeholder='{t d="arkeogis" m="Saisir la recherche"}'/>
+					       <input type='text' id='txtsearch' name='txtsearch' value='' placeholder='{t d="arkeogis" m="Saisir la recherche"}'/>
 					     </div>
 					   </td>
 					   <td>
@@ -128,12 +131,12 @@
 	</div>
 
 	{* where the querys will be displayed *}
-	<div id='querys'></div>
+        <div class='querys-header-title'>{t d='arkeogis' m="Récapitulatif des requêtes :"}
+	<div id='querys' style="height: auto"></div>
 
 	{* model used to fill the displayed querys *}
 	<div id='query-display' class='query-display' style='display: none'>
                 <div class='query-header'>
-		  <div class='query-header-title'>{t d='arkeogis' m="Récapitulatif de la requête"} : <span class='query_num'>1</span></div>
                   <div class='query-header-save'>
 			<input id='input-save-query' class='input-save-query' type='text' value='' placeholder='{t d='arkeogis' m='Nom de la requête'}'/>
 			<button id='btn-save-query' style='display: none' class='btn btn-save-query'>{t d='arkeogis' m='Archiver la requête'}</button>
