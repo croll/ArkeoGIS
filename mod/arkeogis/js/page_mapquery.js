@@ -108,6 +108,13 @@ window.addEvent('domready', function() {
     ]));
     arkeo_menu.occupation.inject($('menu-occupation'));
 
+    arkeo_menu.centroid = new PlusMinusItem(ch_t('arkeogis', "Cherche dans"), null, new PlusMinusMenu([
+	new PlusMinusItem(ch_t('arkeogis', "Nom du site"), 'site.name', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Commune"), 'commune.name', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Biblio"), 'biblio.name', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Remarque"), 'site.remarque', null, { nominus: true })
+    ]));
+    arkeo_menu.centroid.inject($('menu_txtsearch_options'));
 
 
     /* initialization of buttons "afficher la carte" and "afficher le tableur" */

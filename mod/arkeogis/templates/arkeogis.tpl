@@ -101,15 +101,11 @@
 					 </tr>
 
 					 <tr class="menu_txtsearch">
-					   <td>
+					   <td colspan="2">
 					     <div id='menu_txtsearch' style='position: relative'>
-					       <input type='text' id='txtsearch' name='txtsearch' value='' placeholder='{t d="arkeogis" m="Saisir la recherche"}'/>
+					       <input type='text' id='txtsearch' name='txtsearch' value='' placeholder='{t d="arkeogis" m="Recherche textuelle"}'/>
 					     </div>
-					   </td>
-					   <td>
-					       <select name='txtsearch_options'>
-						 <option value='all'>tous</option>
-					       </select>
+                                             <div id='menu_txtsearch_options'></div>
 					   </td>
 					 </tr>
 
