@@ -115,7 +115,7 @@ class Main {
 
 		$menus=array();
 
-		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path, da_type, da_scale_resolution, da_description$dalang as description, da_geographical_limit$dalang as geographical_limit, da_declared_modification, full_name, da_sites, da_lines, da_issn, da_period_start, da_period_end FROM ark_database LEFT JOIN ch_user ON da_owner_id=uid WHERE da_published = true ORDER BY da_type,da_name,id");
+		$menus['db']=\core\Core::$db->fetchAll("select da_id as id, null as parentid, da_name as name, da_id as node_path, da_type, da_scale_resolution, da_description$dalang as description, da_geographical_limit$dalang as geographical_limit, da_declared_modification, full_name, da_sites, da_lines, da_issn, (select pe_name_$lang FROM ark_period WHERE pe_id=da_period_start) as period_start, (select pe_name_$lang FROM ark_period WHERE pe_id=da_period_end) as period_end FROM ark_database LEFT JOIN ch_user ON da_owner_id=uid WHERE da_published = true ORDER BY da_type,da_name,id");
 
 		$menus['period']=\core\Core::$db->fetchAll("select pe_id as id, pe_parentid as parentid, (pe_name_fr || '\n' || pe_name_de) as name, node_path from ark_period order by cast(string_to_array(ltree2text(node_path),'.') as integer[])");
 

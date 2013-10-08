@@ -38,7 +38,7 @@ window.addEvent('domready', function() {
 	helpcontent+='<td class="treecol"><b>' + ch_t('arkeogis', "Nombre de sites") + '</b> :<br />' + menus.db[i]['da_sites'] + '</td>';
 	helpcontent+='<td class="treecol"><b>' + ch_t('arkeogis', "Nombre de lignes") + '</b> :<br />' + menus.db[i]['da_lines'] + '</td>';
 	helpcontent+='</tr>';
-	helpcontent+='<tr><td class="onecol" colspan="3"><b>' + ch_t('arkeogis', "Limites chronologiques") + '</b> : ' + menus.db[i]['da_period_start'] + ' - ' + menus.db[i]['da_period_end'] + '</td></tr>';
+	helpcontent+='<tr><td class="onecol" colspan="3"><b>' + ch_t('arkeogis', "Limites chronologiques") + '</b> : ' + menus.db[i]['period_start'] + ' - ' + menus.db[i]['period_end'] + '</td></tr>';
 	helpcontent+='<tr><td class="onecol" colspan="3"><b>' + ch_t('arkeogis', "Limites géographiques") + '</b> : ' + ch_t('arkeogis', menus.db[i]['geographical_limit']) + '</td></tr>';
 	helpcontent+='<tr><td class="onecol" colspan="3"><b>' + ch_t('arkeogis', "Description") + '</b> : ' + menus.db[i]['description'] + '</td></tr>';
 	helpcontent+='</table>';
