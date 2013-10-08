@@ -909,6 +909,10 @@ div.filtercontent .filter-minus {
   padding-left:10px;
 }
 
+.databaseedit .control-group {
+  margin-bottom: 4px!important;
+}
+
 .import .help-block, .databaseedit .help-block{
   font-size: 11px;
 }
