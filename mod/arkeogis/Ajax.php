@@ -312,7 +312,7 @@ class Ajax {
      $dbParans = array();
      while(list($k, $v) = each($params)) {
        if (in_array($k, $acceptedParams)) {
-          $dbParams[$k] = \core\Tools::cleanString($v);
+          $dbParams[$k] = $v;
        }
      }
      if (isset($dbParams['declared_modification']) && empty($dbParams['declared_modification'])) {
@@ -331,6 +331,7 @@ class Ajax {
       }
 
      \mod\arkeogis\ArkeoGIS::updateDatabase((int)$params['id'], $dbParams);
+     \core\Core::log($dbParams);
      return true;
   }
 
