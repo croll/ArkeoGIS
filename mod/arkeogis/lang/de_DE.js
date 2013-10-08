@@ -54,7 +54,6 @@
   "Date de modification de la fiche" : "Kartei Ver\u00e4nderungsdatum",
   "Derni\u00e8re mise \u00e0 jour" : "Zeit der letzte Aktualisierung",
   "Description" : false,
-  "Description de la base" : "Datenbank beschreibung",
   "Description de la base DE" : "Beschreibung der Datenbank DE",
   "Description de la base FR" : "Beschreibung der Datenbank FR",
   "Directory" : "Verzeichnis",
@@ -111,7 +110,8 @@
   "Limite g\u00e9ographique d'emprise de la base" : "Geographischer Umfang der Datenbank",
   "Limite g\u00e9ographique d'emprise de la base DE" : "Geographischer Umfang der Datenbank DE",
   "Limite g\u00e9ographique d'emprise de la base FR" : "Geographischer Umfang der Datenbank FR",
-  "Limites chronologique" : "Chronologische Begrenzungen",
+  "Limites chronologiques" : false,
+  "Limites g\u00e9ographiques" : false,
   "Lines" : "Zeilen",
   "Litt\u00e9rature \/ Prospection" : "Literatur  \/ Lesefund",
   "Litt\u00e9rature, prospect\u00e9" : "Literatur, Lesefund",
@@ -211,5 +211,6 @@
   "research" : "Forschung",
   "sites" : false,
   "sites import\u00e9s" : "importierte Fundstellen.",
+  "\u00c9chelle" : false,
   "\u00c9chelle de r\u00e9solution des points" : "Massstab der Punkten"
 }

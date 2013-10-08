@@ -9,6 +9,7 @@
   "Allemand" : "Deutsch",
   "Altitude" : "Altitude",
   "Archiver la requ\u00eate" : "Archiver la requ\u00eate",
+  "ArkeoGIS Directory list" : false,
   "Au moins une caract\u00e9risation" : false,
   "Aucun r\u00e9sultat" : "Aucun r\u00e9sultat",
   "Auteur" : false,
@@ -53,7 +54,6 @@
   "Date de modification de la fiche" : "Date de modification de la fiche",
   "Derni\u00e8re mise \u00e0 jour" : false,
   "Description" : false,
-  "Description de la base" : "Description de la base",
   "Description de la base DE" : false,
   "Description de la base FR" : false,
   "Directory" : "Directory",
@@ -110,7 +110,8 @@
   "Limite g\u00e9ographique d'emprise de la base" : false,
   "Limite g\u00e9ographique d'emprise de la base DE" : false,
   "Limite g\u00e9ographique d'emprise de la base FR" : false,
-  "Limites chronologique" : false,
+  "Limites chronologiques" : false,
+  "Limites g\u00e9ographiques" : false,
   "Lines" : false,
   "Litt\u00e9rature \/ Prospection" : "Litt\u00e9rature \/ Prospection",
   "Litt\u00e9rature, prospect\u00e9" : "Litt\u00e9rature, prospect\u00e9",
@@ -210,5 +211,6 @@
   "research" : false,
   "sites" : false,
   "sites import\u00e9s" : "sites import\u00e9s",
+  "\u00c9chelle" : false,
   "\u00c9chelle de r\u00e9solution des points" : false
 }

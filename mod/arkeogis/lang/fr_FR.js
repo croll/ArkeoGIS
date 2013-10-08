@@ -54,7 +54,6 @@
   "Date de modification de la fiche" : "Date de modification de la fiche",
   "Derni\u00e8re mise \u00e0 jour" : "Mise \u00e0 jour",
   "Description" : false,
-  "Description de la base" : "Description de la base",
   "Description de la base DE" : "Description de la base DE",
   "Description de la base FR" : "Description de la base FR",
   "Directory" : "Annuaire",
@@ -111,7 +110,8 @@
   "Limite g\u00e9ographique d'emprise de la base" : "Limite g\u00e9ographique d'emprise de la base",
   "Limite g\u00e9ographique d'emprise de la base DE" : "Limite g\u00e9ographique d'emprise de la base DE",
   "Limite g\u00e9ographique d'emprise de la base FR" : "Limite g\u00e9ographique d'emprise de la base FR",
-  "Limites chronologique" : "Limites chronologique",
+  "Limites chronologiques" : false,
+  "Limites g\u00e9ographiques" : false,
   "Lines" : "Lignes",
   "Litt\u00e9rature \/ Prospection" : "Litt\u00e9rature \/ Prospection",
   "Litt\u00e9rature, prospect\u00e9" : "Litt\u00e9rature, prospect\u00e9",
@@ -211,5 +211,6 @@
   "research" : "Recherche",
   "sites" : false,
   "sites import\u00e9s" : "sites import\u00e9s",
+  "\u00c9chelle" : false,
   "\u00c9chelle de r\u00e9solution des points" : "\u00c9chelle de r\u00e9solution des points"
 }
