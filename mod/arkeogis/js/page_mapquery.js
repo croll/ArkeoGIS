@@ -319,12 +319,12 @@ window.addEvent('domready', function() {
     });
 
     ['centroid', 'knowledge', 'occupation', 'db', 'period', 'area', 'production', 'realestate', 'furniture', 'landscape'].each(function(m) {
-	arkeo_menu[m].addEvent('selection', function() {
+	arkeo_menu[m].addEventOnLeafs('selection', function() {
 	    if (!select_savedqueries_inhib_selection_event)
 		$('select-savedqueries').selectedIndex=0;
 	})
     });
-    [ 'ex_realestate', 'ex_furniture', 'ex_production', 'ex_landscape', 'caracterisation_mode' ].each(function(m) {
+    [ 'ex_realestate', 'ex_furniture', 'ex_production', 'ex_landscape', 'caracterisation_mode', 'txtsearch' ].each(function(m) {
 	$(m).addEvent('change', function() {
 	    if (!select_savedqueries_inhib_selection_event)
 		$('select-savedqueries').selectedIndex=0;
