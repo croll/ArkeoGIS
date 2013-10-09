@@ -16,6 +16,7 @@ class DatabaseImport {
 	private static $_strings;
 	private static $_nbSites = 0;
 	private static $_temporalBounds = array('start' => '1', 'end' => '1');
+	private static $_linesDone = 0;
 
 	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $fields='') {
 
@@ -406,6 +407,7 @@ class DatabaseImport {
 				}
 				$existing = null;
 				$siteId = null;
+				self::$_linesDone += 1;
 
 
 			} // End of site treatment, next one.
@@ -416,6 +418,7 @@ class DatabaseImport {
 		$numErrors = self::countErrors();
 
 		self::_postProcess($filepath, $nbLines-$numErrors, $uid);
+		echo self::$_linesDone;
 		return array("total" => $nbLines, "processed" => self::$_nbSites, "numErrors" => $numErrors, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 //
@@ -598,13 +601,11 @@ class DatabaseImport {
 
 	private static function _addError($msg) {
 		if (!isset(self::$_current['code'])) self::$_current['code'] = 'NO_CODE';
-		$num = (!isset(self::$_siteErrors[self::$_current['code']]) || (!isset(self::$_siteErrors[self::$_current['code']][self::$_lineNumber]))) ? 0 : $num = sizeof(self::$_siteErrors[self::$_current['code']][self::$_lineNumber])+1;
 		self::$_siteErrors[self::$_current['code']][self::$_lineNumber]['csvDatas'] = self::$_csvDatas;
 		self::$_siteErrors[self::$_current['code']][self::$_lineNumber]['msg'][] = $msg;
 	}
 
 	private static function _addProcessingError($msg) {
-		$num = (!isset(self::$_processingErrors[self::$_current['code']]) || (!isset(self::$_processingErrors[self::$_current['code']][self::$_lineNumber]))) ? 0 : $num = sizeof(self::$_processingErrors[self::$_current['code']][self::$_lineNumber])+1;
 		self::$_processingErrors[self::$_current['code']][self::$_lineNumber]['csvDatas'] = self::$_csvDatas;
 		self::$_processingErrors[self::$_current['code']][self::$_lineNumber]['msg'][] = $msg;
 	}
