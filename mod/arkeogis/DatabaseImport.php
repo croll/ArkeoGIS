@@ -417,8 +417,7 @@ class DatabaseImport {
 		$nbLines = self::$_lineNumber-$skipline;
 		$numErrors = self::countErrors();
 
-		self::_postProcess($filepath, $nbLines-$numErrors, $uid);
-		echo self::$_linesDone;
+		self::_postProcess($filepath, self::$_linesDone, $uid);
 		return array("total" => $nbLines, "processed" => self::$_nbSites, "numErrors" => $numErrors, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 //
