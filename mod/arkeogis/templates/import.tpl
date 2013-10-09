@@ -209,7 +209,7 @@
 <div style="width: 100%; margin: 0px auto 10px auto">
 	<div style="padding:3px"><i class="icon-align-justify" style="margin-right: 3px"></i><b>{$result.total}</b> {t d='arkeogis' m="lignes traitées"}.</div>
 	<div style="padding:3px"><i class="icon-ok" style="margin-right: 3px"></i><b>{$result.processed}</b>  {t d='arkeogis' m="sites importés"}.</div>
-	<div style="padding:3px"><i class="icon-exclamation-sign" style="margin-right: 3px"></i><b>{$result.errors|sizeof}</b>  {t d='arkeogis' m="erreurs (voir ci dessous)"}</div>
+	<div style="padding:3px"><i class="icon-exclamation-sign" style="margin-right: 3px"></i><b>{$result.numErrors}</b>  {t d='arkeogis' m="erreurs (voir ci dessous)"}</div>
 </div>	
 
 <table class="table table-striped table-bordered table-condensed" style="width: 1200px; margin: 0px auto 50px auto">

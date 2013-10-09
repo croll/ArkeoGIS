@@ -413,8 +413,10 @@ class DatabaseImport {
 		}
 		\core\Core::$db->exec('COMMIT');
 		$nbLines = self::$_lineNumber-$skipline;
-		self::_postProcess($filepath, $nbLines-sizeof(self::$_siteErrors), $uid);
-		return array("total" => $nbLines, "processed" => self::$_nbSites, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
+		$numErrors = self::countErrors();
+
+		self::_postProcess($filepath, $nbLines-$numErrors, $uid);
+		return array("total" => $nbLines, "processed" => self::$_nbSites, "numErrors" => $numErrors, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 //
 	private static function _processSiteId($siteCode) {
@@ -675,6 +677,14 @@ class DatabaseImport {
 		\mod\arkeogis\ArkeoGIS::updateDatabase(self::$_database['id'], array('lines' => $nbLines, 'sites' => self::$_nbSites, 'period_start' => \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_temporalBounds['start']), 'period_end' => \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_temporalBounds['end'])));
 		\mod\arkeogis\ArkeoGIS::deleteLastCsv(self::$_database['id'], $filename);
 		\mod\arkeogis\ArkeoGIS::writeDatabaseLog(self::$_database['id'], $uid, $filename);
+	}
+
+	private static function countErrors() {
+		$num = 0;
+		foreach(self::$_siteErrors as $err) {
+			$num += sizeof($err);
+		}
+		return $num;
 	}
 
 }
