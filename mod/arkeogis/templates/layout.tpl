@@ -67,6 +67,7 @@
 			</div>
 			<div id="user_infos">
 				{t d='arkeogis' m='Le'} {$smarty.now|date_format:"%d/%m/%Y "} {\mod\user\Main::getUserFullName($smarty.session.login)} {t d='arkeogis' m='peut consulter'}<br />
+				{assign var="infos" value=\mod\arkeogis\ArkeoGIS::getNumBasesAndSites()}
 				{$infos.nbBases} {t d='arkeogis' m='bases de données'}<br />
 				{$infos.nbSites} {t d='arkeogis' m='sites'}
 			</div>

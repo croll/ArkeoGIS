@@ -13,8 +13,6 @@ class Main {
       $page->smarty->assign('canexport',
                             \mod\user\Main::userBelongsToGroup('Admin')
                             || \mod\user\Main::userBelongsToGroup('Chercheur'));
-      $infos = \mod\arkeogis\ArkeoGIS::getNumBasesAndSites();
-      $page->smarty->assign('infos', $infos);
       $page->setLayout('arkeogis/arkeogis');
       $page->display();
     } else {
@@ -29,8 +27,6 @@ class Main {
     $lang=\mod\lang\Main::getCurrentLang();
     $sysname = \mod\page\Main::getTranslated('accueil', $lang);
     $present = \mod\page\Main::getPageBySysname($sysname);
-    $infos = \mod\arkeogis\ArkeoGIS::getNumBasesAndSites();
-    $page->smarty->assign('infos', $infos);
     $page->smarty->assign('lang', $lang);
     $page->smarty->assign('present', $present);
     $page->setLayout('arkeogis/public');
@@ -55,8 +51,6 @@ class Main {
 			$tab = $matches[1];
     }
     $lang=\mod\lang\Main::getCurrentLang();
-    $infos = \mod\arkeogis\ArkeoGIS::getNumBasesAndSites();
-    $page->smarty->assign('infos', $infos);
     $page->smarty->assign('tab', $tab);
     $page->smarty->assign('lang', $lang);
     $page->setLayout('arkeogis/manuel');
