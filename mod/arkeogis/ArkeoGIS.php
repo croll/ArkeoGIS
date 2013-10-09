@@ -356,7 +356,7 @@ class ArkeoGIS {
 	}
 
 	public static function getFullDatabaseInfos($dbId) {
-		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, da_description_de as description_de, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit, da_geographical_limit_de as geographical_limit_de, da_published as published, da_owner_id as owner_id, u.full_name as author FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid WHERE da_id = ?';
+		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, da_description_de as description_de, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, to_char(da_modification, \'DD-MM-YYYY-HH24-MI\') as modification_str, da_lines as lines, da_sites as sites, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit, da_geographical_limit_de as geographical_limit_de, da_published as published, da_owner_id as owner_id, u.full_name as author FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid WHERE da_id = ?';
 		return \core\Core::$db->fetchAll($q, array($dbId));
 	}     
 
@@ -365,7 +365,7 @@ class ArkeoGIS {
 	}
 
 	public static function getLastImportFile($dbId) {
-		return \core\Core::$db->fetchOne('SELECT dl_csv_file FROM ark_database_log WHERE dl_database_id = ?', array((int)$dbId));
+		return \core\Core::$db->fetchOne('SELECT dl_csv_file FROM ark_database_log WHERE dl_database_id = ? AND dl_csv_file != \'\'', array((int)$dbId));
 	}
 
 	public static function getNumBasesAndSites() {
@@ -378,30 +378,15 @@ class ArkeoGIS {
 		return array('nbBases' => $nbBases, 'nbSites' => $nbSites);
 	}
 
-	public static function exportDatabase($dbId) {
-
-		$q = "SELECT si_id, si_code, si_name, si_description, si_city_name, si_city_code, ST_AsGeoJSON(si_geom) as coords, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
-		$q.=", da_name, da_description, da_creation, da_modification"; // ark_database
-		$q.=", sp_id, sp_knowledge_type, sp_comment, sp_bibliography"; // ark_site_period
-		$q.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start";
-		$q.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end";
-		$q.=" FROM ark_site s LEFT JOIN ark_database d ON s.si_database_id = d.da_id LEFT JOIN ark_site_period sp ON s.si_id = sp.sp_site_id";
-		$q.=" WHERE da_id = ?";
-		$q.=" GROUP BY si_id, sp_id, da_id";
-		$q.=" ORDER BY si_code, si_id, sp_id";
-
-		self::sitesToCsv(\core\Core::$db->fetchAll($q, array((int)$dbId)));
-
-	}
 	/* ************* */
 	/*    Common   */
 	/* ************* */
 
-	public static function sitesToCsv($sites) {
+	public static function sitesToCsv($sites, $filename='export') {
 		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date dans le passé
 		header("Content-Type: text/csv");
-		header("Content-Disposition: attachment; filename=\"export.csv\"");
+		header("Content-Disposition: attachment; filename=\"$filename.csv\"");
 		$strings=self::load_strings();
     		$latest_siid=-1;
     		$latest_spid=-1;

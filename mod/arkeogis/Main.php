@@ -239,11 +239,6 @@ class Main {
 
     }
 
-	public static function yesno($val) {
-		return $val ? \mod\lang\Main::ch_t('arkeogis', 'oui') : \mod\lang\Main::ch_t('arkeogis', 'non');
-	}
-
-
 	  public static function hook_mod_arkeogis_databases($hookname, $userdata, $matches) {
 
 	    if (!\mod\user\Main::userIsLoggedIn()) {
@@ -260,21 +255,40 @@ class Main {
 	        return false;
 	     }
 	     $file = \mod\arkeogis\ArkeoGIS::getLastImportFile($dbId);
+                  $infos = \mod\arkeogis\ArkeoGIS::getFullDatabaseInfos($dbId);
+                  $name = str_replace(' ', '_', \core\Tools::removeAccents($infos[0]['name']));
+                  $author = str_replace(' ', '_', \core\Tools::removeAccents($infos[0]['author']));
+                  $filename = 'ArkeoGIS-'.$infos[0]['modification_str'].'-'.$name.'-'.$author;
 	     if (!$file) return false;
-	   	$name = \core\Tools::removeAccents(\mod\arkeogis\ArkeoGIS::getDatabaseName($dbId));
 	     	header("Cache-Control: no-cache, must-revalidate");
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 		header("Content-Type: text/csv");
-		header("Content-Disposition: attachment; filename=\"$name.csv\"");
+		header("Content-Disposition: attachment; filename=\"$filename.csv\"");
     		$fp = fopen('php://output', 'w');
     		echo file_get_contents(dirname(__FILE__).'/files/import/'.$file);
 	  }
 
     public static function hook_mod_arkeogis_export_database($hookname, $userdata, $matches) {
-            $dbId = (int)$matches[1];
-            if (!\mod\user\Main::userIsLoggedIn()) {
-                return false;
-            }
-            \mod\arkeogis\ArkeoGIS::exportDatabase($dbId);
+        $dbId = (int)$matches[1];
+                      if (!\mod\user\Main::userIsLoggedIn() || (!\mod\user\Main::userBelongsToGroup('Admin') && !\mod\arkeogis\ArkeoGIS::isDatabaseOwner($dbId, \mod\user\Main::getUserId($_SESSION['login'])) || !$dbId)) {
+            return false;
+         }
+            
+        $q = "SELECT si_id, si_code, si_name, si_description, si_city_name, si_city_code, ST_AsGeoJSON(si_geom) as coords, si_centroid, si_occupation, si_creation, si_modification"; // ark_site
+        $q.=", da_name, da_description, da_creation, da_modification"; // ark_database
+        $q.=", sp_id, sp_knowledge_type, sp_comment, sp_bibliography"; // ark_site_period
+        $q.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_start) AS period_start";
+        $q.=", (SELECT node_path FROM ark_period WHERE pe_id=sp_period_end) AS period_end";
+        $q.=" FROM ark_site s LEFT JOIN ark_database d ON s.si_database_id = d.da_id LEFT JOIN ark_site_period sp ON s.si_id = sp.sp_site_id";
+        $q.=" WHERE da_id = ?";
+        $q.=" GROUP BY si_id, sp_id, da_id";
+        $q.=" ORDER BY si_code, si_id, sp_id";
+
+        $infos = \mod\arkeogis\ArkeoGIS::getFullDatabaseInfos($dbId);
+        $name = str_replace(' ', '_', \core\Tools::removeAccents($infos[0]['name']));
+        $author = str_replace(' ', '_', \core\Tools::removeAccents($infos[0]['author']));
+        $filename = 'ArkeoGIS-export-'.date("d-m-Y-H-i").'-'.$name.'-'.$author;
+
+        \mod\arkeogis\ArkeoGIS::sitesToCsv(\core\Core::$db->fetchAll($q, array((int)$dbId)), $filename);
     }
 }

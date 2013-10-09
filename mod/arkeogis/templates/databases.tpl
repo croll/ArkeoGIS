@@ -239,6 +239,10 @@
                 window.location.href='/get_imported_file/'+id;
              }
 
+             function exportDatabase(id) {
+                window.location.href='/export_database/'+id;
+             }
+
 
 </script>{/literal}
 {/block}
