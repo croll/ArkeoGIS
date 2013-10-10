@@ -49,7 +49,9 @@ html[xmlns] .clearfix {
 .omnigrid div.pDiv select {
         height: 21px !important;
         top: -3px !important;
-        width: 50px;
+        width: 55px;
+        font-size: 9px!important;
+        height: 20px!important;
 }
 
 .omnigrid div.pReload  {
