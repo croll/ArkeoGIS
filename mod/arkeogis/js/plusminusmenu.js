@@ -1,12 +1,17 @@
 var PlusMinusMenu = new Class({
-    Implements: Events,
+    Implements: [ Events, Options ],
 
     html_element: null,
     parent_item: null,
     content: [],
+    options: {
+        multiselect: true
+    },
 
-    initialize: function(content) {
+    initialize: function(content, options) {
+	this.setOptions(options);
 	var me=this;
+
 	if (content) content.each(function(item) {
 	    me.addItem(item);
 	});
@@ -323,6 +328,11 @@ var PlusMinusItem = new Class({
 		el.setSelected(selected, true);
 	    });
 	} else if (this.selected != selected) {
+            if (me.parent_menu && !me.parent_menu.options.multiselect) {
+                me.parent_menu.content.each(function(elem) {
+                    if (elem != me) elem.setSelected('', recurse);
+                });
+            }
 	    this.selected=selected;
 	    this.fireEvent('selection', {
 		'selected': me.selected
