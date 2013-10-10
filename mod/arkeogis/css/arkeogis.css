@@ -236,6 +236,12 @@ li.ui-tab span.text {
 	display:inline;
 }
 
+/* leaflet filter */
+.location-filter {
+ display: none;
+}
+
+
 #footer {
 	margin-top: 35px;
 	padding: 10px 0 30px 0;

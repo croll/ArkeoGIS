@@ -17,6 +17,8 @@
 	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.Default.css"}
 	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.css"}
 	{js file="/mod/cssjs/ext/leaflet.markercluster/leaflet.markercluster.js"}
+	{js file="/mod/cssjs/ext/leaflet-locationfilter/src/locationfilter.js"}
+	{css file="/mod/cssjs/ext/leaflet-locationfilter/src/locationfilter.css"}
 	<!--[if lte IE 8]>
     		<link rel="stylesheet" href="/mod/cssjs/ext/leaflet/leaflet.ie.css" />
     		<link rel="stylesheet" href="/mod/cssjs/ext/leaflet/leaflet.markercluster/MarkerCluster.Default.ie.css" />

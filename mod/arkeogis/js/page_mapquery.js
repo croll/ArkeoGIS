@@ -60,7 +60,9 @@ window.addEvent('domready', function() {
 	new PlusMinusItem(ch_t('arkeogis', 'Réctangle de sélection'), 'rect', null, { nominus: true }),
 	new PlusMinusItem(ch_t('arkeogis', 'Disque de sélection'), 'disc', null, { nominus: true }),
 	new PlusMinusItem(ch_t('arkeogis', 'Coordonnées de sélection'), 'coord', null, { nominus: true })
-    ]));
+    ], {
+        multiselect: false
+    }));
     arkeo_menu.area.inject($('menu_area'));
 
     arkeo_menu.production = new PlusMinusItem(ch_t('arkeogis', "Choix production"), null, null);
@@ -220,7 +222,7 @@ window.addEvent('domready', function() {
 		});
 		show_menu(false);
                                                    if (infoWindow) {
-                                                         map.closePopup(); 
+                                                         map.closePopup();
                                                    }
                                                     if (typeOf(layerMarkers[queryNum]) != 'array')
                                                           layerMarkers[queryNum] = [];
@@ -229,7 +231,7 @@ window.addEvent('domready', function() {
                                                     });
 				res.mapmarkers.each(function(marker) {
 								if (marker.geometry) {
-   
+
                                                                 var m = new L.marker([marker.geometry.coordinates[1], marker.geometry.coordinates[0]], {
                                                                    draggable: false
                                                                 });
@@ -238,7 +240,7 @@ window.addEvent('domready', function() {
 
                                                                  m.on('mouseover', function(evt) {
                                                                         if (infoWindow) {
-                                                                              map.closePopup(); 
+                                                                              map.closePopup();
                                                                         }
                                                                         infoWindow.setContent('<div style="width:500px">'+marker.popup.title+marker.popup.content+'</div>');
                                                                         m.bindPopup(infoWindow).openPopup();
@@ -247,13 +249,13 @@ window.addEvent('domready', function() {
 
                                                                  m.on('mouseout', function(evt) {
                                                                       if (infoWindow) {
-                                                                          map.closePopup(); 
+                                                                          map.closePopup();
                                                                       }
                                                                  })
 
                                                                  m.on('click', function(evt) {
                                                                       if (infoWindow) {
-                                                                          map.closePopup(); 
+                                                                          map.closePopup();
                                                                       }
                                                                       show_sheet(marker.id);
                                                                  })
@@ -401,6 +403,7 @@ window.addEvent('domready', function() {
     });
 
 
+    /* initialize map */
     map = new L.Map('map_canvas', {
         center: new L.LatLng(48.58476, 7.750576),
         zoom: 7,
@@ -410,6 +413,18 @@ window.addEvent('domready', function() {
     infoWindow = L.popup();
 
     new L.Control.Zoom({ position: 'topright' }).addTo(map);
+    locationFilter = new L.LocationFilter().addTo(map);
+    arkeo_menu.area.addEventOnLeafs('selection', function(ev) {
+        if (ev.value == 'rect') {
+            if (ev.selected == '+') {
+                locationFilter.enable();
+                ev.source.parent_menu.close();
+	        show_menu(false);
+            } else {
+                locationFilter.disable();
+            }
+        }
+    });
 
     /* initialize tabbeds queries */
     querys_tabs = new UI.Tabs( { container : 'querys', scrolling : 'auto', contextMenu : true, sortable : true } );
