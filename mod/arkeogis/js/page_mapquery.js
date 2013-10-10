@@ -186,13 +186,18 @@ window.addEvent('domready', function() {
 	if ((form.db_include.length > 0 || form.db_exclude > 0)
 	    && (form.period_include.length > 0 || form.period_exclude.length > 0)
 	    && (form.area_include.length > 0 || form.area_exclude.length > 0)
-	    && (form.production_include.length > 0 || form.production_exclude.length > 0
-		|| form.realestate_include.length > 0 || form.realestate_exclude.length > 0
-		|| form.furniture_include.length > 0 || form.furniture_exclude.length > 0
-		|| form.landscape_include.length > 0 || form.landscape_exclude.length > 0)) {
+	    && (
+                (form.production_include.length > 0 || form.production_exclude.length > 0
+		 || form.realestate_include.length > 0 || form.realestate_exclude.length > 0
+		 || form.furniture_include.length > 0 || form.furniture_exclude.length > 0
+		 || form.landscape_include.length > 0 || form.landscape_exclude.length > 0)
+            ) || (
+                (form.txtsearch && form.txtsearch_options.length > 0)
+            )
+           ) {
 	} else {
-	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période et une caractérisation"));
-			return;
+	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période, une aire de recherche ainsi qu'une caractérisation et/ou une recherche textuelle"));
+	    return;
 	}
 
 	showSpinner();
