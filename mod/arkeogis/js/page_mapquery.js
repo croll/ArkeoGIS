@@ -109,10 +109,10 @@ window.addEvent('domready', function() {
     arkeo_menu.occupation.inject($('menu-occupation'));
 
     arkeo_menu.txtsearch_options = new PlusMinusItem(ch_t('arkeogis', "Choisir"), null, new PlusMinusMenu([
-	new PlusMinusItem(ch_t('arkeogis', "Nom du site"), 'site.name', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', "Commune"), 'commune.name', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', "Biblio"), 'biblio.name', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', "Remarque"), 'site.remarque', null, { nominus: true })
+	new PlusMinusItem(ch_t('arkeogis', "Nom du site"), 'si_name', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Commune"), 'si_city_name', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Biblio"), 'sp_bibliography', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Remarque"), 'sp_comment', null, { nominus: true })
     ]));
     arkeo_menu.txtsearch_options.inject($('menu_txtsearch_options'));
 

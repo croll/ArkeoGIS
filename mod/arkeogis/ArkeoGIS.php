@@ -96,10 +96,12 @@ class ArkeoGIS {
 										'ark_database' => isset($addtable['ark_database']) ? $addtable['ark_database'] : false,
 										'ark_city' => isset($addtable['ark_city']) ? $addtable['ark_city'] : false);
 
+    // sp_period_isrange
 		if ($onlysprange) $where='sp_period_isrange=1 ';
     else $where='1=1 ';
 		$args=array();
 
+    // databases
 		if (isset($search['db_include']) && count($search['db_include'])) {
 			$where.=' AND si_database_id IN (?)';
 			$args[]=$search['db_include'];
@@ -110,6 +112,7 @@ class ArkeoGIS {
 			$args[]=$search['db_exclude'];
 		}
 
+    // period
 		if (isset($search['period_include']) && count($search['period_include'])) {
 			self::fix_overlaped_periods($search['period_include']);
       $where.=' AND (0=1 ';
@@ -120,7 +123,6 @@ class ArkeoGIS {
 			}
       $where.=')';
 		}
-
 		if (isset($search['period_exclude']) && count($search['period_exclude'])) {
 			self::fix_overlaped_periods($search['period_exclude']);
       $where.=' AND (sp_period_start IS NULL ';
@@ -132,21 +134,26 @@ class ArkeoGIS {
       $where.=')';
 		}
 
+    // centroid
 		if (isset($search['centroid_include']) && count($search['centroid_include'])) {
       $where.=' AND si_centroid IN (?)';
       $args[]=$search['centroid_include'];
 		}
 
+    // konwledge
 		if (isset($search['knowledge_include']) && count($search['knowledge_include'])) {
 			$where.=' AND sp_knowledge_type IN(?)';
 			$args[]=$search['knowledge_include'];
 		}
 
+    // occupation
 		if (isset($search['occupation_include']) && count($search['occupation_include'])) {
       $where.=' AND si_occupation IN (?)';
       $args[]=$search['occupation_include'];
 		}
 
+    //
+    // caracterisations (production, furniture, etc.)
 		if (isset($search['caracterisation_mode']) && $search['caracterisation_mode'] == 'OR') {
 			$andoror="OR";
 		} else {
@@ -155,6 +162,7 @@ class ArkeoGIS {
 
 		$caracswhere=array();
 
+    // production
 		$subwhere = '';
 		if (isset($search['production_include']) && count($search['production_include'])) {
 			$addtable['ark_siteperiod_production']=true;
@@ -174,6 +182,7 @@ class ArkeoGIS {
 		}
 		if ($subwhere != '') $caracswhere[]=$subwhere;
 
+    // furniture
 		$subwhere = '';
 		if (isset($search['furniture_include']) && count($search['furniture_include'])) {
 			$addtable['ark_siteperiod_furniture']=true;
@@ -193,6 +202,7 @@ class ArkeoGIS {
 		}
 		if ($subwhere != '') $caracswhere[]=$subwhere;
 
+    // landscape
 		$subwhere = '';
 		if (isset($search['landscape_include']) && count($search['landscape_include'])) {
 			$addtable['ark_siteperiod_landscape']=true;
@@ -212,6 +222,7 @@ class ArkeoGIS {
 		}
 		if ($subwhere != '') $caracswhere[]=$subwhere;
 
+    // realestate
 		$subwhere = '';
 		if (isset($search['realestate_include']) && count($search['realestate_include'])) {
 			$addtable['ark_siteperiod_realestate']=true;
@@ -231,26 +242,61 @@ class ArkeoGIS {
 		}
 		if ($subwhere != '') $caracswhere[]=$subwhere;
 
+
 		if (count($caracswhere) > 0)
 			$where.=" AND (".implode($caracswhere, " $andoror ").")";
+    // end of caracterisations
 
 
 
+    // site_id
 		if (isset($search['site_id'])) {
 			$where.=' AND si_id = ?';
 			$args[]=$search['site_id'];
 		}
 
+    // site_code
 		if (isset($search['site_code'])) {
 			$where.=' AND si_code = ?';
 			$args[]=$search['site_code'];
 		}
 
+    // database (@todo: we already have db_include filter, why do we have this database filter ?)
 		if (isset($search['database_id'])) {
 			$addtable['ark_database']=true;
 			$where.=' AND da_id = ?';
 			$args[]=(int)$search['database_id'];
 		}
+
+    // full text search
+    if (isset($search['txtsearch']) && !empty(trim($search['txtsearch'])) && isset($search['txtsearch_options'])) {
+      $where.=' AND ( 0=1 ';
+
+      if (in_array('si_name', $search['txtsearch_options'])) {
+        $where.=' OR si_name @@ plainto_tsquery(?)';
+        $args[]=$search['txtsearch'];
+      }
+
+      if (in_array('sp_comment', $search['txtsearch_options'])) {
+        $where.=' OR sp_comment @@ plainto_tsquery(?)';
+        $args[]=$search['txtsearch'];
+      }
+
+      if (in_array('sp_bibliography', $search['txtsearch_options'])) {
+        $where.=' OR sp_bibliography @@ plainto_tsquery(?)';
+        $args[]=$search['txtsearch'];
+      }
+
+      if (in_array('sp_comment', $search['txtsearch_options'])) {
+        $where.=' OR sp_comment @@ plainto_tsquery(?)';
+        $args[]=$search['txtsearch'];
+      }
+
+      $where.=')';
+    }
+
+
+    ///////////////////////
 
 		$groupby='ark_site.si_id';
 		$from=" ark_site";
@@ -358,7 +404,7 @@ class ArkeoGIS {
 	public static function getFullDatabaseInfos($dbId) {
 		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, da_description_de as description_de, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit, da_geographical_limit_de as geographical_limit_de, da_published as published, da_owner_id as owner_id, u.full_name as author FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid WHERE da_id = ?';
 		return \core\Core::$db->fetchAll($q, array($dbId));
-	}     
+	}
 
 	public static function deleteDatabase($dbId) {
 		\core\Core::$db->exec('DELETE FROM "ark_database" WHERE  da_id =?', array((int)$dbId));
