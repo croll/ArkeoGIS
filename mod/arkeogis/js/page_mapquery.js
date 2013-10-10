@@ -228,6 +228,7 @@ window.addEvent('domready', function() {
                                                         maxClusterRadius: 20
                                                     });
 				res.mapmarkers.each(function(marker) {
+								if (marker.geometry) {
    
                                                                 var m = new L.marker([marker.geometry.coordinates[1], marker.geometry.coordinates[0]], {
                                                                    draggable: false
@@ -258,6 +259,7 @@ window.addEvent('domready', function() {
                                                                  })
 
                                                                 layerMarkers[queryNum].addLayer(m);
+								}
 				});
 
                                                     map.addLayer(layerMarkers[queryNum]);
