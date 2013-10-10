@@ -269,7 +269,7 @@ class ArkeoGIS {
 		}
 
     // full text search
-    if (isset($search['txtsearch']) && !empty(trim($search['txtsearch'])) && isset($search['txtsearch_options'])) {
+    if (isset($search['txtsearch']) && !empty($search['txtsearch']) && isset($search['txtsearch_options'])) {
       $where.=' AND ( 0=1 ';
 
       if (in_array('si_name', $search['txtsearch_options'])) {
