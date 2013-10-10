@@ -115,6 +115,7 @@ window.addEvent('domready', function() {
 	new PlusMinusItem(ch_t('arkeogis', "Remarque"), 'sp_comment', null, { nominus: true })
     ]));
     arkeo_menu.txtsearch_options.inject($('menu_txtsearch_options'));
+    arkeo_menu.txtsearch_options.setSelected('+', true);
 
 
     /* initialization of buttons "afficher la carte" and "afficher le tableur" */
@@ -371,7 +372,7 @@ window.addEvent('domready', function() {
 	$('caracterisation_mode').selectedIndex = 0;
 
         $('txtsearch').set('value', '');
-        arkeo_menu.txtsearch_options.setSelection([], []);
+        arkeo_menu.txtsearch_options.setSelected('+', true);
 
         querys_tabs.tabs.each(function(tab) {
             querys_tabs.removeTab(tab);
