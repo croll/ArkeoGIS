@@ -18,17 +18,20 @@
 {/block}
 
 {block name='webpage_body'}
-<div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 950px;"{/if}>
+<div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 1000px"{/if}>
 	<div id="top_of_page">
 		<div id="arkeologo" onclick="top.document.location.href='/'">
 		</div>
-		{if \mod\user\Main::userIsLoggedIn()}
 		<div id="user_infos">
-			{t d='arkeogis' m='Le'} {$smarty.now|date_format:"%d/%m/%Y "} {\mod\user\Main::getUserFullName($smarty.session.login)} {t d='arkeogis' m='peut consulter'}<br />
+			{if \mod\user\Main::userIsLoggedIn()}
+				{t d='arkeogis' m='Le'} {$smarty.now|date_format:"%d/%m/%Y "} {\mod\user\Main::getUserFullName($smarty.session.login)} {t d='arkeogis' m='peut consulter'}<br />
+			{else}
+				{t d='arkeogis' m='Le'} {$smarty.now|date_format:"%d/%m/%Y "} {t d='arkeogis' m='sont consultables'}<br />
+			{/if}
+			{assign var="infos" value=\mod\arkeogis\ArkeoGIS::getNumBasesAndSites()}
 			{$infos.nbBases} {t d='arkeogis' m='bases de données'}<br />
 			{$infos.nbSites} {t d='arkeogis' m='sites'}
 		</div>
-		{/if}
 		<div class="clearfix"></div>
 	</div>
 	<div class="clearfix"></div>
@@ -81,6 +84,8 @@
 									{/block}	
 								{/if}
               							</ul>
+              					{else}
+							<li><a href="http://demo.arkeogis.org">{t d='arkeogis' m='Demonstration'}</a></li>
 						{/if}
             						</li>
 							<li class="dropdown" id="li3" onclick="$('li3').toggleClass('open');">

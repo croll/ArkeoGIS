@@ -402,7 +402,7 @@ class ArkeoGIS {
 	}
 
 	public static function getFullDatabaseInfos($dbId) {
-		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, da_description_de as description_de, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, da_lines as lines, da_sites as sites, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit, da_geographical_limit_de as geographical_limit_de, da_published as published, da_owner_id as owner_id, u.full_name as author FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid WHERE da_id = ?';
+		$q = 'SELECT da_id as id, da_issn as issn, da_name as name, da_description as description, da_description_de as description_de, da_type as type, to_char(da_declared_modification, \'DD/MM/YYYY\') as declared_modification_str, da_declared_modification as declared_modification, to_char(da_modification, \'DD-MM-YYYY-HH24-MI\') as modification_str, da_lines as lines, da_sites as sites, da_scale_resolution as scale_resolution, da_geographical_limit as geographical_limit, da_geographical_limit_de as geographical_limit_de, da_published as published, da_owner_id as owner_id, u.full_name as author FROM ark_database d LEFT JOIN ch_user u ON d.da_owner_id = u.uid WHERE da_id = ?';
 		return \core\Core::$db->fetchAll($q, array($dbId));
 	}
 
@@ -411,7 +411,7 @@ class ArkeoGIS {
 	}
 
 	public static function getLastImportFile($dbId) {
-		return \core\Core::$db->fetchOne('SELECT dl_csv_file FROM ark_database_log WHERE dl_database_id = ?', array((int)$dbId));
+		return \core\Core::$db->fetchOne('SELECT dl_csv_file FROM ark_database_log WHERE dl_database_id = ? AND dl_csv_file != \'\'', array((int)$dbId));
 	}
 
 	public static function getNumBasesAndSites() {
@@ -427,6 +427,86 @@ class ArkeoGIS {
 	/* ************* */
 	/*    Common   */
 	/* ************* */
+
+	public static function sitesToCsv($sites, $filename='export') {
+		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date dans le passé
+		header("Content-Type: text/csv");
+		header("Content-Disposition: attachment; filename=\"$filename.csv\"");
+		$strings=self::load_strings();
+    		$latest_siid=-1;
+    		$latest_spid=-1;
+ 		$fp = fopen('php://output', 'w');
+ 		    fputcsv($fp, array('SITE_ID_SOURCE', 'BASE_SOURCE', 'NOM_SITE', 'NOM_COMMUNE_PRINCIPALE', 'CODE_COMMUNE', 'SYSTEME_PROJECTION', 'LONGITUDE_X ', 'LATITUDE_Y', 'LONGITUDE_X_BIS', 'LATITUDE_Y_BIS', 'ALTITUDE Z', 'CENTRE_COMMUNE', 'ETAT_CONNAISSANCES', 'OCCUPATION', 'DATATION_DEBUT_PLUS_FINE', 'DATATION_FIN_PLUS_FINE', 'IMMO_NIV1', 'IMMO_NIV2', 'IMMO_NIV3', 'IMMO_NIV4', 'IMMO_EXP', 'MOB_NIV1', 'MOB_NIV2', 'MOB_NIV3', 'MOB_NIV4', 'MOB_EXP', 'PROD_NIV1', 'PROD_NIV2', 'PROD_NIV3', 'PROD_EXP', 'PAYS_NIV1', 'PAYS_NIV2', 'PAYS_NIV3', 'PAYS_NIV4', 'PAYS_EXP', 'BIBLIOGRAPHIE', 'REMARQUES'), ";", '"');
+		foreach($sites as $row) {
+    			$coords=json_decode($row['coords']);
+   			$period_start=ArkeoGIS::node_path_to_array($row['period_start'], $strings['period']);
+      			$period_end=ArkeoGIS::node_path_to_array($row['period_end'], $strings['period']);
+
+			$realestates=\core\Core::$db->fetchAll("SELECT r1.node_path, spr1.sr_exceptional as exceptional FROM ark_siteperiod_realestate spr1 LEFT JOIN ark_realestate r1 ON r1.re_id = spr1.sr_realestate_id WHERE spr1.sr_site_period_id = ?", array($row['sp_id']));
+			$furnitures=\core\Core::$db->fetchAll("SELECT f1.node_path, spf1.sf_exceptional as exceptional FROM ark_siteperiod_furniture spf1 LEFT JOIN ark_furniture f1 ON f1.fu_id = spf1.sf_furniture_id WHERE spf1.sf_site_period_id = ?", array($row['sp_id']));
+			$productions=\core\Core::$db->fetchAll("SELECT p1.node_path, spp1.sp_exceptional as exceptional FROM ark_siteperiod_production spp1 LEFT JOIN ark_production p1 ON p1.pr_id = spp1.sp_production_id WHERE spp1.sp_site_period_id = ?", array($row['sp_id']));
+			$landscapes=\core\Core::$db->fetchAll("SELECT l1.node_path, spl1.sl_exceptional as exceptional FROM ark_siteperiod_landscape spl1 LEFT JOIN ark_landscape l1 ON l1.la_id = spl1.sl_landscape_id WHERE spl1.sl_site_period_id = ?", array($row['sp_id']));
+
+			do {
+				$newsiid=($latest_siid != $row['si_id']);
+				$newspid=($latest_spid != $row['sp_id']);
+
+				$realestate=array_shift($realestates);
+				$furniture=array_shift($furnitures);
+				$production=array_shift($productions);
+				$landscape=array_shift($landscapes);
+
+				$realestate_astr = ArkeoGIS::node_path_to_array($realestate['node_path'], $strings['realestate']);
+				$furniture_astr = ArkeoGIS::node_path_to_array($furniture['node_path'], $strings['furniture']);
+				$production_astr = ArkeoGIS::node_path_to_array($production['node_path'], $strings['production']);
+				$landscape_astr = ArkeoGIS::node_path_to_array($landscape['node_path'], $strings['landscape']);
+
+				fputcsv($fp, array(
+				$row['si_code'],                                                                       // SITE_ID_SOURCE
+				$newsiid ? $row['da_name'] : '',                                                       // BASE_SOURCE
+				$newsiid ? $row['si_name'] : '',                                                       // NOM_SITE
+				$newsiid ? $row['si_city_name'] : '',                                                       // NOM_COMMUNE_PRINCIPALE
+				$newsiid ? $row['si_city_code'] : '',                                                       // CODE_COMMUNE
+				$newsiid ? 'WGS84' : '',                                                               // SYSTEME_PROJECTION
+				$newsiid ? $coords->coordinates[0] : '',                                               // LONGITUDE_X
+				$newsiid ? $coords->coordinates[1] : '',                                               // LATITUDE_Y
+				'',                                                                                    // LONGITUDE_X_BIS
+				'',                                                                                    // LATITUDE_Y_BIS
+				$newsiid ? ($coords->coordinates[2] == -999 ? '' : $coords->coordinates[2]) : '',      // ALTITUDE Z
+				$newsiid ? self::yesno($row['si_centroid']) : '',                                                   // CENTRE_COMMUNE
+				$newsiid && $row['sp_knowledge_type'] ? $strings['knowledge'][$row['sp_knowledge_type']] : '', // ETAT_CONNAISSANCES
+				$newsiid ? $strings['occupation'][$row['si_occupation']] : '',                         // OCCUPATION
+				$newspid ? (count($period_start) ? $period_start[count($period_start)-1] : '') : '',   // DATATION_DEBUT_PLUS_FINE
+				$newspid ? (count($period_end) ? $period_end[count($period_end)-1] : '') : '',         // DATATION_FIN_PLUS_FINE
+				isset($realestate_astr[0]) ? $realestate_astr[0] : '',                                           // IMMO_NIV1
+				isset($realestate_astr[1]) ? $realestate_astr[1] : '',                                           // IMMO_NIV2
+				isset($realestate_astr[2]) ? $realestate_astr[2] : '',                                           // IMMO_NIV3
+				isset($realestate_astr[3]) ? $realestate_astr[3] : '',                                           // IMMO_NIV4
+				//'',                                                                                  // PROFONDEUR_VESTIGES
+				isset($realestate_astr[0]) ? self::yesno($realestate['exceptional']) : '',                                                   // IMMO_EXP
+				isset($furniture_astr[0]) ? $furniture_astr[0] : '',                                             // MOB_NIV1
+				isset($furniture_astr[1]) ? $furniture_astr[1] : '',                                             // MOB_NIV2
+				isset($furniture_astr[2]) ? $furniture_astr[2] : '',                                             // MOB_NIV3
+				isset($furniture_astr[3]) ? $furniture_astr[3] : '',                                             // MOB_NIV4
+				isset($furniture_astr[0]) ? self::yesno($furniture['exceptional']) : '',                                                   // MOB_EXP
+				isset($production_astr[0]) ? $production_astr[0] : '',                                           // PROD_NIV1
+				isset($production_astr[1]) ? $production_astr[1] : '',                                           // PROD_NIV2
+				isset($production_astr[2]) ? $production_astr[2] : '',                                           // PROD_NIV3
+				isset($production_astr[0]) ? self::yesno($production['exceptional']) : '',                                   // PROD_EXP
+				isset($landscape_astr[0]) ? $landscape_astr[0] : '',                                             // LANDSCAPE_NIV1
+				isset($landscape_astr[1]) ? $landscape_astr[1] : '',                                             // LANDSCAPE_NIV2
+				isset($landscape_astr[2]) ? $landscape_astr[2] : '',                                             // LANDSCAPE_NIV3
+				isset($landscape_astr[3]) ? $landscape_astr[3] : '',                                   // LANDSCAPE_NIV3
+				isset($landscape_astr[0]) ? self::yesno($landscape['exceptional']) : '',                                           // LANDSCAPE_EXP
+				$newspid ? $row['sp_bibliography'] : '',                                               // BIBLIOGRAPHIE
+				$newspid ? $row['sp_comment'] : ''                                                     // REMARQUES
+				), ";", '"');
+				$latest_siid=$row['si_id'];
+				$latest_spid=$row['sp_id'];
+			} while (count($realestates) || count($furnitures) || count($productions) || count($landscapes));
+		}
+	}
 
 	public static function getUniquePathFromLabel($label, $type, $level=NULL, $parentPath=NULL, $lang='fr') {
 		if (!preg_match("/^[a-z]+/", $type)) {
@@ -645,15 +725,20 @@ class ArkeoGIS {
 		return $marker->get();
 	}
 
-  public static function getStats() {
-    $res=array();
-    $q = "select count(*) from ark_database";
-    $res['count_db']=\core\Core::$db->fetchOne($q, array());
-    $q = "select count(*) from ark_site";
-    $res['count_site']=\core\Core::$db->fetchOne($q, array());
-    $res['date']=strftime('%x');
-    return $res;
-  }
+	  public static function getStats() {
+	    $res=array();
+	    $q = "select count(*) from ark_database";
+	    $res['count_db']=\core\Core::$db->fetchOne($q, array());
+	    $q = "select count(*) from ark_site";
+	    $res['count_site']=\core\Core::$db->fetchOne($q, array());
+	    $res['date']=strftime('%x');
+	    return $res;
+	  }
+
+
+	public static function yesno($val) {
+		return $val ? \mod\lang\Main::ch_t('arkeogis', 'oui') : \mod\lang\Main::ch_t('arkeogis', 'non');
+	}
 
 }
 

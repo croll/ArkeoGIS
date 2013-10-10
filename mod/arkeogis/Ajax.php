@@ -278,11 +278,14 @@ class Ajax {
     if (\mod\user\Main::userBelongsToGroup('Admin')) {
         $response['footer'] .= '<input type="button" class="btn btn-danger" value="'.\mod\lang\Main::ch_t('arkeogis', 'Supprimer').'" onclick="if(confirm(\''.\mod\lang\Main::ch_t('arkeogis', 'Êtes vous sûr de vouloir supprimer cette base ?').'\')) {deleteDatabase('.$ret[0]['id'].');}" />';
     }
-    $file = \mod\arkeogis\ArkeoGIS::getLastImportFile((int)$params['id']);
-     if ($file) {
-        if (is_file(dirname(__FILE__).'/files/import/'.$file) && is_readable(dirname(__FILE__).'/files/import/'.$file)) {
+    if (\mod\user\Main::userBelongsToGroup('Admin') || \mod\arkeogis\ArkeoGIS::isDatabaseOwner((int)$params['id'], \mod\user\Main::getUserId($_SESSION['login']))) {
+        $file = \mod\arkeogis\ArkeoGIS::getLastImportFile((int)$params['id']);
+        if ($file) {
+           if (is_file(dirname(__FILE__).'/files/import/'.$file) && is_readable(dirname(__FILE__).'/files/import/'.$file)) {
            $response['footer'] .= '<input type="button" class="btn" value="'.\mod\lang\Main::ch_t('arkeogis', 'Télécharger le fichier d\'import').'" onclick="downloadLastImport('.(int)$params['id'].')" />';
+          } 
         }
+        $response['footer'] .= '<input type="button" class="btn" value="'.\mod\lang\Main::ch_t('arkeogis', 'Exporter la base').'" onclick="exportDatabase('.(int)$params['id'].')" />';
      }
     $response['footer'] .= '<input type="button" class="btn" value="'.\mod\lang\Main::ch_t('arkeogis', 'Fermer').'" onclick="modalWin.hide()" />';
     return $response;

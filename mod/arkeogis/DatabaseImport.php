@@ -16,6 +16,7 @@ class DatabaseImport {
 	private static $_strings;
 	private static $_nbSites = 0;
 	private static $_temporalBounds = array('start' => '1', 'end' => '1');
+	private static $_linesDone = 0;
 
 	public static function importCsv($filepath, $separator=';', $enclosure='"', $skipline=0, $lang='fr', $fields='') {
 
@@ -74,7 +75,7 @@ class DatabaseImport {
 			}
 		}
 
-		\core\Core::$db->exec('BEGIN');
+		//\core\Core::$db->exec('BEGIN');
 
 		// Retrieve special periods
 
@@ -406,15 +407,18 @@ class DatabaseImport {
 				}
 				$existing = null;
 				$siteId = null;
+				self::$_linesDone += 1;
 
 
 			} // End of site treatment, next one.
 
 		}
-		\core\Core::$db->exec('COMMIT');
+		//\core\Core::$db->exec('COMMIT');
 		$nbLines = self::$_lineNumber-$skipline;
-		self::_postProcess($filepath, $nbLines-sizeof(self::$_siteErrors), $uid);
-		return array("total" => $nbLines, "processed" => self::$_nbSites, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
+		$numErrors = self::countErrors();
+
+		self::_postProcess($filepath, self::$_linesDone, $uid);
+		return array("total" => $nbLines, "processed" => self::$_nbSites, "numErrors" => $numErrors, "errors" => self::$_siteErrors, "processingErrors" => self::$_processingErrors);
 	}
 //
 	private static function _processSiteId($siteCode) {
@@ -596,13 +600,11 @@ class DatabaseImport {
 
 	private static function _addError($msg) {
 		if (!isset(self::$_current['code'])) self::$_current['code'] = 'NO_CODE';
-		$num = (!isset(self::$_siteErrors[self::$_current['code']]) || (!isset(self::$_siteErrors[self::$_current['code']][self::$_lineNumber]))) ? 0 : $num = sizeof(self::$_siteErrors[self::$_current['code']][self::$_lineNumber])+1;
 		self::$_siteErrors[self::$_current['code']][self::$_lineNumber]['csvDatas'] = self::$_csvDatas;
 		self::$_siteErrors[self::$_current['code']][self::$_lineNumber]['msg'][] = $msg;
 	}
 
 	private static function _addProcessingError($msg) {
-		$num = (!isset(self::$_processingErrors[self::$_current['code']]) || (!isset(self::$_processingErrors[self::$_current['code']][self::$_lineNumber]))) ? 0 : $num = sizeof(self::$_processingErrors[self::$_current['code']][self::$_lineNumber])+1;
 		self::$_processingErrors[self::$_current['code']][self::$_lineNumber]['csvDatas'] = self::$_csvDatas;
 		self::$_processingErrors[self::$_current['code']][self::$_lineNumber]['msg'][] = $msg;
 	}
@@ -668,6 +670,9 @@ class DatabaseImport {
 	}
 
 	private static function _postProcess($filepath, $nbLines, $uid) {
+		if (!isset(self::$_database['id'])) {
+			return false;
+		}
 		$filename = md5(file_get_contents($filepath));
 		if (!rename($filepath, dirname(__FILE__).'/files/import/'.$filename)) {
 			throw new \Exception("Unable to move \"$filepath\".");
@@ -675,6 +680,14 @@ class DatabaseImport {
 		\mod\arkeogis\ArkeoGIS::updateDatabase(self::$_database['id'], array('lines' => $nbLines, 'sites' => self::$_nbSites, 'period_start' => \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_temporalBounds['start']), 'period_end' => \mod\arkeogis\ArkeoGIS::getPeriodIdFromPath(self::$_temporalBounds['end'])));
 		\mod\arkeogis\ArkeoGIS::deleteLastCsv(self::$_database['id'], $filename);
 		\mod\arkeogis\ArkeoGIS::writeDatabaseLog(self::$_database['id'], $uid, $filename);
+	}
+
+	private static function countErrors() {
+		$num = 0;
+		foreach(self::$_siteErrors as $err) {
+			$num += sizeof($err);
+		}
+		return $num;
 	}
 
 }
