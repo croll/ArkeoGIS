@@ -75,7 +75,7 @@ class DatabaseImport {
 			}
 		}
 
-		\core\Core::$db->exec('BEGIN');
+		//\core\Core::$db->exec('BEGIN');
 
 		// Retrieve special periods
 
@@ -413,7 +413,7 @@ class DatabaseImport {
 			} // End of site treatment, next one.
 
 		}
-		\core\Core::$db->exec('COMMIT');
+		//\core\Core::$db->exec('COMMIT');
 		$nbLines = self::$_lineNumber-$skipline;
 		$numErrors = self::countErrors();
 
@@ -670,6 +670,9 @@ class DatabaseImport {
 	}
 
 	private static function _postProcess($filepath, $nbLines, $uid) {
+		if (!isset(self::$_database['id'])) {
+			return false;
+		}
 		$filename = md5(file_get_contents($filepath));
 		if (!rename($filepath, dirname(__FILE__).'/files/import/'.$filename)) {
 			throw new \Exception("Unable to move \"$filepath\".");
