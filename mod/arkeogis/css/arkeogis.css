@@ -34,7 +34,6 @@ html[xmlns] .clearfix {
 
 
 .dbnames a.dblinks {
-
 	margin-right: 5px;
 }
 
@@ -921,6 +920,16 @@ div.filtercontent .filter-minus {
   font-weight: bold;
 }
 
+/* Databases index */
+
+#databases_list div.td:nth-child(6), #databases_list div.td:nth-child(7) {
+  text-align: right;
+  padding-right: 3px;
+}
+
+#databases_list div.th:nth-child(6), #databases_list div.th:nth-child(7) {
+  padding-right: 3px;
+}
 
 /* Import and database edit */
 

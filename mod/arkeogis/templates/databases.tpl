@@ -36,7 +36,7 @@
                                         header: ch_t('arkeogis', "ISSN Number"),
                                         dataIndex: "issn",
                                         dataType: "string",
-                                        width: 90
+                                        width: 80
                                  },
                                  {
                                         header: ch_t('arkeogis', "Database"),
@@ -54,7 +54,7 @@
                                         header: ch_t('arkeogis', "Type"),
                                         dataIndex: "type",
                                         dataType: "string",
-                                        width: 80
+                                        width: 70
                                  },
                                  {
                                         header: ch_t('arkeogis', "Last update"),
@@ -66,25 +66,25 @@
                                         header: ch_t('arkeogis', 'Lines'),
                                         dataIndex: "lines",
                                         dataType: "string",
-                                        width: 40
+                                        width: 37
                                  },
                                  {
                                         header: ch_t('arkeogis', 'Sites'),
                                         dataIndex: "sites",
                                         dataType: "string",
-                                        width: 40
+                                        width: 37
                                  },
                                  {
                                         header: ch_t('arkeogis', 'Start date'),
                                         dataIndex: "period_start",
                                         dataType: "string",
-                                        width: 80
+                                        width: 90
                                  },                                 
                                  {
                                         header: ch_t('arkeogis', 'End date'),
                                         dataIndex: "period_end",
                                         dataType: "string",
-                                        width: 80
+                                        width: 90
                                  },
                                  {
                                         header: ch_t('arkeogis', 'Scale'),
