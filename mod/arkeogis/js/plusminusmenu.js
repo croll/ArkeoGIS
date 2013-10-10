@@ -335,7 +335,9 @@ var PlusMinusItem = new Class({
             }
 	    this.selected=selected;
 	    this.fireEvent('selection', {
-		'selected': me.selected
+                'source': me,
+		'selected': me.selected,
+                'value': me.model.value
 	    });
 	    me.drawSelection();
 	}
