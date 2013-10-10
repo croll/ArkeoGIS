@@ -109,12 +109,13 @@ window.addEvent('domready', function() {
     arkeo_menu.occupation.inject($('menu-occupation'));
 
     arkeo_menu.txtsearch_options = new PlusMinusItem(ch_t('arkeogis', "Choisir"), null, new PlusMinusMenu([
-	new PlusMinusItem(ch_t('arkeogis', "Nom du site"), 'site.name', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', "Commune"), 'commune.name', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', "Biblio"), 'biblio.name', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', "Remarque"), 'site.remarque', null, { nominus: true })
+	new PlusMinusItem(ch_t('arkeogis', "Nom du site"), 'si_name', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Commune"), 'si_city_name', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Biblio"), 'sp_bibliography', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', "Remarque"), 'sp_comment', null, { nominus: true })
     ]));
     arkeo_menu.txtsearch_options.inject($('menu_txtsearch_options'));
+    arkeo_menu.txtsearch_options.setSelected('+', true);
 
 
     /* initialization of buttons "afficher la carte" and "afficher le tableur" */
@@ -371,7 +372,7 @@ window.addEvent('domready', function() {
 	$('caracterisation_mode').selectedIndex = 0;
 
         $('txtsearch').set('value', '');
-        arkeo_menu.txtsearch_options.setSelection([], []);
+        arkeo_menu.txtsearch_options.setSelected('+', true);
 
         querys_tabs.tabs.each(function(tab) {
             querys_tabs.removeTab(tab);
