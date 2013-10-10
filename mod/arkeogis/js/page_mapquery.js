@@ -1,7 +1,7 @@
 var infoWindow = null;
 var map;
 var queryNum = 0;
-var mapMarkers = [];
+var layerMarkers = [];
 
 var select_savedqueries_inhib_selection_event=false;
 
@@ -214,35 +214,48 @@ window.addEvent('domready', function() {
 		    'display': 'none'
 		});
 		show_menu(false);
+                                                   if (infoWindow) {
+                                                         map.closePopup(); 
+                                                   }
+                                                    if (typeOf(layerMarkers[queryNum]) != 'array')
+                                                          layerMarkers[queryNum] = [];
+                                                    layerMarkers[queryNum] = L.markerClusterGroup({
+                                                        maxClusterRadius: 20
+                                                    });
 				res.mapmarkers.each(function(marker) {
-					if (infoWindow)
-						infoWindow.close();
-					var m = new google.maps.Marker({
-						position: new google.maps.LatLng(marker.geometry.coordinates[1], marker.geometry.coordinates[0]),
-						icon: new google.maps.MarkerImage(marker.icon.iconUrl),
-						map: map
-					});
-					if (typeOf(mapMarkers[queryNum]) != 'array')
-						mapMarkers[queryNum] = [];
-					mapMarkers[queryNum].push(m);
+   
+                                                                var m = new L.marker([marker.geometry.coordinates[1], marker.geometry.coordinates[0]], {
+                                                                   draggable: false
+                                                                });
+                                                                 var icon = L.icon({iconUrl: marker.icon.iconUrl,  iconSize: [marker.icon.iconSize[0], marker.icon.iconSize[1]], className: 'customIcon'});
+                                                                 m.setIcon(icon);
 
-					google.maps.event.addListener(m, 'mouseover', function() {
-						if (infoWindow)
-							infoWindow.close();
-						infoWindow = new google.maps.InfoWindow({
-							 content: '<div style="width:500px">'+marker.popup.title+marker.popup.content+'</div>'
-						});
-						infoWindow.open(map, m);
-					});
-					google.maps.event.addListener(m, 'click', function() {
-						if (infoWindow)
-							infoWindow.close();
-							show_sheet(marker.id);
-					});
-					google.maps.event.addListener(m, 'mouseout', function() {
-						infoWindow.close();
-					});
+                                                                 m.on('mouseover', function(evt) {
+                                                                        if (infoWindow) {
+                                                                              map.closePopup(); 
+                                                                        }
+                                                                        infoWindow.setContent('<div style="width:500px">'+marker.popup.title+marker.popup.content+'</div>');
+                                                                        m.bindPopup(infoWindow).openPopup();
+                                                                        console.log('over');
+                                                                 })
+
+                                                                 m.on('mouseout', function(evt) {
+                                                                      if (infoWindow) {
+                                                                          map.closePopup(); 
+                                                                      }
+                                                                 })
+
+                                                                 m.on('click', function(evt) {
+                                                                      if (infoWindow) {
+                                                                          map.closePopup(); 
+                                                                      }
+                                                                      show_sheet(marker.id);
+                                                                 })
+
+                                                                layerMarkers[queryNum].addLayer(m);
 				});
+
+                                                    map.addLayer(layerMarkers[queryNum]);
 	    }
 	}).post({search: form, queryNum: queryNum});
     });
@@ -381,33 +394,15 @@ window.addEvent('domready', function() {
     });
 
 
-    /* initialization of google map */
-    map = new google.maps.Map($('map_canvas'), {
-			center: new google.maps.LatLng(48.58476, 7.750576),
-	zoom: 7,
-	disableDefaultUI: true,
-	mapTypeId: google.maps.MapTypeId.TERRAIN,
-	mapTypeControl: true,
-	mapTypeControlOptions: {
-	    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-	    position: google.maps.ControlPosition.TOP_RIGHT
-	},
-	zoomControl: true,
-	zoomControlOptions: {
-	    style: google.maps.ZoomControlStyle.BIG,
-	    position: google.maps.ControlPosition.RIGHT_TOP
-	},
-	panControl: true,
-	panControlOptions: {
-	    style: google.maps.ZoomControlStyle.BIG,
-	    position: google.maps.ControlPosition.RIGHT_TOP
-	},
-	scaleControl: true,
-	scaleControlOptions: {
-	    position: google.maps.ControlPosition.BOTTOM_LEFT
-	}
+    map = new L.Map('map_canvas', {
+        center: new L.LatLng(48.58476, 7.750576),
+        zoom: 7,
+        zoomControl: false
     });
+    map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));
+    infoWindow = L.popup();
 
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
     /* initialize tabbeds queries */
     querys_tabs = new UI.Tabs( { container : 'querys', scrolling : 'auto', contextMenu : true, sortable : true } );
@@ -619,15 +614,14 @@ function show_menu(show) {
 }
 
 
-function clearMarkers() {
-	if (mapMarkers.length > 0) {
-		mapMarkers.each(function(mGroup) {
-			mGroup.each(function(m) {
-				m.setMap(null);
-			});
-		});
-		mapMarkers = [];
-	}
+function clearMarkers(num) {
+    if (!num) {
+        layerMarkers.each(function(l) {
+            map.removeLayer(l);
+        });
+    } else {
+        map.removeLayer(layerMarkers[num]);
+    }
 }
 
 function showSpinner() {

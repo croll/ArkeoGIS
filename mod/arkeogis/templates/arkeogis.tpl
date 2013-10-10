@@ -6,13 +6,21 @@
 	{js file="/mod/cssjs/js/messageclass.js"}
 	{js file="/mod/cssjs/js/message.js"}
 	{js file="/pmmenus"}
-        <script>UI={}</script>
+        	<script>UI={}</script>
 	{js file="/mod/cssjs/ext/mootools_ui_tabs/UI.Tabs.js"}
 	{css file="/mod/cssjs/ext/mootools_ui_tabs/tabs.css"}
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/sheet.js"}
 	{js file="/mod/arkeogis/js/page_mapquery.js"}
-	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false" ></script>
+	{js file="/mod/cssjs/ext/leaflet/leaflet.js"}
+	{css file="/mod/cssjs/ext/leaflet/leaflet.css"}
+	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.Default.css"}
+	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.css"}
+	{js file="/mod/cssjs/ext/leaflet.markercluster/leaflet.markercluster.js"}
+	<!--[if lte IE 8]>
+    		<link rel="stylesheet" href="/mod/cssjs/ext/leaflet/leaflet.ie.css" />
+    		<link rel="stylesheet" href="/mod/cssjs/ext/leaflet/leaflet.markercluster/MarkerCluster.Default.ie.css" />
+	<![endif]-->
 {/block}
 
 {block name='arkeogis_content'}
