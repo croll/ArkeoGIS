@@ -6,7 +6,7 @@
 	{js file="/mod/cssjs/js/messageclass.js"}
 	{js file="/mod/cssjs/js/message.js"}
 	{js file="/pmmenus"}
-        	<script>UI={}</script>
+        <script>UI={}</script>
 	{js file="/mod/cssjs/ext/mootools_ui_tabs/UI.Tabs.js"}
 	{css file="/mod/cssjs/ext/mootools_ui_tabs/tabs.css"}
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
@@ -17,11 +17,13 @@
 	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.Default.css"}
 	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.css"}
 	{js file="/mod/cssjs/ext/leaflet.markercluster/leaflet.markercluster.js"}
-	{js file="/mod/cssjs/ext/leaflet-locationfilter/src/locationfilter.js"}
-	{css file="/mod/cssjs/ext/leaflet-locationfilter/src/locationfilter.css"}
+
+        {css file="/mod/cssjs/ext/Leaflet.draw/dist/leaflet.draw.css"}
+        {js file="/mod/cssjs/ext/Leaflet.draw/dist/leaflet.draw.js"}
 	<!--[if lte IE 8]>
     		<link rel="stylesheet" href="/mod/cssjs/ext/leaflet/leaflet.ie.css" />
     		<link rel="stylesheet" href="/mod/cssjs/ext/leaflet/leaflet.markercluster/MarkerCluster.Default.ie.css" />
+    		<link rel="stylesheet" href="/mod/cssjs/ext/Leaflet.draw/dist/leaflet.draw.ie.css" />
 	<![endif]-->
 {/block}
 
