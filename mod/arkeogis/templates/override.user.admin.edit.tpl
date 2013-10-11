@@ -20,7 +20,11 @@
 			<input type="hidden" name="created" value="{$user.created}" >
 			<input type="hidden" name="updated" value="{$user.updated}" >
 
-			<div class="clearfix"><label for="login"><span>{t d='user' m='User login'}:</span> {t d='user' m='(caractères autorisés lettres minuscules et majuscules, chiffres, _ et .)'}</label><input class="xlarge" title="login" type="text" name="login" value="{$user.login}" ></div>
+			<div class="clearfix"><label
+                        for="login"><span>{t d='user' m='User login'}:</span>
+                        {t d='user' m='(caractères autorisés lettres minuscules et majuscules, chiffres, _ et .)'}</label>
+                        <input class="xlarge" title="login"
+                        type="text" name="login" value="{$user.login}" pattern="^[a-z]*$"</div>
 			<div class="clearfix"><label for="full_name"><span>{t d='user' m='User full name'}:</span></label><input class="xlarge" title="full_name" type="text" name="full_name" value="{$user.full_name}" ></div>
 			<div class="clearfix"><label for="structure"><span>{t d='arkeogis' m='Structure'}:</span></label><input class="xlarge" title="structure" type="text" name="structure" value="{$user.mod.arkeogis.structure}" ></div>
 			<div class="clearfix"><label for="email"><span>{t d='user' m='User email'}:</span></label><input class="xlarge" title="email" type="text" name="email" value="{$user.email}" ></div>
@@ -47,5 +51,8 @@
 		var params = $('user_edit');
 		myuser.postForm('/ajax/call/user/saveUser', 'user_edit', params);
 	});
+
+        //$$('input[name=login]')[0].setCustomValidity('pas bien');
+
 </script>
 {/block}
