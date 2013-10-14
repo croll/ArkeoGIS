@@ -199,6 +199,7 @@
   "Users" : false,
   "Utilisez" : "Utilisez",
   "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation" : "Vous devez choisir au moins une base, une p\u00e9riode et une caract\u00e9risation",
+  "Vous devez choisir au moins une base, une p\u00e9riode, une aire de recherche ainsi qu'une caract\u00e9risation et\/ou une recherche textuelle" : false,
   "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv" : "Vous n'avez pas la permission de t\u00e9l\u00e9charger au format csv",
   "Vous semblez inactif, vous allez \u00eatre d\u00e9connect\u00e9" : false,
   "all" : false,
