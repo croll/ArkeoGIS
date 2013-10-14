@@ -404,6 +404,9 @@ window.addEvent('domready', function() {
 
 
     /* initialize map */
+    layer_selection_rect = null;
+    layer_selection_circle = null;
+
     map = new L.Map('map_canvas', {
         center: new L.LatLng(48.58476, 7.750576),
         zoom: 7,
@@ -413,19 +416,57 @@ window.addEvent('domready', function() {
     infoWindow = L.popup();
 
     new L.Control.Zoom({ position: 'topright' }).addTo(map);
-    locationFilter = new L.LocationFilter().addTo(map);
     L.tileLayer('http://{s}.tile.cloudmade.com/1fe47d515f2c4d0cafca5a67a0b1dc57/997/256/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
     maxZoom: 18
 }).addTo(map);
+
+    // Initialize the FeatureGroup to store editable layers
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    // Initialize the draw control and pass it the FeatureGroup of editable layers
+    var drawControl = new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems
+        }
+    });
+    //map.addControl(drawControl);
+
+    map.on('draw:created', function (e) {
+	var type = e.layerType,
+	layer = e.layer;
+
+        if (type == 'rectangle')
+            layer_selection_rect = layer;
+        else if (type == 'circle')
+            layer_selection_circle = layer;
+
+	drawnItems.addLayer(layer);
+        layer.editing.enable();
+
+    });
+
     arkeo_menu.area.addEventOnLeafs('selection', function(ev) {
         if (ev.value == 'rect') {
+            if (layer_selection_rect != null) {
+                map.removeLayer(layer_selection_rect);
+                layer_selection_rect=null;
+            }
             if (ev.selected == '+') {
-                locationFilter.enable();
+                new L.Draw.Rectangle(map, drawControl.options.rectangle).enable()
                 ev.source.parent_menu.close();
 	        show_menu(false);
-            } else {
-                locationFilter.disable();
+            }
+        } else if (ev.value == 'disc') {
+            if (layer_selection_circle != null) {
+                map.removeLayer(layer_selection_circle);
+                layer_selection_circle=null;
+            }
+            if (ev.selected == '+') {
+                new L.Draw.Circle(map, drawControl.options.circle).enable()
+                ev.source.parent_menu.close();
+	        show_menu(false);
             }
         }
     });
