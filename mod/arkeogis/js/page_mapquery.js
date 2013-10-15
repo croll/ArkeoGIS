@@ -544,7 +544,7 @@ function getMenuById(menu, id) {
     return null;
 }
 
-function buildFilterLines(section, menu, colnum, div) {
+function buildFilterLines(section, menu, colnum, div, query) {
     menu.each(function(model) {
 	var table = new Element('table');
 	table.inject(div);
@@ -576,6 +576,47 @@ function buildFilterLines(section, menu, colnum, div) {
 	    td2.inject(tr);
 	    buildFilterLines(section, model.submenu, colnum+1, td2);
 	}
+
+        if (section == 'area') {
+            if (model.value == 'circle') {
+	        var td2 = new Element('td', {
+		    'class': 'td2'
+	        });
+                td2.innerHTML='<div>'+ch_t('arkeogis', "Latitude")+" : "+query.area_circle.lat+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Longitude")+" : "+query.area_circle.lng+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Distance")+" : "+(parseInt(query.area_circle.radius)/1000)+' km</div>';
+	        td2.inject(tr);
+            }
+            if (model.value == 'coord') {
+	        var td2 = new Element('td', {
+		    'class': 'td2'
+	        });
+                td2.innerHTML='<div>'+ch_t('arkeogis', "Latitude")+" : "+query.area_coords.lat+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Longitude")+" : "+query.area_coords.lng+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Distance")+" : "+(parseInt(query.area_coords.radius)/1000)+' km</div>';
+	        td2.inject(tr);
+            }
+            if (model.value == 'rect') {
+	        var td2 = new Element('td', {
+		    'class': 'td2'
+	        });
+                td2.innerHTML='<div>'+ch_t('arkeogis', "Latitude")+" 1 : "+query.area_bounds._northEast.lat+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Longitude")+" 1 : "+query.area_bounds._northEast.lng+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Latitude")+" 2 : "+query.area_bounds._southWest.lat+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Longitude")+" 2 : "+query.area_bounds._southWest.lng+'</div>';
+	        td2.inject(tr);
+            }
+            if (model.value == 'all') {
+	        var td2 = new Element('td', {
+		    'class': 'td2'
+	        });
+                td2.innerHTML='<div>'+ch_t('arkeogis', "Latitude")+" 1 : "+query.area_map._northEast.lat+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Longitude")+" 1 : "+query.area_map._northEast.lng+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Latitude")+" 2 : "+query.area_map._southWest.lat+'</div>'
+                    +'<div>'+ch_t('arkeogis', "Longitude")+" 2 : "+query.area_map._southWest.lng+'</div>';
+	        td2.inject(tr);
+            }
+        }
     });
 }
 
@@ -617,7 +658,7 @@ function display_query(query) {
 	    div=new Element('div', {
 		'class': 'filtercontent'
 	    });
-	    buildFilterLines(m, result, 0, div);
+	    buildFilterLines(m, result, 0, div, query);
 	    div.inject(queryfilter_html);
 	    queryfilter_html.inject(html.getElement('.query-filters'));
 	}
