@@ -311,6 +311,13 @@ class ArkeoGIS {
         $args[]=$search['area_bounds']['_northEast']['lng'];
         $args[]=$search['area_bounds']['_northEast']['lat'];
       }
+      if (in_array('all', $search['area_include'])) {
+        $where.=' AND si_geom && ST_SetSRID(ST_MakeBox2D(ST_Point(?, ?), ST_Point(? ,?)), 4326)';
+        $args[]=$search['area_map']['_southWest']['lng'];
+        $args[]=$search['area_map']['_southWest']['lat'];
+        $args[]=$search['area_map']['_northEast']['lng'];
+        $args[]=$search['area_map']['_northEast']['lat'];
+      }
       if (in_array('coord', $search['area_include'])) {
         $where.=' AND ST_Distance_Sphere(si_geom, ST_SetSRID(ST_MakePoint(?, ?), 4326)) < ?';
         $args[]=$search['area_coords']['lng'];
