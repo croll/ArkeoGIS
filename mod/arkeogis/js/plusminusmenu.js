@@ -97,16 +97,17 @@ var PlusMinusMenu = new Class({
 	        me.parent_item.setSelected('', true);
 	    });
 	    tools_none.inject(tools);
+
+	    tools.addEvent('mouseenter', function() {
+	        me.close_submenus();
+	    });
+
         }
 
 	me.content.each(function(item) {
 	    item.inject(me.html_element);
 	});
 
-
-	tools.addEvent('mouseenter', function() {
-	    me.close_submenus();
-	});
 
    },
 
