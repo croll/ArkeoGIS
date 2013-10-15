@@ -11,7 +11,6 @@
 	{css file="/mod/cssjs/ext/mootools_ui_tabs/tabs.css"}
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/sheet.js"}
-	{js file="/mod/arkeogis/js/page_mapquery.js"}
 	{js file="/mod/cssjs/ext/leaflet/leaflet-src.js"}
 	{css file="/mod/cssjs/ext/leaflet/leaflet.css"}
 	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.Default.css"}
@@ -25,6 +24,7 @@
     		<link rel="stylesheet" href="/mod/cssjs/ext/leaflet/leaflet.markercluster/MarkerCluster.Default.ie.css" />
     		<link rel="stylesheet" href="/mod/cssjs/ext/Leaflet.draw/dist/leaflet.draw.ie.css" />
 	<![endif]-->
+	{js file="/mod/arkeogis/js/page_mapquery.js"}
 {/block}
 
 {block name='arkeogis_content'}
@@ -165,4 +165,52 @@
 	<div id='query-filter' class='query-filter' style='display: none'>
 		<div class='filtername'><span></span> <span class='icon-fleche-bas'></span></div>
 	</div>
+
+	{* model used to ask for coordinates *}
+	<div id='win-coord' style='display: none'>
+          <table class='table-coord'>
+            <tr>
+              <th colspan='5'>{t d='arkeogis' m='Latitude'}</th>
+            </tr>
+            <tr>
+              <td>{t d='arkeogis' m='degrés'}</td>
+              <td>{t d='arkeogis' m='minutes'}</td>
+              <td>{t d='arkeogis' m='secondes'}</td>
+              <td></td>
+              <td>décimaux</td>
+            </tr>
+            <tr class='coord_lat'>
+              <td><input type='text' name='txtdeg' value='0' onkeyup="dmsdec('coord_lat')"></td>
+              <td><input type='text' name='txtmin' value='0' onkeyup="dmsdec('coord_lat')"></td>
+              <td><input type='text' name='txtsec' value='0' onkeyup="dmsdec('coord_lat')"></td>
+              <td><select name='orientation' onchange="dmsdec('coord_lat')"><option>N</option><option>S</option></select></td>
+              <td><input type='text' name='txtdec' value='0' onkeyup="decdms('coord_lat')"></td>
+            </tr>
+            <tr>
+              <th colspan='5'>{t d='arkeogis' m='Longitude'}</th>
+            </tr>
+            <tr>
+              <td>{t d='arkeogis' m='degrés'}</td>
+              <td>{t d='arkeogis' m='minutes'}</td>
+              <td>{t d='arkeogis' m='secondes'}</td>
+              <td></td>
+              <td>décimaux</td>
+            </tr>
+            <tr class='coord_lng'>
+              <td><input type='text' name='txtdeg' value='0' onkeyup="dmsdec('coord_lng')"></td>
+              <td><input type='text' name='txtmin' value='0' onkeyup="dmsdec('coord_lng')"></td>
+              <td><input type='text' name='txtsec' value='0' onkeyup="dmsdec('coord_lng')"></td>
+              <td><select name='orientation' onchange="dmsdec('coord_lng')"><option>E</option><option>W</option></select></td>
+              <td><input type='text' name='txtdec' value='0' onkeyup="decdms('coord_lng')"></td>
+            </tr>
+            <tr>
+              <th colspan='5'>{t d='arkeogis' m='Distance'}</th>
+            </tr>
+            <tr class='coord_lng'>
+              <td colspan='5'><input type='text' name='km' value='0'> {t d='arkeogis' m='km'}</td>
+            </tr>
+          </table>
+        </div>
+
+
 {/block}

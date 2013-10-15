@@ -299,10 +299,10 @@ class ArkeoGIS {
     // geo search
 		if (isset($search['area_include']) && count($search['area_include'])) {
       if (in_array('circle', $search['area_include'])) {
-        $where.=' AND ST_Point_Inside_Circle(si_geom, ?, ?, ?)';
+        $where.=' AND ST_Distance_Sphere(si_geom, ST_SetSRID(ST_MakePoint(?, ?), 4326)) < ?';
         $args[]=$search['area_circle']['lng'];
         $args[]=$search['area_circle']['lat'];
-        $args[]=$search['area_circle']['radius']/108500;
+        $args[]=$search['area_circle']['radius'];
       }
       if (in_array('rect', $search['area_include'])) {
         $where.=' AND si_geom && ST_SetSRID(ST_MakeBox2D(ST_Point(?, ?), ST_Point(? ,?)), 4326)';
@@ -310,6 +310,12 @@ class ArkeoGIS {
         $args[]=$search['area_bounds']['_southWest']['lat'];
         $args[]=$search['area_bounds']['_northEast']['lng'];
         $args[]=$search['area_bounds']['_northEast']['lat'];
+      }
+      if (in_array('coord', $search['area_include'])) {
+        $where.=' AND ST_Distance_Sphere(si_geom, ST_SetSRID(ST_MakePoint(?, ?), 4326)) < ?';
+        $args[]=$search['area_coords']['lng'];
+        $args[]=$search['area_coords']['lat'];
+        $args[]=$search['area_coords']['km'] * 1000;
       }
     }
 

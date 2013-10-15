@@ -784,6 +784,17 @@ div.filtercontent .filter-minus {
   padding-left: 5px;
 }
 
+
+/* coord win */
+.table-coord input {
+  width: 50px;
+}
+.table-coord select {
+  width: 50px;
+  margin-right: 80px;
+}
+
+
 .icon-fleche-bas {
   width: 8px;
   height: 4px;

@@ -179,6 +179,8 @@ window.addEvent('domready', function() {
             result.area_circle.radius = layer_selection_circle.getRadius();
         }
 
+        result.area_coords = area_coords;
+
 	// get saved query
 	var option=$('select-savedqueries').getSelected();
 	result.saved_query={
@@ -509,6 +511,18 @@ window.addEvent('domready', function() {
                 ev.source.parent_menu.close();
 	        show_menu(false);
             }
+        } else if (ev.value == 'coord') {
+            if (ev.selected == '+') {
+                var html = $('win-coord').clone();
+                html.setStyles({
+	            display: ''
+                });
+                modalWin = new Modal.Base(document.body);
+                modalWin.setTitle(ch_t('arkeogis', "Coordonnées de sélection"));
+                modalWin.setBody(html.innerHTML);
+                modalWin.setFooter("<div><button onclick='setCoordsFromModal()'>Ok</button></div>");
+                modalWin.show();
+            }
         }
     });
 
@@ -738,4 +752,70 @@ function showSpinner() {
 
 function hideSpinner() {
 	$('arkeospinner').setStyle('display', 'none');
+}
+
+
+function dmsdec(section) {
+    var degres = 0;
+    var minutes = 0;
+    var seconds = 0;
+
+    car = $$('.modal-body .'+section+' [name=txtdeg]')[0].value;
+    car = car.replace(/-/g, "");
+    car = $$('.modal-body .'+section+' [name=txtdeg]')[0].value=car;
+
+    degres = parseInt($$('.modal-body .'+section+' [name=txtdeg]')[0].value * 1.0);
+    minutes = parseInt($$('.modal-body .'+section+' [name=txtmin]')[0].value * 1.0);
+    secondes = parseFloat($$('.modal-body .'+section+' [name=txtsec]')[0].value * 1.0);
+
+    var orientation = $$('.modal-body .'+section+' [name=orientation]')[0].value;
+    if (orientation == 'N' || orientation == 'E')
+        orientation=1;
+    else
+        orientation=-1;
+    var calcul = degres + (minutes * (1.0 / 60.0)) + (secondes * (1.0 / 3600.0));
+    $$('.modal-body .'+section+' [name=txtdec]')[0].value=calcul * orientation;
+}
+
+function decdms(section) {
+    var degres = 0;
+    var degresTemp = 0.0;
+    var minutes = 0;
+    var minutesTemp = 0.0;
+    var secondes = 0;
+    var secondesTemp = 0.0;
+
+    var txtdec = parseFloat($$('.modal-body .'+section+' [name=txtdec]')[0].value * 1.0);
+
+    if (txtdec < 0) {
+        degresTemp = txtdec * -1.0;
+        $$('.modal-body .'+section+' [name=orientation]')[0].value=(section == 'coord_lat' ? 'S' : 'W');
+    } else {
+	degresTemp = txtdec;
+        $$('.modal-body .'+section+' [name=orientation]')[0].value=(section == 'coord_lat' ? 'N' : 'E');
+    }
+
+    degres = Math.floor(degresTemp);
+    minutesTemp = degresTemp - degres;
+    minutesTemp = 60.0 * minutesTemp;
+    minutes = Math.floor(minutesTemp);
+    secondesTemp = minutesTemp - minutes;
+    secondesTemp = 60.0 * secondesTemp;
+    secondes = Math.round(secondesTemp * 1000) / 1000;
+
+    if (txtdec=='NaN') {degres='0' ; minutes='0' ; secondes='0';}
+
+    $$('.modal-body .'+section+' [name=txtdeg]')[0].value = degres;
+    $$('.modal-body .'+section+' [name=txtmin]')[0].value = minutes;
+    $$('.modal-body .'+section+' [name=txtsec]')[0].value = secondes;
+}
+
+function setCoordsFromModal() {
+    var lat = parseFloat($$('.modal-body .coord_lat [name=txtdec]')[0].value * 1.0);
+    var lng = parseFloat($$('.modal-body .coord_lng [name=txtdec]')[0].value * 1.0);
+    var km = parseFloat($$('.modal-body .coord_lng [name=km]')[0].value * 1.0);
+
+    area_coords = { 'lat': lat, 'lng': lng, 'km': km };
+
+    modalWin.hide();
 }
