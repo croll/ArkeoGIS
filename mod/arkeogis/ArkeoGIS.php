@@ -296,6 +296,23 @@ class ArkeoGIS {
     }
 
 
+    // geo search
+		if (isset($search['area_include']) && count($search['area_include'])) {
+      if (in_array('circle', $search['area_include'])) {
+        $where.=' AND ST_Point_Inside_Circle(si_geom, ?, ?, ?)';
+        $args[]=$search['area_circle']['lng'];
+        $args[]=$search['area_circle']['lat'];
+        $args[]=$search['area_circle']['radius']/108500;
+      }
+      if (in_array('rect', $search['area_include'])) {
+        $where.=' AND si_geom && ST_SetSRID(ST_MakeBox2D(ST_Point(?, ?), ST_Point(? ,?)), 4326)';
+        $args[]=$search['area_bounds']['_southWest']['lng'];
+        $args[]=$search['area_bounds']['_southWest']['lat'];
+        $args[]=$search['area_bounds']['_northEast']['lng'];
+        $args[]=$search['area_bounds']['_northEast']['lat'];
+      }
+    }
+
     ///////////////////////
 
 		$groupby='ark_site.si_id';
@@ -327,7 +344,7 @@ class ArkeoGIS {
 		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.($groupby ? ' GROUP BY '.$groupby : '').($orderby ? ' ORDER BY '.$orderby : '').($limit ? ' LIMIT '.$limit : '');
 		$query_count='SELECT COUNT(DISTINCT(ark_site.si_id)) FROM '.$from.' WHERE '.$where;
 
-    //error_log(sqltostr($query, $args));
+    error_log(sqltostr($query, $args));
 
 		//error_log(var_export(\core\Core::$db->fetchAll($query, $args), true));
 		return array('total_count' => $getcount ? \core\Core::$db->fetchOne($query_count, $args) : 'unwanted',

@@ -58,7 +58,7 @@ window.addEvent('domready', function() {
     arkeo_menu.area = new PlusMinusItem(ch_t('arkeogis', "Choix de l'aire de recherche"), null, new PlusMinusMenu([
 	new PlusMinusItem(ch_t('arkeogis', 'Toute la carte'), 'all', null, { nominus: true }),
 	new PlusMinusItem(ch_t('arkeogis', 'Réctangle de sélection'), 'rect', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', 'Disque de sélection'), 'disc', null, { nominus: true }),
+	new PlusMinusItem(ch_t('arkeogis', 'Disque de sélection'), 'circle', null, { nominus: true }),
 	new PlusMinusItem(ch_t('arkeogis', 'Coordonnées de sélection'), 'coord', null, { nominus: true })
     ], {
         multiselect: false
@@ -171,6 +171,14 @@ window.addEvent('domready', function() {
         result.txtsearch = $('txtsearch').get('value');
         result.txtsearch_options = arkeo_menu.txtsearch_options.getSelection('+');
 
+        // get area selection
+        if (layer_selection_rect)
+            result.area_bounds = layer_selection_rect.getBounds();
+        else if (layer_selection_circle) {
+            result.area_circle = layer_selection_circle.getLatLng();
+            result.area_circle.radius = layer_selection_circle.getRadius();
+        }
+
 	// get saved query
 	var option=$('select-savedqueries').getSelected();
 	result.saved_query={
@@ -183,7 +191,7 @@ window.addEvent('domready', function() {
     }
 
     $('btn-show-the-map').addEvent('click', function() {
-				queryNum += 1;
+	queryNum += 1;
 	var form=buildSelectionObject();
 	if ((form.db_include.length > 0 || form.db_exclude > 0)
 	    && (form.period_include.length > 0 || form.period_exclude.length > 0)
@@ -206,7 +214,7 @@ window.addEvent('domready', function() {
 	new Request.JSON({
 	    'url': '/ajax/call/arkeogis/showthemap',
 	    'onSuccess': function(res) {
-			hideSpinner();
+		hideSpinner();
 		display_query(form);
 		if (res.mapmarkers.length < res.total_count
 		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites.", res.mapmarkers.length, parseInt(res.total_count)))) {
@@ -215,62 +223,62 @@ window.addEvent('domready', function() {
 		    window.location.href='/export_sheet/'+encodeURIComponent(JSON.encode(form));
 		    return;
 		} else if (res.mapmarkers.length == 0) {
-			CaptainHook.Message.show(ch_t('arkeogis', 'Aucun résultat'));
+		    CaptainHook.Message.show(ch_t('arkeogis', 'Aucun résultat'));
 		}
 		$('map_sheet').setStyles({
 		    'display': 'none'
 		});
 		show_menu(false);
-                                                   if (infoWindow) {
-                                                         map.closePopup();
-                                                   }
-                                                    if (typeOf(layerMarkers[queryNum]) != 'array')
-                                                          layerMarkers[queryNum] = [];
-                                                    layerMarkers[queryNum] = L.markerClusterGroup({
-                                                        maxClusterRadius: 20
-                                                    });
-				res.mapmarkers.each(function(marker) {
-								if (marker.geometry) {
+                if (infoWindow) {
+                    map.closePopup();
+                }
+                if (typeOf(layerMarkers[queryNum]) != 'array')
+                    layerMarkers[queryNum] = [];
+                layerMarkers[queryNum] = L.markerClusterGroup({
+                    maxClusterRadius: 20
+                });
+		res.mapmarkers.each(function(marker) {
+		    if (marker.geometry) {
 
-                                                                var m = new L.marker([marker.geometry.coordinates[1], marker.geometry.coordinates[0]], {
-                                                                   draggable: false
-                                                                });
-                                                                 var icon = L.icon({iconUrl: marker.icon.iconUrl,  iconSize: [marker.icon.iconSize[0], marker.icon.iconSize[1]], className: 'customIcon'});
-                                                                 m.setIcon(icon);
+                        var m = new L.marker([marker.geometry.coordinates[1], marker.geometry.coordinates[0]], {
+                            draggable: false
+                        });
+                        var icon = L.icon({iconUrl: marker.icon.iconUrl,  iconSize: [marker.icon.iconSize[0], marker.icon.iconSize[1]], className: 'customIcon'});
+                        m.setIcon(icon);
 
-                                                                 m.on('mouseover', function(evt) {
-                                                                        if (infoWindow) {
-                                                                              map.closePopup();
-                                                                        }
-                                                                        infoWindow.setContent('<div style="width:500px">'+marker.popup.title+marker.popup.content+'</div>');
-                                                                        m.bindPopup(infoWindow).openPopup();
-                                                                        console.log('over');
-                                                                 })
+                        m.on('mouseover', function(evt) {
+                            if (infoWindow) {
+                                map.closePopup();
+                            }
+                            infoWindow.setContent('<div style="width:500px">'+marker.popup.title+marker.popup.content+'</div>');
+                            m.bindPopup(infoWindow).openPopup();
+                            console.log('over');
+                        })
 
-                                                                 m.on('mouseout', function(evt) {
-                                                                      if (infoWindow) {
-                                                                          map.closePopup();
-                                                                      }
-                                                                 })
+                        m.on('mouseout', function(evt) {
+                            if (infoWindow) {
+                                map.closePopup();
+                            }
+                        })
 
-                                                                 m.on('click', function(evt) {
-                                                                      if (infoWindow) {
-                                                                          map.closePopup();
-                                                                      }
-                                                                      show_sheet(marker.id);
-                                                                 })
+                        m.on('click', function(evt) {
+                            if (infoWindow) {
+                                map.closePopup();
+                            }
+                            show_sheet(marker.id);
+                        })
 
-                                                                layerMarkers[queryNum].addLayer(m);
-								}
-				});
+                        layerMarkers[queryNum].addLayer(m);
+		    }
+		});
 
-                                                    map.addLayer(layerMarkers[queryNum]);
+                map.addLayer(layerMarkers[queryNum]);
 	    }
 	}).post({search: form, queryNum: queryNum});
     });
 
     $('btn-show-the-table').addEvent('click', function() {
-				queryNum += 1;
+	queryNum += 1;
 	var form=buildSelectionObject();
 	if ((form.db_include.length > 0 || form.db_exclude > 0)
 	    && (form.period_include.length > 0 || form.period_exclude.length > 0)
@@ -347,6 +355,27 @@ window.addEvent('domready', function() {
                 $('txtsearch').set('value', res.txtsearch);
                 arkeo_menu.txtsearch_options.setSelection(res.txtsearch_options ? res.txtsearch_options : [], []);
 
+                // display area selections
+                if (layer_selection_rect != null) {
+                    map.removeLayer(layer_selection_rect);
+                    layer_selection_rect=null;
+                }
+                if (layer_selection_circle != null) {
+                    map.removeLayer(layer_selection_circle);
+                    layer_selection_circle=null;
+                }
+                if (res.area_include && res.area_include.indexOf('circle') != -1) {
+                    layer_selection_circle = new L.Circle([res.area_circle.lat, res.area_circle.lng], res.area_circle.radius, {});
+                    map.addLayer(layer_selection_circle);
+                    layer_selection_circle.editing.enable();
+                }
+                if (res.area_include && res.area_include.indexOf('rect') != -1) {
+                    var bounds = [[res.area_bounds._southWest.lat, res.area_bounds._southWest.lng], [res.area_bounds._northEast.lat, res.area_bounds._northEast.lng]];
+                    layer_selection_rect = new L.Rectangle(bounds, {});
+                    map.addLayer(layer_selection_rect);
+                    layer_selection_rect.editing.enable();
+                }
+
 		select_savedqueries_inhib_selection_event=false;
 		//$('select-savedqueries').selectedIndex=idx;
 	    }
@@ -400,6 +429,17 @@ window.addEvent('domready', function() {
             querys_tabs.removeTab(tab);
         });
 
+
+        // remove selections area
+        if (layer_selection_rect != null) {
+            map.removeLayer(layer_selection_rect);
+            layer_selection_rect=null;
+        }
+        if (layer_selection_circle != null) {
+            map.removeLayer(layer_selection_circle);
+            layer_selection_circle=null;
+        }
+
     });
 
 
@@ -448,6 +488,7 @@ window.addEvent('domready', function() {
     });
 
     arkeo_menu.area.addEventOnLeafs('selection', function(ev) {
+        if (select_savedqueries_inhib_selection_event) return;
         if (ev.value == 'rect') {
             if (layer_selection_rect != null) {
                 map.removeLayer(layer_selection_rect);
@@ -458,7 +499,7 @@ window.addEvent('domready', function() {
                 ev.source.parent_menu.close();
 	        show_menu(false);
             }
-        } else if (ev.value == 'disc') {
+        } else if (ev.value == 'circle') {
             if (layer_selection_circle != null) {
                 map.removeLayer(layer_selection_circle);
                 layer_selection_circle=null;

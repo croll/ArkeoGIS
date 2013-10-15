@@ -12,7 +12,7 @@
 	{js file="/mod/arkeogis/js/plusminusmenu.js"}
 	{js file="/mod/arkeogis/js/sheet.js"}
 	{js file="/mod/arkeogis/js/page_mapquery.js"}
-	{js file="/mod/cssjs/ext/leaflet/leaflet.js"}
+	{js file="/mod/cssjs/ext/leaflet/leaflet-src.js"}
 	{css file="/mod/cssjs/ext/leaflet/leaflet.css"}
 	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.Default.css"}
 	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.css"}
