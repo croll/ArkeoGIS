@@ -64,6 +64,7 @@ window.addEvent('domready', function() {
         multiselect: false
     }));
     arkeo_menu.area.inject($('menu_area'));
+    arkeo_menu.area.setSelection(['all'], []);
 
     arkeo_menu.production = new PlusMinusItem(ch_t('arkeogis', "Choix production"), null, null);
     for (var i=0; i<menus.production.length; i++)
@@ -172,6 +173,7 @@ window.addEvent('domready', function() {
         result.txtsearch_options = arkeo_menu.txtsearch_options.getSelection('+');
 
         // get area selection
+        result.area_map = map.getBounds();
         if (layer_selection_rect)
             result.area_bounds = layer_selection_rect.getBounds();
         else if (layer_selection_circle) {
@@ -407,7 +409,7 @@ window.addEvent('domready', function() {
 
 	arkeo_menu.db.setSelection([], []);
 	arkeo_menu.period.setSelection([], []);
-	arkeo_menu.area.setSelection([], []);
+	arkeo_menu.area.setSelection(['all'], []);
 	arkeo_menu.production.setSelection([], []);
 	arkeo_menu.realestate.setSelection([], []);
 	arkeo_menu.furniture.setSelection([], []);
@@ -448,6 +450,7 @@ window.addEvent('domready', function() {
     /* initialize map */
     layer_selection_rect = null;
     layer_selection_circle = null;
+    area_coords = { 'lat': 0.0, 'lng': 0.0, 'km': 0.0 };
 
     map = new L.Map('map_canvas', {
         center: new L.LatLng(48.58476, 7.750576),
@@ -513,6 +516,7 @@ window.addEvent('domready', function() {
             }
         } else if (ev.value == 'coord') {
             if (ev.selected == '+') {
+                ev.source.parent_menu.close();
                 var html = $('win-coord').clone();
                 html.setStyles({
 	            display: ''
