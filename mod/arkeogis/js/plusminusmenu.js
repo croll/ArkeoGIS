@@ -75,27 +75,29 @@ var PlusMinusMenu = new Class({
 	});
 	title_sub.inject(title);
 
-	var tools=new Element('div', {
-	    'class': 'pmmenu-tools',
-	    text: ch_t('arkeogis', "Selection")
-	});
-	tools.inject(me.html_element);
-	var tools_all=new Element('button', {
-	    'class': 'select-all',
-	    text: ch_t('arkeogis', 'ALL')
-	});
-	tools_all.addEvent('click', function(e) {
-	    me.parent_item.setSelected('+', true);
-	});
-	tools_all.inject(tools);
-	var tools_none=new Element('button', {
-	    'class': 'select-none',
-	    text: ch_t('arkeogis', 'NONE')
-	});
-	tools_none.addEvent('click', function(e) {
-	    me.parent_item.setSelected('', true);
-	});
-	tools_none.inject(tools);
+        if (me.options.multiselect) {
+	    var tools=new Element('div', {
+	        'class': 'pmmenu-tools',
+	        text: ch_t('arkeogis', "Selection")
+	    });
+	    tools.inject(me.html_element);
+	    var tools_all=new Element('button', {
+	        'class': 'select-all',
+	        text: ch_t('arkeogis', 'ALL')
+	    });
+	    tools_all.addEvent('click', function(e) {
+	        me.parent_item.setSelected('+', true);
+	    });
+	    tools_all.inject(tools);
+	    var tools_none=new Element('button', {
+	        'class': 'select-none',
+	        text: ch_t('arkeogis', 'NONE')
+	    });
+	    tools_none.addEvent('click', function(e) {
+	        me.parent_item.setSelected('', true);
+	    });
+	    tools_none.inject(tools);
+        }
 
 	me.content.each(function(item) {
 	    item.inject(me.html_element);
