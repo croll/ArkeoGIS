@@ -862,5 +862,6 @@ function setCoordsFromModal() {
 
     area_coords = { 'lat': lat, 'lng': lng, 'km': km };
 
+    modalWin.setBody('');
     modalWin.hide();
 }
