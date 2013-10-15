@@ -489,7 +489,7 @@ window.addEvent('domready', function() {
 
 	drawnItems.addLayer(layer);
         layer.editing.enable();
-
+	show_menu(true);
     });
 
     arkeo_menu.area.addEventOnLeafs('selection', function(ev) {
