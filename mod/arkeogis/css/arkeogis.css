@@ -796,6 +796,9 @@ div.filtercontent .filter-minus {
 .table-coord input {
   width: 50px;
 }
+.table-coord input[name=txtdec] {
+  width: 100px;
+}
 .table-coord select {
   width: 50px;
   margin-right: 80px;
