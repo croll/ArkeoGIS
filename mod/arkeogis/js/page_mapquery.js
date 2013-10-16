@@ -550,7 +550,11 @@ window.addEvent('domready', function() {
     });
 
     /* initialize tabbeds queries */
-    querys_tabs = new UI.Tabs( { container : 'querys', scrolling : 'auto', contextMenu : true, sortable : true } );
+    querys_tabs = new UI.Tabs( { container : 'querys', scrolling : 'auto', contextMenu : true, sortable : true} );
+    querys_tabs.addEvent('close', function(tab) {
+       clearMarkers(tab.id.split('_')[1]);
+    });
+
 
     /*
      * reset the selected saved query on query change
