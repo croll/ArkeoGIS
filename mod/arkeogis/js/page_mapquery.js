@@ -2,6 +2,8 @@ var infoWindow = null;
 var map;
 var queryNum = 0;
 var layerMarkers = [];
+var layers = {};
+var mapControl;
 
 var select_savedqueries_inhib_selection_event=false;
 
@@ -277,6 +279,7 @@ window.addEvent('domready', function() {
 		});
 
                 map.addLayer(layerMarkers[queryNum]);
+                mapControl.addOverlay(layerMarkers[queryNum], ch_t('arkeogis', 'Requête')+' '+queryNum);
 	    }
 	}).post({search: form, queryNum: queryNum});
     });
@@ -457,15 +460,23 @@ window.addEvent('domready', function() {
         zoom: 7,
         zoomControl: false
     });
-    map.addLayer(new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));
+    layers.osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
     infoWindow = L.popup();
 
-    new L.Control.Zoom({ position: 'topright' }).addTo(map);
-    L.tileLayer('http://{s}.tile.cloudmade.com/1fe47d515f2c4d0cafca5a67a0b1dc57/997/256/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
-}).addTo(map);
 
+    layers.cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/1fe47d515f2c4d0cafca5a67a0b1dc57/997/256/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+        maxZoom: 18
+    });
+
+    // Layers control
+    mapControl = new L.control.layers({"OSM": layers.osm, "CloudMade": layers.cloudmade}, null, {collapsed: false});
+    mapControl.addTo(map);
+
+    // Zoom control
+    new L.Control.Zoom({ position: 'topright' }).addTo(map);
+
+    layers.cloudmade.addTo(map);
     // Initialize the FeatureGroup to store editable layers
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
@@ -487,9 +498,9 @@ window.addEvent('domready', function() {
         else if (type == 'circle')
             layer_selection_circle = layer;
 
-	drawnItems.addLayer(layer);
+        drawnItems.addLayer(layer);
         layer.editing.enable();
-	show_menu(true);
+        show_menu(true);
     });
 
     arkeo_menu.area.addEventOnLeafs('selection', function(ev) {
@@ -744,9 +755,11 @@ function clearMarkers(num) {
     if (!num) {
         layerMarkers.each(function(l) {
             map.removeLayer(l);
+            mapControl.removeLayer(l);
         });
     } else {
         map.removeLayer(layerMarkers[num]);
+        mapControl.removeLayer(layerMarkers[num]);
     }
 }
 

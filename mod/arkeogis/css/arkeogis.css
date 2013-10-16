@@ -1002,3 +1002,13 @@ div.filtercontent .filter-minus {
 .ma-selected{
   background-color: inherit !important;
 }
+
+/* Leaflet */
+
+#map_canvas input {
+  display: inline;
+}
+
+#map_canvas form {
+  margin: 0;
+}
