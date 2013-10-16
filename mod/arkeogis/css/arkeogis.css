@@ -1023,3 +1023,31 @@ div.filtercontent .filter-minus {
 #map_canvas form {
   margin: 0;
 }
+
+.leaflet-control-custom
+{
+    width: 20px;
+    height: 20px;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    display: block;
+    padding: 3px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+    cursor: auto;
+    text-align: center;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.leaflet-control-zoommarkers
+{
+    display: none;
+    background-image: url("/mod/arkeogis/img/zoom.png");
+}
+
+.leaflet-control-custom:hover{
+    background-color: #F4F4F4;
+}

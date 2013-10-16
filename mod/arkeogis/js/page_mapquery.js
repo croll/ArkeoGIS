@@ -3,7 +3,7 @@ var queryNum = 0;
 var layerMarkers = [];
 var mapMarkers = [];
 var layers = {};
-var mapControl;
+var layersControl;
 
 var select_savedqueries_inhib_selection_event = false;
 
@@ -170,85 +170,6 @@ window.addEvent('domready', function() {
             show_menu(!menu_showing);
         });
 
-    function buildSelectionObject() {
-        var result = {};
-
-        // get selections of plusminus menus
-
-        result.db_include = arkeo_menu.db.getSelection('+');
-        result.db_exclude = arkeo_menu.db.getSelection('-');
-        result.period_include = arkeo_menu.period.getSelection('+');
-        result.period_exclude = arkeo_menu.period.getSelection('-');
-        result.area_include = arkeo_menu.area.getSelection('+');
-        result.area_exclude = arkeo_menu.area.getSelection('-');
-        result.production_include = arkeo_menu.production.getSelection('+');
-        result.production_exclude = arkeo_menu.production.getSelection('-');
-        result.realestate_include = arkeo_menu.realestate.getSelection('+');
-        result.realestate_exclude = arkeo_menu.realestate.getSelection('-');
-        result.furniture_include = arkeo_menu.furniture.getSelection('+');
-        result.furniture_exclude = arkeo_menu.furniture.getSelection('-');
-        result.landscape_include = arkeo_menu.landscape.getSelection('+');
-        result.landscape_exclude = arkeo_menu.landscape.getSelection('-');
-
-
-        // get selections of multiselect menus
-
-        result.centroid_include = arkeo_menu.centroid.getSelection('+');
-        result.knowledge_include = arkeo_menu.knowledge.getSelection('+');
-        result.occupation_include = arkeo_menu.occupation.getSelection('+');
-        result.centroid_exclude = arkeo_menu.centroid.getSelection('-');
-        result.knowledge_exclude = arkeo_menu.knowledge.getSelection('-');
-        result.occupation_exclude = arkeo_menu.occupation.getSelection('-');
-
-        // get selections of exceptionals checkbox
-
-        result.realestate_exceptional = $('ex_realestate')
-            .checked ? 1 : 0;
-        result.furniture_exceptional = $('ex_furniture')
-            .checked ? 1 : 0;
-        result.production_exceptional = $('ex_production')
-            .checked ? 1 : 0;
-        result.landscape_exceptional = $('ex_landscape')
-            .checked ? 1 : 0;
-
-        // get selection of caracterisation mode
-
-        result.caracterisation_mode = $('caracterisation_mode')
-            .get('value');
-
-        // get selection of txtsearch
-        result.txtsearch = $('txtsearch').get('value');
-        result.txtsearch_options_include = arkeo_menu.txtsearch_options.getSelection('+');
-        result.txtsearch_options_exclude = arkeo_menu.txtsearch_options.getSelection('-');
-
-        // get area selection
-        result.area_map = map.getBounds();
-        if (layer_selection_rect)
-            result.area_bounds = layer_selection_rect.getBounds();
-        else if (layer_selection_circle) {
-            result.area_circle = layer_selection_circle.getLatLng();
-            result.area_circle.radius = layer_selection_circle.getRadius();
-        }
-        result.area_coords = area_coords;
-
-        // get map viewport
-        result.mapviewport = {
-            center: map.getCenter(),
-            zoom: map.getZoom()
-        }
-
-        // get saved query
-        var option = $('select-savedqueries')
-            .getSelected();
-        result.saved_query = {
-            value: option.get('value')[0],
-            index: $('select-savedqueries')
-                .selectedIndex,
-            name: option.get('text')[0]
-        };
-
-        return result;
-    }
 
     $('btn-show-the-map')
         .addEvent('click', function() {
@@ -257,33 +178,32 @@ window.addEvent('domready', function() {
             if ((form.db_include.length > 0 || form.db_exclude > 0) && (form.period_include.length > 0 || form.period_exclude.length > 0) && (form.area_include.length > 0 || form.area_exclude.length > 0) && (
                 (form.production_include.length > 0 || form.production_exclude.length > 0 || form.realestate_include.length > 0 || form.realestate_exclude.length > 0 || form.furniture_include.length > 0 || form.furniture_exclude.length > 0 || form.landscape_include.length > 0 || form.landscape_exclude.length > 0)
             ) || (
-                (form.txtsearch && form.txtsearch_options.getSelection('+').length > 0)
-            )
-           ) {
-	} else {
-	    CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période, une aire de recherche ainsi qu'une caractérisation et/ou une recherche textuelle"));
-	    return;
-	}
+                (form.txtsearch && form.txtsearch_options.getSelection('+')
+                    .length > 0)
+            )) {} else {
+                CaptainHook.Message.show(ch_t('arkeogis', "Vous devez choisir au moins une base, une période, une aire de recherche ainsi qu'une caractérisation et/ou une recherche textuelle"));
+                return;
+            }
 
-	showSpinner();
-	new Request.JSON({
-	    'url': '/ajax/call/arkeogis/showthemap',
-	    'onSuccess': function(res) {
-		hideSpinner();
-		display_query(form);
-		if (res.mapmarkers.length < res.total_count
-		    && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites.", res.mapmarkers.length, parseInt(res.total_count)))) {
+            showSpinner();
+            new Request.JSON({
+                'url': '/ajax/call/arkeogis/showthemap',
+                'onSuccess': function(res) {
+                    hideSpinner();
+                    display_query(form);
+                    if (res.mapmarkers.length < res.total_count && confirm(ch_t('arkeogis', "Seulement %d sites seront affiché sur %d au total. Souhaitez-vous télécharger la liste au format csv ? Cliquer sur le bouton Cancel affichera les 1500 premiers sites.", res.mapmarkers.length, parseInt(res.total_count)))) {
 
-		    // download the sites as csv file
-		    window.location.href='/export_sheet/'+encodeURIComponent(JSON.encode(form));
-		    return;
-		} else if (res.mapmarkers.length == 0) {
-		    CaptainHook.Message.show(ch_t('arkeogis', 'Aucun résultat'));
-		}
-		$('map_sheet').setStyles({
-		    'display': 'none'
-		});
-		show_menu(false);
+                        // download the sites as csv file
+                        window.location.href = '/export_sheet/' + encodeURIComponent(JSON.encode(form));
+                        return;
+                    } else if (res.mapmarkers.length == 0) {
+                        CaptainHook.Message.show(ch_t('arkeogis', 'Aucun résultat'));
+                    }
+                    $('map_sheet')
+                        .setStyles({
+                            'display': 'none'
+                        });
+                    show_menu(false);
                     mapMarkers[queryNum] = res.mapmarkers;
                     drawMarkers(queryNum);
 
@@ -338,80 +258,90 @@ window.addEvent('domready', function() {
     /* initialization of buttons about query saving */
     populateSavedQueriesMenu();
 
-    $('select-savedqueries').addEvent('change', function(e) {
-	new Request.JSON({
-	    'url': '/ajax/call/arkeogis/loadQuery',
-	    'onSuccess': function(res) {
-		res=JSON.decode(res);
-		var idx=$('select-savedqueries').selectedIndex;
-		if (idx == 0) return;
-		select_savedqueries_inhib_selection_event=true;
-		arkeo_menu.db.setSelection(res.db_include, res.db_exclude);
-		arkeo_menu.period.setSelection(res.period_include, res.period_exclude);
-		arkeo_menu.area.setSelection(res.area_include, res.area_exclude);
-		arkeo_menu.production.setSelection(res.production_include, res.production_exclude);
-		arkeo_menu.realestate.setSelection(res.realestate_include, res.realestate_exclude);
-		arkeo_menu.furniture.setSelection(res.furniture_include, res.furniture_exclude);
-		arkeo_menu.landscape.setSelection(res.landscape_include ? res.landscape_include : [],
-						  res.landscape_exclude ? res.landscape_exclude : []);
+    $('select-savedqueries')
+        .addEvent('change', function(e) {
+            new Request.JSON({
+                'url': '/ajax/call/arkeogis/loadQuery',
+                'onSuccess': function(res) {
+                    res = JSON.decode(res);
+                    var idx = $('select-savedqueries')
+                        .selectedIndex;
+                    if (idx == 0) return;
+                    select_savedqueries_inhib_selection_event = true;
+                    arkeo_menu.db.setSelection(res.db_include, res.db_exclude);
+                    arkeo_menu.period.setSelection(res.period_include, res.period_exclude);
+                    arkeo_menu.area.setSelection(res.area_include, res.area_exclude);
+                    arkeo_menu.production.setSelection(res.production_include, res.production_exclude);
+                    arkeo_menu.realestate.setSelection(res.realestate_include, res.realestate_exclude);
+                    arkeo_menu.furniture.setSelection(res.furniture_include, res.furniture_exclude);
+                    arkeo_menu.landscape.setSelection(res.landscape_include ? res.landscape_include : [],
+                        res.landscape_exclude ? res.landscape_exclude : []);
 
-		arkeo_menu.centroid.setSelection(res.centroid_include, []);
-		arkeo_menu.knowledge.setSelection(res.knowledge_include, []);
-		arkeo_menu.occupation.setSelection(res.occupation_include, []);
+                    arkeo_menu.centroid.setSelection(res.centroid_include, []);
+                    arkeo_menu.knowledge.setSelection(res.knowledge_include, []);
+                    arkeo_menu.occupation.setSelection(res.occupation_include, []);
 
-		$('ex_realestate').checked = res.realestate_exceptional == 1;
-		$('ex_furniture').checked = res.furniture_exceptional == 1;
-		$('ex_production').checked = res.production_exceptional == 1;
-		$('ex_landscape').checked = res.landscape_exceptional == 1;
+                    $('ex_realestate')
+                        .checked = res.realestate_exceptional == 1;
+                    $('ex_furniture')
+                        .checked = res.furniture_exceptional == 1;
+                    $('ex_production')
+                        .checked = res.production_exceptional == 1;
+                    $('ex_landscape')
+                        .checked = res.landscape_exceptional == 1;
 
-		$('caracterisation_mode').selectedIndex =
-		    res.caracterisation_mode ? res.caracterisation_mode == 'OR' ? 0 : 1 : 0;
+                    $('caracterisation_mode')
+                        .selectedIndex =
+                        res.caracterisation_mode ? res.caracterisation_mode == 'OR' ? 0 : 1 : 0;
 
-                $('txtsearch').set('value', res.txtsearch);
-                arkeo_menu.txtsearch_options.setSelection(res.txtsearch_options_include ? res.txtsearch_options_include : [], []);
+                    $('txtsearch')
+                        .set('value', res.txtsearch);
+                    arkeo_menu.txtsearch_options.setSelection(res.txtsearch_options_include ? res.txtsearch_options_include : [], []);
 
-                // display area selections
-                if (layer_selection_rect != null) {
-                    map.removeLayer(layer_selection_rect);
-                    layer_selection_rect=null;
+                    // display area selections
+                    if (layer_selection_rect != null) {
+                        map.removeLayer(layer_selection_rect);
+                        layer_selection_rect = null;
+                    }
+                    if (layer_selection_circle != null) {
+                        map.removeLayer(layer_selection_circle);
+                        layer_selection_circle = null;
+                    }
+                    if (res.area_include && res.area_include.indexOf('circle') != -1) {
+                        layer_selection_circle = new L.Circle([res.area_circle.lat, res.area_circle.lng], res.area_circle.radius, areaSelectionShapeOptions);
+                        map.addLayer(layer_selection_circle);
+                        layer_selection_circle.editing.enable();
+                    }
+                    if (res.area_include && res.area_include.indexOf('rect') != -1) {
+                        var bounds = [[res.area_bounds._southWest.lat, res.area_bounds._southWest.lng], [res.area_bounds._northEast.lat, res.area_bounds._northEast.lng]];
+                        layer_selection_rect = new L.Rectangle(bounds, areaSelectionShapeOptions);
+                        map.addLayer(layer_selection_rect);
+                        layer_selection_rect.editing.enable();
+                    }
+                    if (res.area_include && res.area_include.indexOf('all') != -1) {
+                        //var bounds = [[res.area_map._southWest.lat, res.area_map._southWest.lng], [res.area_map._northEast.lat, res.area_map._northEast.lng]];
+                        //map.fitBounds(bounds);
+                        // we use the viewport set below
+                    }
+
+                    if (res.area_coords)
+                        area_coords = res.area_coords;
+
+
+                    // set map viewport
+                    if (res.mapviewport.center)
+                        map.setView(res.mapviewport.center, res.mapviewport.zoom);
+
+
+                    setTimeout("select_savedqueries_inhib_selection_event=false", 500);
+                    //$('select-savedqueries').selectedIndex=idx;
                 }
-                if (layer_selection_circle != null) {
-                    map.removeLayer(layer_selection_circle);
-                    layer_selection_circle=null;
-                }
-                if (res.area_include && res.area_include.indexOf('circle') != -1) {
-                    layer_selection_circle = new L.Circle([res.area_circle.lat, res.area_circle.lng], res.area_circle.radius, areaSelectionShapeOptions);
-                    map.addLayer(layer_selection_circle);
-                    layer_selection_circle.editing.enable();
-                }
-                if (res.area_include && res.area_include.indexOf('rect') != -1) {
-                    var bounds = [[res.area_bounds._southWest.lat, res.area_bounds._southWest.lng], [res.area_bounds._northEast.lat, res.area_bounds._northEast.lng]];
-                    layer_selection_rect = new L.Rectangle(bounds, areaSelectionShapeOptions);
-                    map.addLayer(layer_selection_rect);
-                    layer_selection_rect.editing.enable();
-                }
-                if (res.area_include && res.area_include.indexOf('all') != -1) {
-                    //var bounds = [[res.area_map._southWest.lat, res.area_map._southWest.lng], [res.area_map._northEast.lat, res.area_map._northEast.lng]];
-                    //map.fitBounds(bounds);
-                    // we use the viewport set below
-                }
-
-                if (res.area_coords)
-                    area_coords = res.area_coords;
-
-
-                // set map viewport
-                if (res.mapviewport.center)
-                    map.setView(res.mapviewport.center, res.mapviewport.zoom);
-
-
-                setTimeout("select_savedqueries_inhib_selection_event=false", 500);
-		//$('select-savedqueries').selectedIndex=idx;
-	    }
-	}).post({
-	    'queryid': $('select-savedqueries').get('value')
-	});
-    });
+            })
+                .post({
+                    'queryid': $('select-savedqueries')
+                        .get('value')
+                });
+        });
 
 
     $$('.btn-reinit')[0].addEvent('click', function() {
@@ -463,8 +393,10 @@ window.addEvent('domready', function() {
             layer_selection_circle = null;
         }
 
-    });
+        // Remove control icons
+       $$('.leaflet-control-zoommarkers')[0].setStyle('display', 'none');
 
+    });
 
     /* initialize map */
     updateDrawLocales(L.drawLocal);
@@ -487,15 +419,16 @@ window.addEvent('domready', function() {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
         maxZoom: 18
     });
+    layers.cloudmade.addTo(map);
 
     // Layers control
-    mapControl = new L.control.layers({
+    layersControl = new L.control.layers({
         "OSM": layers.osm,
         "CloudMade": layers.cloudmade
     }, null, {
         collapsed: false
     });
-    mapControl.addTo(map);
+    layersControl.addTo(map);
 
     // Zoom control
     new L.Control.Zoom({
@@ -503,18 +436,43 @@ window.addEvent('domready', function() {
     })
         .addTo(map);
 
-    layers.cloudmade.addTo(map);
 
+    // Group control
+    L.Control.Command = L.Control.extend({
+        options: {
+            position: 'topright',
+        },
+
+        onAdd: function(map) {
+            var controlDiv = L.DomUtil.create('div', 'leaflet-control-custom leaflet-control-zoommarkers');
+            L.DomEvent
+                .addListener(controlDiv, 'click', L.DomEvent.stopPropagation)
+                .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
+                .addListener(controlDiv, 'click', function() {
+                    map.fitBounds(getMarkersBounds());
+                });
+
+            var controlUI = L.DomUtil.create('div', 'leaflet-control-command-interior', controlDiv);
+            controlUI.title = 'Map Commands';
+            return controlDiv;
+        }
+    });
+
+    L.control.command = function(options) {
+        return new L.Control.Command(options);
+    };
+
+    new L.Control.Command({}).addTo(map);
 
     /* initialize draw for area selection */
     areaSelectionShapeOptions = {
-	stroke: true,
-	color: '#f06eaa',
-	weight: 4,
-	opacity: 0.5,
-	fill: true,
-	fillColor: null, //same as color by default
-	fillOpacity: 0.2,
+        stroke: true,
+        color: '#f06eaa',
+        weight: 4,
+        opacity: 0.5,
+        fill: true,
+        fillColor: null, //same as color by default
+        fillOpacity: 0.2,
     };
 
     // Initialize the FeatureGroup to store editable layers
@@ -552,7 +510,8 @@ window.addEvent('domready', function() {
                 layer_selection_rect = null;
             }
             if (ev.selected == '+') {
-                new L.Draw.Rectangle(map, areaSelectionShapeOptions).enable()
+                new L.Draw.Rectangle(map, areaSelectionShapeOptions)
+                    .enable()
                 ev.source.parent_menu.close();
                 show_menu(false);
             }
@@ -562,7 +521,8 @@ window.addEvent('domready', function() {
                 layer_selection_circle = null;
             }
             if (ev.selected == '+') {
-                new L.Draw.Circle(map, areaSelectionShapeOptions).enable()
+                new L.Draw.Circle(map, areaSelectionShapeOptions)
+                    .enable()
                 ev.source.parent_menu.close();
                 show_menu(false);
             }
@@ -579,9 +539,9 @@ window.addEvent('domready', function() {
                 modalWin.setBody(html.innerHTML);
                 modalWin.setFooter("<div><button onclick='setCoordsFromModal()'>Ok</button></div>");
                 modalWin.show();
-                $$('.modal-body .coord_lat [name=txtdec]')[0].value=area_coords.lat;
-                $$('.modal-body .coord_lng [name=txtdec]')[0].value=area_coords.lng;
-                $$('.modal-body [name=km]')[0].value=area_coords.km;
+                $$('.modal-body .coord_lat [name=txtdec]')[0].value = area_coords.lat;
+                $$('.modal-body .coord_lng [name=txtdec]')[0].value = area_coords.lng;
+                $$('.modal-body [name=km]')[0].value = area_coords.km;
                 decdms('coord_lat');
                 decdms('coord_lng');
             }
@@ -628,20 +588,103 @@ window.addEvent('domready', function() {
 
 /* functions */
 
+
+function buildSelectionObject() {
+    var result = {};
+
+    // get selections of plusminus menus
+
+    result.db_include = arkeo_menu.db.getSelection('+');
+    result.db_exclude = arkeo_menu.db.getSelection('-');
+    result.period_include = arkeo_menu.period.getSelection('+');
+    result.period_exclude = arkeo_menu.period.getSelection('-');
+    result.area_include = arkeo_menu.area.getSelection('+');
+    result.area_exclude = arkeo_menu.area.getSelection('-');
+    result.production_include = arkeo_menu.production.getSelection('+');
+    result.production_exclude = arkeo_menu.production.getSelection('-');
+    result.realestate_include = arkeo_menu.realestate.getSelection('+');
+    result.realestate_exclude = arkeo_menu.realestate.getSelection('-');
+    result.furniture_include = arkeo_menu.furniture.getSelection('+');
+    result.furniture_exclude = arkeo_menu.furniture.getSelection('-');
+    result.landscape_include = arkeo_menu.landscape.getSelection('+');
+    result.landscape_exclude = arkeo_menu.landscape.getSelection('-');
+
+
+    // get selections of multiselect menus
+
+    result.centroid_include = arkeo_menu.centroid.getSelection('+');
+    result.knowledge_include = arkeo_menu.knowledge.getSelection('+');
+    result.occupation_include = arkeo_menu.occupation.getSelection('+');
+    result.centroid_exclude = arkeo_menu.centroid.getSelection('-');
+    result.knowledge_exclude = arkeo_menu.knowledge.getSelection('-');
+    result.occupation_exclude = arkeo_menu.occupation.getSelection('-');
+
+    // get selections of exceptionals checkbox
+
+    result.realestate_exceptional = $('ex_realestate')
+        .checked ? 1 : 0;
+    result.furniture_exceptional = $('ex_furniture')
+        .checked ? 1 : 0;
+    result.production_exceptional = $('ex_production')
+        .checked ? 1 : 0;
+    result.landscape_exceptional = $('ex_landscape')
+        .checked ? 1 : 0;
+
+    // get selection of caracterisation mode
+
+    result.caracterisation_mode = $('caracterisation_mode')
+        .get('value');
+
+    // get selection of txtsearch
+    result.txtsearch = $('txtsearch')
+        .get('value');
+    result.txtsearch_options_include = arkeo_menu.txtsearch_options.getSelection('+');
+    result.txtsearch_options_exclude = arkeo_menu.txtsearch_options.getSelection('-');
+
+    // get area selection
+    result.area_map = map.getBounds();
+    if (layer_selection_rect)
+        result.area_bounds = layer_selection_rect.getBounds();
+    else if (layer_selection_circle) {
+        result.area_circle = layer_selection_circle.getLatLng();
+        result.area_circle.radius = layer_selection_circle.getRadius();
+    }
+    result.area_coords = area_coords;
+
+    // get map viewport
+    result.mapviewport = {
+        center: map.getCenter(),
+        zoom: map.getZoom()
+    }
+
+    // get saved query
+    var option = $('select-savedqueries')
+        .getSelected();
+    result.saved_query = {
+        value: option.get('value')[0],
+        index: $('select-savedqueries')
+            .selectedIndex,
+        name: option.get('text')[0]
+    };
+
+    return result;
+}
+
 function drawMarkers(queryNum, layerType, redraw) {
 
+    $$('.leaflet-control-zoommarkers')[0].setStyle('display', 'block');
     if (redraw) {
         map.removeLayer(layerMarkers[queryNum]);
     } else if (typeOf(layerMarkers[queryNum]) != 'array') {
         layerMarkers[queryNum] = [];
     }
 
-    if (layerType != 'cluster') {
-        layerMarkers[queryNum] = L.markerClusterGroup({
+    if (layerType == 'cluster') {
+        layerMarkers[queryNum] = new L.markerClusterGroup({
             maxClusterRadius: 100
         });
     } else {
-
+        layerMarkers[queryNum] = new L.FeatureGroup();
     }
 
     mapMarkers[queryNum].each(function(marker) {
@@ -657,7 +700,13 @@ function drawMarkers(queryNum, layerType, redraw) {
             m.setIcon(icon);
 
             m.on('mouseover', function(evt) {
-                   new L.popup({offset: new L.Point(0, -5), closeOnClick: false}).setLatLng([marker.geometry.coordinates[1], marker.geometry.coordinates[0]]).setContent('<div style="width:500px">' + marker.popup.title + marker.popup.content + '</div>').openOn(map);
+                new L.popup({
+                    offset: new L.Point(0, -5),
+                    closeOnClick: false
+                })
+                    .setLatLng([marker.geometry.coordinates[1], marker.geometry.coordinates[0]])
+                    .setContent('<div style="width:500px">' + marker.popup.title + marker.popup.content + '</div>')
+                    .openOn(map);
             })
 
             m.on('click', function(evt) {
@@ -669,7 +718,7 @@ function drawMarkers(queryNum, layerType, redraw) {
         }
     });
     map.addLayer(layerMarkers[queryNum]);
-    mapControl.addOverlay(layerMarkers[queryNum], ch_t('arkeogis', 'Requête') + ' ' + queryNum);
+    layersControl.addOverlay(layerMarkers[queryNum], ch_t('arkeogis', 'Requête') + ' ' + queryNum);
 }
 
 function updateDrawLocales(e) {
@@ -772,39 +821,41 @@ function display_query(query) {
 
     tabname = ch_t('arkeogis', 'Query #%d', ++arkeo_query_displayed);
     ['centroid', 'knowledge', 'occupation', 'db', 'period', 'area', 'production', 'realestate', 'furniture', 'landscape', 'txtsearch_options'].each(function(m) {
-	var result=[];
-        var m_include = query[m+'_include'] ? query[m+'_include'] : [];
-        var m_exclude = query[m+'_exclude'] ? query[m+'_exclude'] : [];
-	if (arkeo_menu[m].submenu.buildPath(m_include, m_exclude, result)) {
-            if (m == 'txtsearch_options' && ! query.txtsearch) return;
-	    var queryfilter_html=$('query-filter').clone();
-	    queryfilter_html.setStyles({
-		display: ''
-	    });
-	    var title=m;
-	    if (m == 'production') title=ch_t('arkeogis', "Production");
-	    else if (m == 'realestate') title=ch_t('arkeogis', "Immobilier");
-	    else if (m == 'furniture') title=ch_t('arkeogis', "Mobilier");
-	    else if (m == 'landscape') title=ch_t('arkeogis', "Paysage");
-	    else if (m == 'centroid') title=ch_t('arkeogis', "Centroid");
-	    else if (m == 'knowledge') title=ch_t('arkeogis', "Connaissance");
-	    else if (m == 'occupation') title=ch_t('arkeogis', "Occupation");
-	    else if (m == 'db') title=ch_t('arkeogis', "Base de donnée");
-	    else if (m == 'period') title=ch_t('arkeogis', "Période");
-	    else if (m == 'area') title=ch_t('arkeogis', "Aire de recherche");
-	    else if (m == 'txtsearch_options') title=ch_t('arkeogis', 'Recherche "%s" dans', query.txtsearch);
+        var result = [];
+        var m_include = query[m + '_include'] ? query[m + '_include'] : [];
+        var m_exclude = query[m + '_exclude'] ? query[m + '_exclude'] : [];
+        if (arkeo_menu[m].submenu.buildPath(m_include, m_exclude, result)) {
+            if (m == 'txtsearch_options' && !query.txtsearch) return;
+            var queryfilter_html = $('query-filter')
+                .clone();
+            queryfilter_html.setStyles({
+                display: ''
+            });
+            var title = m;
+            if (m == 'production') title = ch_t('arkeogis', "Production");
+            else if (m == 'realestate') title = ch_t('arkeogis', "Immobilier");
+            else if (m == 'furniture') title = ch_t('arkeogis', "Mobilier");
+            else if (m == 'landscape') title = ch_t('arkeogis', "Paysage");
+            else if (m == 'centroid') title = ch_t('arkeogis', "Centroid");
+            else if (m == 'knowledge') title = ch_t('arkeogis', "Connaissance");
+            else if (m == 'occupation') title = ch_t('arkeogis', "Occupation");
+            else if (m == 'db') title = ch_t('arkeogis', "Base de donnée");
+            else if (m == 'period') title = ch_t('arkeogis', "Période");
+            else if (m == 'area') title = ch_t('arkeogis', "Aire de recherche");
+            else if (m == 'txtsearch_options') title = ch_t('arkeogis', 'Recherche "%s" dans', query.txtsearch);
 
-	    if (m == 'production' || m == 'realestate' || m == 'furniture' || m == 'landscape')
-		if (query[m+'_exceptional'] == 1) title+=' '+ch_t('arkeogis', '(exceptionals only)');
-	    queryfilter_html.getElement('div.filtername span').set('text', title);
+            if (m == 'production' || m == 'realestate' || m == 'furniture' || m == 'landscape')
+                if (query[m + '_exceptional'] == 1) title += ' ' + ch_t('arkeogis', '(exceptionals only)');
+            queryfilter_html.getElement('div.filtername span')
+                .set('text', title);
 
-	    div=new Element('div', {
-		'class': 'filtercontent'
-	    });
-	    buildFilterLines(m, result, 0, div, query);
-	    div.inject(queryfilter_html);
-	    queryfilter_html.inject(html.getElement('.query-filters'));
-	}
+            div = new Element('div', {
+                'class': 'filtercontent'
+            });
+            buildFilterLines(m, result, 0, div, query);
+            div.inject(queryfilter_html);
+            queryfilter_html.inject(html.getElement('.query-filters'));
+        }
     });
 
     if (query.saved_query.value > 0) {
@@ -962,11 +1013,11 @@ function clearMarkers(num) {
     if (!num) {
         layerMarkers.each(function(l) {
             map.removeLayer(l);
-            mapControl.removeLayer(l);
+            layersControl.removeLayer(l);
         });
     } else {
         map.removeLayer(layerMarkers[num]);
-        mapControl.removeLayer(layerMarkers[num]);
+        layersControl.removeLayer(layerMarkers[num]);
     }
 }
 
@@ -1055,11 +1106,10 @@ function setCoordsFromModal() {
     modalWin.hide();
 }
 
-function getBounds() {
+function getMarkersBounds() {
     var bounds = new L.LatLngBounds();
     layerMarkers.forEach(function(l) {
-        bounds.extend(l.getLatLng())
+            bounds.extend(l.getBounds());
     });
-    console.log(bounds);
     return bounds;
 }

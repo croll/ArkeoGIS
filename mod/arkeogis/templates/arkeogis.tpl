@@ -15,7 +15,7 @@
 	{css file="/mod/cssjs/ext/leaflet/leaflet.css"}
 	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.Default.css"}
 	{css file="/mod/cssjs/ext/leaflet.markercluster/MarkerCluster.css"}
-	{js file="/mod/cssjs/ext/leaflet.markercluster/leaflet.markercluster-src.js"}
+	{js file="/mod/cssjs/ext/leaflet.markercluster/leaflet.markercluster.js"}
 
         {css file="/mod/cssjs/ext/Leaflet.draw/dist/leaflet.draw.css"}
         {js file="/mod/cssjs/ext/Leaflet.draw/dist/leaflet.draw.js"}
