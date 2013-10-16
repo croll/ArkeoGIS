@@ -128,7 +128,6 @@
   "Logiciel" : "Logiciel",
   "Login" : "Identification",
   "Long" : "Long",
-  "Longitude" : "Longitude",
   "Longitude (exemple Strasbourg : 7\u00b0 45'N ou d\u00e9cimaux : 7.750)" : "Longitude (exemple Strasbourg : 7\u00b0 45'E ou d\u00e9cimaux : 7.750)",
   "Manuel utilisateur" : "Manuel utilisateur",
   "Maps" : "Cartes",
