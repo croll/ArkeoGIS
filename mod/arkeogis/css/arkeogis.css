@@ -801,6 +801,10 @@ div.filtercontent .filter-minus {
   margin-right: 80px;
 }
 
+.win-coord-nota {
+  font-size: 8px;
+  line-height: 10px;
+}
 
 .icon-fleche-bas {
   width: 8px;

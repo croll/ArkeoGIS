@@ -168,9 +168,11 @@
 
 	{* model used to ask for coordinates *}
 	<div id='win-coord' style='display: none'>
+          <h4 class="win-coord-title">{t d='arkeogis' m="Merci de renseigner les coordonnées du centre de votre recherche :"}</h4>
+          <br>
           <table class='table-coord'>
             <tr>
-              <th colspan='5'>{t d='arkeogis' m='Latitude'}</th>
+              <th colspan='5'>{t d='arkeogis' m="Latitude (exemple Strasbourg : 48° 35'N ou décimaux : 48.583)"}</th>
             </tr>
             <tr>
               <td>{t d='arkeogis' m='degrés'}</td>
@@ -187,7 +189,7 @@
               <td><input type='text' name='txtdec' value='0' onkeyup="decdms('coord_lat')"></td>
             </tr>
             <tr>
-              <th colspan='5'>{t d='arkeogis' m='Longitude'}</th>
+              <th colspan='5'>{t d='arkeogis' m="Longitude (exemple Strasbourg : 7° 45'N ou décimaux : 7.750)"}</th>
             </tr>
             <tr>
               <td>{t d='arkeogis' m='degrés'}</td>
@@ -207,9 +209,10 @@
               <th colspan='5'>{t d='arkeogis' m='Distance'}</th>
             </tr>
             <tr class='coord_lng'>
-              <td colspan='5'><input type='text' name='km' value='0'> {t d='arkeogis' m='km'}</td>
+              <td colspan='5'>{t d='arkeogis' m='Dans un rayon de'} <input type='text' name='km' value='0'> {t d='arkeogis' m='km à partir du centre de la recherche.'}</td>
             </tr>
           </table>
+          <div class="win-coord-nota">{t d='arkeogis' m="win-coord-nota"}</div>
         </div>
 
 

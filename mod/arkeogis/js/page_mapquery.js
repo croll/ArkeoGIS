@@ -393,6 +393,10 @@ window.addEvent('domready', function() {
                     // we use the viewport set below
                 }
 
+                if (res.area_coords)
+                    area_coords = res.area_coords;
+
+
                 // set map viewport
                 if (res.mapviewport.center)
                     map.setView(res.mapviewport.center, res.mapviewport.zoom);
@@ -544,7 +548,8 @@ window.addEvent('domready', function() {
                 $$('.modal-body .coord_lat [name=txtdec]')[0].value=area_coords.lat;
                 $$('.modal-body .coord_lng [name=txtdec]')[0].value=area_coords.lng;
                 $$('.modal-body [name=km]')[0].value=area_coords.km;
-
+                decdms('coord_lat');
+                decdms('coord_lng');
             }
         }
     });
