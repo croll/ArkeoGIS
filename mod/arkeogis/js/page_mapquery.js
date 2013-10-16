@@ -452,7 +452,7 @@ window.addEvent('domready', function() {
         },
 
         onAdd: function(map) {
-            var controlDiv = L.DomUtil.create('div', 'leaflet-control-custom leaflet-control-zoommarkers');
+            var controlDiv = L.DomUtil.create('div', 'leaflet-control-custom leaflet-control-zoommarkers leaflet-control-hiddable');
             L.DomEvent
                 .addListener(controlDiv, 'click', L.DomEvent.stopPropagation)
                 .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
