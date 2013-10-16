@@ -1048,6 +1048,14 @@ div.filtercontent .filter-minus {
     background-image: url("/mod/arkeogis/img/zoom.png");
 }
 
+
+.leaflet-control-groupmarkers
+{
+    display: none;
+    background-image: url("/mod/arkeogis/img/groupmarkers.png");
+}
+
+
 .leaflet-control-custom:hover{
     background-color: #F4F4F4;
 }

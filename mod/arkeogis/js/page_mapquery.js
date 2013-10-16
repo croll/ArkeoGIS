@@ -4,6 +4,7 @@ var layerMarkers = [];
 var mapMarkers = [];
 var layers = {};
 var layersControl;
+var layerType = 'simple';
 
 var select_savedqueries_inhib_selection_event = false;
 
@@ -395,6 +396,7 @@ window.addEvent('domready', function() {
 
         // Remove control icons
        $$('.leaflet-control-zoommarkers')[0].setStyle('display', 'none');
+       $$('.leaflet-control-groupmarkers')[0].setStyle('display', 'none');
 
     });
 
@@ -436,9 +438,8 @@ window.addEvent('domready', function() {
     })
         .addTo(map);
 
-
-    // Group control
-    L.Control.Command = L.Control.extend({
+    // Zoom to markers bounds control
+    L.Control.ZoomMarkers = L.Control.extend({
         options: {
             position: 'topright',
         },
@@ -453,16 +454,36 @@ window.addEvent('domready', function() {
                 });
 
             var controlUI = L.DomUtil.create('div', 'leaflet-control-command-interior', controlDiv);
-            controlUI.title = 'Map Commands';
+            controlUI.title = ch_t('arkeogis', 'Recadrer sur l\'emprise des icones');
             return controlDiv;
         }
     });
 
-    L.control.command = function(options) {
-        return new L.Control.Command(options);
-    };
+    new L.Control.ZoomMarkers({}).addTo(map);
 
-    new L.Control.Command({}).addTo(map);
+    // Group control
+    L.Control.GroupMarkers = L.Control.extend({
+        options: {
+            position: 'topright',
+        },
+
+        onAdd: function(map) {
+            var controlDiv = L.DomUtil.create('div', 'leaflet-control-custom leaflet-control-groupmarkers');
+            L.DomEvent
+                .addListener(controlDiv, 'click', L.DomEvent.stopPropagation)
+                .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
+                .addListener(controlDiv, 'click', function() {
+                    layerType = (layerType == 'cluster') ? 'simple' : 'cluster';
+                    redrawMarkers();
+                });
+
+            var controlUI = L.DomUtil.create('div', 'leaflet-control-command-interior', controlDiv);
+            controlUI.title = ch_t('arkeogis', 'Recadrer sur l\'emprise des icones');
+            return controlDiv;
+        }
+    });
+
+    new L.Control.GroupMarkers({}).addTo(map);
 
     /* initialize draw for area selection */
     areaSelectionShapeOptions = {
@@ -670,11 +691,24 @@ function buildSelectionObject() {
     return result;
 }
 
-function drawMarkers(queryNum, layerType, redraw) {
+function redrawMarkers() {
+    console.log(layerType);
+    for (var k in layerMarkers) {
+        if (layerMarkers.hasOwnProperty(k)) {
+           drawMarkers(k, true);
+        }
+    }
+}
 
-    $$('.leaflet-control-zoommarkers')[0].setStyle('display', 'block');
+function drawMarkers(queryNum, redraw) {
+
+    var visible = true;
+
     if (redraw) {
+        visible = (map.hasLayer(layerMarkers[queryNum])) ? true : false;
+        layerMarkers[queryNum].clearLayers();
         map.removeLayer(layerMarkers[queryNum]);
+        layersControl.removeLayer(layerMarkers[queryNum]);
     } else if (typeOf(layerMarkers[queryNum]) != 'array') {
         layerMarkers[queryNum] = [];
     }
@@ -717,8 +751,12 @@ function drawMarkers(queryNum, layerType, redraw) {
             layerMarkers[queryNum].addLayer(m);
         }
     });
-    map.addLayer(layerMarkers[queryNum]);
+    if (visible) {
+        map.addLayer(layerMarkers[queryNum]);
+    }
     layersControl.addOverlay(layerMarkers[queryNum], ch_t('arkeogis', 'Requête') + ' ' + queryNum);
+    $$('.leaflet-control-zoommarkers')[0].setStyle('display', 'block');
+    $$('.leaflet-control-groupmarkers')[0].setStyle('display', 'block');
 }
 
 function updateDrawLocales(e) {
