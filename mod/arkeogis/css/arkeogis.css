@@ -803,6 +803,9 @@ div.filtercontent .filter-minus {
   width: 50px;
   margin-right: 80px;
 }
+.modal-coords .modal-box {
+  width: 550px !important;
+}
 
 .win-coord-nota {
   font-size: 8px;
