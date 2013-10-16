@@ -555,11 +555,12 @@ window.addEvent('domready', function() {
                 html.setStyles({
                     display: ''
                 });
-                modalWin = new Modal.Base(document.body);
-                modalWin.setTitle(ch_t('arkeogis', "Coordonnées de sélection"));
-                modalWin.setBody(html.innerHTML);
-                modalWin.setFooter("<div><button onclick='setCoordsFromModal()'>Ok</button></div>");
-                modalWin.show();
+                if (typeof(modalCoordsWin) == 'undefined')
+                    modalCoordsWin = new Modal.Base(document.body, { customclass: 'modal-coords' });
+                modalCoordsWin.setTitle(ch_t('arkeogis', "Coordonnées de sélection"));
+                modalCoordsWin.setBody(html.innerHTML);
+                modalCoordsWin.setFooter("<div><button onclick='setCoordsFromModal()'>Ok</button></div>");
+                modalCoordsWin.show();
                 $$('.modal-body .coord_lat [name=txtdec]')[0].value = area_coords.lat;
                 $$('.modal-body .coord_lng [name=txtdec]')[0].value = area_coords.lng;
                 $$('.modal-body [name=km]')[0].value = area_coords.km;
@@ -1140,8 +1141,8 @@ function setCoordsFromModal() {
         'km': km
     };
 
-    modalWin.setBody('');
-    modalWin.hide();
+    setTimeout("modalCoordsWin.setBody('')", 500);
+    modalCoordsWin.hide();
 }
 
 function getMarkersBounds() {
