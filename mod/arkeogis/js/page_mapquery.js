@@ -398,25 +398,12 @@ window.addEvent('domready', function() {
                     map.setView(res.mapviewport.center, res.mapviewport.zoom);
 
 
-		select_savedqueries_inhib_selection_event=false;
+                setTimeout("select_savedqueries_inhib_selection_event=false", 500);
 		//$('select-savedqueries').selectedIndex=idx;
 	    }
 	}).post({
 	    'queryid': $('select-savedqueries').get('value')
 	});
-    });
-
-    ['centroid', 'knowledge', 'occupation', 'db', 'period', 'area', 'production', 'realestate', 'furniture', 'landscape', 'txtsearch_options'].each(function(m) {
-	arkeo_menu[m].addEventOnLeafs('selection', function() {
-	    if (!select_savedqueries_inhib_selection_event)
-		$('select-savedqueries').selectedIndex=0;
-	})
-    });
-    [ 'ex_realestate', 'ex_furniture', 'ex_production', 'ex_landscape', 'caracterisation_mode', 'txtsearch' ].each(function(m) {
-	$(m).addEvent('change', function() {
-	    if (!select_savedqueries_inhib_selection_event)
-		$('select-savedqueries').selectedIndex=0;
-	})
     });
 
 
@@ -497,6 +484,7 @@ window.addEvent('domready', function() {
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
 
+
     // Initialize the draw control and pass it the FeatureGroup of editable layers
     var drawControl = new L.Control.Draw({
         edit: {
@@ -563,6 +551,26 @@ window.addEvent('domready', function() {
 
     /* initialize tabbeds queries */
     querys_tabs = new UI.Tabs( { container : 'querys', scrolling : 'auto', contextMenu : true, sortable : true } );
+
+    /*
+     * reset the selected saved query on query change
+     */
+    ['centroid', 'knowledge', 'occupation', 'db', 'period', 'area', 'production', 'realestate', 'furniture', 'landscape', 'txtsearch_options'].each(function(m) {
+	arkeo_menu[m].addEventOnLeafs('selection', function() {
+	    if (!select_savedqueries_inhib_selection_event)
+		$('select-savedqueries').selectedIndex=0;
+	})
+    });
+    [ 'ex_realestate', 'ex_furniture', 'ex_production', 'ex_landscape', 'caracterisation_mode', 'txtsearch' ].each(function(m) {
+	$(m).addEvent('change', function() {
+	    if (!select_savedqueries_inhib_selection_event)
+		$('select-savedqueries').selectedIndex=0;
+	})
+    });
+    map.on('moveend', function() {
+	if (!select_savedqueries_inhib_selection_event)
+	    $('select-savedqueries').selectedIndex=0;
+    });
 
 });
 
