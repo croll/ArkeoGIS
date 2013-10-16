@@ -529,7 +529,7 @@ window.addEvent('domready', function() {
     });
 
     // Mouse position
-    L.control.mousePosition().addTo(map);
+    L.control.mousePosition({emptyString: ''}).addTo(map);
 
     new L.Control.showLabels({})
         .addTo(map);
