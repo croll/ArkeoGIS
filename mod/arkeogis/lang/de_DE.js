@@ -172,7 +172,7 @@
   "P\u00e9riode" : "Zeit",
   "Query #%d" : "Abfrage  #%d",
   "Recherche" : "Forschung",
-  "Recherche dans" : false,
+  "Recherche \"%s\" dans" : false,
   "Recherche textuelle" : "Freitext Suche",
   "Release mouse to finish drawing." : false,
   "Remarque" : "Anmerkungen",

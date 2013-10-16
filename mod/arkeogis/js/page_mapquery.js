@@ -172,7 +172,8 @@ window.addEvent('domready', function() {
 
         // get selection of txtsearch
         result.txtsearch = $('txtsearch').get('value');
-        result.txtsearch_options = arkeo_menu.txtsearch_options.getSelection('+');
+        result.txtsearch_options_include = arkeo_menu.txtsearch_options.getSelection('+');
+        result.txtsearch_options_exclude = arkeo_menu.txtsearch_options.getSelection('-');
 
         // get area selection
         result.area_map = map.getBounds();
@@ -213,7 +214,7 @@ window.addEvent('domready', function() {
 		 || form.furniture_include.length > 0 || form.furniture_exclude.length > 0
 		 || form.landscape_include.length > 0 || form.landscape_exclude.length > 0)
             ) || (
-                (form.txtsearch && form.txtsearch_options.length > 0)
+                (form.txtsearch && form.txtsearch_options.getSelection('+').length > 0)
             )
            ) {
 	} else {
@@ -365,7 +366,7 @@ window.addEvent('domready', function() {
 		    res.caracterisation_mode ? res.caracterisation_mode == 'OR' ? 0 : 1 : 0;
 
                 $('txtsearch').set('value', res.txtsearch);
-                arkeo_menu.txtsearch_options.setSelection(res.txtsearch_options ? res.txtsearch_options : [], []);
+                arkeo_menu.txtsearch_options.setSelection(res.txtsearch_options_include ? res.txtsearch_options_include : [], []);
 
                 // display area selections
                 if (layer_selection_rect != null) {
@@ -696,6 +697,7 @@ function display_query(query) {
         var m_include = query[m+'_include'] ? query[m+'_include'] : [];
         var m_exclude = query[m+'_exclude'] ? query[m+'_exclude'] : [];
 	if (arkeo_menu[m].submenu.buildPath(m_include, m_exclude, result)) {
+            if (m == 'txtsearch_options' && ! query.txtsearch) return;
 	    var queryfilter_html=$('query-filter').clone();
 	    queryfilter_html.setStyles({
 		display: ''
@@ -711,7 +713,7 @@ function display_query(query) {
 	    else if (m == 'db') title=ch_t('arkeogis', "Base de donnée");
 	    else if (m == 'period') title=ch_t('arkeogis', "Période");
 	    else if (m == 'area') title=ch_t('arkeogis', "Aire de recherche");
-	    else if (m == 'txtsearch_options') title=ch_t('arkeogis', "Recherche dans");
+	    else if (m == 'txtsearch_options') title=ch_t('arkeogis', 'Recherche "%s" dans', query.txtsearch);
 
 	    if (m == 'production' || m == 'realestate' || m == 'furniture' || m == 'landscape')
 		if (query[m+'_exceptional'] == 1) title+=' '+ch_t('arkeogis', '(exceptionals only)');

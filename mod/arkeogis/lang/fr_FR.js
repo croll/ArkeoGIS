@@ -172,7 +172,7 @@
   "P\u00e9riode" : "P\u00e9riode",
   "Query #%d" : "Requ\u00eate #%d",
   "Recherche" : "Recherche",
-  "Recherche dans" : false,
+  "Recherche \"%s\" dans" : false,
   "Recherche textuelle" : "Recherche textuelle",
   "Release mouse to finish drawing." : "Rel\u00e2chez le bouton pour terminer",
   "Remarque" : "Remarques",

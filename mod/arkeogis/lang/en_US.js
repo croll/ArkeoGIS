@@ -172,7 +172,7 @@
   "P\u00e9riode" : "P\u00e9riode",
   "Query #%d" : false,
   "Recherche" : false,
-  "Recherche dans" : false,
+  "Recherche \"%s\" dans" : false,
   "Recherche textuelle" : false,
   "Release mouse to finish drawing." : false,
   "Remarque" : false,
