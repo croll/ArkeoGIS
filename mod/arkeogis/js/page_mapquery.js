@@ -378,13 +378,13 @@ window.addEvent('domready', function() {
                     layer_selection_circle=null;
                 }
                 if (res.area_include && res.area_include.indexOf('circle') != -1) {
-                    layer_selection_circle = new L.Circle([res.area_circle.lat, res.area_circle.lng], res.area_circle.radius, {});
+                    layer_selection_circle = new L.Circle([res.area_circle.lat, res.area_circle.lng], res.area_circle.radius, areaSelectionShapeOptions);
                     map.addLayer(layer_selection_circle);
                     layer_selection_circle.editing.enable();
                 }
                 if (res.area_include && res.area_include.indexOf('rect') != -1) {
                     var bounds = [[res.area_bounds._southWest.lat, res.area_bounds._southWest.lng], [res.area_bounds._northEast.lat, res.area_bounds._northEast.lng]];
-                    layer_selection_rect = new L.Rectangle(bounds, {});
+                    layer_selection_rect = new L.Rectangle(bounds, areaSelectionShapeOptions);
                     map.addLayer(layer_selection_rect);
                     layer_selection_rect.editing.enable();
                 }
@@ -485,6 +485,19 @@ window.addEvent('domready', function() {
     new L.Control.Zoom({ position: 'topright' }).addTo(map);
 
     layers.cloudmade.addTo(map);
+
+
+    /* initialize draw for area selection */
+    areaSelectionShapeOptions = {
+	stroke: true,
+	color: '#f06eaa',
+	weight: 4,
+	opacity: 0.5,
+	fill: true,
+	fillColor: null, //same as color by default
+	fillOpacity: 0.2,
+    };
+
     // Initialize the FeatureGroup to store editable layers
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
@@ -520,7 +533,7 @@ window.addEvent('domready', function() {
                 layer_selection_rect=null;
             }
             if (ev.selected == '+') {
-                new L.Draw.Rectangle(map, drawControl.options.rectangle).enable()
+                new L.Draw.Rectangle(map, areaSelectionShapeOptions).enable()
                 ev.source.parent_menu.close();
 	        show_menu(false);
             }
@@ -530,7 +543,7 @@ window.addEvent('domready', function() {
                 layer_selection_circle=null;
             }
             if (ev.selected == '+') {
-                new L.Draw.Circle(map, drawControl.options.circle).enable()
+                new L.Draw.Circle(map, areaSelectionShapeOptions).enable()
                 ev.source.parent_menu.close();
 	        show_menu(false);
             }
