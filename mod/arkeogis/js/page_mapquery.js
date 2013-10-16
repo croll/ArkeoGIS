@@ -184,6 +184,12 @@ window.addEvent('domready', function() {
         }
         result.area_coords = area_coords;
 
+        // get map viewport
+        result.mapviewport= {
+            center: map.getCenter(),
+            zoom: map.getZoom()
+        }
+
 	// get saved query
 	var option=$('select-savedqueries').getSelected();
 	result.saved_query={
@@ -382,9 +388,15 @@ window.addEvent('domready', function() {
                     layer_selection_rect.editing.enable();
                 }
                 if (res.area_include && res.area_include.indexOf('all') != -1) {
-                    var bounds = [[res.area_map._southWest.lat, res.area_map._southWest.lng], [res.area_map._northEast.lat, res.area_map._northEast.lng]];
-                    map.fitBounds(bounds);
+                    //var bounds = [[res.area_map._southWest.lat, res.area_map._southWest.lng], [res.area_map._northEast.lat, res.area_map._northEast.lng]];
+                    //map.fitBounds(bounds);
+                    // we use the viewport set below
                 }
+
+                // set map viewport
+                if (res.mapviewport.center)
+                    map.setView(res.mapviewport.center, res.mapviewport.zoom);
+
 
 		select_savedqueries_inhib_selection_event=false;
 		//$('select-savedqueries').selectedIndex=idx;
