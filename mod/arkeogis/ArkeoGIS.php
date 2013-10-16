@@ -269,25 +269,25 @@ class ArkeoGIS {
 		}
 
     // full text search
-    if (isset($search['txtsearch']) && !empty($search['txtsearch']) && isset($search['txtsearch_options'])) {
+    if (isset($search['txtsearch']) && !empty($search['txtsearch']) && isset($search['txtsearch_options_include'])) {
       $where.=' AND ( 0=1 ';
 
-      if (in_array('si_name', $search['txtsearch_options'])) {
+      if (in_array('si_name', $search['txtsearch_options_include'])) {
         $where.=' OR si_name @@ plainto_tsquery(?)';
         $args[]=$search['txtsearch'];
       }
 
-      if (in_array('sp_comment', $search['txtsearch_options'])) {
+      if (in_array('sp_comment', $search['txtsearch_options_include'])) {
         $where.=' OR sp_comment @@ plainto_tsquery(?)';
         $args[]=$search['txtsearch'];
       }
 
-      if (in_array('sp_bibliography', $search['txtsearch_options'])) {
+      if (in_array('sp_bibliography', $search['txtsearch_options_include'])) {
         $where.=' OR sp_bibliography @@ plainto_tsquery(?)';
         $args[]=$search['txtsearch'];
       }
 
-      if (in_array('sp_comment', $search['txtsearch_options'])) {
+      if (in_array('sp_comment', $search['txtsearch_options_include'])) {
         $where.=' OR sp_comment @@ plainto_tsquery(?)';
         $args[]=$search['txtsearch'];
       }
