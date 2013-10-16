@@ -1054,14 +1054,27 @@ div.filtercontent .filter-minus {
     background-image: url("/mod/arkeogis/img/zoom.png");
 }
 
-
 .leaflet-control-groupmarkers
 {
     display: none;
     background-image: url("/mod/arkeogis/img/groupmarkers.png");
 }
 
+.leaflet-control-showlabels
+{
+    display: none;
+    background-image: url("/mod/arkeogis/img/abc.png");
+}
 
 .leaflet-control-custom:hover{
     background-color: #F4F4F4;
+    cursor: pointer;
+}
+
+.leaflet-control-active {
+  background-color: #0069d6;
+}
+
+.leaflet-control-active:hover{
+  background-color: #44adff;
 }

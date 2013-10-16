@@ -5,6 +5,7 @@ var mapMarkers = [];
 var layers = {};
 var layersControl;
 var layerType = 'simple';
+var showLabels = false;
 
 var select_savedqueries_inhib_selection_event = false;
 
@@ -207,6 +208,7 @@ window.addEvent('domready', function() {
                     show_menu(false);
                     mapMarkers[queryNum] = res.mapmarkers;
                     drawMarkers(queryNum);
+                    updateControls();
 
                     delete res;
 
@@ -395,8 +397,10 @@ window.addEvent('domready', function() {
         }
 
         // Remove control icons
-       $$('.leaflet-control-zoommarkers')[0].setStyle('display', 'none');
-       $$('.leaflet-control-groupmarkers')[0].setStyle('display', 'none');
+        $$('.leaflet-control-hiddable')
+            .forEach(function(el) {
+                el.setStyle('display', 'none');
+            });
 
     });
 
@@ -430,6 +434,9 @@ window.addEvent('domready', function() {
     }, null, {
         collapsed: false
     });
+    map.on('overlayadd', function(evt) {
+        updateLabels();
+    });
     layersControl.addTo(map);
 
     // Zoom control
@@ -459,7 +466,8 @@ window.addEvent('domready', function() {
         }
     });
 
-    new L.Control.ZoomMarkers({}).addTo(map);
+    new L.Control.ZoomMarkers({})
+        .addTo(map);
 
     // Group control
     L.Control.GroupMarkers = L.Control.extend({
@@ -468,12 +476,18 @@ window.addEvent('domready', function() {
         },
 
         onAdd: function(map) {
-            var controlDiv = L.DomUtil.create('div', 'leaflet-control-custom leaflet-control-groupmarkers');
+            var controlDiv = L.DomUtil.create('div', 'leaflet-control-custom leaflet-control-groupmarkers leaflet-control-hiddable');
             L.DomEvent
                 .addListener(controlDiv, 'click', L.DomEvent.stopPropagation)
                 .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
                 .addListener(controlDiv, 'click', function() {
-                    layerType = (layerType == 'cluster') ? 'simple' : 'cluster';
+                    if (layerType == 'cluster') {
+                        layerType = 'simple';
+                        controlDiv.className = controlDiv.className.replace(' leaflet-control-active', '');
+                    } else {
+                        layerType = 'cluster';
+                        L.DomUtil.addClass(controlDiv, 'leaflet-control-active');
+                    }
                     redrawMarkers();
                 });
 
@@ -483,9 +497,41 @@ window.addEvent('domready', function() {
         }
     });
 
-    new L.Control.GroupMarkers({}).addTo(map);
+    new L.Control.GroupMarkers({})
+        .addTo(map);
 
+    // Labels control
+    L.Control.showLabels = L.Control.extend({
+        options: {
+            position: 'topright',
+        },
+
+        onAdd: function(map) {
+            var controlDiv = L.DomUtil.create('div', 'leaflet-control-custom leaflet-control-showlabels leaflet-control-hiddable');
+            L.DomEvent
+                .addListener(controlDiv, 'click', L.DomEvent.stopPropagation)
+                .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
+                .addListener(controlDiv, 'click', function() {
+                    if (showLabels) {
+                        showLabels = false;
+                        controlDiv.className = controlDiv.className.replace(' leaflet-control-active', '');
+                    } else {
+                        showLabels = true;
+                        L.DomUtil.addClass(controlDiv, 'leaflet-control-active');
+                    }
+                    redrawMarkers();
+                });
+
+            var controlUI = L.DomUtil.create('div', 'leaflet-control-command-interior', controlDiv);
+            controlUI.title = ch_t('arkeogis', 'Recadrer sur l\'emprise des icones');
+            return controlDiv;
+        }
+    });
+
+    new L.Control.showLabels({})
+        .addTo(map);
     /* initialize draw for area selection */
+
     areaSelectionShapeOptions = {
         stroke: true,
         color: '#f06eaa',
@@ -556,7 +602,9 @@ window.addEvent('domready', function() {
                     display: ''
                 });
                 if (typeof(modalCoordsWin) == 'undefined')
-                    modalCoordsWin = new Modal.Base(document.body, { customclass: 'modal-coords' });
+                    modalCoordsWin = new Modal.Base(document.body, {
+                        customclass: 'modal-coords'
+                    });
                 modalCoordsWin.setTitle(ch_t('arkeogis', "Coordonnées de sélection"));
                 modalCoordsWin.setBody(html.innerHTML);
                 modalCoordsWin.setFooter("<div><button onclick='setCoordsFromModal()'>Ok</button></div>");
@@ -693,12 +741,34 @@ function buildSelectionObject() {
 }
 
 function redrawMarkers() {
-    console.log(layerType);
     for (var k in layerMarkers) {
         if (layerMarkers.hasOwnProperty(k)) {
-           drawMarkers(k, true);
+            drawMarkers(k, true);
         }
     }
+    updateControls();
+}
+
+function updateControls() {
+    $$('.leaflet-control-hiddable')
+        .forEach(function(el) {
+            if (layerType == 'cluster' && el.hasClass('leaflet-control-showlabels')) {
+                el.setStyle('display', 'none');
+                el.removeClass('leaflet-control-active');
+                showLabels = false;
+            } else {
+                el.setStyle('display', 'block');
+            }
+        });
+}
+
+function updateLabels() {
+    if (!showLabels) return false;
+    layerMarkers.forEach(function(l) {
+        l.getLayers().forEach(function(m) {
+            m.showLabel();
+        })
+    });
 }
 
 function drawMarkers(queryNum, redraw) {
@@ -722,6 +792,10 @@ function drawMarkers(queryNum, redraw) {
         layerMarkers[queryNum] = new L.FeatureGroup();
     }
 
+    if (visible) {
+        map.addLayer(layerMarkers[queryNum]);
+    }
+
     mapMarkers[queryNum].each(function(marker) {
         if (marker.geometry) {
             var m = new L.marker([marker.geometry.coordinates[1], marker.geometry.coordinates[0]], {
@@ -733,6 +807,12 @@ function drawMarkers(queryNum, redraw) {
                 className: 'customIcon'
             });
             m.setIcon(icon);
+            if (layerType != 'cluster') {
+                m.bindLabel(marker.popup.title, {
+                    noHide: true,
+                    direction: 'auto'
+                });
+            }
 
             m.on('mouseover', function(evt) {
                 new L.popup({
@@ -750,14 +830,14 @@ function drawMarkers(queryNum, redraw) {
             })
 
             layerMarkers[queryNum].addLayer(m);
+            if (showLabels) {
+                m.showLabel();
+            }
         }
     });
-    if (visible) {
-        map.addLayer(layerMarkers[queryNum]);
-    }
+
     layersControl.addOverlay(layerMarkers[queryNum], ch_t('arkeogis', 'Requête') + ' ' + queryNum);
-    $$('.leaflet-control-zoommarkers')[0].setStyle('display', 'block');
-    $$('.leaflet-control-groupmarkers')[0].setStyle('display', 'block');
+
 }
 
 function updateDrawLocales(e) {
@@ -1148,7 +1228,7 @@ function setCoordsFromModal() {
 function getMarkersBounds() {
     var bounds = new L.LatLngBounds();
     layerMarkers.forEach(function(l) {
-            bounds.extend(l.getBounds());
+        bounds.extend(l.getBounds());
     });
     return bounds;
 }
