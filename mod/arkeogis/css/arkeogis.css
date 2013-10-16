@@ -557,6 +557,13 @@ border-bottom-left-radius: 3px;
  background-repeat: no-repeat;
 }
 
+.pmmenu-crayon .pmmenu-sub {
+ top: 2px;
+ right: 2px;
+ background-image: url("/mod/arkeogis/img/icon-pencil.png");
+ background-repeat: no-repeat;
+}
+
 .pmmenu-popup, .pmmenu-help {
  position: absolute;
  z-index: 2000;

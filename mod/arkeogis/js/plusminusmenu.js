@@ -177,7 +177,8 @@ var PlusMinusItem = new Class({
     selected: '',
     options: {
 	nominus: false,
-	enabled: true
+	enabled: true,
+        cssclass: false
     },
 
     initialize: function(text, value, submenu, options) {
@@ -218,6 +219,8 @@ var PlusMinusItem = new Class({
 	    'class': 'pmmenu-item',
 	    text: me.model.text
 	});
+	if (me.options.cssclass)
+	    me.html_element.addClass(me.options.cssclass);
 	me.html_element.addClass(me.options.enabled ? 'pmmenu-enabled' : 'pmmenu-disabled');
 	me.html_element.set('html', me.html_element.get('html').replace(/\n/g, '<br />'));
 	me.html_element.inject(to_html_elem);
@@ -265,7 +268,6 @@ var PlusMinusItem = new Class({
 	if (me.help) {
 	    sub.addClass('pmmenu-havehelp');
 	}
-
 
 	me.html_element.addEvent('mouseenter', function() {
 	    if (me.parent_menu) me.parent_menu.close_submenus();

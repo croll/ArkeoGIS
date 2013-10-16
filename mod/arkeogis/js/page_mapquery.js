@@ -59,9 +59,9 @@ window.addEvent('domready', function() {
 
     arkeo_menu.area = new PlusMinusItem(ch_t('arkeogis', "Choix de l'aire de recherche"), null, new PlusMinusMenu([
 	new PlusMinusItem(ch_t('arkeogis', 'Toute la carte'), 'all', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', 'Réctangle de sélection'), 'rect', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', 'Disque de sélection'), 'circle', null, { nominus: true }),
-	new PlusMinusItem(ch_t('arkeogis', 'Coordonnées de sélection'), 'coord', null, { nominus: true })
+	new PlusMinusItem(ch_t('arkeogis', 'Réctangle de sélection'), 'rect', null, { nominus: true, cssclass: 'pmmenu-crayon' }),
+	new PlusMinusItem(ch_t('arkeogis', 'Disque de sélection'), 'circle', null, { nominus: true, cssclass: 'pmmenu-crayon' }),
+	new PlusMinusItem(ch_t('arkeogis', 'Coordonnées de sélection'), 'coord', null, { nominus: true, cssclass: 'pmmenu-crayon' })
     ], {
         multiselect: false
     }));
