@@ -18,6 +18,8 @@
 	{js file="/mod/cssjs/ext/leaflet.markercluster/leaflet.markercluster.js"}
 	{js file="/mod/cssjs/ext/leaflet.label/leaflet.label.js"}
 	{css file="/mod/cssjs/ext/leaflet.label/leaflet.label.css"}
+           {js file="/mod/cssjs/ext/leaflet.mouseposition/L.Control.MousePosition.js"}
+           {css file="/mod/cssjs/ext/leaflet.mouseposition/L.Control.MousePosition.css"}
 
         {css file="/mod/cssjs/ext/Leaflet.draw/dist/leaflet.draw.css"}
         {js file="/mod/cssjs/ext/Leaflet.draw/dist/leaflet.draw.js"}

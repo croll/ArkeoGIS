@@ -528,6 +528,9 @@ window.addEvent('domready', function() {
         }
     });
 
+    // Mouse position
+    L.control.mousePosition().addTo(map);
+
     new L.Control.showLabels({})
         .addTo(map);
     /* initialize draw for area selection */
