@@ -379,6 +379,10 @@ window.addEvent('domready', function() {
                     map.addLayer(layer_selection_rect);
                     layer_selection_rect.editing.enable();
                 }
+                if (res.area_include && res.area_include.indexOf('all') != -1) {
+                    var bounds = [[res.area_map._southWest.lat, res.area_map._southWest.lng], [res.area_map._northEast.lat, res.area_map._northEast.lng]];
+                    map.fitBounds(bounds);
+                }
 
 		select_savedqueries_inhib_selection_event=false;
 		//$('select-savedqueries').selectedIndex=idx;
@@ -526,6 +530,10 @@ window.addEvent('domready', function() {
                 modalWin.setBody(html.innerHTML);
                 modalWin.setFooter("<div><button onclick='setCoordsFromModal()'>Ok</button></div>");
                 modalWin.show();
+                $$('.modal-body .coord_lat [name=txtdec]')[0].value=area_coords.lat;
+                $$('.modal-body .coord_lng [name=txtdec]')[0].value=area_coords.lng;
+                $$('.modal-body [name=km]')[0].value=area_coords.km;
+
             }
         }
     });
@@ -593,7 +601,7 @@ function buildFilterLines(section, menu, colnum, div, query) {
 	        });
                 td2.innerHTML='<div>'+ch_t('arkeogis', "Latitude")+" : "+query.area_coords.lat+'</div>'
                     +'<div>'+ch_t('arkeogis', "Longitude")+" : "+query.area_coords.lng+'</div>'
-                    +'<div>'+ch_t('arkeogis', "Distance")+" : "+(parseInt(query.area_coords.radius)/1000)+' km</div>';
+                    +'<div>'+ch_t('arkeogis', "Distance")+" : "+query.area_coords.km+' km</div>';
 	        td2.inject(tr);
             }
             if (model.value == 'rect') {
