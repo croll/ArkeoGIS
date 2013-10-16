@@ -182,7 +182,6 @@ window.addEvent('domready', function() {
             result.area_circle = layer_selection_circle.getLatLng();
             result.area_circle.radius = layer_selection_circle.getRadius();
         }
-
         result.area_coords = area_coords;
 
 	// get saved query
@@ -455,6 +454,7 @@ window.addEvent('domready', function() {
 
 
     /* initialize map */
+    updateDrawLocales(L.drawLocal);
     layer_selection_rect = null;
     layer_selection_circle = null;
     area_coords = { 'lat': 0.0, 'lng': 0.0, 'km': 0.0 };
@@ -555,6 +555,20 @@ window.addEvent('domready', function() {
 });
 
 /* functions */
+
+function updateDrawLocales(e) {
+    for (k in e) {
+        if (typeof(e[k]) == 'object')
+            updateDrawLocales(e[k]);
+        else if (typeof(e[k]) == 'string')
+            e[k]=ch_t('arkeogis', e[k]);
+    }
+/* trads:
+   ch_t('arkeogis', "Click and drag to draw circle.");
+   ch_t('arkeogis', "Click and drag to draw rectangle.");
+   ch_t('arkeogis', "Release mouse to finish drawing.");
+*/
+}
 
 function getMenuById(menu, id) {
     for (var i=0; i<menu.length; i++) {
