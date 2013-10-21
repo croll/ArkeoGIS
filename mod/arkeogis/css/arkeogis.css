@@ -355,7 +355,7 @@ tr.menu_txtsearch input {
  margin-bottom: 5px;
  margin-left: 0;
  margin-right: 0;
- width: 172px;
+ width: 152px;
  font-family: Verdana;
 }
 
@@ -364,7 +364,7 @@ tr.menu_txtsearch #menu_txtsearch, tr.menu_txtsearch #menu_txtsearch_options {
 }
 
 tr.menu_txtsearch .pmmenu-root {
- width: 35px;
+ width: 55px;
 }
 
 table.map-query td.validations button {
