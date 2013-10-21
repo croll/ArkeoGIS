@@ -217,6 +217,7 @@
   "bases de donn\u00e9es" : "Datenbanken",
   "degr\u00e9s" : "Grad",
   "description" : "Beschreibung",
+  "d\u00e9cimaux" : false,
   "erreurs (voir ci dessous)" : "Fehler (siehe unten).",
   "inventory" : "Inventar",
   "km \u00e0 partir du centre de la recherche." : "Km vom Zentralpunkt der Abfrage.",

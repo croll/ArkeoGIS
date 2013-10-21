@@ -217,6 +217,7 @@
   "bases de donn\u00e9es" : "Bases de donn\u00e9es",
   "degr\u00e9s" : "degr\u00e9s",
   "description" : "Description",
+  "d\u00e9cimaux" : false,
   "erreurs (voir ci dessous)" : "erreurs (voir ci dessous)",
   "inventory" : "Inventaire",
   "km \u00e0 partir du centre de la recherche." : "km \u00e0 partir du centre de la recherche.",
