@@ -183,7 +183,7 @@
               <td>{t d='arkeogis' m='minutes'}</td>
               <td>{t d='arkeogis' m='secondes'}</td>
               <td></td>
-              <td>décimaux</td>
+              <td>{t d='arkeogis' m="décimaux"}</td>
             </tr>
             <tr class='coord_lat'>
               <td><input type='text' name='txtdeg' value='0' onkeyup="dmsdec('coord_lat')"></td>
