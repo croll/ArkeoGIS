@@ -170,6 +170,7 @@
   "Publi\u00e9e" : false,
   "P\u00e9riode" : "P\u00e9riode",
   "Query #%d" : false,
+  "Recadrer sur l\\" : false,
   "Recherche" : false,
   "Recherche \"%s\" dans" : false,
   "Recherche textuelle" : false,

@@ -170,6 +170,7 @@
   "Publi\u00e9e" : "Publi\u00e9e",
   "P\u00e9riode" : "P\u00e9riode",
   "Query #%d" : "Requ\u00eate #%d",
+  "Recadrer sur l\\" : false,
   "Recherche" : "Recherche",
   "Recherche \"%s\" dans" : "Recherche \"%s\" dans",
   "Recherche textuelle" : "Recherche textuelle",
