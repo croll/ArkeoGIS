@@ -42,7 +42,7 @@
 
 {block name='webpage_body'}
        {$lang=\mod\lang\Main::getCurrentLang()}
-	<div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 950px;"{/if}>
+	<div id="arkeogis_container" {if !\mod\user\Main::userIsLoggedIn()} style="width: 1000px;"{/if}>
 
         <!-- hack idle -->
         <input type='hidden' id='userlogged' value='{\mod\user\Main::userIsLoggedIn()}'/>

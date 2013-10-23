@@ -55,17 +55,17 @@
 							<li><a href="/">{t d='arkeogis' m='Carte'}</a></li>
 						{/if}
 						<li><a href="/manuel/">{t d='arkeogis' m='Manuel utilisateur'}</a></li>
-							
+
 						{if \mod\user\Main::userhasRight('Manage personal database') }
 						<li><a href="/import/">{t d='arkeogis' m='Import'}</a></li>
 						{/if}
-							
+
 					</ul>
 					<ul class="nav pull-right">
             						{if \mod\user\Main::userIsLoggedIn()}
 							<li class="dropdown" id="li4" onclick="$('li4').toggleClass('open');">
               							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/mod/arkeogis/img/settings.png" /><b class="caret"></b></a>
-              							<ul id="tools" class="dropdown-menu">	
+              							<ul id="tools" class="dropdown-menu">
 								<li><a href="/databases/">{t d='arkeogis' m='Index'}</a></li>
 								<li><a href="/directory/">{t d='arkeogis' m='Directory'}</a></li>
               							{if \mod\user\Main::userhasRight('Manage personal database') || \mod\user\Main::userhasRight('Manage all databases')}
@@ -81,7 +81,7 @@
 									{block name='page_menu' }
 										<li><a class="top-btn" href="/page/list/"><i class="icon-th-list glyph-white"></i>  {t d='page' m='Manage pages'}</a></li>
 										<li><a class="top-btn" href="/page/edit/0"><i class="icon-pencil glyph-white"></i>  {t d='page' m='Add page'}</a></li>
-									{/block}	
+									{/block}
 								{/if}
               							</ul>
               					{else}
@@ -113,7 +113,7 @@
 				{/if}
 				<div>{$present.content}</div>
 		</div>
-		
+
 	{/block}
 	<div id="footer">
 		<div class="navbar">
@@ -128,7 +128,7 @@
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>
 	</div>
 </div>
 <script>
