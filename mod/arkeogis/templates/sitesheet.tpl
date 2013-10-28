@@ -152,7 +152,11 @@
 		{if isset($periodCharacteristics.datas.bibliography)}
 			<div class="title">{t d='arkeogis' m='Bibliographie'}</div>
 			<div class="blockcharac">
-				<div class="charac">{$periodCharacteristics.datas.bibliography|nl2br}</div>
+				<div class="charac">
+					<div class="limiter">
+						{$periodCharacteristics.datas.bibliography|nl2br}
+					</div>
+				</div>
 				<div class="clearfix"></div>
 			</div>
 		{/if}

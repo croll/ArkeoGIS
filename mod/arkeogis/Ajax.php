@@ -282,7 +282,7 @@ class Ajax {
         $file = \mod\arkeogis\ArkeoGIS::getLastImportFile((int)$params['id']);
         if ($file) {
            if (is_file(dirname(__FILE__).'/files/import/'.$file) && is_readable(dirname(__FILE__).'/files/import/'.$file)) {
-           $response['footer'] .= '<input type="button" class="btn" value="'.\mod\lang\Main::ch_t('arkeogis', 'Télécharger le fichier d\'import').'" onclick="downloadLastImport('.(int)$params['id'].')" />';
+           $response['footer'] .= '<input type="button" class="btn" value="'.\mod\lang\Main::ch_t('arkeogis', "Télécharger le fichier d'import").'" onclick="downloadLastImport('.(int)$params['id'].')" />';
           } 
         }
         $response['footer'] .= '<input type="button" class="btn" value="'.\mod\lang\Main::ch_t('arkeogis', 'Exporter la base').'" onclick="exportDatabase('.(int)$params['id'].')" />';

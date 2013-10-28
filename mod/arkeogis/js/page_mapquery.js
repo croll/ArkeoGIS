@@ -820,7 +820,8 @@ function drawMarkers(queryNum, redraw) {
             m.on('mouseover', function(evt) {
                 new L.popup({
                     offset: new L.Point(0, -5),
-                    closeOnClick: false
+                    closeOnClick: false,
+                    maxWidth: 380
                 })
                     .setLatLng([marker.geometry.coordinates[1], marker.geometry.coordinates[0]])
                     .setContent('<div style="width:500px">' + marker.popup.title + marker.popup.content + '</div>')

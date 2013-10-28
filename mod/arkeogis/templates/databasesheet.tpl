@@ -61,7 +61,11 @@
 		{if $infos.description}
 		<div class="title">{t d='arkeogis' m='Description'}</div>
 		<div class="blockcharac">
-			<div class="charac">{$infos.description|nl2br}</div>
+			<div class="charac">
+				<div class="limiter">
+				{$infos.description|nl2br}
+				</div>
+			</div>
 			<div class="clearfix"></div>
 		</div>
 		{/if}

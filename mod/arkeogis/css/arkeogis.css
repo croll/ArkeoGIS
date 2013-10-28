@@ -940,6 +940,11 @@ div.filtercontent .filter-minus {
 	float:left;
 }
 
+#sitesheet .limiter {
+  overflow: auto;
+  max-height: 200px;
+}
+
 #sitesheet .periodcharacs .exceptional {
 	border: 1px solid #ff8888;
 }
@@ -956,6 +961,12 @@ div.filtercontent .filter-minus {
   font-weight: bold;
 }
 
+/* User index */
+
+#directory_list .over .td, #directory_list li.selected, #directory_list .td{
+  cursor: default!important;
+}
+
 /* Databases index */
 
 #databases_list div.td:nth-child(6), #databases_list div.td:nth-child(7) {
@@ -965,6 +976,16 @@ div.filtercontent .filter-minus {
 
 #databases_list div.th:nth-child(6), #databases_list div.th:nth-child(7) {
   padding-right: 3px;
+}
+
+#databases_list li.selected {
+  background-color: #d9e6f4 !important;
+  /*color: #fff;*/
+}
+
+#databases_list  li.over {
+  background-color: #eaeff4 !important;
+  /*color: #fff;*/
 }
 
 /* Import and database edit */
