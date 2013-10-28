@@ -144,7 +144,11 @@
 		{if sizeof($periodCharacteristics.datas.comment) > 0}
 			<div class="title">{t d='arkeogis' m='Commentaires'}</div>
 			<div class="blockcharac">
-				<div class="charac">{$periodCharacteristics.datas.comment|nl2br}</div>
+				<div class="charac">
+					<div class="limiter">
+						{$periodCharacteristics.datas.comment|nl2br}
+					</div>
+				</div>
 				<div class="clearfix"></div>
 			</div>
 		{/if}
