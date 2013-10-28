@@ -349,6 +349,7 @@ window.addEvent('domready', function() {
 
     $$('.btn-reinit')[0].addEvent('click', function() {
         queryNum = 0;
+        arkeo_query_displayed = 0;
         clearMarkers();
         $('select-savedqueries')
             .selectedIndex = 0;
@@ -384,7 +385,6 @@ window.addEvent('domready', function() {
         querys_tabs.tabs.each(function(tab) {
             querys_tabs.removeTab(tab);
         });
-
 
         // remove selections area
         if (layer_selection_rect != null) {
@@ -840,7 +840,7 @@ function drawMarkers(queryNum, redraw) {
         }
     });
 
-    layersControl.addOverlay(layerMarkers[queryNum], ch_t('arkeogis', 'Requête') + ' ' + queryNum);
+    layersControl.addOverlay(layerMarkers[queryNum], ch_t('arkeogis', 'Requête') + ' ' + arkeo_query_displayed);
 
 }
 

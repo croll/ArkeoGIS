@@ -942,7 +942,7 @@ div.filtercontent .filter-minus {
 
 #sitesheet .limiter {
   overflow: auto;
-  max-height: 200px;
+  max-height: 120px;
 }
 
 #sitesheet .periodcharacs .exceptional {
