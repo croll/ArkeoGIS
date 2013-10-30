@@ -30,27 +30,27 @@
 		{/if}
 	</div>
 
-	{if isset($periodCharacteristics.datas.knowledge) && !empty($periodCharacteristics.datas.knowledge)}
-		<div class="bluebackground">{t d='arkeogis' m='Etat des connaissances'}</div>
-		<div class="flaotleft">
-			{if ($periodCharacteristics.datas.knowledge == 'unknown')}
-				{t d='arkeogis' m='Inconnue'}
-			{else if ($periodCharacteristics.datas.knowledge == 'literature')}
-				{t d='arkeogis' m='Littérature / Prospection'}
-			{else if ($periodCharacteristics.datas.knowledge == 'surveyed')}
-				{t d='arkeogis' m='Sondé'}
-			{else if ($periodCharacteristics.datas.knowledge == 'excavated')}
-				{t d='arkeogis' m='Fouillé'}
-			{/if}
-		</div>
-	{/if}
-
 	<div class="clearfix"></div>
 	
 		{foreach $infos.characteristics as $periodHash => $periodCharacteristics}
 	
 		<div class="periodcharacs">
 
+			{if isset($periodCharacteristics.datas.knowledge) && !empty($periodCharacteristics.datas.knowledge)}
+			<div class="title">{t d='arkeogis' m='Etat des connaissances'}: 
+				<span style="text-transform: uppercase">
+				{if ($periodCharacteristics.datas.knowledge == 'unknown')}
+					{t d='arkeogis' m='Inconnue'}
+				{else if ($periodCharacteristics.datas.knowledge == 'literature')}
+					{t d='arkeogis' m='Littérature / Prospection'}
+				{else if ($periodCharacteristics.datas.knowledge == 'surveyed')}
+					{t d='arkeogis' m='Sondé'}
+				{else if ($periodCharacteristics.datas.knowledge == 'excavated')}
+					{t d='arkeogis' m='Fouillé'}
+				{/if}
+				</span>
+			</div>
+			{/if}
 
 			<div class="title">{t d='arkeogis' m='Période'}</div>
 
