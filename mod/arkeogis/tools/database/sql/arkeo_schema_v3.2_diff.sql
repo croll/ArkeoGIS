@@ -33,3 +33,5 @@ INSERT INTO ch_hook (name, mid, callback, position) VALUES ('mod_arkeogis_get_im
 
 INSERT INTO ch_regroute (id_module, regexp, hook, flags) VALUES ((SELECT mid FROM ch_module WHERE name='arkeogis'), '#^/export_database/([0-9]+)$#', 'hook_mod_arkeogis_export_database', 1);
 INSERT INTO ch_hook (name, mid, callback, position) VALUES ('hook_mod_arkeogis_export_database', (SELECT mid FROM ch_module WHERE name='arkeogis'), '\mod\arkeogis\Main::hook_mod_arkeogis_export_database',0);
+
+UPDATE ch_regroute SET regexp='#^/directory/$#' WHERE hook='mod_arkeogis_directory';
