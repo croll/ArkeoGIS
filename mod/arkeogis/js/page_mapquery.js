@@ -419,19 +419,23 @@ window.addEvent('domready', function() {
         zoom: 7,
         zoomControl: false
     });
-    layers.osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
+    layers.mapquest = new L.TileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: '<a href="http://www.mapquest.com">MapQuest</a>'});
+    layers.osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '<a href="http://openstreetmap.org">OpenStreetMap</a>', maxZoom: 1});
 
     layers.cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/1fe47d515f2c4d0cafca5a67a0b1dc57/997/256/{z}/{x}/{y}.png', {
-        attribution: 'Map data <a href="http://openstreetmap.org">OpenStreetMap</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-        maxZoom: 18
+        attribution: 'Map data <a href="http://openstreetmap.org">OpenStreetMap</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
     });
-    layers.cloudmade.addTo(map);
+
+    // Default layer
+    layers.mapquest.addTo(map);
 
     // Layers control
     layersControl = new L.control.layers({
+        "MapQuest": layers.mapquest,
         "OSM": layers.osm,
         "CloudMade": layers.cloudmade,
-        "Google": new L.Google()
+        "Google Sat": new L.Google(),
     }, null, {
         collapsed: true
     });
