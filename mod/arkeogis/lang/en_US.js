@@ -169,6 +169,8 @@
   "Publi\u00e9" : false,
   "Publi\u00e9e" : false,
   "P\u00e9riode" : "P\u00e9riode",
+  "P\u00e9riode d\u00e9but" : false,
+  "P\u00e9riode fin" : false,
   "Query #%d" : false,
   "Recadrer sur l\\" : false,
   "Recherche" : false,
