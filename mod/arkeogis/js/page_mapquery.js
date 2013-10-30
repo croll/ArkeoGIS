@@ -530,7 +530,7 @@ window.addEvent('domready', function() {
     });
 
     // Scale
-    L.control.scale({width: 100, position: 'bottomleft'}).addTo(map);
+    L.control.scale({width: 100, position: 'bottomright'}).addTo(map);
 
     // Mouse position
     L.control.mousePosition({emptyString: ''}).addTo(map);
