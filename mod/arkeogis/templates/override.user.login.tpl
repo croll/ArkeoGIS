@@ -75,15 +75,15 @@
 	{else}
 		{if isset($login_ok)}
 			<div class="alert alert-success">
-			{t mod='user' m='Identification réussie, redirection...'}
+			{t d='user' m="Login successful, redirecting..."}
 			</div>
 		{elseif isset($logout)}
 			<div class="alert alert-success">
-			{t mod='user' m='Déconnexion réussie, redirection...'}
+			{t d='user' m="Logout ok, redirecting..."}
 			</div>
 		{else}
 			<div class="alert alert-warning">
-			{t mod='user' s='Vous êtes déjà identifié, redirection...'}
+			{t d='user' m="You are already identified, redirecting..."}
 			</div>
 		{/if}
 	{/if}
