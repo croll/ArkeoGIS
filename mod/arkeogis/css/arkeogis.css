@@ -1019,6 +1019,12 @@ div.filtercontent .filter-minus {
 
 /* Modal */
 
+.modal-header {
+  padding: 2px 2px 2px 12px !important;
+  height: auto !important;
+  font-size: 14px !important;
+}
+
 .modal-box {
     max-width: 880px !important;
 }
@@ -1028,6 +1034,10 @@ div.filtercontent .filter-minus {
 
 .modal-footer {
   text-align: center !important;
+}
+
+.modal-close {
+  top: 0px !important;
 }
 /* Autocomplete */
 
