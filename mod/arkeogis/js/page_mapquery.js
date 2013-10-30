@@ -422,7 +422,7 @@ window.addEvent('domready', function() {
     layers.osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 
     layers.cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/1fe47d515f2c4d0cafca5a67a0b1dc57/997/256/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+        attribution: 'Map data <a href="http://openstreetmap.org">OpenStreetMap</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
         maxZoom: 18
     });
     layers.cloudmade.addTo(map);
@@ -430,7 +430,8 @@ window.addEvent('domready', function() {
     // Layers control
     layersControl = new L.control.layers({
         "OSM": layers.osm,
-        "CloudMade": layers.cloudmade
+        "CloudMade": layers.cloudmade,
+        "Google": new L.Google()
     }, null, {
         collapsed: false
     });
@@ -527,6 +528,9 @@ window.addEvent('domready', function() {
             return controlDiv;
         }
     });
+
+    // Scale
+    L.control.scale({width: 100, position: 'bottomright'}).addTo(map);
 
     // Mouse position
     L.control.mousePosition({emptyString: ''}).addTo(map);
