@@ -52,8 +52,8 @@
 			</div>
 			{/if}
 
-			<div class="periodstart">
-				<div class="lib">{t d='arkeogis' m='Pédiorde début'}: </div>
+			<div class="periodstart" style="margin-top: 5px">
+				<div class="lib">{t d='arkeogis' m='Période début'}: </div>
 				{foreach $periodCharacteristics.datas.start as $name}
 					<div class="period">{$name}</div>
 					{if !$name@last}
