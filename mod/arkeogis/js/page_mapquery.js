@@ -433,7 +433,7 @@ window.addEvent('domready', function() {
         "CloudMade": layers.cloudmade,
         "Google": new L.Google()
     }, null, {
-        collapsed: false
+        collapsed: true
     });
     map.on('overlayadd', function(evt) {
         updateLabels();
@@ -530,7 +530,7 @@ window.addEvent('domready', function() {
     });
 
     // Scale
-    L.control.scale({width: 100, position: 'bottomright'}).addTo(map);
+    L.control.scale({width: 100, position: 'bottomleft'}).addTo(map);
 
     // Mouse position
     L.control.mousePosition({emptyString: ''}).addTo(map);
