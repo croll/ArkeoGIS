@@ -173,7 +173,6 @@
   "Recadrer sur l\\" : false,
   "Recherche" : false,
   "Recherche \"%s\" dans" : false,
-  "Recherche dans" : false,
   "Recherche textuelle" : false,
   "Release mouse to finish drawing." : false,
   "Remarque" : false,
