@@ -35,3 +35,8 @@ INSERT INTO ch_regroute (id_module, regexp, hook, flags) VALUES ((SELECT mid FRO
 INSERT INTO ch_hook (name, mid, callback, position) VALUES ('hook_mod_arkeogis_export_database', (SELECT mid FROM ch_module WHERE name='arkeogis'), '\mod\arkeogis\Main::hook_mod_arkeogis_export_database',0);
 
 UPDATE ch_regroute SET regexp='#^/directory/$#' WHERE hook='mod_arkeogis_directory';
+
+INSERT INTO ch_hook (name, mid, callback, position) VALUES ('mod_user_create_post', (SELECT mid FROM ch_module WHERE name='arkeogis'), '\mod\arkeogis\Main::hook_mod_user_create_post',0);
+INSERT INTO ch_hook (name, mid, callback, position) VALUES ('mod_user_update_post', (SELECT mid FROM ch_module WHERE name='arkeogis'), '\mod\arkeogis\Main::hook_mod_user_update_post',0);
+INSERT INTO ch_hook (name, mid, callback, position) VALUES ('mod_user_delete_pre', (SELECT mid FROM ch_module WHERE name='arkeogis'), '\mod\arkeogis\Main::hook_mod_user_delete_pre',0);
+INSERT INTO ch_hook (name, mid, callback, position) VALUES ('mod_user_getUserInfos_post', (SELECT mid FROM ch_module WHERE name='arkeogis'), '\mod\arkeogis\Main::hook_mod_user_getUserInfos_post',0);
