@@ -323,35 +323,36 @@ class DatabaseImport {
 			# 26 : Production level 1
 			# 27 : Production level 2
 			# 28 : Production level 3
-			if (empty($datas[26]) && (!empty($datas[27]) || !empty($datas[28]))) {
+			# 29 : Production level 4
+			if (empty($datas[26]) && (!empty($datas[27]) || !empty($datas[28]) || !empty($datas[29]))) {
 				self::_addError("Production level 1 not set but some other production fields are defined");	
 			} else {
 				if (!empty($datas[26]))
-					self::_processLtree($datas[26], $datas[27], $datas[28], NULL, 'production');
+					self::_processLtree($datas[26], $datas[27], $datas[28], $datas[29], 'production');
 			}
 
-			# 29 : Production exceptional
-			self::_processExceptional('production', $datas[29]);
+			# 30 : Production exceptional
+			self::_processExceptional('production', $datas[30]);
 
-			# 30 : Landscape 1
-			# 31 : Landscape 2
-			# 32 : Landscape 3
-			# 33 : Landscape 4
-			if (empty($datas[30]) && (!empty($datas[31]) || !empty($datas[32]) || !empty($datas[33]))) {
+			# 31 : Landscape 1
+			# 32 : Landscape 2
+			# 33 : Landscape 3
+			# 34 : Landscape 4
+			if (empty($datas[31]) && (!empty($datas[32]) || !empty($datas[33]) || !empty($datas[34]))) {
 				self::_addError("Landscape level 1 not set but some other landscape fields are defined");	
 			} else {
-				if (!empty($datas[30]))
-					self::_processLtree($datas[30], $datas[31], $datas[32], $datas[33], 'landscape');
+				if (!empty($datas[31]))
+					self::_processLtree($datas[31], $datas[32], $datas[33], $datas[34], 'landscape');
 			}
 
-			# 34 : Landcape exceptional
-			self::_processExceptional('landscape', $datas[29]);
+			# 35 : Landcape exceptional
+			self::_processExceptional('landscape', $datas[35]);
 
-			# 35 : Biblio
-			self::$_current['biblio'] = (!empty($datas[35])) ? $datas[35] : NULL;
+			# 36 : Biblio
+			self::$_current['biblio'] = (!empty($datas[36])) ? $datas[36] : NULL;
 
-			#36 : Comments
-			self::$_current['comments'] = (!empty($datas[36])) ? $datas[36] : NULL;
+			# 37 : Comments
+			self::$_current['comments'] = (!empty($datas[37])) ? $datas[37] : NULL;
 			
 			// OK we check if we have at leat one carac
 			if (!isset(self::$_current['realestate']) && !isset(self::$_current['furniture']) && !isset(self::$_current['production']) && !isset(self::$_current['landscape'])) {
