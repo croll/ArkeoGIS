@@ -228,7 +228,7 @@ class Ajax {
 
     if ($sorton == 'declared_modification_str') $sorton = 'declared_modification';
     if ($sorton == 'published_str') $sorton = 'published';
-    if (!in_array($sorton, array('issn','name','author','type','declared_modification', 'lines', 'sites', 'period_start', 'period_end', 'scale_resolution', 'status', 'description'))) $sorton='issn';
+    if (!in_array($sorton, array('issn','name','author','type','declared_modification', 'lines', 'sites', 'period_start', 'period_end', 'scale_resolution', 'status', 'description', 'geographical_limit'))) $sorton='issn';
     if (!in_array($sortby, array('ASC', 'DESC'))) $sortby='ASC';
     $n = ( $page -1 ) * $perpage;
 
