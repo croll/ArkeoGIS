@@ -384,6 +384,14 @@ class ArkeoGIS {
 	public static function updateDatabase($dbId, $fields) {
 		$q = 'UPDATE "ark_database" SET da_modification = now(), ';
 		foreach($fields as $k => $v) {
+                                if ($k == 'declared_modification') {
+                                  $datestyle =  preg_split('/, /', \core\Core::$db->fetchOne('SHOW datestyle'));
+                                   if ($datestyle[1] == 'MDY') {
+                                      $tmp = preg_split('#/#', $v);
+                                      $v = $tmp[1].'/'.$tmp[0].'/'.$tmp[2];                                      
+                                   }
+                                }
+
 			$q .= " da_$k = ?,";
 			$args[] = $v;
 		}
