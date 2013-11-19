@@ -357,7 +357,7 @@ class ArkeoGIS {
 		$query='SELECT '.$select.' FROM '.$from.' WHERE '.$where.($groupby ? ' GROUP BY '.$groupby : '').($orderby ? ' ORDER BY '.$orderby : '').($limit ? ' LIMIT '.$limit : '');
 		$query_count='SELECT COUNT(DISTINCT(ark_site.si_id)) FROM '.$from.' WHERE '.$where;
 
-    error_log(sqltostr($query, $args));
+    //error_log(sqltostr($query, $args));
 
 		//error_log(var_export(\core\Core::$db->fetchAll($query, $args), true));
 		return array('total_count' => $getcount ? \core\Core::$db->fetchOne($query_count, $args) : 'unwanted',
@@ -371,7 +371,14 @@ class ArkeoGIS {
 	public static function addDatabase($dbName, $fields, $owner_id=0) {
 		$q = 'INSERT INTO "ark_database" ("da_name", "da_owner_id", "da_creation", "da_modification",';
 		$args = array($dbName, $owner_id, 'now()', 'now()');
+                $datestyle =  preg_split('/, /', \core\Core::$db->fetchOne('SHOW datestyle'));
 		foreach($fields as $k => $v) {
+                                if ($k == 'declared_modification') {
+                                   if ($datestyle[1] == 'MDY') {
+                                      $tmp = preg_split('#/#', $v);
+                                      $v = $tmp[1].'/'.$tmp[0].'/'.$tmp[2];                                      
+                                   }
+				}
 			$q .= " \"da_$k\",";
 			$args[] = $v;
 		}
@@ -383,9 +390,9 @@ class ArkeoGIS {
 
 	public static function updateDatabase($dbId, $fields) {
 		$q = 'UPDATE "ark_database" SET da_modification = now(), ';
+                $datestyle =  preg_split('/, /', \core\Core::$db->fetchOne('SHOW datestyle'));
 		foreach($fields as $k => $v) {
                                 if ($k == 'declared_modification') {
-                                  $datestyle =  preg_split('/, /', \core\Core::$db->fetchOne('SHOW datestyle'));
                                    if ($datestyle[1] == 'MDY') {
                                       $tmp = preg_split('#/#', $v);
                                       $v = $tmp[1].'/'.$tmp[0].'/'.$tmp[2];                                      

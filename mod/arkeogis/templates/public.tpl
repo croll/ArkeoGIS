@@ -85,7 +85,7 @@
 								{/if}
               							</ul>
               					{else}
-							<li><a href="http://demo.arkeogis.org">{t d='arkeogis' m='Demonstration'}</a></li>
+							<li><a href="http://demo.arkeogis.org/login">{t d='arkeogis' m='Demonstration'}</a></li>
 						{/if}
             						</li>
 							<li class="dropdown" id="li3" onclick="$('li3').toggleClass('open');">
