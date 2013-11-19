@@ -551,6 +551,10 @@ class DatabaseImport {
 			}
 			self::_setTemporalBounds($path, 'end');
 		}
+		if (self::$_cache['period_end'][$end] < self::$_cache['period_start'][$start]) {
+			// Period end anterior or undefined
+			self::_addError("Ending period can't be anterior or less precise than starting period.");
+		}
 		return array('start' => self::$_cache['period_start'][$start], 'end' => self::$_cache['period_end'][$end]);
 	}
 
