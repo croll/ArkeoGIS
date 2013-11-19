@@ -467,7 +467,7 @@ class ArkeoGIS {
     		$latest_siid=-1;
     		$latest_spid=-1;
  		$fp = fopen('php://output', 'w');
- 		    fputcsv($fp, array('SITE_ID_SOURCE', 'BASE_SOURCE', 'NOM_SITE', 'NOM_COMMUNE_PRINCIPALE', 'CODE_COMMUNE', 'SYSTEME_PROJECTION', 'LONGITUDE_X ', 'LATITUDE_Y', 'LONGITUDE_X_BIS', 'LATITUDE_Y_BIS', 'ALTITUDE Z', 'CENTRE_COMMUNE', 'ETAT_CONNAISSANCES', 'OCCUPATION', 'DATATION_DEBUT_PLUS_FINE', 'DATATION_FIN_PLUS_FINE', 'IMMO_NIV1', 'IMMO_NIV2', 'IMMO_NIV3', 'IMMO_NIV4', 'IMMO_EXP', 'MOB_NIV1', 'MOB_NIV2', 'MOB_NIV3', 'MOB_NIV4', 'MOB_EXP', 'PROD_NIV1', 'PROD_NIV2', 'PROD_NIV3', 'PROD_EXP', 'PAYS_NIV1', 'PAYS_NIV2', 'PAYS_NIV3', 'PAYS_NIV4', 'PAYS_EXP', 'BIBLIOGRAPHIE', 'REMARQUES'), ";", '"');
+ 		    fputcsv($fp, array('SITE_ID_SOURCE', 'BASE_SOURCE', 'NOM_SITE', 'NOM_COMMUNE_PRINCIPALE', 'CODE_COMMUNE', 'SYSTEME_PROJECTION', 'LONGITUDE_X ', 'LATITUDE_Y', 'LONGITUDE_X_BIS', 'LATITUDE_Y_BIS', 'ALTITUDE Z', 'CENTRE_COMMUNE', 'ETAT_CONNAISSANCES', 'OCCUPATION', 'DATATION_DEBUT_PLUS_FINE', 'DATATION_FIN_PLUS_FINE', 'IMMO_NIV1', 'IMMO_NIV2', 'IMMO_NIV3', 'IMMO_NIV4', 'IMMO_EXP', 'MOB_NIV1', 'MOB_NIV2', 'MOB_NIV3', 'MOB_NIV4', 'MOB_EXP', 'PROD_NIV1', 'PROD_NIV2', 'PROD_NIV3', 'PROD_NIV4', 'PROD_EXP', 'PAYS_NIV1', 'PAYS_NIV2', 'PAYS_NIV3', 'PAYS_NIV4', 'PAYS_EXP', 'BIBLIOGRAPHIE', 'REMARQUES'), ";", '"');
 		foreach($sites as $row) {
     			$coords=json_decode($row['coords']);
    			$period_start=ArkeoGIS::node_path_to_array($row['period_start'], $strings['period']);
@@ -523,11 +523,12 @@ class ArkeoGIS {
 				isset($production_astr[0]) ? $production_astr[0] : '',                                           // PROD_NIV1
 				isset($production_astr[1]) ? $production_astr[1] : '',                                           // PROD_NIV2
 				isset($production_astr[2]) ? $production_astr[2] : '',                                           // PROD_NIV3
+                                            isset($production_astr[3]) ? $production_astr[3] : '',                                           // PROD_NIV4
 				isset($production_astr[0]) ? self::yesno($production['exceptional']) : '',                                   // PROD_EXP
 				isset($landscape_astr[0]) ? $landscape_astr[0] : '',                                             // LANDSCAPE_NIV1
 				isset($landscape_astr[1]) ? $landscape_astr[1] : '',                                             // LANDSCAPE_NIV2
 				isset($landscape_astr[2]) ? $landscape_astr[2] : '',                                             // LANDSCAPE_NIV3
-				isset($landscape_astr[3]) ? $landscape_astr[3] : '',                                   // LANDSCAPE_NIV3
+				isset($landscape_astr[3]) ? $landscape_astr[3] : '',                                   // LANDSCAPE_NIV4
 				isset($landscape_astr[0]) ? self::yesno($landscape['exceptional']) : '',                                           // LANDSCAPE_EXP
 				$newspid ? $row['sp_bibliography'] : '',                                               // BIBLIOGRAPHIE
 				$newspid ? $row['sp_comment'] : ''                                                     // REMARQUES
