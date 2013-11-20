@@ -427,6 +427,53 @@ window.addEvent('domready', function() {
         attribution: 'Map data <a href="http://openstreetmap.org">OpenStreetMap</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
     });
 
+
+    layers.cigal1 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHORVB_2011_2012_ALSACE_CC48',
+        format: 'image/png',
+        transparent: true
+    });
+
+
+    layers.cigal2 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHOPIR_2011_2012_ALSACE_CC48',
+        format: 'image/png',
+        transparent: true
+    });
+
+
+    layers.cigal3 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_BD_ZDH_2008',
+        format: 'image/png',
+        transparent: true
+    });
+
+    layers.cg671 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/CG67/wms', {
+        layers: 'CG67_CDC2013_BR_50000_CC48',
+        format: 'image/png',
+        transparent: true
+    });
+
+
+    layers.cg672 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/CG67/wms', {
+        layers: 'CG67_SCAN25_BR_2010_TIF_CC48',
+        format: 'image/png',
+        transparent: true
+    });
+
+    layers.ONF1 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/ONF/wms', {
+        layers: 'ONF_FORET_L93',
+        format: 'image/png',
+        transparent: true
+    });
+
+    layers.ONF2 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/ONF/wms', {
+        layers: 'ONF_PARCELLE_L93',
+        format: 'image/png',
+        transparent: true
+    });
+
+
     // Default layer
     layers.mapquest.addTo(map);
 
@@ -436,7 +483,15 @@ window.addEvent('domready', function() {
         "OSM": layers.osm,
         "CloudMade": layers.cloudmade,
         "Google Sat": new L.Google(),
-    }, null, {
+    }, {
+        "Aggrégation orthophotographies InterAtlas vraies couleurs E(Alsace), R(20cm), P(CC48)": layers.cigal1,
+        "Aggrégation orthophotographies InterAtlas proche infrarouge E(Alsace), R(20cm), P(CC48)": layers.cigal2,
+        "Aggrégation Zones à Dominante Humide E(CIGAL), R(1/10000), P(CC48)": layers.cigal3,
+        "Découpage administratif des Communautés de Communes": layers.cg671,
+        "SCAN25 IGN. E(Bas-Rhin)": layers.cg672,
+        "Forêts publiques ONF alsace": layers.ONF1,
+        "Parcelles forestières ONF alsace": layers.ONF2
+    }, {
         collapsed: true
     });
     map.on('overlayadd', function(evt) {
