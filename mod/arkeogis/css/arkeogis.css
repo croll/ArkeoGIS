@@ -177,7 +177,7 @@ li.ui-tab span.text {
 }
 
 #map_container {
-	height: 500px;
+  height: 610px;
 }
 
 
@@ -222,7 +222,7 @@ li.ui-tab span.text {
 
 #content #map_canvas {
 	position: absolute;
-	height: 500px;
+	height: 610px;
 	width: 100%;
 	border:1px solid #ccc;
 }
@@ -1112,5 +1112,5 @@ div.filtercontent .filter-minus {
 .leaflet-control-layers label {
   font-size: 12px;
   padding: 0;
-  height: 13px;
+  height: 14px;
 }
