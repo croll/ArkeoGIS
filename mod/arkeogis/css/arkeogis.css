@@ -1108,3 +1108,9 @@ div.filtercontent .filter-minus {
 .leaflet-control-active:hover{
   background-color: #44adff;
 }
+
+.leaflet-control-layers label {
+  font-size: 12px;
+  padding: 0;
+  height: 13px;
+}

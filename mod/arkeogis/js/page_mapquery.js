@@ -420,59 +420,230 @@ window.addEvent('domready', function() {
         zoomControl: false
     });
 
-    layers.mapquest = new L.TileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {attribution: '<a href="http://www.mapquest.com">MapQuest</a>'});
-    layers.osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '<a href="http://openstreetmap.org">OpenStreetMap</a>'});
+    var cigalAttribution = 'Sources: CIGAL (<a href="http://www.cigalsace.org">www.cigalsace.org</a>)';
+
+    layers.mapquest = new L.TileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+        attribution: '<a href="http://www.mapquest.com">MapQuest</a>'
+    });
+    layers.osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '<a href="http://openstreetmap.org">OpenStreetMap</a>'
+    });
 
     layers.cloudmade = L.tileLayer('http://{s}.tile.cloudmade.com/1fe47d515f2c4d0cafca5a67a0b1dc57/997/256/{z}/{x}/{y}.png', {
         attribution: 'Map data <a href="http://openstreetmap.org">OpenStreetMap</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
     });
 
-
+    // n°4 BDZDH 2008 zones à dominante humide
     layers.cigal1 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
-        layers: 'CIGAL_ORTHORVB_2011_2012_ALSACE_CC48',
-        format: 'image/png',
-        transparent: true
-    });
-
-
-    layers.cigal2 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
-        layers: 'CIGAL_ORTHOPIR_2011_2012_ALSACE_CC48',
-        format: 'image/png',
-        transparent: true
-    });
-
-
-    layers.cigal3 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
         layers: 'CIGAL_BD_ZDH_2008',
         format: 'image/png',
+        attribution: cigalAttribution,
         transparent: true
     });
-
-    layers.cg671 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/CG67/wms', {
-        layers: 'CG67_CDC2013_BR_50000_CC48',
+    // ortho PIR 2011-12, orthophoto proche infrarouge
+    layers.cigal2 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_OMBRAGE_COMPOSITE',
         format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+    // ortho RVB, orthophoto vraies couleurs
+    layers.cigal3 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_OMBRAGE_COMPOSITE_MNT',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+    // BDZDH 2007 au 50000
+    layers.cigal4 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_BDOCSV22000_ALSACE_250000_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+    // BDZDH 2007 au 250000
+    layers.cigal5 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_BDOCSV22000_ALSACE_50000_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+    // 42
+    layers.cigal6 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_BDOCSV2202012_ALSACE_250000_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+    // 44
+    layers.cigal7 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_BDOCSV2202012_ALSACE_50000_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+    // 46
+    layers.cigal8 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_BdZDH2008_10000_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+    // 48
+    layers.cigal9 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_BdZDH2008_250000_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+    // 50
+    layers.cigal10 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_LignesFrontieres_250000_UTM32',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+    // 52
+    layers.cigal11 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_OMBRAGE_SRTM30_TIFLZW_WGS84',
+        format: 'image/png',
+        attribution: cigalAttribution,
         transparent: true
     });
 
+    // 54
+    layers.cigal12 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHOMNEOMB_2011_12_TIFJPEG_AL_C48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
 
-    layers.cg672 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/CG67/wms', {
+    //56
+    layers.cigal13 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHOPIR_2011_12_ALS_ECW_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 58
+    layers.cigal14 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHOPIR_2011_BR_ECW_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 60
+    layers.cigal15 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHOPIR_2012_HR_ECW_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 62
+    layers.cigal16 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHORVB_1997_ALSACE_TIF_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 64 
+    layers.cigal17 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHORVB_1998_ALSACE_TIF_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 66
+    layers.cigal18 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHORVB_2002_ALSACE_ECW_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 68
+    layers.cigal19 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHORVB_2007_ALSACE_ECW_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 70
+    layers.cigal20 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_ORTHORVB_2011_12_ALS_ECW_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 72
+    layers.cigal21 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'CIGAL_SCAN25_2006_ALSACE_ECW_CC48',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 118
+    layers.cigal22 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'IGN_bdTopo_chef_lieu',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 120
+    layers.cigal23 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'IGN_bdTopo_chemin',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 138
+    layers.cigal24 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'IGN_bdTopo_hydronyme',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 146
+    layers.cigal25 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'IGN_bdTopo_ligne_orographique',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    // 148
+    layers.cigal26 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/cigal/wms', {
+        layers: 'IGN_bdTopo_oronyme',
+        format: 'image/png',
+        attribution: cigalAttribution,
+        transparent: true
+    });
+
+    layers.cg67 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/CG67/wms', {
         layers: 'CG67_SCAN25_BR_2010_TIF_CC48',
         format: 'image/png',
-        transparent: true
+        attribution: cigalAttribution,
+        transparent: true,
     });
 
-    layers.ONF1 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/ONF/wms', {
+    layers.ONF = L.tileLayer.wms('http://www.cigalsace.org/geoserver/ONF/wms', {
         layers: 'ONF_FORET_L93',
         format: 'image/png',
-        transparent: true
+        attribution: cigalAttribution,
+        transparent: true,
     });
-
-    layers.ONF2 = L.tileLayer.wms('http://www.cigalsace.org/geoserver/ONF/wms', {
-        layers: 'ONF_PARCELLE_L93',
-        format: 'image/png',
-        transparent: true
-    });
-
 
     // Default layer
     layers.mapquest.addTo(map);
@@ -481,16 +652,35 @@ window.addEvent('domready', function() {
     layersControl = new L.control.layers({
         "MapQuest": layers.mapquest,
         "OSM": layers.osm,
-        "CloudMade": layers.cloudmade,
         "Google Sat": new L.Google(),
     }, {
-        "Aggrégation orthophotographies InterAtlas vraies couleurs E(Alsace), R(20cm), P(CC48)": layers.cigal1,
-        "Aggrégation orthophotographies InterAtlas proche infrarouge E(Alsace), R(20cm), P(CC48)": layers.cigal2,
-        "Aggrégation Zones à Dominante Humide E(CIGAL), R(1/10000), P(CC48)": layers.cigal3,
-        "Découpage administratif des Communautés de Communes": layers.cg671,
-        "SCAN25 IGN. E(Bas-Rhin)": layers.cg672,
-        "Forêts publiques ONF alsace": layers.ONF1,
-        "Parcelles forestières ONF alsace": layers.ONF2
+        "BDZDH 2008 zones à dominante humide": layers.cigal1,
+        "PIR 2011-12, orthophoto proche infrarouge": layers.cigal2,
+        "ortho RVB, orthophoto vraies couleurs": layers.cigal3,
+        "BDZDH 2007 au 1/250000": layers.cigal4,
+        "BDZDH 2007 au 2/50000": layers.cigal5,
+        "LA Occupation du Sol en 2011/12 - livraison 2012 classification niveau 1. E(Alsace), R(1/250000), P(CC48)": layers.cigal6,
+        "LA Occupation du Sol en 2011/12 - livraison 2012 classification niveau 1. E(Alsace), R(1/50000), P(CC48)": layers.cigal7,
+        "LA Zones à Dominante Humide. E(CIGAL), R(1/10000), P(CC48)": layers.cigal8,
+        "LA Zones à Dominante Humide. E(CIGAL), R(1/250000), P(CC48)": layers.cigal9,
+        "Contours de l'Alsace et départ frontières Suisse et Allemagne. E(Alsace), R(1/250000), P(UTM32)": layers.cigal10,
+        "Couche ombrage générée à partir des xyz livraison IntarAtlas 2011 pour le Bas-Rhin 2012 Haut-Rhin. E(Alsace), R(1m), P(CC48)": layers.cigal12,
+        "Orthophotographie InterAtlas proche infrarouge juin sept 2011 BR et mai 2012 HR. E(Alsace), R(20cm), P(CC48)": layers.cigal13,
+        "Orthophotographie InterAtlas proche infrarouge E(Bas-Rhin), R(20cm), P(CC48)": layers.cigal14,
+        "Orthophotographie InterAtlas proche infrarouge E(Haut-Rhin), R(20cm), P(CC48)": layers.cigal15,
+        "Orthophotographie IGN vraies couleurs. E(Haut-Rhin), R(50cm), P(CC48)": layers.cigal16,
+        "Orthophotographie IGN vraies couleurs. E(Bas-Rhin), R(50cm), P(CC48)": layers.cigal17,
+        "Orthophotographie IGN. E(Alsace), R(50cm), P(CC48)": layers.cigal18,
+        "Orthophotographie IGN vraies couleurs. E(Alsace), R(50cm), P(CC48)": layers.cigal19,
+        "Orthophotographie InterAtlas vraies couleurs juin sept 2011 BR et mai 2012 HR. E(Alsace), R(20cm), P(CC48)": layers.cigal20,
+        "SCAN25 IGN. E(Alsace), R(1/25000), P(CC48)": layers.cigal21,
+        "IGN BDTopo chef lieu": layers.cigal22,
+        "IGN BDTopo chemin": layers.cigal23,
+        "IGN BDTopo hydronyme": layers.cigal24,
+        "IGN BDTopo ligne orographique": layers.cigal25,
+        "IGN BDTopo oronyme": layers.cigal26,
+        "IGN Scan 25 2010" : layers.cg67,
+        "Fôrets publiques": layers.ONF
     }, {
         collapsed: true
     });
@@ -589,10 +779,18 @@ window.addEvent('domready', function() {
     });
 
     // Scale
-    L.control.scale({width: 100, position: 'bottomright', imperial: false}).addTo(map);
+    L.control.scale({
+        width: 100,
+        position: 'bottomright',
+        imperial: false
+    })
+        .addTo(map);
 
     // Mouse position
-    L.control.mousePosition({emptyString: ''}).addTo(map);
+    L.control.mousePosition({
+        emptyString: ''
+    })
+        .addTo(map);
 
     new L.Control.showLabels({})
         .addTo(map);
@@ -831,9 +1029,10 @@ function updateControls() {
 function updateLabels() {
     if (!showLabels) return false;
     layerMarkers.forEach(function(l) {
-        l.getLayers().forEach(function(m) {
-            m.showLabel();
-        })
+        l.getLayers()
+            .forEach(function(m) {
+                m.showLabel();
+            })
     });
 }
 
