@@ -645,43 +645,145 @@ window.addEvent('domready', function() {
         transparent: true,
     });
 
+
+    var allAttribution = '<a href="http://www.lubw.baden-wuerttemberg.de">RIPS-LUBW</a>';
+
+    // LANDSAT 1975
+    layers.all1 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000017900001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+
+    // LANDSAT 1993
+    layers.all2 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000013000001/MapServer/WMSServer', {
+        format: 'image/png',
+        layers: '0',
+        attribution: allAttribution,
+        transparent: true,
+    });
+
+    // LANDSAT 2000    
+    layers.all3 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000018000001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+
+    layers.all6 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000017400001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+
+    layers.all7 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000016900001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+
+    layers.all8 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000017300001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+    
+    layers.all9 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000017200001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+    
+    layers.all10 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000013500001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+    
+    layers.all11 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000013300001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+    
+    layers.all12 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000017100001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+    
+    layers.all13 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000013400001/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+    
+    layers.all15 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/badekarte_wms/MapServer/WMSServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+    
+    layers.all17 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000001500001/MapServer', {
+        layers: '0',
+        format: 'image/png',
+        attribution: allAttribution,
+        transparent: true,
+    });
+
     // Default layer
     layers.mapquest.addTo(map);
 
     // Layers control
+
+    var wmsLayers;
+    wmsLayers = {
+            "FR-Alsace BDZDH 2008 1/10000": layers.cigal1,
+            "FR-Alsace Ombrage composite MNT": layers.cigal2,
+            "FR-Alsace Ombrage composite": layers.cigal3,
+            "FR-Alsace BDOCS": layers.cigal5,
+            "FR-Alsace ORTHO MNE ombrage 2011 2012": layers.cigal12,
+            "FR-67 ORTHO PIR 2011": layers.cigal14,
+            "FR-68 ORTHO PIR 2011": layers.cigal15,
+            "FR-67 ORTHO RVB 1997-98": layers.cigal16,
+            "FR-68 ORTHO RVB 1998": layers.cigal17,
+            "FR-Alsace ORTHO RVB été 2002": layers.cigal18,
+            "FR-Alsace ORTHO RVP 1998": layers.cigal19,
+            "FR-Alsace ORTHO PIR 2012": layers.cigal20,
+            "FR-Alsace SCAN 25 2006": layers.cigal21,
+            "FR-Alsace SCAN 25 2010" : layers.cg67,
+            "FR-Alsace Forets publiques": layers.ONF,
+            "DE LANDSAT 1975" : layers.all1,
+            "DE LANDSAT 1993" : layers.all2,
+            "DE LANDSAT 2000" : layers.all3,
+            "DE Blattschnitt DGK5" : layers.all6,
+            "DE Blattschnitt Flurkarte 1:1.500" : layers.all7,
+            "DE Blattschnitt Flurkarte 1:2.500" : layers.all8,
+            "DE Blattschnitt Orthophotos" : layers.all9,
+            "DE Blattschnitt TK100" : layers.all10,
+            "DE Blattschnitt TK25" : layers.all11,
+            "DE Blattschnitt TK25 Quadrante" : layers.all12,
+            "DE Blattschnitt TK50" : layers.all13,
+            "DE EU-Badestellen in Baden-Württemberg" : layers.all15,
+            "DE Fliessgewässer 1:10.000" : layers.all17,
+        };
+
     layersControl = new L.control.layers({
         "MapQuest": layers.mapquest,
-        "OSM": layers.osm,
+        "OpenStreetMap": layers.osm,
         "Google Sat": new L.Google(),
-    }, {
-        "BDZDH 2008 zones à dominante humide": layers.cigal1,
-        "PIR 2011-12, orthophoto proche infrarouge": layers.cigal2,
-        "ortho RVB, orthophoto vraies couleurs": layers.cigal3,
-        "BDZDH 2007 au 1/250000": layers.cigal4,
-        "BDZDH 2007 au 2/50000": layers.cigal5,
-        "LA Occupation du Sol en 2011/12 - livraison 2012 classification niveau 1. E(Alsace), R(1/250000), P(CC48)": layers.cigal6,
-        "LA Occupation du Sol en 2011/12 - livraison 2012 classification niveau 1. E(Alsace), R(1/50000), P(CC48)": layers.cigal7,
-        "LA Zones à Dominante Humide. E(CIGAL), R(1/10000), P(CC48)": layers.cigal8,
-        "LA Zones à Dominante Humide. E(CIGAL), R(1/250000), P(CC48)": layers.cigal9,
-        "Contours de l'Alsace et départ frontières Suisse et Allemagne. E(Alsace), R(1/250000), P(UTM32)": layers.cigal10,
-        "Couche ombrage générée à partir des xyz livraison IntarAtlas 2011 pour le Bas-Rhin 2012 Haut-Rhin. E(Alsace), R(1m), P(CC48)": layers.cigal12,
-        "Orthophotographie InterAtlas proche infrarouge juin sept 2011 BR et mai 2012 HR. E(Alsace), R(20cm), P(CC48)": layers.cigal13,
-        "Orthophotographie InterAtlas proche infrarouge E(Bas-Rhin), R(20cm), P(CC48)": layers.cigal14,
-        "Orthophotographie InterAtlas proche infrarouge E(Haut-Rhin), R(20cm), P(CC48)": layers.cigal15,
-        "Orthophotographie IGN vraies couleurs. E(Haut-Rhin), R(50cm), P(CC48)": layers.cigal16,
-        "Orthophotographie IGN vraies couleurs. E(Bas-Rhin), R(50cm), P(CC48)": layers.cigal17,
-        "Orthophotographie IGN. E(Alsace), R(50cm), P(CC48)": layers.cigal18,
-        "Orthophotographie IGN vraies couleurs. E(Alsace), R(50cm), P(CC48)": layers.cigal19,
-        "Orthophotographie InterAtlas vraies couleurs juin sept 2011 BR et mai 2012 HR. E(Alsace), R(20cm), P(CC48)": layers.cigal20,
-        "SCAN25 IGN. E(Alsace), R(1/25000), P(CC48)": layers.cigal21,
-        "IGN BDTopo chef lieu": layers.cigal22,
-        "IGN BDTopo chemin": layers.cigal23,
-        "IGN BDTopo hydronyme": layers.cigal24,
-        "IGN BDTopo ligne orographique": layers.cigal25,
-        "IGN BDTopo oronyme": layers.cigal26,
-        "IGN Scan 25 2010" : layers.cg67,
-        "Fôrets publiques": layers.ONF
-    }, {
+    }, wmsLayers , {
         collapsed: true
     });
     map.on('overlayadd', function(evt) {

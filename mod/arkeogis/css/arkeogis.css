@@ -1114,3 +1114,8 @@ div.filtercontent .filter-minus {
   padding: 0;
   height: 14px;
 }
+
+.leaflet-control-layers-expanded {
+  height: 550px;
+  overflow: auto;
+}
