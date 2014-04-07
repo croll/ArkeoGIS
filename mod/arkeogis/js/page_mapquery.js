@@ -420,7 +420,7 @@ window.addEvent('domready', function() {
         zoomControl: false
     });
 
-    var cigalAttribution = 'Sources: CIGAL (<a href="http://www.cigalsace.org">www.cigalsace.org</a>)';
+    var cigalAttribution = '<a href="http://www.cigalsace.org" target="_blank">CIGAL</a>';
 
     layers.mapquest = new L.TileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
         attribution: '<a href="http://www.mapquest.com">MapQuest</a>'
@@ -646,7 +646,7 @@ window.addEvent('domready', function() {
     });
 
 
-    var allAttribution = '<a href="http://www.lubw.baden-wuerttemberg.de">RIPS-LUBW</a>';
+    var allAttribution = '<a href="http://www.lubw.baden-wuerttemberg.de" target="_blank">RIPS-LUBW</a>';
 
     // LANDSAT 1975
     layers.all1 = L.tileLayer.wms('http://rips-gdi.lubw.baden-wuerttemberg.de/arcgis/services/wms/UIS_0100000017900001/MapServer/WMSServer', {
@@ -749,21 +749,21 @@ window.addEvent('domready', function() {
 
     var wmsLayers;
     wmsLayers = {
-            "FR-Alsace BDZDH 2008 1/10000": layers.cigal1,
-            "FR-Alsace Ombrage composite MNT": layers.cigal2,
-            "FR-Alsace Ombrage composite": layers.cigal3,
-            "FR-Alsace BDOCS": layers.cigal5,
-            "FR-Alsace ORTHO MNE ombrage 2011 2012": layers.cigal12,
-            "FR-67 ORTHO PIR 2011": layers.cigal14,
-            "FR-68 ORTHO PIR 2011": layers.cigal15,
             "FR-67 ORTHO RVB 1997-98": layers.cigal16,
             "FR-68 ORTHO RVB 1998": layers.cigal17,
             "FR-Alsace ORTHO RVB été 2002": layers.cigal18,
             "FR-Alsace ORTHO RVP 1998": layers.cigal19,
             "FR-Alsace ORTHO PIR 2012": layers.cigal20,
+            "FR-67 ORTHO PIR 2011": layers.cigal14,
+            "FR-68 ORTHO PIR 2011": layers.cigal15,
             "FR-Alsace SCAN 25 2006": layers.cigal21,
             "FR-Alsace SCAN 25 2010" : layers.cg67,
-            "FR-Alsace Forets publiques": layers.ONF,
+            "FR-Alsace ORTHO MNE ombragé 2011 2012": layers.cigal12,
+            "FR-Alsace Ombragé composite MNT": layers.cigal2,
+            "FR-Alsace Ombragé composite": layers.cigal3,
+            "FR-Alsace BDZDH 2008 1/10000": layers.cigal1,
+            "FR-Alsace BDOCS": layers.cigal5,
+            "FR-Alsace Forêts publiques": layers.ONF,
             "DE LANDSAT 1975" : layers.all1,
             "DE LANDSAT 1993" : layers.all2,
             "DE LANDSAT 2000" : layers.all3,
